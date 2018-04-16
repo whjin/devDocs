@@ -1,0 +1,44 @@
+body {
+    font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container > h1 > sup > a {
+    margin-left: -5px;
+}
+
+h5 {
+    margin-left: -5px;
+}
+
+.jumbotron {
+    padding: 5px;
+    border-radius: 0;
+}
+
+.col-md-2:not(:last-child) {
+    border-right: 1px dashed #bd4147;
+}
+
+.col-md-3:not(:last-child) {
+    border-right: 1px dashed #bd4147;
+}
+
+ol {
+    margin-left: -25px;
+}
+
+.app-footer {
+    font-family: 'microsoft yahei', 'kaiti', sans-serif;
+    padding: 1em 0;
+    margin: 10px auto 0;
+    max-width: 850px;
+    text-align: center;
+    font-size: 1em;
+}

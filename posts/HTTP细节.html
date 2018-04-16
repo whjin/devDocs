@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>全栈开发</title>
+<title>HTTP细节</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -474,7 +474,7 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-">全栈开发</h1>
+<h1 id="http-">HTTP细节</h1>
 <p><strong>题目分析：</strong>“当我们在浏览器地址栏中输入一个<code>URL</code>地址，到最后看到页面，中间都经历了哪些事情？”</p>
 <p>1、浏览器先查看<strong>浏览器缓存-系统缓存-路由器缓存</strong>，如果缓存中有数据，就会直接在页面中显示。<br>2、在发送<code>Http</code>请求前，进行<strong>域名解析</strong>（DNS解析：DNS-域名系统，将域名和IP地址相互映射的一个分布式数据库，类似别名），获取相应的IP地址。<br>3、浏览器向服务器发起<strong>TCP连接</strong>，与浏览器建立<strong>TCP三次握手</strong>。<br>4、握手成功后，浏览器向服务器发送<strong>Http请求，请求数据包</strong>。<br>5、<strong>服务器处理收到的请求</strong>，将数据返回到浏览器。<br>6、<strong>浏览器收到Http响应</strong>，读取页面内容，<strong>浏览器渲染，解析<code>html</code>源码</strong>，生成<code>DOM</code>树、解析<code>CSS</code>样式、<code>JS</code>交互。<br>7、客户端和服务器交互，<code>Ajax</code>查询：</p>
 <ul>
