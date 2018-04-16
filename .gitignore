@@ -1,5 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 .gitignore
-.idea/
-"posts/HTTP\347\273\206\350\212\202.html"
-"posts/HTTP\347\273\206\350\212\202.md"
+.idea
+
