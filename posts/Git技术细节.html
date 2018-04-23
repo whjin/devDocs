@@ -23,8 +23,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 
 body {
   font-family: Helvetica, arial, freesans, clean, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.8;
   color: #333;
   background-color: #fff;
   padding: 20px;
@@ -176,7 +176,7 @@ dl dd>:last-child {
 =============================================================================*/
 
 pre, code, tt {
-  font-size: 14px;
+  font-size: 16px;
   font-family: Consolas, "Liberation Mono", Courier, monospace;
 }
 
@@ -185,7 +185,8 @@ code, tt {
   padding: 0px 0px;
   white-space: nowrap;
   border: 1px solid #eaeaea;
-  background-color: #f8f8f8;
+  background-color: #eee;
+  color: #00d;
   border-radius: 3px;
 }
 
@@ -200,8 +201,8 @@ pre>code {
 pre {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
-  font-size: 14px;
-  line-height: 19px;
+  font-size: 16px;
+  line-height: 20px;
   overflow: auto;
   padding: 6px 10px;
   border-radius: 3px;
@@ -226,7 +227,7 @@ kbd {
     border-style: solid;
     border-width: 1px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    line-height: 10px;
+    line-height: 16px;
     padding: 1px 4px;
 }
 
@@ -483,6 +484,24 @@ vertical-align:1px;
 <p><strong>把暂存区内容提交到历史区</strong></p>
 <ul>
 <li><code>git commit</code>：</li><li><code>git commit -m &quot;&quot;</code>：</li><li><code>git commit -a -m &quot;&quot;</code>：合并提交到暂存区和历史区操作（只适用于已经提交过至少一次的文件）</li></ul>
+<h2 id="git-">Git工作流</h2>
+<ul>
+<li><code>git log/git reflog</code>：查看历史提交记录</li><li><code>git rm --cahced . -r</code>：把<code>.</code>替换为具体的文件名，从暂存区把所有内容撤回到工作区（不管暂存区中的内容是否已经提交到历史版本上）</li><li><code>git checkout .</code>：把暂存区内容撤回到工作区（覆盖现有工作区中的内容，无法找回）</li></ul>
+<p><strong>本地仓库和远程仓库保持关联</strong></p>
+<ul>
+<li><code>git remote add &quot;&quot;</code>：</li><li><code>git remote rm &quot;&quot;</code>：移除关联</li><li><code>git remote -v</code>：查看当前仓库和哪些远程仓库保持关联</li></ul>
+<p><strong>本地历史区信息和远程仓库信息保持同步</strong></p>
+<ul>
+<li><code>git push origin master</code>：把本地信息推送到远程仓库</li><li><code>git pull origin master</code>：把远程信息拉取到本地</li></ul>
+<h2 id="-">单独分支管理</h2>
+<ul>
+<li><code>git branch</code>：查看当前存在的分支</li><li><code>* master</code>：代表当前在哪个分支上</li><li><code>git branch dev</code>：创建一个dev的分支</li><li><code>git checkout dev</code>：切换到dev分支上</li><li><code>git checkout -b dev</code>：创建并且切换到这个分支</li></ul>
+<p><strong>先切换到master的分支上</strong></p>
+<ul>
+<li><code>git stash</code>：暂存文件（分支有更改，不能直接切换分支，需要把修改的内容暂存）</li><li><code>git stash pop</code>：还原暂时存储的内容</li><li><code>git merge dev</code>：把dev分支合并到master分支上（有冲突按照之前的规则修改）</li></ul>
+<p><strong>删除本地创建的分支</strong></p>
+<ul>
+<li><code>git branch -D dev</code>：删除dev分支（删除的时候需要先切换到其他分支才可以删除）</li><li><code>git log --graph/--oneline</code>：两个都有也可以</li></ul>
 
 </body>
 </html>

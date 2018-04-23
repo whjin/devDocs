@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>HTTP细节</title>
+<title>语义化标签</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -235,9 +235,10 @@ kbd {
 =============================================================================*/
 
 blockquote {
-  border-left: 4px solid #DDD;
+  border-left: 4px solid #42b983;
   padding: 0 15px;
   color: #777;
+  background: #f8f8f8;
 }
 
 blockquote>:first-child {
@@ -475,20 +476,13 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="http-">HTTP细节</h1>
-<p><strong>题目分析：</strong>“当我们在浏览器地址栏中输入一个<code>URL</code>地址，到最后看到页面，中间都经历了哪些事情？”</p>
-<p>1、浏览器先查看<strong>浏览器缓存-系统缓存-路由器缓存</strong>，如果缓存中有数据，就会直接在页面中显示。<br>2、在发送<code>Http</code>请求前，进行<strong>域名解析</strong>（DNS解析：DNS-域名系统，将域名和IP地址相互映射的一个分布式数据库，类似别名），获取相应的IP地址。<br>3、浏览器向服务器发起<strong>TCP连接</strong>，与浏览器建立<strong>TCP三次握手</strong>。<br>4、握手成功后，浏览器向服务器发送<strong>Http请求，请求数据包</strong>。<br>5、<strong>服务器处理收到的请求</strong>，将数据返回到浏览器。<br>6、<strong>浏览器收到Http响应</strong>，读取页面内容，<strong>浏览器渲染，解析<code>html</code>源码</strong>，生成<code>DOM</code>树、解析<code>CSS</code>样式、<code>JS</code>交互。<br>7、客户端和服务器交互，<code>Ajax</code>查询：</p>
+<h1 id="-">语义化标签</h1>
 <ul>
-<li><strong>浏览器缓存</strong>：浏览器会记录<code>DNS</code>一段时间，先在这里解析<code>DNS</code>请求。</li><li><strong>操作系统缓存</strong>：如果在浏览器缓存中不包含这个记录，就会调用操作系统，获取系统的缓存记录（保存最近的<code>DNS</code>查询缓存）。</li><li><strong>路由器缓存</strong>：如果上面两个步骤不能成功获取<code>DNS</code>记录，继续搜索路由器缓存。</li><li><strong>ISP缓存</strong>：如果上面都失败，继续向<code>ISP</code>搜索。</li></ul>
-<p><strong>内网IP</strong></p>
-<p>内网（局域网：具备相同的<code>DNS</code>和默认网关，并且由相同的路由器下发的<code>IP</code>），限定在一定区域内访问的。</p>
-<ul>
-<li>自测（开发自己测试）</li><li>内侧（上传到公司内网测试服务器上，由公司测试进行<code>BUG</code>追踪）</li><li>公测（产品正式部署到外网服务器上）</li></ul>
-<p><strong>Hash值</strong></p>
-<ul>
-<li>#xxx</li><li><code>URL</code>末尾传递的<code>#</code></li></ul>
-<p><strong>作用</strong></p>
-<p>1、页面中锚点定位<br>前端路由（SPA单页面开发）</p>
+<li><code>section</code>：划分网页，表示页面中的一个内容区块，比如章节、页眉、页脚或页面其它部分。可以和<code>h1，h2，h3...</code>等其他标签结合使用，表示文档结构。</li><li><code>hgroup</code>：对整个页面/页面中的一个内容区块的标题进行组合。</li><li><code>header</code>：一个内容区块或整个页面的头部部分。</li><li><code>footer</code>：整个页面或页面区块的尾部。</li><li><code>nav</code>：页面中导航连接的部分。</li><li><code>article</code>：独立于内容其余部分的完整独立内容块。<code>article</code>元素专门为摘要设计。</li><li><code>aside</code>：表示<code>article</code>标签内容之外的，与<code>article</code>标签内容相关的辅助信息，<code>aside</code>元素被用于无关内容。<ul>
+<li>应该与主内容分开的内容</li><li><code>aside</code>元素中的内容可以被独立开来而不会影响文档或<code>section</code>中主内容的含义</li><li>可以用在主要内容相关的引用，如侧边栏、广告、<code>nav</code>元素组等</li><li><code>aside</code>的内容如果被删除，剩下的内容仍然很合理</li></ul>
+</li><li><code>figure</code>：表示一段独立的流内容，一般表示文档主体流内容中的一个独立单元（<code>figure</code>元素经常用于图片）</li><li><code>figcaption</code>：<ul>
+<li>一个图例的说明</li><li><code>figure</code>元素的一个标题或相关解释</li><li>使用<code>figcaption</code>时，最好是<code>figure</code>块的第一个或最后一个元素</li></ul>
+</li></ul>
 
 </body>
 </html>
