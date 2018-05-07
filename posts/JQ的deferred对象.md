@@ -1,1 +1,1 @@
-﻿# jQuery的deferred对象详解 #
+﻿# jQuery的deferred对象 #
