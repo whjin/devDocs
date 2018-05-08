@@ -1,0 +1,538 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>CSS清除浮动</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 16px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #eee;
+  color: #00d;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 16px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #42b983;
+  padding: 0 15px;
+  color: #777;
+  background: #f8f8f8;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%;
+}
+
+p > img {
+    display: table;
+    margin: 0 auto;
+}
+
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<h1 id="css-">CSS清除浮动</h1>
+<p><strong><code>overflow: hidden</code></strong></p>
+<ol>
+<li><code>overflow</code>溢出隐藏</li><li>清除浮动</li><li>解决<code>margin-top</code>的传递问题</li></ol>
+<p><strong>（面试题）</strong>：</p>
+<ul>
+<li><p>单行文本出现省略号（4个必备条件，缺一不可）</p>
+<ul>
+<li><code>width</code> 宽度（不写宽度，默认继承父元素宽度）</li><li><code>overflow: hidden;</code>（溢出隐藏）</li><li><code>white-space: nowrap;</code></li><li><code>text-overflow: ellipsis;</code>文字隐藏的方式，以省略号的方式隐藏</li></ul>
+</li><li><p>多行文本出现省略号（必备条件，主要应用在移动端）</p>
+<ul>
+<li><code>display: -webkit-box;</code> 弹性盒模型</li><li><code>-webkit-box-orient: vertical;</code>规定元素的排列方式：垂直排列</li><li><code>-webkit-line-clamp: 2;</code>：文字的行数（自定义）</li><li><code>overflow: hidden;</code>溢出隐藏</li></ul>
+</li><li><p>多个元素在一行显示的方法</p>
+<ul>
+<li><code>display: inline;</code></li><li><code>display: inline-block;</code></li><li><code>float: left/right;</code></li></ul>
+</li></ul>
+<p><strong><code>display: inline-block;</code>元素的特点</strong></p>
+<ul>
+<li>盒子横向排列</li><li><code>verticle-align</code>属性会影响<code>inline-block</code>元素，值可能会设为<code>top</code></li><li>需要设置每一列的宽度</li><li><p>如果HTML源码中元素间有空格，列与列之间会产生空隙</p>
+<ul>
+<li><strong>解决方法</strong>：<ul>
+<li>如果元素添加了<code>dispay: inline-block;</code>，父元素增加一个属性<code>font-size: 0;</code>，同时在元素本身增加<code>font-size</code>属性进行覆盖</li></ul>
+</li></ul>
+</li><li><p><code>display:inline-block;</code>在IE6/7下不兼容的解决方法</p>
+<ul>
+<li>增加<code>display: inline; zoom: 1;</code>属性</li></ul>
+</li></ul>
+<p><strong>IE7下块元素兼容<code>display: inline-block;</code></strong>写法？</p>
+<ul>
+<li>直接让块元素设置为内联对象（设置属性 <code>display: inline;</code>），然后触发块元素的<code>layout</code>（如：<code>zoom: 1;</code>等）。</li><li>兼容各浏览器的代码如下：<code>div {display: inline-block; *display: inline; *zoom: 1;}</code></li></ul>
+<h1 id="-float-"><code>float</code>浮动</h1>
+<p><strong><code>float</code>元素的特点</strong></p>
+<ol>
+<li>在一行显示</li><li>设置属性值为<code>left</code>时，浮动元素依次从父级盒子的左侧向右排列</li><li>自动具有块级元素的属性，不需要添加<code>display: block;</code></li><li>脱离文档流</li><li>子元素不会继承浮动属性</li><li>浮动元素下面的元素不能识别浮动元素的高度和位置，占据浮动元素的位置</li><li>所有的元素都可以使用浮动属性</li></ol>
+<p><strong>文档流和脱离文档流</strong></p>
+<ul>
+<li>文档流：元素排版布局过程中，元素自动从左往右，从上往下的流式排列。</li><li>每个非浮动元素块级元素独占一行，浮动元素按规则浮在行的一端。当前行容量满则另起一行浮动。</li><li>内联元素不会独占一行</li><li>几乎所有元素（包括块级、内敛和列表元素）均可生成子行，用于摆放子元素</li><li>标准文档流等级：分为两个等级，块级元素和行内元素</li><li>脱离文档流：文档流内的正常元素识别不到这个元素（脱离文档流的元素相当于平行漂浮于文档流之上）</li></ul>
+<p><strong><code>float</code>元素产生的影响</strong></p>
+<ol>
+<li>父元素设置背景颜色<code>background-color</code>不起作用</li><li>父元素设置内边距属性<code>padding</code>不会被撑开</li><li>父元素设置边框属性<code>border</code>不会被撑开</li></ol>
+<h1 id="-float-">清除浮动<code>float</code></h1>
+<p><strong>清除浮动的方法</strong></p>
+<ol>
+<li>给浮动元素的父级元素添加固定的高度<code>height</code>（不推荐）</li><li>给浮动元素的父级元素添加溢出隐藏属性<code>overflow: hidden;</code>；</li><li>给最后一个浮动元素后面添加一个块级元素，这个块级元素带有<code>clear: both;</code>属性<ul>
+<li><code>clear</code>清除浮动元素对文档流内元素的影响（可以让文档流内的元素识别到浮动元素的高度）</li><li><code>left</code>清除<code>float</code>为<code>left</code>的影响</li><li><code>right</code>清除<code>float</code>为<code>right</code>的影响</li><li><code>both</code>清除<code>float</code>所有的影响</li><li><code>inherit</code>从父级元素上继承该属性值</li></ul>
+</li><li><code>clearfix</code>清除浮动（固定代码）           <ul>
+<li><strong>利用伪元素<code>:after</code>清除浮动必备条件，缺一不可</strong></li><li><code>display: block;</code>确保元素是一个块级元素</li><li><code>clear: both;</code>不允许左右两边有浮动对象</li><li><code>content: &#39;&#39;;</code>伪元素<code>:brfore/:after</code>自带的属性，如果不写，伪元素不起作用</li><li><strong>写全的样式属性；不是必备条件</strong></li><li><code>height: 0;</code> 防止在低版本浏览器中默认<code>height: 1px;</code>的情况，用<code>height: 0;</code>去覆盖</li><li><code>font-size: 0;</code> 字体大小 </li><li><code>overflow: hidden;</code> 溢出隐藏</li><li><code>visibility: hidden;</code> 让所有可见性的元素隐藏</li></ul>
+</li></ol>
+<p><strong><code>overflow: hidden;</code>和<code>visibility: hidden;</code>有什么区别？</strong></p>
+<p><strong>（面试题）：如何让一个元素消失？</strong></p>
+<ol>
+<li><code>opacity: 0;</code>[0-1] 透明度</li><li><code>display: none;</code> 隐藏</li><li><code>widht/height/line-height + overflow</code>：宽/高/行高 + 溢出隐藏</li><li><code>visibility: hidden;</code>让所有可见性的元素隐藏 </li></ol>
+<p><strong><code>clear: both;</code>的特点</strong></p>
+<ol>
+<li>元素需要是块级元素</li><li>元素不能带有浮动属性</li><li>元素必须放在最后一个浮动元素的后面</li></ol>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
