@@ -25,6 +25,7 @@
 1. [JS基础知识](https://whjin.github.io/full-stack-development/posts/JS%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html)
 2. [JS实用技巧](https://whjin.github.io/full-stack-development/posts/JS%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7.html)
 3. [JQ的deferred对象](https://whjin.github.io/full-stack-development/posts/JQ%E7%9A%84deferred%E5%AF%B9%E8%B1%A1.html)
+4. jQuery学习笔记
 
 ## HTTP/Ajax ##
 
