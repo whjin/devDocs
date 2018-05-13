@@ -38,3 +38,19 @@
 - 了解`Node.js`，可以搭建一个简单的后台服务
 - 自动化平台：`webpack`
 - 团队协作开发工具：`Git`
+
+- `forEach()` 不支持`return`
+- `for(let key in arr){}` 
+    - `key`会变成字符串类型，包括数组的私有属性也会输出
+- `for(let val of arr){}` 
+    - 支持`return`，不能遍历对象
+- ``
+- ``
+- ``
+
+
+
+
+
+
+
