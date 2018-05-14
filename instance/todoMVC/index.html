@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TodoMVC</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<section id="todoApp" class="todoApp">
+    <header class="header">
+        <h1>todos</h1>
+        <input class="new-todo"
+               v-model="newTodo"
+               @keyup.enter="addTodo"
+               autofocus autocomplete="off"
+               placeholder="What needs to done?">
+    </header>
+    <section class="main" v-show="todos.length" v-cloak>
+        <input type="checkbox" class="toggle-all" v-model="allDone">
+        <ul class="todo-list">
+            <li v-for="todo in filteredTodos"
+                class="todo"
+                :key="todo.id"
+                :class="{completed:todo.completed,editing:todo==editedTodo}">
+                <div class="view">
+                    <input type="checkbox" class="toggle" v-model="todo.completed">
+                    <label @dbclick="editTodo(todo)">{{todo.title}}</label>
+                    <button class="destroy" @click="removeTodo(todo)"></button>
+                </div>
+                <input class="edit" type="text"
+                       v-model="todo.title"
+                       v-todo-focus="todo==editTodo"
+                       @blur="doneEdit(todo)"
+                       @keyup.enter="doneEdit(todo)"
+                       @keyup.esc="cancelEdit(todo)">
+            </li>
+        </ul>
+    </section>
+    <footer class="footer" v-show="todos.length" v-cloak>
+        <span class="todo-count">
+            <strong>{{remaining}}</strong>
+            {{remaining | pluralize}} left
+        </span>
+        <ul class="filters">
+            <li><a href="#/all" :class="{selected:visibility=='all'}">All</a></li>
+            <li><a href="#/active" :class="{selected:visibility=='active'}">Active</a></li>
+            <li><a href="#/completed" :class="{selected:visibility=='completed'}">Completed</a></li>
+        </ul>
+        <button class="clear-completed" @click="removeCompleted" v-show="todos.length>remaining">
+            Clear completed
+        </button>
+    </footer>
+</section>
+<script src="https://cdn.bootcss.com/vue/2.5.9/vue.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
