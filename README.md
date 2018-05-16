@@ -96,4 +96,4 @@
 
 1. [简历(CV)](https://whjin.github.io/full-stack-development/instance/project/cv/index.html)
 2. [简历(VITAE)](https://whjin.github.io/full-stack-development/instance/project/vitae/index.html)
-3. 
+3. [简历(RESUME)](https://whjin.github.io/full-stack-development/instance/project/resume/index.html)
