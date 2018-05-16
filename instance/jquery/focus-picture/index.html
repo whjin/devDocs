@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery 3D 图片播放焦点图插件</title>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Aldrich">
+    <link rel="stylesheet" href="screen.css">
+</head>
+<body>
+<div id="page">
+    <section>
+        <div id="viewport-shadow">
+            <a href="#" id="prev" title="go to the next slide"></a>
+            <a href="#" id="next" title="go to the next slide"></a>
+            <div id="viewport">
+                <div id="box">
+                    <figure class="slide">
+                        <img src="img/the-battle.jpg" alt="">
+                    </figure>
+                    <figure class="slide">
+                        <img src="img/hiding-the-map.jpg" alt="">
+                    </figure>
+                    <figure class="slide">
+                        <img src="img/theres-the-buoy.jpg" alt="">
+                    </figure>
+                    <figure class="slide">
+                        <img src="img/finding-the-key.jpg" alt="">
+                    </figure>
+                    <figure class="slide">
+                        <img src="img/lets-get-out-of-here.jpg" alt="">
+                    </figure>
+                </div>
+            </div>
+            <div id="time-indicator"></div>
+        </div>
+        <footer>
+            <nav class="slide-controls">
+                <ul id="controls">
+                    <li><a class="goto-slide current" href="#" data-slideindex="0"></a></li>
+                    <li><a class="goto-slide" href="#" data-slideindex="1"></a></li>
+                    <li><a class="goto-slide" href="#" data-slideindex="2"></a></li>
+                    <li><a class="goto-slide" href="#" data-slideindex="3"></a></li>
+                    <li><a class="goto-slide" href="#" data-slideindex="4"></a></li>
+                </ul>
+            </nav>
+        </footer>
+    </section>
+    <aside id="effect-switcher">
+        <h2>Select effect</h2>
+        <ul id="effect-list">
+            <li><a href="#" class="effect current" data-fx="scrollVert3d">Vertical 3D scroll</a></li>
+            <li><a href="#" class="effect" data-fx="scrollHorz3d">Horizontal 3D scroll</a></li>
+            <li><a href="#" class="effect" data-fx="scrollVert">Vertical scroll</a></li>
+            <li><a href="#" class="effect" data-fx="scrollHorz">Horizontal scroll</a></li>
+            <li><a href="#" class="effect" data-fx="blindLeft">Blind left</a></li>
+            <li><a href="#" class="effect" data-fx="blindDown">Blind down</a></li>
+            <li><a href="#" class="effect" data-fx="fade">Fade</a></li>
+        </ul>
+    </aside>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/modernizr/2010.07.06dev/modernizr.min.js"></script>
+<script src="lib/box-slider-all.jquery.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

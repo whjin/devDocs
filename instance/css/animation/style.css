@@ -1,0 +1,336 @@
+#rotate1, #rotatey1 {
+    border: 1px solid #000;
+    background: red;
+    margin: 10px;
+    opacity: 0.7;
+}
+
+div {
+    width: 60px;
+    height: 40px;
+    color: #fff;
+    font-weight: bold;
+    padding: 20px 10px 0;
+    font: 12px Verdana, Arial, Helvetica, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #888;
+
+}
+
+/*3D转换*/
+.animated_div {
+    float: left;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+/*3D过渡*/
+.animated_p {
+    background: #92B901;
+    opacity: .4;
+    float: left;
+    margin-top: 10px;
+    -webkit-transition: -webkit-transform 1s, opacity 1s, background 1s, width 1s, height 1s, font-size 1s;
+    -webkit-border-radius: 5px;
+    -o-transition-property: width, height, -o-transform, background, font-size, opacity;
+    -o-transition-duration: 1s, 1s, 1s, 1s, 1s, 1s;
+    -moz-transition-property: width, height, -o-transform, background, font-size, opacity;
+    -moz-transition-duration: 1s, 1s, 1s, 1s, 1s, 1s;
+    transition-property: width, height, transform, background, font-size, opacity;
+    transition-duration: 1s, 1s, 1s, 1s, 1s, 1s;
+}
+
+.animated_p:hover {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    opacity: 1;
+    background: #1ec7e6;
+    width: 90px;
+    height: 60px;
+    line-height: 40px;
+    font-size: 16px;
+}
+
+/*3D延展*/
+.stretch {
+    width: 100px;
+    height: 60px;
+    background: yellow;
+    color: #000;
+    position: absolute;
+    top: 100px;
+    padding: 20px 10px 0;
+    margin-left: 10px;
+    overflow: hidden;
+    text-align: left;
+    transition: width 2s, height 2s, background, transform 2s;
+    -webkit-transition: width 2s, height 2s, background, -webkit-transform 2s;
+    -moz-transition: width 2s, height 2s, background, -moz-transform 2s;
+    -o-transition: width 2s, height 2s, background, -o-transform 2s;
+}
+
+.stretch:hover {
+    width: 200px;
+    height: 80px;
+    background: red;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+}
+
+/*CSS3 动画*/
+.keyframes_div {
+    width: 70px;
+    background: #92B901;
+    position: absolute;
+    top: 220px;
+    font-weight: bold;
+    font: 12px "微软雅黑", Verdana, Arial, Helvetica, sans-serif;
+    animation: keyframes_div 2s 1;
+    -webkit-animation: keyframes_div 2s 1;
+    -moz-animation: keyframes_div 2s 1;
+    -o-animation: keyframes_div 2s 1;
+}
+
+@keyframes keyframes_div {
+    0% {
+        transform: rotate(0deg);
+        left: 0;
+    }
+    25% {
+        transform: rotate(20deg);
+        left: 0;
+    }
+    50% {
+        transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        transform: rotate(0deg);
+        left: 500px;
+        background: #1ec7e6;
+    }
+    100% {
+        transform: rotate(-360deg);
+        left: 0;
+    }
+}
+
+@-webkit-keyframes keyframes_div {
+    0% {
+        -webkit-transform: rotate(0deg);
+        left: 0;
+    }
+    25% {
+        -webkit-transform: rotate(20deg);
+        left: 0;
+    }
+    50% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        -webkit-transform: rotate(0deg);
+        left: 500px;
+        background: #1ec7e6;
+    }
+    100% {
+        -webkit-transform: rotate(-360deg);
+        left: 0;
+    }
+}
+
+@-moz-keyframes keyframes_div {
+    0% {
+        -moz-transform: rotate(0deg);
+        left: 0;
+    }
+    25% {
+        -moz-transform: rotate(20deg);
+        left: 0;
+    }
+    50% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        -moz-transform: rotate(0deg);
+        left: 500px;
+        background: #1ec7e6;
+    }
+    100% {
+        -moz-transform: rotate(-360deg);
+        left: 0;
+    }
+}
+
+@-o-keyframes keyframes_div {
+    0% {
+        -o-transform: rotate(0deg);
+        left: 0;
+    }
+    25% {
+        -o-transform: rotate(20deg);
+        left: 0;
+    }
+    50% {
+        -o-transform: rotate(0deg);
+        left: 500px;
+    }
+    55% {
+        -o-transform: rotate(0deg);
+        left: 500px;
+    }
+    70% {
+        -o-transform: rotate(0deg);
+        left: 500px;
+        background: #1ec7e6;
+    }
+    100% {
+        -o-transform: rotate(-360deg);
+        left: 0;
+    }
+}
+
+.myfirst {
+    background: red;
+    position: absolute;
+    top: 300px;
+    animation: myfirst 5s;
+    -webkit-animation: myfirst 5s;
+    -moz-animation: myfirst 5s;
+    -o-animation: myfirst 5s;
+}
+
+@keyframes myfirst {
+    0% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+    25% {
+        background: yellow;
+        left: 100px;
+        top: 300px;
+    }
+    50% {
+        background: blue;
+        left: 100px;
+        top: 400px;
+    }
+    75% {
+        background: green;
+        left: 10px;
+        top: 400px;
+    }
+    100% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+}
+
+@-webkit-keyframes myfirst {
+    0% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+    25% {
+        background: yellow;
+        left: 100px;
+        top: 300px;
+    }
+    50% {
+        background: blue;
+        left: 100px;
+        top: 400px;
+    }
+    75% {
+        background: green;
+        left: 10px;
+        top: 400px;
+    }
+    100% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+}
+
+@-moz-keyframes myfirst {
+    0% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+    25% {
+        background: yellow;
+        left: 100px;
+        top: 300px;
+    }
+    50% {
+        background: blue;
+        left: 100px;
+        top: 400px;
+    }
+    75% {
+        background: green;
+        left: 10px;
+        top: 400px;
+    }
+    100% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+}
+
+@-o-keyframes myfirst {
+    0% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+    25% {
+        background: yellow;
+        left: 100px;
+        top: 300px;
+    }
+    50% {
+        background: blue;
+        left: 100px;
+        top: 400px;
+    }
+    75% {
+        background: green;
+        left: 10px;
+        top: 400px;
+    }
+    100% {
+        background: red;
+        left: 10px;
+        top: 300px;
+    }
+}
+
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue评论面板</title>
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="comment">
+    <div class="loginBox" v-show="loginStatus" @click="loginBoxClick()" style="display: none;">
+        <div class="box" @click="stopProp()">
+            <h3>用户登录</h3>
+            <form name="login" id="login">
+                <input type="text" class="username" placeholder="请输入用户名"/>
+                <input type="password" class="pwd" placeholder="请输入登录密码"/>
+                <input type="button" value="立即登录" @click="login()"/>
+                <input type="button" value="立即注册" @click="showRegister()" class="blueBtn"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="loginBox registerBox" v-show="registerStatus" @click="registerBoxClick()" style="display: none;">
+        <div class="box" @click="stopProp()">
+            <h3>用户注册</h3>
+            <form name="register" id="register">
+                <input type="text" class="username" placeholder="请输入用户名"/>
+                <input type="password" class="pwd" placeholder="请输入登录密码"/>
+                <input type="button" value="立即注册" @click="register()"/>
+                <input type="button" value="立即登录" @click="showLogin()" class="blueBtn"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="commentBox">
+        <div class="userBar" v-show="userBarStatus" style="display: none;">
+            <img :src="'assets/img/'+currentUser.userImg" title="" alt="" class="userImg"/>
+            <span class="username" v-text="currentUser.username"><i class="fa fa-user-md">&nbsp;</i></span>
+            <p>
+                <span class="userWord" v-text="currentUser.words" contenteditable="false"></span>
+                <i class="fa fa-edit" @click="editUserWords()"></i>
+            </p>
+            <span class="loginOut" @click="loginOut()">退出账号&nbsp;&nbsp;<i class="fa fa-sign-out"></i></span>
+        </div>
+
+        <div class="commentList">
+            <dl v-for="(value,index) in comments">
+                <dt>
+                    <img :src="'assets/img/'+value.userImg" title="" alt="" class="userImg"/>
+                    <span class="username">{{value.username}}</span>
+                </dt>
+                <dd class="commentwords"><i class="fa fa-file-o"></i>{{value.words}}</dd>
+                <dd class="btBar">
+                    <span class="like red"><i class="fa fa-thumbs-up"></i>
+                        点赞(<strong @click="like(index)">{{value.like}}</strong>)
+                    </span>
+                    <span class="unLike red"><i class="fa fa-thumbs-down"></i>
+                        点踩(<strong @click="unLike(index) ">{{value.unLike}}</strong>)
+                    </span>
+                    <span class="data red"><i class="fa fa-calendar"></i>
+                        时间<strong>{{value.time}}</strong>
+                    </span>
+                </dd>
+            </dl>
+
+            <div class="wordsBox">
+                <textarea placeholder="请输入留言"></textarea>
+                <span @click="showLogin()" v-show="btnStatus">登录</span>
+                <span @click="showRegister()" v-show="btnStatus">注册</span>
+                <input type="submit" value="提交" @click="submitComment()"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/vue/2.4.4/vue.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
+

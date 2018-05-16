@@ -1,0 +1,27 @@
+{
+  "name": "Huajin Wu's CV",
+  "version": "1.0.0",
+  "homepage": "https://whjin.github.io/vitae/",
+  "authors": [
+    "Huajin Wu"
+  ],
+  "description": "Web Designer and Developer",
+  "keywords": [
+    "Resume",
+    "Web Designer",
+    "Web Developer",
+    "Web Front-end"
+  ],
+  "license": "CC BY 3.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pagepiling.js": "~0.0.7"
+  }
+}
+

@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    background: #f0f0f0;
+}
+
+.content {
+    width: 260px;
+    margin: 20px auto;
+}
+
+.filterinput {
+    background-color: rgba(249, 244, 244, 0);
+    border-radius: 15px;
+    width: 90%;
+    height: 30px;
+    border: thin solid #FFF;
+    text-indent: 0.5em;
+    font-weight: bold;
+    color: #FFF;
+}
+
+#list a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}

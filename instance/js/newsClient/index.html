@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>网易新闻客户端</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta content="163,网易新闻" name="format-detection">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        if (deviceWidth > 750) {
+            deviceWidth = 750;
+        }
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+</head>
+<body>
+<header>
+    <div class="icon-personal"></div>
+    <div class="icon-logo"></div>
+</header>
+<div class="main">
+    <div class="fixed-nav">
+        <div class="item-nav-inner">
+            <div class="item-nav-list">
+                <ul>
+                    <li class="active" data-id="all"><span data-href="#">推荐</span></li>
+                    <li data-id="news"><span data-href="#">新闻</span></li>
+                    <li data-id="ent"><span data-href="#">娱乐</span></li>
+                    <li data-id="sports"><span data-href="#">体育</span></li>
+                    <li data-id="money"><span data-href="#">财经</span></li>
+                    <li data-id="car"><span data-href="#">汽车</span></li>
+                    <li data-id="img"><span data-href="#">图片</span></li>
+                    <li data-id="video"><span data-href="#">视频</span></li>
+                    <li data-id="war"><span data-href="#">军事</span></li>
+                    <li data-id="gkk"><span data-href="#">公开课</span></li>
+                    <li data-id="sj"><span class="new" data-href="#">事件</span></li>
+                    <li data-id="sh"><span class="new" data-href="#">社会</span></li>
+                    <li data-id="gj"><span data-href="#">国际</span></li>
+                </ul>
+
+                <div class="nav-btn-more btn-down">
+                    <span class="more-channel down iconfont"></span>
+                </div>
+            </div>
+
+            <div class="nav-btn-more btn-up">
+                <span class="more-channel up iconfont"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="contents">
+        <div class="contents-tablist clearfix">
+            <div class="contents-tablist-wrap tablist-active" id="wap_all"></div>
+            <div class="contents-tablist-wrap" id="wap_news"></div>
+            <div class="contents-tablist-wrap" id="wap_ent"></div>
+            <div class="contents-tablist-wrap" id="wap_sports"></div>
+            <div class="contents-tablist-wrap" id="wap_money"></div>
+            <div class="contents-tablist-wrap" id="wap_car"></div>
+        </div>
+    </div>
+</div>
+<div class="acc-inner acc-inner-hide">
+    <div class="acc-main">
+        <div class="user-inner">
+            <div class="avatar">
+                <img src="images/avatar.jpg">
+            </div>
+            <div class="username">
+                RAIDEN
+            </div>
+        </div>
+
+        <div class="pm-inner">
+            <ul>
+                <li class="email">
+                    <span class="icon iconfont"></span>
+                    <span class="sm">我的邮箱</span>
+                    <var>38</var>
+                </li>
+                <li class="tie">
+                    <span class="icon iconfont"></span>
+                    <span class="sm">我的跟帖</span>
+                </li>
+                <li class="cancel">
+                    <span class="icon iconfont"></span>
+                    <span class="sm">注销</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="bgfif"></div>
+</div>
+</body>
+<script src="main.js"></script>
+</html>
+

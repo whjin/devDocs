@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图像缩放和裁剪</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <header class="codrops-header">
+            <h1><span>Canvas</span>实现图像缩放和裁剪</h1>
+        </header>
+        <div class="component">
+            <div class="overlay">
+                <!--裁剪矩形框-->
+                <div class="overlay-inner">
+                </div>
+            </div>
+            <!--这个图像必须是在同一个域中的演示，否则将不在本地文件系统中工作-->
+            <!--需要进行调整和裁剪的图片-->
+            <img src="image/header.jpg" class="resize-image" alt="">
+            <!--SVG矢量图标按钮-->
+            <button class="btn-crop js-crop">裁剪
+                <img src="image/crop.svg" class="icon-crop">
+            </button>
+        </div>
+        <div class="a-tip">
+            <p><strong>提示：</strong>按住<span>SHIFT</span>的同时调整保持原来的长宽比。</p>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

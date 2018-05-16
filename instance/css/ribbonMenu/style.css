@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: url("img/dark_wood.png") repeat 0 0;
+    padding: 35px 0 0;
+    margin: auto;
+    text-align: center;
+}
+
+.ribbon {
+    display: inline-block;
+}
+
+.ribbon:after, .ribbon:before {
+    margin-top: .5em;
+    content: '';
+    float: left;
+    border: 1.5em solid #fff;
+}
+
+.ribbon:after {
+    border-right-color: transparent;
+}
+
+.ribbon:before {
+    border-left-color: transparent;
+}
+
+.ribbon a:link, .ribbon a:visited {
+    color: #000;
+    text-decoration: none;
+    float: left;
+    height: 3.5em;
+    overflow: hidden;
+}
+
+.ribbon span {
+    background: #fff;
+    display: inline-block;
+    line-height: 3em;
+    padding: 0 1em;
+    margin-top: .5em;
+    position: relative;
+    transition: background-color .2s, margin-top .2s;
+}
+
+.ribbon a:hover span {
+    background: #FFD204;
+    margin-top: 0;
+}
+
+.ribbon span:before {
+    content: '';
+    position: absolute;
+    top: 3em;
+    left: 0;
+    border-right: .5em solid #9B8651;
+    border-bottom: .5em solid #fff;
+}
+
+.ribbon span:after {
+    content: '';
+    position: absolute;
+    top: 3em;
+    right: 0;
+    border-left: .5em solid #9B8651;
+    border-bottom: .5em solid #fff;
+}

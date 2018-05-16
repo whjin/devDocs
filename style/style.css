@@ -37,8 +37,13 @@ ol {
 .app-footer {
     font-family: 'microsoft yahei', 'kaiti', sans-serif;
     padding: 1em 0;
-    margin: 10px auto 0;
-    max-width: 850px;
+    margin: 10px 10px 0;
     text-align: center;
     font-size: 1em;
+}
+
+@media screen and (max-width: 736px) {
+    .row .col-md-2, .row .col-md-3 {
+        border-right: none;
+    }
 }

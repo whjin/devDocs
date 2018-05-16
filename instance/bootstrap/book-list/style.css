@@ -1,0 +1,27 @@
+#booksfilter li {
+    padding: 5px;
+    list-style-type: none;
+    float: left;
+}
+
+#booksfilter span {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#booksfilter a {
+    padding: 5px;
+    text-decoration: none;
+}
+
+#booksfilter a.cur, #booksfilter a:hover {
+    background-color: #e67e22;
+    color: white;
+    border-radius: 5px;
+}
+
+#myTabContent p {
+    height: 70px;
+    overflow-y: auto;
+    text-align: left;
+}

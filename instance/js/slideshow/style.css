@@ -1,0 +1,60 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#container {
+    height: 170px;
+    width: 490px;
+    margin: 20px auto;
+    overflow: hidden;
+    position: relative;
+    background-color: #eee;
+}
+
+#pic {
+    position: absolute;
+    width: 2450px;
+}
+
+#pic li {
+    display: block;
+    height: 170px;
+    float: left;
+}
+
+.mar_top {
+    margin-right: -170px;
+}
+
+#menu {
+    border-radius: 10px;
+    position: absolute;
+    text-align: center;
+    font-size: 0;
+    background: rgba(255, 255, 255, 0.5) none repeat scroll 0% 0%;
+    left: 53%;
+    top: 90%;
+    margin-left: -45px;
+}
+
+#menu li {
+    display: inline-block;
+    margin: 2px;
+    background-color: #B7B7B7;
+    border-radius: 50%;
+}
+
+#menu li a {
+    display: block;
+    padding-top: 9px;
+    width: 9px;
+    height: 0;
+    border-radius: 50%;
+}
+
+.select {
+    background-color: #F40;
+}
+
+

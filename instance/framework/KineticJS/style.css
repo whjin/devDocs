@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#container {
+    background-color: #2a6496;
+    cursor: pointer;
+    /* position: absolute;
+     width: 578px;
+     height: 400px;
+     left: 50%;
+     top: 50%;
+     margin-top: -200px;
+     margin-left: -289px;*/
+
+    width: 578px;
+    height: 400px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}

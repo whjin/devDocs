@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>标签页</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav id="navbar-example" class="navbar navbar-default navbar-static" role="navigation">
+    <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse"
+                data-target=".bs-js-navbar-scrollspy">
+            <span class="sr-only">切换导航</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">LOGO</a>
+    </div>
+    <div class="collapse navbar-collapse bs-js-navbar-scrollspy">
+        <ul class="nav navbar-nav">
+            <li><a href="#ios1">iOS</a></li>
+            <li><a href="#svn">SVN</a></li>
+            <li class="dropdown">
+                <a href="#" id="navbarDrop1" class="dropdown-toggle"
+                   data-toggle="dropdown">Java
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu" role="menu"
+                    aria-labelledby="navbarDrop1">
+                    <li><a href="#jmeter1" tabindex="-1">jmeter</a></li>
+                    <li><a href="#ejb1" tabindex="-1">ejb</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#spring" tabindex="-1">spring</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div data-spy="scroll" data-target=".navbar" data-offset="0"
+     style="height:100px;margin-left:10px;overflow:auto; position: relative;border-bottom: 1px solid #ddd;">
+    <h4 id="ios1">iOS</h4>
+    <p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+        TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。
+    </p>
+    <h4 id="svn">SVN</h4>
+    <p>Apache Subversion，通常缩写为 SVN，是一款开源的版本控制系统软件。Subversion 由 CollabNet 公司在 2000 年创建。但是现在它已经发展为 Apache Software
+        Foundation 的一个项目，因此拥有丰富的开发人员和用户社区。
+    </p>
+    <h4 id="jmeter1">jMeter</h4>
+    <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。
+    </p>
+    <h4 id="ejb1">EJB</h4>
+    <p>Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
+    </p>
+    <h4 id="spring">Spring</h4>
+    <p>Spring 框架是一个开源的 Java 平台，为快速开发功能强大的 Java 应用程序提供了完备的基础设施支持。
+    </p>
+    <p>Spring 框架最初是由 Rod Johnson 编写的，在 2003 年 6 月首次发布于 Apache 2.0 许可证下。
+    </p>
+</div>
+
+<div style="margin: 10px 0 0 10px;">
+    <p class="active-tab">
+        <strong>激活的标签页: </strong><span></span>
+    </p>
+    <p class="previous-tab">
+        <strong>前一个激活的标签页: </strong><span></span>
+    </p>
+</div>
+<ul id="myTab" class="nav nav-tabs">
+    <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+    <li><a href="#ios2" data-toggle="tab">iOS</a></li>
+    <li class="dropdown">
+        <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">Java<b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+            <li><a href="#jmeter2" tabindex="-1" data-toggle="tab">jmeter</a></li>
+            <li><a href="#ejb2" tabindex="-1" data-toggle="tab">ejb</a></li>
+        </ul>
+    </li>
+</ul>
+<div id="myTabContent" class="tab-content"
+     style="height: 80px;overflow: auto;margin-left:10px;position: relative;border-bottom: 1px solid #ddd;">
+    <div class="tab-pane fade in active" id="home">
+        <p>
+            腾讯成立于1998年11月，是目前中国领先的互联网增值服务提供商之一。成立10多年来，腾讯一直秉承“一切以用户价值为依归”的经营理念，为亿级海量用户提供稳定优质的各类服务，始终处于稳健发展状态。2004年6月16日，腾讯控股有限公司在香港联交所主板公开上市(股票代号700)。
+        </p>
+    </div>
+    <div class="tab-pane fade" id="ios2">
+        <p>
+            iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch 和 Apple
+            TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS 是苹果的移动版本。
+        </p>
+    </div>
+    <div class="tab-pane fade" id="jmeter2">
+        <p>
+            jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。
+        </p>
+    </div>
+    <div class="tab-pane fade" id="ejb2">
+        <p>
+            Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。
+        </p>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            // 获取已激活的标签页的名称
+            var activeTab = $(e.target).text();
+            // 获取前一个激活的标签页的名称
+            var previousTab = $(e.relatedTarget).text();
+            $(".active-tab span").html(activeTab);
+            $(".previous-tab span").html(previousTab);
+        });
+    });
+</script>
+</body>
+</html>
