@@ -88,9 +88,10 @@
 2. [TodoMVC](https://whjin.github.io/full-stack-development/instance/vue/todoMVC/index.html)
 3. [评论面板](https://whjin.github.io/full-stack-development/instance/vue/commentBoard/index.html)
 
-## 框架/库 ##
+## 框架/库/工具 ##
 
 1. [小丑(KineticJS)](https://whjin.github.io/full-stack-development/instance/framework/KineticJS/index.html)
+2. Webpack技术细节
 
 ## 项目 ##
 
