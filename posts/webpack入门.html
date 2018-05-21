@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>webpack技术细节</title>
+<title>webpack入门</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -473,7 +473,34 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="webpack-">webpack技术细节</h1>
+<h1 id="webpack-">webpack入门</h1>
+<h2 id="-webpack">安装webpack</h2>
+<pre><code># npm i -D 是 npm install --save-dev 的简写，是指安装模块并保存到 package.json 的 devDependencies
+
+# 安装最新稳定版
+npm i -D webpack
+
+# 安装指定版本
+npm i -D webpack@&lt;version&gt;
+
+# 安装最新体验版本
+npm i -D webpack@beta
+</code></pre><p>安装完后可以通过这些途径运行安装到本项目的 Webpack：</p>
+<ul>
+<li>在项目根目录下对应的命令行里通过 <code>node_modules/.bin/webpack</code> 运行 Webpack 可执行文件。</li><li>在 <code>Npm Script</code> 里定义的任务会优先使用本项目下的 Webpack，代码如下：</li></ul>
+<pre><code>&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;webpack --config webpack.config.js&quot;
+}
+</code></pre><p>Webpack 是一个打包模块化 JavaScript 的工具，它会从 <a href="http://webpack.wuhaolin.cn/1%E5%85%A5%E9%97%A8/1-3%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8.html">main.js</a> 出发，识别出源码中的模块化导入语句， 递归的寻找出入口文件的所有依赖，把入口和其所有依赖打包到一个单独的文件中。 从 Webpack2 开始，已经内置了对 ES6、CommonJS、AMD 模块化语句的支持。</p>
+<h2 id="-loader">使用 Loader</h2>
+<p>Webpack 把一切文件看作模块，CSS 文件也不例外，要引入 <code>main.css</code> 需要像引入 JavaScript 文件那样，修改入口文件 <a href="http://webpack.wuhaolin.cn/1%E5%85%A5%E9%97%A8/1-4%E4%BD%BF%E7%94%A8Loader.html">main.js</a>。</p>
+<p><a href="http://webpack.wuhaolin.cn/1%E5%85%A5%E9%97%A8/1-4%E4%BD%BF%E7%94%A8Loader.html">Webpack的配置修改</a></p>
+<p>在配置 Loader 时需要注意：</p>
+<ul>
+<li><code>use</code> 属性的值需要由 <code>Loader</code> 名称组成的数组，Loader 的执行顺序是由后到前的；</li><li>每一个 Loader 都可以通过<code>URL querystring</code> 的方式传入参数，<ul>
+<li>例如 <code>css-loader?minimize</code> 中的 <code>minimize</code> 告诉 <code>css-loader</code> 要开启 CSS 压缩。</li></ul>
+</li></ul>
+<h2 id="-plugin">使用 Plugin</h2>
 
 </body>
 </html>

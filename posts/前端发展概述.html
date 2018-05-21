@@ -1,0 +1,707 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>前端发展概述</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 16px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 14px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 3px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #eee;
+  color: #00d;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 16px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #42b983;
+  padding: 0 15px;
+  color: #777;
+  background: #f8f8f8;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%;
+}
+
+p > img {
+    display: table;
+    margin: 0 auto;
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<h1 id="-">前端发展概述</h1>
+<h2 id="-">模块化</h2>
+<p>模块化是指把一个复杂的系统分解到多个模块以方便编码。</p>
+<p>jQuery库把API都放在<code>window.$</code>下，在加载完jQuery后其他模块再通过<code>window.$</code>去使用jQuery。这样做有很多问题：</p>
+<ul>
+<li>命令空间冲突，两个库可能会使用同一个名称，例如<code>Zepto</code>也被放在<code>window.$</code>下；</li><li>无法合理地管理项目的依赖和版本；</li><li>无法方便地控制依赖的加载顺序。</li></ul>
+<h2 id="commonjs">CommonJS</h2>
+<p>CommonJS是一种使用广泛的JavaScript模块化规范，核心思想是通过<code>require</code>方法来同步加载依赖的其他模块，通过<code>module.exports</code>导出需要暴露的接口。</p>
+<p>CommonJS的优点：</p>
+<ul>
+<li>代码可复用于Node.js，例如做同构应用；</li><li>通过NPM发布的很多第三方模块都采用了CommonJS规范。</li></ul>
+<p>CommonJS的缺点在于这样的代码无法直接运行在浏览器环境下，必须通过工具转换成标准的ES5。</p>
+<h2 id="amd">AMD</h2>
+<p>AMD也是一种JavaScript模块化规范，与CommonJS最大的不同在于它采用异步的方式加载依赖。AMD规范主要是为了解决针对浏览器环境的模块化问题，最具代表性的实现是<code>requirejs</code>。</p>
+<p>采用AMD导入和导出时：</p>
+<pre><code>//定义一个模块
+define(&#39;module&#39;, [&#39;dep&#39;], function (dep) {
+    return exports;
+});
+
+//导入和使用
+require([&#39;module&#39;], function (module) {
+});
+</code></pre><p>AMD的优点：</p>
+<ul>
+<li>可在不转换代码的情况下直接在浏览器中运行</li><li>异步加载依赖</li><li>并行加载多个依赖</li><li>代码可运行在浏览器环境和Node.js环境下</li></ul>
+<p>AMD的缺点在于JavaScript运行环境没有原生支持AMD，需要先导入实现了AMD的库后才能正常使用。</p>
+<h2 id="es6-">ES6模块化</h2>
+<p>ES6逐渐取代CommonJS和AMD规范，成为浏览器和服务器通用的模块解决方案。</p>
+<pre><code>// 导入
+import {readFile} from &#39;fs&#39;;
+import React from &#39;react&#39;;
+
+//导出
+export function hello() {}
+export default {...};
+</code></pre><h2 id="-">样式文件中的模块化</h2>
+<p>以SCSS为例，把一些常用的样式片段放进一个通用的文件里，再在另一个文件里通过<code>@import</code>导入和使用这些样式片段。</p>
+<pre><code>@charset &quot;utf-8&quot;;
+
+// / util.scss文件
+// 定义样式片段
+@mixin center {
+  //  水平垂直居中
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: transparentize(-50%, -50%);
+}
+
+// main.scss文件
+// 导入和使用util.scss中定义的样式片段
+@import &quot;util&quot;;
+
+#box {
+  @include center;
+}
+</code></pre><h2 id="-">新框架</h2>
+<h3 id="react">React</h3>
+<p>React框架引入JSX语法到JavaScript中，以更灵活地控制视图的渲染逻辑。</p>
+<pre><code>let has = true;
+render(has ? &lt;h1&gt;hello,react&lt;/h1&gt; : &lt;div&gt;404&lt;/div&gt;);
+</code></pre><p>这种语法无法直接在任何现成的JavaScript引擎中运行，必须经过转换。</p>
+<h3 id="vue">Vue</h3>
+<pre><code>&lt;!--HTML 模版--&gt;
+&lt;template&gt;
+  &lt;div class=&quot;example&quot;&gt;{{ msg }}&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;!--JavaScript 组件逻辑--&gt; 
+&lt;script&gt;
+export default {
+  data () {
+    return {
+      msg: &#39;Hello world!&#39;
+    }
+  }
+}
+&lt;/script&gt;
+
+&lt;!--CSS 样式--&gt;
+&lt;style&gt;
+.example {
+  font-weight: bold;
+}
+&lt;/style&gt;
+</code></pre><h3 id="angular2">Angular2</h3>
+<p>Angular2推崇采用TypeScript语言开发应用，并且可以通过注解的语法描述组件的各种属性。</p>
+<pre><code>@Component({
+    selector: &#39;my-app&#39;,
+    template: `&lt;h1&gt;{{title}}&lt;/h1&gt;`
+})
+export class AppComponent {
+    title = &#39;Tour of Heroes&#39;;
+}
+</code></pre><h2 id="-">新语言</h2>
+<h3 id="es6">ES6</h3>
+<ul>
+<li>规范模块化</li><li>Class语法</li><li>用<code>let</code>声明代码块内有效的变量，用<code>const</code>声明变量</li><li>箭头函数</li><li><code>async</code>函数</li><li><code>Set</code>和<code>Map</code>数据结构</li></ul>
+<h3 id="typescript">TypeScript</h3>
+<p>TypeScript多用于开发大型项目，缺点是无法直接运行在浏览器或Node.js环境。</p>
+<h3 id="flow">Flow</h3>
+<p>Flow和TypeScript一样都是JavaScript的一个超集，它的主要特点是为JavaScript提供静态类型检查，和TypeScript相似但更灵活，只在需要的地方加上类型检查。</p>
+<h3 id="scss">SCSS</h3>
+<p>SCSS是一种CSS预处理器，基本思想是用和CSS相似的编程语言写完后再编译成正常的CSS文件。</p>
+<pre><code>$blue: #1875e7;
+div {
+  color: $blue;
+}
+</code></pre><h2 id="-">构建工具</h2>
+<p>构建工具就是把源代码转换成发布到线上的可执行代码，包括如下内容：</p>
+<ul>
+<li>代码转换：TypeScript编译成JavaScript、SCSS编译成CSS等</li><li>文件优化：压缩JavaScript、CSS、HTML代码，压缩合并图片等</li><li>代码分割：提取多个页面的公共代码、提取首屏不需要执行部分的代码让其异步加载</li><li>模块合并：在采用模块化的项目里会有很多个模块和文件，需要构建功能把模块分类合并成一个文件</li><li>自动刷新：监听本地源代码的变化，自动重新构建、刷新浏览器</li><li>代码校验：在代码被提交到仓库前需要校验代码是否符合规范，以及单元测试是否通过</li><li>自动发布：更新完代码后，自动构建出线上发布代码并传输给发布系统</li></ul>
+<h2 id="npm-script">Npm Script</h2>
+<p>Npm Script是一个任务执行者。N排名是在安装Node.js时附带的包管理器，Npm Script则是Npm内置的一个功能，允许在<code>package.json</code>文件里面使用<code>scripts</code>字段定义任务：</p>
+<pre><code>{
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;node dev.js&quot;,
+    &quot;pub&quot;: &quot;node build.js&quot;
+  }
+}
+</code></pre><h2 id="grunt">Grunt</h2>
+<p>Grunt有大量现成的插件封装了常见的任务，也能管理任务之间的依赖关系，自动化执行依赖的任务，每个任务的具体执行代码和依赖关系写在配置文件<code>Gruntfile.js</code>里。</p>
+<pre><code>module.exports = function (grunt) {
+//    所有插件的配置信息
+    grunt.initConfig({
+        //    uglify 插件的配置信息
+        uglify: {
+            app_task: {
+                files: {
+                    &#39;build/app.min.js&#39;: [&#39;lib/index.js&#39;, &#39;lib/test.js&#39;]
+                }
+            }
+        },
+        watch: {
+            another: {
+                files: [&#39;lib/*.js&#39;]
+            }
+        }
+    });
+
+    grunt.loadNpmTasks(&#39;grunt-contrib-uglify&#39;);
+    grunt.loadNpmTasks(&#39;grunt-contrib-watch&#39;);
+};
+</code></pre><p>在项目根目录下执行命令<code>grunt dev</code>就会启动JavaScript文件压缩和自动刷新功能。</p>
+<h2 id="gulp">Gulp</h2>
+<p>Gulp是一个基于流的自动化构建工具。除了可以管理和执行任务，还支持监听文件、读写文件。</p>
+<ul>
+<li>通过<code>gulp.task</code>注册一个任务；</li><li>通过<code>gulp.run</code>执行任务；</li><li>通过<code>gulp.watch</code>监听文件变化；</li><li>通过<code>gulp.src</code>读取文件；</li><li>通过<code>gulp.dest</code>写文件。</li></ul>
+<p>Gulp的最大特点是引入了流的概念，同时提供了一系列常用的插件去处理流，流可以在插件之间传递。</p>
+<pre><code>//引入Gulp
+var gulp = require(&#39;gulp&#39;);
+//引入插件
+var jshint = require(&#39;gulp-jshint&#39;);
+var sass = require(&#39;gulp-sass&#39;);
+var concat = require(&#39;gulp-concat&#39;);
+var uglify = require(&#39;gulp-uglify&#39;);
+
+//编译SCSS任务
+gulp.task(&#39;sass&#39;, function () { //读取文件通过管道传给插件
+    gulp.src(&#39;./scss/*.scss&#39;) //SCSS插件把 scss 文件编译成 CSS 文件
+        .pipe(sass())
+        .pipe(gulp.dest(&#39;./css&#39;));//输出文件
+});
+
+//合并压缩JS
+gulp.task(&#39;scripts&#39;, function () {
+    gulp.src(&#39;./js/*.js&#39;)
+        .pipe(concat(&#39;all.js&#39;))
+        .pipe(uglify())
+        .pipe(gulp.dest(&#39;./dist&#39;));
+});
+
+//监听文件变化
+gulp.task(&#39;watch&#39;, function () {
+//    当scss文件被编辑时执行SCSS任务
+    gulp.watch(&#39;./scss/*.scss&#39;, [&#39;sass&#39;]);
+    gulp.watch(&#39;./js/*.js&#39;, [&#39;scripts&#39;])
+});
+</code></pre><p>Gulp的优点是好用又不失灵活，既可以单独完成构建也可以和其他工具搭配使用。其缺点是和Grunt类似，集成度不高，要写很多配置后才可以使用，无法做到开箱即用。</p>
+<h2 id="fis3">Fis3</h2>
+<p>Fis3是一个来自百度的优秀国产构建工具。Fis3集成了Web开发中的常用构建功能。</p>
+<ul>
+<li>读写文件：通过<code>fis.match</code>读文件，<code>release</code>配置文件输出路径</li><li>资源定位：解析文件之间的依赖关系和文件位置</li><li>文件指纹：通过<code>useHash</code>配置输出文件时给文件URL加上<code>md5</code>戳来优化浏览器缓存</li><li>文件编译：通过<code>parser</code>配置文件解析器做文件转换，例如把ES6编译成ES5</li><li>压缩资源：通过<code>optimizer</code>配置代码压缩方法</li><li>图片合并：通过<code>spriter</code>配置合并CSS里导入的图片到一个文件来减少HTTP请求数</li></ul>
+<pre><code>//加上md5
+fis.match(&#39;*.{js,css,png}&#39;, {
+    useHash: true
+});
+
+//fis3-parser-typescript 插件把TypeScript文件转换成JavaScript文件
+fis.match(&#39;*.ts&#39;, {
+    parser: fis.plugin(&#39;typescript&#39;)
+});
+
+//对CSS进行雪碧图合并
+fis.match(&#39;*.css&#39;, {
+//    给匹配到的文件分配属性 useSprite
+    userSprite: true
+});
+
+//压缩JavaScript
+fis.match(&#39;*.js&#39;, {
+    optimizer: fis.plugin(&#39;uglify-js&#39;)
+});
+
+//压缩 CSS
+fis.match(&#39;*.css&#39;, {
+    optimizer: fis.plugin(&#39;clean-css&#39;)
+});
+
+//压缩图片
+fis.match(&#39;*.png&#39;, {
+    optimizer: fis.plugin(&#39;png-compressor&#39;)
+});
+</code></pre><p>Fis3的优点是集成了各种Web开发所需的构建功能，配置简单，开箱即用。其缺点是已经停止更新。</p>
+<h2 id="webpack">Webpack</h2>
+<p>Webpack是一个打包模块化JavaScript工具，在webpack里一切文件皆模块，通过Loader转转文件，通过Plugin注入钩子，最后输出由多个模块组合成的文件。Webpack专注于构建模块化项目。</p>
+<pre><code>module.exports = {
+//    所有模块的入口，Webpack 从入口开始递归解析出所有依赖的模块
+    entry: &#39;./app.js&#39;,
+    output: {
+        //    把入口所依赖的所有模块打包成一个文件 bundle.js 输出
+        filename: &#39;bundle.js&#39;
+    }
+};
+</code></pre><p>Webpack的优点：</p>
+<ul>
+<li>专注于处理模块化的项目，能做到开箱即用</li><li>通过Plugin扩展，完整好用又不失灵活</li><li>使用场景不仅限于Web开发</li><li>社区庞大活跃</li><li>缺点是只能用于采用模块化开发的项目</li></ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
