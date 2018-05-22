@@ -94,6 +94,7 @@
 2. [前端发展概述](https://whjin.github.io/full-stack-development/posts/%E5%89%8D%E7%AB%AF%E5%8F%91%E5%B1%95%E6%A6%82%E8%BF%B0.html)
 3. [webpack入门](https://whjin.github.io/full-stack-development/posts/webpack%E5%85%A5%E9%97%A8.html)
 4. [webpack配置](https://whjin.github.io/full-stack-development/posts/webpack%E9%85%8D%E7%BD%AE.html)
+5. webpack实战
 
 ## 项目 ##
 
