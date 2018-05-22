@@ -500,7 +500,26 @@ npm i -D webpack@beta
 <li><code>use</code> 属性的值需要由 <code>Loader</code> 名称组成的数组，Loader 的执行顺序是由后到前的；</li><li>每一个 Loader 都可以通过<code>URL querystring</code> 的方式传入参数，<ul>
 <li>例如 <code>css-loader?minimize</code> 中的 <code>minimize</code> 告诉 <code>css-loader</code> 要开启 CSS 压缩。</li></ul>
 </li></ul>
-<h2 id="-plugin">使用 Plugin</h2>
+<h2 id="-plugin-http-webpack-wuhaolin-cn-1-e5-85-a5-e9-97-a8-1-5-e4-bd-bf-e7-94-a8plugin-html-"><a href="http://webpack.wuhaolin.cn/1%E5%85%A5%E9%97%A8/1-5%E4%BD%BF%E7%94%A8Plugin.html">使用 Plugin</a></h2>
+<h2 id="-devserver">使用 DevServer</h2>
+<p>DevServer 会启动一个 HTTP 服务器用于服务网页请求，同时会帮助启动 Webpack ，并接收 Webpack 发出的文件更变信号，通过 WebSocket 协议自动刷新网页做到实时预览。</p>
+<ol>
+<li>提供 HTTP 服务而不是使用本地文件预览；</li><li>监听文件的变化并自动刷新网页，做到实时预览；</li><li>支持 Source Map，以方便调试。</li></ol>
+<p>首先需要安装 DevServer：</p>
+<pre><code>npm i -D webpack-dev-server
+</code></pre><p>安装成功后执行 <code>webpack-dev-server</code> 命令， 启动 DevServer。</p>
+<h3 id="-">实时预览</h3>
+<p>Webpack 在启动时可以开启监听模式，开启监听模式后 Webpack 会监听本地文件系统的变化，发生变化时重新构建出新的结果。Webpack 默认是关闭监听模式的，可以在启动 Webpack 时通过 <code>webpack --watch</code> 来开启监听模式。</p>
+<p>通过 DevServer 启动的 Webpack 会开启监听模式，当发生变化时重新执行完构建后通知 DevServer。 DevServer 会让 Webpack 在构建出的 JavaScript 代码里注入一个<strong>代理客户端</strong>用于控制网页，网页和 DevServer 之间通过 <code>WebSocket</code> 协议通信， 以方便 DevServer <strong>主动向客户端发送命令</strong>。 DevServer 在收到来自 Webpack 的文件变化通知时通过注入的客户端控制网页刷新。</p>
+<p>如果尝试修改 <code>index.html</code> 文件并保存，这并不会触发以上机制，导致这个问题的原因是 Webpack 在启动时会以配置里的 entry 为入口去递归解析出 entry 所依赖的文件，只有 entry 本身和依赖的文件才会被 Webpack 添加到监听列表里。 而 index.html 文件是脱离了 JavaScript 模块化系统的，所以 Webpack 不知道它的存在。</p>
+<h3 id="-">模块热替换</h3>
+<p>模块热替换默认是关闭的，要开启模块热替换，只需在启动 DevServer 时带上 <code>--hot</code> 参数，重启 DevServer 后再去更新文件就能体验到模块热替换的神奇。</p>
+<h3 id="-source-map">支持 Source Map</h3>
+<p>Webpack 支持生成 Source Map，只需在启动时带上 <code>--devtool source-map</code> 参数。 加上参数重启 DevServer 后刷新页面，再打开 Chrome 浏览器的开发者工具，就可在 Sources 栏中看到可调试的源代码。</p>
+<h2 id="-">核心概念</h2>
+<p>Webpack 有以下几个核心概念:</p>
+<ul>
+<li><strong>Entry</strong>：入口，Webpack 执行构建的第一步将从 Entry 开始，可抽象成输入。</li><li><strong>Module</strong>：模块，在 Webpack 里一切皆模块，一个模块对应着一个文件。Webpack 会从配置的 Entry 开始递归找出所有依赖的模块。</li><li><strong>Chunk</strong>：代码块，一个 Chunk 由多个模块组合而成，用于代码合并与分割。</li><li><strong>Loader</strong>：模块转换器，用于把模块原内容按照需求转换成新内容。</li><li><strong>Plugin</strong>：扩展插件，在 Webpack 构建流程中的特定时机注入扩展逻辑来改变构建结果或做你想要的事情。</li><li><strong>Output</strong>：输出结果，在 Webpack 经过一系列处理并得出最终想要的代码后输出结果。</li></ul>
 
 </body>
 </html>
