@@ -194,6 +194,7 @@ pre>code {
   white-space: pre;
   border: none;
   background: transparent;
+  line-height: 1.8;
 }
 
 pre {
@@ -575,7 +576,7 @@ publicPath: &#39;https://cdn.example.com/assets/&#39;
 <p><code>output.crossOriginLoading</code> 则是用于配置这个异步插入的标签的 <code>crossorigin</code> 值。</p>
 <p>script 标签的 <code>crossorigin</code> 属性可以取以下值：</p>
 <ul>
-<li><code>anonymous</code>(默认) 在加载此脚本资源时不会带上用户的 Cookies；</li><li><code>use-credentials</code> 在加载此脚本资源时会带上用户的 Cookies。</li></ul>
+<li><code>false</code>(默认) 在加载此脚本资源时不会带上用户的 Cookies；</li><li><code>use-credentials</code> 在加载此脚本资源时会带上用户的 Cookies。</li></ul>
 <p>通常用设置 <code>crossorigin</code> 来获取异步加载的脚本执行时的详细错误信息。</p>
 <h3 id="librarytarget-library">libraryTarget 和 library</h3>
 <p>当用 Webpack 去构建一个可以被其他模块导入使用的库时需要用到它们。</p>

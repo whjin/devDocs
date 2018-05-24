@@ -22,14 +22,6 @@ h5 {
     border-radius: 0;
 }
 
-.col-md-2:not(:last-child) {
-    border-right: 1px dashed #bd4147;
-}
-
-.col-md-3:not(:last-child) {
-    border-right: 1px dashed #bd4147;
-}
-
 ol {
     margin-left: -25px;
 }
@@ -42,8 +34,14 @@ ol {
     font-size: 1em;
 }
 
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 768px) {
     .row .col-md-2, .row .col-md-3 {
         border-right: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .col-md-3:not(:last-child), .col-md-2:not(:last-child) {
+        border-right: 1px dashed #bd4147;
     }
 }

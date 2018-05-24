@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>webpack实战</title>
+<title>使用Flow检查器</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -481,33 +481,60 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="webpack-">webpack实战</h1>
-<p>本章教你如何用 Webpack 去解决实际项目中常见的场景。</p>
-<p>按照不同场景划分成以下几类：</p>
-<ul>
-<li><p>使用新语言来开发项目：</p>
-<ul>
-<li>使用 ES6 语言</li><li>使用 TypeScript 语言</li><li>使用 Flow 检查器</li><li>使用 SCSS 语言</li><li>使用 PostCSS</li></ul>
-</li><li><p>使用新框架来开发项目：</p>
-<ul>
-<li>使用 React 框架</li><li>使用 Vue 框架</li><li>使用 Angular2 框架</li></ul>
-</li><li><p>用 Webpack 构建单页应用：</p>
-<ul>
-<li>为单页应用生成 HTML</li><li>管理多个单页应用</li></ul>
-</li><li><p>用 Webpack 构建不同运行环境的项目：</p>
-<ul>
-<li>构建同构应用</li><li>构建 Electron 应用</li><li>构建 Npm 模块</li><li>构建离线应用</li></ul>
-</li><li><p>Webpack 结合其它工具搭配使用，各取所长：</p>
-<ul>
-<li>搭配 Npm Script</li><li>检查代码</li><li>通过 Node.js API 启动 Webpack</li><li>使用 Webpack Dev Middleware</li></ul>
-</li><li><p>用 Webpack 加载特殊类型的资源：</p>
-<ul>
-<li>加载图片</li><li>加载SVG</li><li>加载 Source Map</li></ul>
-</li></ul>
-<h2 id="-typescript-">使用 TypeScript 语言</h2>
-<p>由于本文不推荐使用TypeScript，ES6就足够完成大部分任务。原文链接：<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-2%E4%BD%BF%E7%94%A8TypeScript%E8%AF%AD%E8%A8%80.html">使用 TypeScript 语言</a></p>
-<h2 id="-angular2-">使用 Angular2 框架</h2>
-<p>Angular2不在我的技术栈范围，所以这一章不加入，有兴趣的查看原文：<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-8%E4%BD%BF%E7%94%A8Angular2%E6%A1%86%E6%9E%B6.html">使用 Angular2 框架</a></p>
+<h1 id="-flow-">使用Flow检查器</h1>
+<p>Flow 是一个 Facebook 开源的 JavaScript 静态类型检测器，它是 JavaScript 语言的超集。 </p>
+<p>你所需要做的就是在需要的地方加上类型检查，例如在两个由不同人开发的模块对接的接口出加上静态类型检查，能在编译阶段就指出部分模块使用不当的问题。 同时 Flow 也能通过类型推断检查出 JavaScript 代码中潜在的 Bug。</p>
+<p>Flow 使用效果如下：</p>
+<pre><code>// @flow
+
+// 静态类型检查
+function square1(n: number): number {
+  return n * n;
+}
+square1(&#39;2&#39;); // Error: square1 需要传入 number 作为参数
+
+// 类型推断检查
+function square2(n) {
+  return n * n; // Error: 传入的 string 类型不能做乘法运算
+}
+square2(&#39;2&#39;);
+</code></pre><blockquote>
+<p>需要注意的时代码中的第一行 <code>// @flow</code> 告诉 Flow 检查器这个文件需要被检查。</p>
+</blockquote>
+<h2 id="-flow">使用 Flow</h2>
+<p>Flow 检测器由高性能跨平台的 OCaml 语言编写，它的可执行文件可以通过：</p>
+<pre><code>npm i -D flow-bin
+</code></pre><p>安装，安装完成后通过先配置 Npm Script：</p>
+<pre><code>&quot;scripts&quot;: {
+   &quot;flow&quot;: &quot;flow&quot;
+}
+</code></pre><p>再通过 <code>npm run flow</code> 去调用 Flow 执行代码检查。 </p>
+<p>除此之外你还可以通过：</p>
+<pre><code>npm i -g flow-bin
+</code></pre><p>把 Flow 安装到全局后，再直接通过 <code>flow</code> 命令去执行代码检查。</p>
+<p>安装成功后，在项目根目录下执行 Flow 后，Flow 会遍历出所有需要检查的文件并对其进行检查，输出错误结果到控制台。</p>
+<p>采用了 Flow 静态类型语法的 JavaScript 是无法直接在目前已有的 JavaScript 引擎中运行的，要让代码可以运行需要把这些静态类型语法去掉。</p>
+<pre><code>// 采用 Flow 的源代码
+function foo(one: any, two: number, three?): string {}
+
+// 去掉静态类型语法后输出代码
+function foo(one, two, three) {}
+</code></pre><p>有两种方式可以做到这点：</p>
+<ol>
+<li><code>flow-remove-types</code> 可单独使用，速度快。</li><li><code>babel-preset-flow</code> 与 Babel 集成。</li></ol>
+<h2 id="-webpack">集成 Webpack</h2>
+<p>由于使用了 Flow 项目一般都会使用 ES6 语法，所以把 Flow 集成到使用 Webpack 构建的项目里最方便的方法是借助 Babel。</p>
+<ol>
+<li>安装 <code>npm i -D babel-preset-flow</code> 依赖到项目。</li><li><p>修改 <code>.babelrc</code> 配置文件，加入 Flow Preset：</p>
+<pre><code> &quot;presets&quot;: [
+ ...[],
+ &quot;flow&quot;
+ ]
+</code></pre></li></ol>
+<p>往源码里加入静态类型后重新构建项目，你会发现采用了 Flow 的源码还是能正常在浏览器中运行。 </p>
+<blockquote>
+<p>要明确构建的目的只是为了去除源码中的 Flow 静态类型语法，而代码检查和构建无关。 许多编辑器已经整合 Flow，可以实时在代码中高亮指出 Flow 检查出的问题。</p>
+</blockquote>
 
 </body>
 </html>

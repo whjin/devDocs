@@ -124,7 +124,7 @@ Webpack 输出的部分代码块可能需要异步加载，而异步加载是通
 
 script 标签的 `crossorigin` 属性可以取以下值：
 
-- `anonymous`(默认) 在加载此脚本资源时不会带上用户的 Cookies；
+- `false`(默认) 在加载此脚本资源时不会带上用户的 Cookies；
 - `use-credentials` 在加载此脚本资源时会带上用户的 Cookies。
 
 通常用设置 `crossorigin` 来获取异步加载的脚本执行时的详细错误信息。

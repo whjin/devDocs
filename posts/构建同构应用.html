@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>webpack实战</title>
+<title>构建同构应用</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -194,7 +194,6 @@ pre>code {
   white-space: pre;
   border: none;
   background: transparent;
-  line-height: 1.8;
 }
 
 pre {
@@ -481,33 +480,93 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="webpack-">webpack实战</h1>
-<p>本章教你如何用 Webpack 去解决实际项目中常见的场景。</p>
-<p>按照不同场景划分成以下几类：</p>
+<h1 id="-">构建同构应用</h1>
+<p>同构应用是指写一份代码但可同时在浏览器和服务器中运行的应用。</p>
+<h2 id="-">认识同构应用</h2>
+<p>现在大多数单页应用的视图都是通过 JavaScript 代码在浏览器端渲染出来的，但在浏览器端渲染的坏处有：</p>
 <ul>
-<li><p>使用新语言来开发项目：</p>
+<li>搜索引擎无法收录你的网页，因为展示出的数据都是在浏览器端异步渲染出来的，大部分爬虫无法获取到这些数据。</li><li>对于复杂的单页应用，渲染过程计算量大，对低端移动设备来说可能会有性能问题，用户能明显感知到首屏的渲染延迟。</li></ul>
+<p>为了解决以上问题，有人提出能否将原本只运行在浏览器中的 JavaScript 渲染代码也在服务器端运行，在服务器端渲染出带内容的 HTML 后再返回。 这样就能让搜索引擎爬虫直接抓取到带数据的 HTML，同时也能降低首屏渲染时间。 由于 Node.js 的流行和成熟，以及虚拟 DOM 提出与实现，使这个假设成为可能。</p>
+<p>实际上现在主流的前端框架都支持同构，包括 React、Vue2、Angular2，其中最先支持也是最成熟的同构方案是 React。 由于 React 使用者更多，它们之间又很相似，本节只介绍如何用 Webpack 构建 React 同构应用。</p>
+<p>同构应用运行原理的核心在于虚拟 DOM，虚拟 DOM 的意思是不直接操作 DOM 而是通过 JavaScript Object 去描述原本的 DOM 结构。 在需要更新 DOM 时不直接操作 DOM 树，而是通过更新 JavaScript Object 后再映射成 DOM 操作。</p>
+<p>虚拟 DOM 的优点在于：</p>
 <ul>
-<li>使用 ES6 语言</li><li>使用 TypeScript 语言</li><li>使用 Flow 检查器</li><li>使用 SCSS 语言</li><li>使用 PostCSS</li></ul>
-</li><li><p>使用新框架来开发项目：</p>
+<li>因为操作 DOM 树是高耗时的操作，尽量减少 DOM 树操作能优化网页性能。而 DOM Diff 算法能找出2个不同 Object 的最小差异，得出最小 DOM 操作；</li><li>虚拟 DOM 的在渲染的时候不仅仅可以通过操作 DOM 树来表示出结果，也能有其它的表示方式，例如把虚拟 DOM 渲染成字符串(服务器端渲染)，或者渲染成手机 App 原生的 UI 组件( React Native)。</li></ul>
+<p>以 React 为例，核心模块 react 负责管理 React 组件的生命周期，而具体的渲染工作可以交给 <code>react-dom</code> 模块来负责。</p>
+<p><code>react-dom</code> 在渲染虚拟 DOM 树时有2中方式可选：</p>
 <ul>
-<li>使用 React 框架</li><li>使用 Vue 框架</li><li>使用 Angular2 框架</li></ul>
-</li><li><p>用 Webpack 构建单页应用：</p>
+<li>通过 <code>render()</code> 函数去操作浏览器 DOM 树来展示出结果。</li><li>通过 <code>renderToString()</code> 计算出表示虚拟 DOM 的 HTML 形式的字符串。</li></ul>
+<p>构建同构应用的最终目的是从一份项目源码中构建出2份 JavaScript 代码，一份用于在浏览器端运行，一份用于在 Node.js 环境中运行渲染出 HTML。 其中用于在 Node.js 环境中运行的 JavaScript 代码需要注意以下几点：</p>
 <ul>
-<li>为单页应用生成 HTML</li><li>管理多个单页应用</li></ul>
-</li><li><p>用 Webpack 构建不同运行环境的项目：</p>
+<li>不能包含浏览器环境提供的 API，例如使用 <code>document</code> 进行 DOM 操作，因为 Node.js 不支持这些 API；</li><li>不能包含 CSS 代码，因为服务端渲染的目的是渲染出 HTML 内容，渲染出 CSS 代码会增加额外的计算量，影响服务端渲染性能；</li><li>不能像用于浏览器环境的输出代码那样把 <code>node_modules</code> 里的第三方模块和 Node.js 原生模块(例如 <code>fs</code> 模块)打包进去，而是需要通过 CommonJS 规范去引入这些模块。</li><li>需要通过 CommonJS 规范导出一个渲染函数，以用于在 HTTP 服务器中去执行这个渲染函数，渲染出 HTML 内容返回。</li></ul>
+<h2 id="-">解决方案</h2>
+<p>用于构建浏览器环境代码的 <code>webpack.config.js</code> 配置文件保留不变，新建一个专门用于构建服务端渲染代码的配置文件 <code>webpack_server.config.js</code>，内容如下：</p>
+<p><p data-height="580" data-theme-id="0" data-slug-hash="WJBEza" data-default-tab="js,result" data-user="whjin" data-embed-version="2" data-pen-title="webpack_server.config.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/WJBEza/">webpack_server.config.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>以上代码有几个关键的地方，分别是：</p>
 <ul>
-<li>构建同构应用</li><li>构建 Electron 应用</li><li>构建 Npm 模块</li><li>构建离线应用</li></ul>
-</li><li><p>Webpack 结合其它工具搭配使用，各取所长：</p>
+<li><code>target: &#39;node&#39;</code> 由于输出代码的运行环境是 Node.js，源码中依赖的 Node.js 原生模块没必要打包进去；</li><li><code>externals: [nodeExternals()]</code> <code>webpack-node-externals</code> 的目的是为了防止 <code>node_modules</code> 目录下的第三方模块被打包进去，因为 Node.js 默认会去 <code>node_modules</code> 目录下寻找和使用第三方模块；</li><li><code>{test: /\.css/, use: [&#39;ignore-loader&#39;]}</code> 忽略掉依赖的 CSS 文件，CSS 会影响服务端渲染性能，又是做服务端渲不重要的部分；</li><li><code>libraryTarget</code>: <code>&#39;commonjs2&#39;</code> 以 CommonJS2 规范导出渲染函数，以供给采用 Node.js 编写的 HTTP 服务器代码调用。</li></ul>
+<p>为了最大限度的复用代码，需要调整下目录结构：</p>
+<p>把页面的根组件放到一个单独的文件 <code>AppComponent.js</code>，该文件只能包含根组件的代码，不能包含渲染入口的代码，而且需要导出根组件以供给渲染入口调用，<code>AppComponent.js</code> 内容如下：</p>
+<pre><code>import React, { Component } from &#39;react&#39;;
+import &#39;./main.css&#39;;
+
+export class AppComponent extends Component {
+  render() {
+    return &lt;h1&gt;Hello,Webpack&lt;/h1&gt;
+  }
+}
+</code></pre><p>分别为不同环境的渲染入口写两份不同的文件，分别是用于浏览器端渲染 DOM 的 <code>main_browser.js</code> 文件，和用于服务端渲染 HTML 字符串的 <code>main_server.js</code> 文件。 </p>
+<p><code>main_browser.js</code> 文件内容如下：</p>
+<pre><code>import React from &#39;react&#39;;
+import { render } from &#39;react-dom&#39;;
+import { AppComponent } from &#39;./AppComponent&#39;;
+
+// 把根组件渲染到 DOM 树上
+render(&lt;AppComponent/&gt;, window.document.getElementById(&#39;app&#39;));
+</code></pre><p><code>main_server.js</code> 文件内容如下：</p>
+<p>为了能把渲染的完整 HTML 文件通过 HTTP 服务返回给请求端，还需要通过用 Node.js 编写一个 HTTP 服务器。 由于本节不专注于将 HTTP 服务器的实现，就采用了 ExpressJS 来实现，<code>http_server.js</code> 文件内容如下：</p>
+<pre><code>const express = require(&#39;express&#39;);
+const { render } = require(&#39;./dist/bundle_server&#39;);
+const app = express();
+
+// 调用构建出的 bundle_server.js 中暴露出的渲染函数，再拼接下 HTML 模版，形成完整的 HTML 文件
+app.get(&#39;/&#39;, function (req, res) {
+  res.send(`
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;app&quot;&gt;${render()}&lt;/div&gt;
+&lt;!--导入 Webpack 输出的用于浏览器端渲染的 JS 文件--&gt;
+&lt;script src=&quot;./dist/bundle_browser.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+  `);
+});
+
+// 其它请求路径返回对应的本地文件
+app.use(express.static(&#39;.&#39;));
+
+app.listen(3000, function () {
+  console.log(&#39;app listening on port 3000!&#39;)
+});
+</code></pre><p>再安装新引入的第三方依赖：</p>
+<pre><code># 安装 Webpack 构建依赖
+npm i -D css-loader style-loader ignore-loader webpack-node-externals
+# 安装 HTTP 服务器依赖
+npm i -S express
+</code></pre><p>以上所有准备工作已经完成，接下来执行构建，编译出目标文件：</p>
 <ul>
-<li>搭配 Npm Script</li><li>检查代码</li><li>通过 Node.js API 启动 Webpack</li><li>使用 Webpack Dev Middleware</li></ul>
-</li><li><p>用 Webpack 加载特殊类型的资源：</p>
-<ul>
-<li>加载图片</li><li>加载SVG</li><li>加载 Source Map</li></ul>
-</li></ul>
-<h2 id="-typescript-">使用 TypeScript 语言</h2>
-<p>由于本文不推荐使用TypeScript，ES6就足够完成大部分任务。原文链接：<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-2%E4%BD%BF%E7%94%A8TypeScript%E8%AF%AD%E8%A8%80.html">使用 TypeScript 语言</a></p>
-<h2 id="-angular2-">使用 Angular2 框架</h2>
-<p>Angular2不在我的技术栈范围，所以这一章不加入，有兴趣的查看原文：<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-8%E4%BD%BF%E7%94%A8Angular2%E6%A1%86%E6%9E%B6.html">使用 Angular2 框架</a></p>
+<li>执行命令 <code>webpack --config webpack_server.config.js</code> 构建出用于服务端渲染的 <code>./dist/bundle_server.js</code> 文件。</li><li>执行命令 <code>webpack</code> 构建出用于浏览器环境运行的 <code>./dist/bundle_browser.js</code> 文件，默认的配置文件为 <code>webpack.config.js</code>。</li></ul>
+<p>构建执行完成后，执行 <code>node ./http_server.js</code> 启动 HTTP 服务器后，再用浏览器去访问 <a href="http://localhost:3000">http://localhost:3000</a> 就能看到 Hello,Webpack 了。 但是为了验证服务端渲染的结果，你需要打开浏览器的开发工具中的网络抓包一栏，再重新刷新浏览器后，就能抓到请求 HTML 的包了，抓包效果图如下：</p>
+<p><img src="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/img/3-11server-render.png" alt=""></p>
+<p>可以看到服务器返回的是渲染出内容后的 HTML 而不是 HTML 模版，这说明同构应用的改造完成。</p>
+<blockquote>
+<p>本实例提供<a href="http://webpack.wuhaolin.cn/3-11%E6%9E%84%E5%BB%BA%E5%90%8C%E6%9E%84%E5%BA%94%E7%94%A8.zip">项目完整代码</a></p>
+</blockquote>
 
 </body>
 </html>
