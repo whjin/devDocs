@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>构建Electron应用</title>
+<title>检查代码</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -480,39 +480,116 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-electron-">构建Electron应用</h1>
-<p>Electron 是 Node.js 和 Chromium 浏览器的结合体，用 Chromium 浏览器显示出的 Web 页面作为应用的 GUI，通过 Node.js 去和操作系统交互。 当你在 Electron 应用中的一个窗口操作时，实际上是在操作一个网页。当你的操作需要通过操作系统去完成时，网页会通过 Node.js 去和操作系统交互。</p>
-<p>采用这种方式开发桌面端应用的优点有：</p>
+<h1 id="-">检查代码</h1>
+<p>检查代码和 Code Review 很相似，都是去审视提交的代码可能存在的问题。 但 Code Review 一般通过人去执行，而检查代码是通过机器去执行一些自动化的检查。 自动化的检查代码成本更低，实施代价更小。</p>
+<p>检查代码主要检查以下几项：</p>
 <ul>
-<li>降低开发门槛，只需掌握网页开发技术和 Node.js 即可，大量的 Web 开发技术和现成库可以复用于 Electron；</li><li>由于 Chromium 浏览器和 Node.js 都是跨平台的，Electron 能做到写一份代码在不同的操作系统运行。</li></ul>
-<p>在运行 Electron 应用时，会从启动一个主进程开始。主进程的启动是通过 Node.js 去执行一个入口 JavaScript 文件实现的，这个入口文件 <code>main.js</code> 内容如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="vjweQv" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="Electron-main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/vjweQv/">Electron-main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<li>代码风格：让项目成员强制遵守统一的代码风格，例如如何缩紧、如何写注释等，保障代码可读性，不把时间浪费在争论如何写代码更好看上；</li><li>潜在问题：分析出代码在运行过程中可能出现的潜在 Bug。</li></ul>
+<p>目前已经有成熟的工具可以检验诸如 JavaScript、TypeScript、CSS、SCSS 等常用语言。</p>
+<h2 id="-javascript">检查 JavaScript</h2>
+<p>目前最常用的 JavaScript 检查工具是 ESlint ，它不仅内置了大量常用的检查规则，还可以通过插件机制做到灵活扩展。</p>
+<p>ESlint 的使用很简单，在通过：<code>npm i -g eslint</code></p>
+<p>按照到全局后，再在项目目录下执行：<code>eslint init</code></p>
+<p>来新建一个 ESlint 配置文件 <code>.eslintrc</code>，该文件格式为 JSON。</p>
+<p>如果你想覆盖默认的检查规则，或者想加入新的检查规则，你需要修改该文件，例如使用以下配置：</p>
+<pre><code>{
+    // 从 eslint:recommended 中继承所有检查规则
+    &quot;extends&quot;: &quot;eslint:recommended&quot;,
+    // 再自定义一些规则     
+    &quot;rules&quot;: {
+        // 需要在每行结尾加 ;        
+        &quot;semi&quot;: [&quot;error&quot;, &quot;always&quot;],
+        // 需要使用 &quot;&quot; 包裹字符串         
+        &quot;quotes&quot;: [&quot;error&quot;, &quot;double&quot;]
+    }
+}
+</code></pre><p>写好配置文件后，再执行：</p>
+<pre><code>eslint yourfile.js
+</code></pre><p>去检查 <code>yourfile.js</code> 文件，如果你的文件没有通过检查，ESlint 会输出错误原因，例如： </p>
+<h2 id="-typescript">检查 TypeScript</h2>
+<p>TSLint 是一个和 ESlint 相似的 TypeScript 代码检查工具，区别在于 TSLint 只专注于检查 TypeScript 代码。</p>
+<p>TSLint 和 ESlint 的使用方法很相似，首先通过：<code>npm i -g tslint</code></p>
+<p>安装到全局，再去项目根目录下执行：<code>tslint --init</code></p>
+<p>生成配置文件<code>tslint.json</code>，在配置好后，再执行：<code>tslint yourfile.ts</code>去检查 <code>yourfile.ts</code> 文件。</p>
+<h2 id="-css">检查 CSS</h2>
+<p>stylelint 是目前最成熟的 CSS 检查工具，内置了大量检查规则的同时也提供插件机制让用户自定义扩展。 stylelint 基于 PostCSS，能检查任何 PostCSS 能解析的代码，诸如 SCSS、Less 等。</p>
+<p>首先通过<code>npm i -g stylelint</code></p>
+<p>安装到全局后，去项目根目录下新建 <code>.stylelintrc</code> 配置文件， 该配置文件格式为 JSON，其格式和 ESLint 的配置相似，例如：</p>
+<pre><code>{
+  // 继承 stylelint-config-standard 中的所有检查规则
+  &quot;extends&quot;: &quot;stylelint-config-standard&quot;,
+  // 再自定义检查规则  
+  &quot;rules&quot;: {
+    &quot;at-rule-empty-line-before&quot;: null
+  }
+}
+</code></pre><p>配置好后，再执行<code>stylelint &quot;yourfile.css&quot;</code>去检查 <code>yourfile.css</code> 文件。</p>
+<h2 id="-webpack-">结合 Webpack 检查代码</h2>
+<h3 id="-eslint">结合 ESLint</h3>
+<p><code>eslint-loader</code> 可以方便的把 ESLint 整合到 Webpack 中，使用方法如下：</p>
+<pre><code>module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        // node_modules 目录的下的代码不用检查
+        exclude: /node_modules/,
+        loader: &#39;eslint-loader&#39;,
+        // 把 eslint-loader 的执行顺序放到最前面，防止其它 Loader 把处理后的代码交给 eslint-loader 去检查
+        enforce: &#39;pre&#39;,
+      },
+    ],
+  },
+}
+</code></pre><p>接入 eslint-loader 后就能在控制台中看到 ESLint 输出的错误日志了。</p>
+<h3 id="-tslint">结合 TSLint</h3>
+<p><code>tslint-loader</code> 是一个和 <code>eslint-loader</code> 相似的 Webpack Loader， 能方便的把 TSLint 整合到 Webpack，其使用方法如下：</p>
+<pre><code>module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        // node_modules 目录的下的代码不用检查
+        exclude: /node_modules/,
+        loader: &#39;tslint-loader&#39;,
+        // 把 tslint-loader 的执行顺序放到最前面，防止其它 Loader 把处理后的代码交给 tslint-loader 去检查
+        enforce: &#39;pre&#39;,
+      },
+    ],
+  },
+}
+</code></pre><h3 id="-stylelint">结合 stylelint</h3>
+<p>StyleLintPlugin 能把 stylelint 整合到 Webpack，其使用方法很简单，如下：</p>
+<pre><code>const StyleLintPlugin = require(&#39;stylelint-webpack-plugin&#39;);
 
-<p>主进程启动后会一直驻留在后台运行，你眼睛所看得的和操作的窗口并不是主进程，而是由主进程新启动的窗口子进程。</p>
-<p>应用从启动到退出有一系列生命周期事件，通过 <code>electron.app.on()</code> 函数去监听生命周期事件，在特定的时刻做出反应。 例如在 <code>app.on(&#39;ready&#39;)</code> 事件中通过 <code>BrowserWindow</code> 去展示应用的主窗口。</p>
-<p>启动的窗口其实是一个网页，启动时会去加载在 <code>loadURL</code> 中传入的网页地址。 每个窗口都是一个单独的网页进程，窗口之间的通信需要借助主进程传递消息。</p>
-<p>总体来说开发 Electron 应用和开发 Web 应用很相似，区别在于 Electron 的运行环境同时内置了浏览器和 Node.js 的 API，在开发网页时除了可以使用浏览器提供的 API 外，还可以使用 Node.js 提供的 API。</p>
-<h2 id="-webpack">接入 Webpack</h2>
-<p>接下来做一个简单的 Electron 应用，要求为应用启动后显示一个主窗口，在主窗口里有一个按钮，点击这个按钮后新显示一个窗口，且使用 React 开发网页。</p>
-<p>由于 Electron 应用中的每一个窗口对应一个网页，所以需要开发2个网页，分别是主窗口的 <code>index.html</code> 和新打开的窗口 <code>login.html</code>。 </p>
-<p>需要改动的地方如下：</p>
+module.exports = {
+  // ...
+  plugins: [
+    new StyleLintPlugin(),
+  ],
+}
+</code></pre><h2 id="-">一些建议</h2>
+<p>把代码检查功能整合到 Webpack 中会导致以下问题：</p>
 <ul>
-<li>在项目根目录下新建主进程的入口文件 <code>main.js</code>，内容和上面提到的一致；</li><li>主窗口网页的代码如下：</li></ul>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="odRogQ" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/odRogQ/">main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<li>由于执行检查步骤计算量大，整合到 Webpack 中会导致构建变慢；</li><li>在整合代码检查到 Webpack 后，输出的错误信息是通过行号来定位错误的，没有编辑器集成显示错误直观；</li></ul>
+<p>为了避免以上问题，还可以这样做：</p>
+<ul>
+<li>使用集成了代码检查功能的编辑器，让编辑器实时直观地显示错误；</li><li>把代码检查步骤放到代码提交时，也就是说在代码提交前去调用以上检查工具去检查代码，只有在检查都通过时才提交代码，这样就能保证提交到仓库的代码都是通过了检查的。</li></ul>
+<p>如果你的项目是使用 Git 管理，Git 提供了 Hook 功能能做到在提交代码前触发执行脚本。</p>
+<p>husky 可以方便快速地为项目接入 Git Hook， 执行<code>npm i -D husky</code></p>
+<p>安装 husky 时，husky 会通过 <code>Npm Script Hook</code> 自动配置好 Git Hook，你需要做的只是在 <code>package.json</code> 文件中定义几个脚本，方法如下：</p>
+<pre><code>{
+  &quot;scripts&quot;: {
+    // 在执行 git commit 前会执行的脚本  
+    &quot;precommit&quot;: &quot;npm run lint&quot;,
+    // 在执行 git push 前会执行的脚本  
+    &quot;prepush&quot;: &quot;lint&quot;,
+    // 调用 eslint、stylelint 等工具检查代码
+    &quot;lint&quot;: &quot;eslint &amp;&amp; stylelint&quot;
+  }
+}
+</code></pre><p><code>precommit</code> 和 <code>prepush</code> 你需要根据自己的情况选择一个，无需两个都设置。    </p>
 
-<p>其中最关键的部分在于在按钮点击事件里通过 <code>electron</code> 库里提供的 API 去新打开一个窗口，并加载网页文件所在的地址。</p>
-<p>页面部分的代码已经修改完成，接下来修改构建方面的代码。 这里构建需要做到以下几点：</p>
-<ul>
-<li>构建出2个可在浏览器里运行的网页，分别对应2个窗口的界面；</li><li>由于在网页的 JavaScript 代码里可能会有调用 Node.js 原生模块或者 electron 模块，也就是输出的代码依赖这些模块。但由于这些模块都是内置支持的，构建出的代码不能把这些模块打包进去。</li></ul>
-<p>要完成以上要求非常简单，因为 Webpack 内置了对 Electron 的支持。 只需要给 Webpack 配置文件加上一行代码即可，如下：</p>
-<pre><code>target: &#39;electron-renderer&#39;,
-</code></pre><p>以上修改都完成后重新执行 Webpack 构建，对应的网页需要的代码都输出到了项目根目录下的 <code>dist</code> 目录里。</p>
-<p>为了以 Electron 应用的形式运行，还需要安装新依赖：</p>
-<pre><code># 安装 Electron 执行环境到项目中
-npm i -D electron
-</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

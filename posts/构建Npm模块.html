@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>构建Electron应用</title>
+<title>构建Npm模块</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -480,39 +480,152 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-electron-">构建Electron应用</h1>
-<p>Electron 是 Node.js 和 Chromium 浏览器的结合体，用 Chromium 浏览器显示出的 Web 页面作为应用的 GUI，通过 Node.js 去和操作系统交互。 当你在 Electron 应用中的一个窗口操作时，实际上是在操作一个网页。当你的操作需要通过操作系统去完成时，网页会通过 Node.js 去和操作系统交互。</p>
-<p>采用这种方式开发桌面端应用的优点有：</p>
+<h1 id="-npm-">构建Npm模块</h1>
+<p>发布到 Npm 仓库的模块有以下几个特点：</p>
 <ul>
-<li>降低开发门槛，只需掌握网页开发技术和 Node.js 即可，大量的 Web 开发技术和现成库可以复用于 Electron；</li><li>由于 Chromium 浏览器和 Node.js 都是跨平台的，Electron 能做到写一份代码在不同的操作系统运行。</li></ul>
-<p>在运行 Electron 应用时，会从启动一个主进程开始。主进程的启动是通过 Node.js 去执行一个入口 JavaScript 文件实现的，这个入口文件 <code>main.js</code> 内容如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="vjweQv" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="Electron-main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/vjweQv/">Electron-main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<li>每个模块根目录下都必须有一个描述该模块的 <code>package.json</code> 文件。该文件描述了模块的入口文件是哪个，该模块又依赖哪些模块等。</li><li>模块中的文件以 JavaScript 文件为主，但不限于 JavaScript 文件。例如一个 UI 组件模块可能同时需要 JavaScript、CSS、图片文件等。</li><li>模块中的代码大多采用模块化规范，因为你的这个模块可能依赖其它模块，而且别的模块又可能依赖你的这个模块。因为目前支持比较广泛的是 CommonJS 模块化规范，上传到 Npm 仓库的代码最好遵守该规范。</li></ul>
+<h2 id="-">抛出问题</h2>
+<p>Webpack 不仅可用于构建运行的应用，也可用于构建上传到 Npm 的模块。 接下来用教大家如何用 Webpack 构建一个可上传的 Npm 仓库的 React 组件，具体要求如下：</p>
+<ol>
+<li>源代码采用 ES6 写，但发布到 Npm 仓库的需要是 ES5 的，并且遵守 CommonJS 模块化规范。如果发布到 Npm 上去的 ES5 代码是经过转换的，请同时提供 Source Map 以方便调试。</li><li>该 UI 组件依赖的其它资源文件例如 CSS 文件也需要包含在发布的模块里。</li><li>尽量减少冗余代码，减少发布出去的组件的代码文件大小。</li><li>发布出去的组件的代码中不能含有其依赖的模块的代码，而是让用户可选择性的去安装。例如不能内嵌 React 库的代码，这样做的目的是在其它组件也依赖 React 库时，防止 React 库的代码被重复打包。</li></ol>
+<p>在开始前先看下最终发布到 Npm 仓库的模块的目录结构：</p>
+<pre><code>node_modules/hello-webpack
+├── lib
+│   ├── index.css (组件所有依赖的 CSS 都在这个文件中)
+│   ├── index.css.map
+│   ├── index.js (符合 CommonJS 模块化规范的 ES5 代码)
+│   └── index.js.map
+├── src (ES6 源码)
+│   ├── index.css
+│   └── index.js
+└── package.json (模块描述文件)
+</code></pre><p><code>src/index.js</code> 文件，内容如下：</p>
+<pre><code>import React, { Component } from &#39;react&#39;;
+import &#39;./index.css&#39;;
+
+// 导出该组件供给其它模块使用
+export default class HelloWebpack extends Component {
+  render() {
+    return &lt;h1 className=&quot;hello-component&quot;&gt;Hello,Webpack&lt;/h1&gt;
+  }
+}
+</code></pre><p>要使用该模块时只需要这样：</p>
+<pre><code>// 通过 ES6 语法导入
+import HelloWebpack from &#39;hello-webpack&#39;;
+import &#39;hello-webpack/lib/index.css&#39;;
+
+// 或者通过 ES5 语法导入
+var HelloWebpack = require(&#39;hello-webpack&#39;);
+require(&#39;hello-webpack/lib/index.css&#39;);
+
+// 使用 react-dom 渲染
+render(&lt;HelloWebpack/&gt;);
+</code></pre><h2 id="-webpack-npm-">使用 Webpack 构建 Npm 模块</h2>
+<p><strong>对于要求1，可以这样做到：</strong></p>
+<ul>
+<li>使用 <code>babel-loader</code> 把 ES6 代码转换成 ES5 的代码。</li><li>通过开启 <code>devtool: &#39;source-map&#39;</code> 输出 Source Map 以发布调试。</li><li>设置 <code>output.libraryTarget=&#39;commonjs2&#39;</code> 使输出的代码符合CommonJS2 模块化规范，以供给其它模块导入使用。</li></ul>
+<p>相关的 Webpack 配置代码如下：</p>
+<pre><code>module.exports = {
+  output: {
+    // 输出的代码符合 CommonJS 模块化规范，以供给其它模块导入使用。
+    libraryTarget: &#39;commonjs2&#39;,
+  },
+  // 输出 Source Map
+  devtool: &#39;source-map&#39;,
+};
+</code></pre><p><strong>对于要求2，需要通过 <code>css-loader</code> 和 <code>extract-text-webpack-plugin</code> 实现，相关的 Webpack 配置代码如下：</strong></p>
+<pre><code>const ExtractTextPlugin = require(&#39;extract-text-webpack-plugin&#39;);
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        // 增加对 CSS 文件的支持
+        test: /\.css/,
+        // 提取出 Chunk 中的 CSS 代码到单独的文件中
+        use: ExtractTextPlugin.extract({
+          use: [&#39;css-loader&#39;]
+        }),
+      },
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin({
+      // 输出的 CSS 文件名称
+      filename: &#39;index.css&#39;,
+    }),
+  ],
+};
+</code></pre><p>此步引入了3个新依赖：</p>
+<pre><code># 安装 Webpack 构建所需要的新依赖
+npm i -D style-loader css-loader extract-text-webpack-plugin
+</code></pre><p><strong>对于要求3，需要注意的是 Babel 在把 ES6 代码转换成 ES5 代码时会注入一些辅助函数。</strong></p>
+<p>例如下面这段 ES6 代码：</p>
+<pre><code>class HelloWebpack extends Component{
+}
+</code></pre><p>在被转换成能正常运行的 ES5 代码时需要以下2个辅助函数：</p>
+<ul>
+<li><code>babel-runtime/helpers/createClass</code> 用于实现 <code>class</code> 语法</li><li><code>babel-runtime/helpers/inherits</code> 用于实现 <code>extends</code> 语法</li></ul>
+<p>默认的情况下 Babel 会在每个输出文件中内嵌这些依赖的辅助函数的代码，如果多个源代码文件都依赖这些辅助函数，那么这些辅助函数的代码将会重复的出现很多次，造成代码冗余。 </p>
+<p>为了不让这些辅助函数的代重复出现，可以在依赖它们的时候通过 <code>require(&#39;babel-runtime/helpers/createClass&#39;)</code> 的方式去导入，这样就能做到只让它们出现一次。 <code>babel-plugin-transform-runtime</code> 插件就是用来做这个事情的。</p>
+<p>修改 <code>.babelrc</code> 文件，为其加入 <code>transform-runtime</code> 插件：</p>
+<pre><code>{
+  &quot;plugins&quot;: [
+    [
+      &quot;transform-runtime&quot;,
+      {
+        // transform-runtime 默认会自动的为你使用的 ES6 API 注入 polyfill
+        // 假如你在源码中使用了 Promise，输出的代码将会自动注入 require(&#39;babel-runtime/core-js/Promise&#39;) 语句
+        // polyfill 的注入应该交给模块使用者，因为使用者可能在其它地方已经注入了其它的 Promise polyfill 库
+        // 所以关闭该功能
+        &quot;polyfill&quot;: false
+      }
+    ]
+  ]
+}
+</code></pre><p>由于加入 <code>babel-plugin-transform-runtime</code> 后生成的代码中会大量出现类似 <code>require(&#39;babel-runtime/helpers/createClass&#39;)</code> 这样的语句，所以输出的代码将依赖 <code>babel-runtime</code> 模块。</p>
+<p>此步引入了3个新依赖：</p>
+<pre><code># 安装 Webpack 构建所需要的新依赖
+npm i -D babel-plugin-transform-runtime
+# 安装输出代码运行时所需的新依赖
+npm i -S babel-runtime
+</code></pre><p><strong>对于要求4，需要通过在 <a href="https://whjin.github.io/full-stack-development/posts/webpack%E9%85%8D%E7%BD%AE.html">其它配置项</a> 中介绍过的 <code>Externals</code> 来实现。    </strong></p>
+<p>Externals 用来告诉 Webpack 要构建的代码中使用了哪些不用被打包的模块，也就是说这些模版是外部环境提供的，Webpack 在打包时可以忽略它们。</p>
+<p>相关的 Webpack 配置代码如下：</p>
+<pre><code>module.exports = {
+  // 通过正则命中所有以 react 或者 babel-runtime 开头的模块
+  // 这些模块通过注册在运行环境中的全局变量访问，不用被重复打包进输出的代码里
+  externals: /^(react|babel-runtime)/,
+};
+</code></pre><p>开启以上配置后，输出的代码中会存在导入 <code>react</code> 或者 <code>babel-runtime</code> 模块的代码，但是它们的 <code>react</code> 或者 <code>babel-runtime</code> 的内容不会被包含进去，如下：    </p>
+<pre><code>[
+    (function (module, exports) {
+        module.exports = require(&quot;babel-runtime/helpers/inherits&quot;);
+    }),
+    (function (module, exports) {
+        module.exports = require(&quot;react&quot;);
+    })
+]
+</code></pre><p>这样就做到了在保持代码正确性的情况下，输出文件不存放 react 或者 babel-runtime 模块的代码。</p>
+<p>实际上当你在开发 Npm 模块时，不只需要对 react 和 babel-runtime 模块做这样的处理，而是需要对所有正在开发的模块所依赖的模块进行这样的处理。 因为正在开发的模块所依赖的模块也可能被其它模块所依赖。 当一个项目中一个模块被依赖多次时，Webpack 只会将其打包一次。</p>
+<p>完成以上4步后最终的 Webpack 完整配置代码如下：</p>
+<p><p data-height="565" data-theme-id="0" data-slug-hash="gzJdam" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="构建Npm模块" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/gzJdam/">构建Npm模块</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-<p>主进程启动后会一直驻留在后台运行，你眼睛所看得的和操作的窗口并不是主进程，而是由主进程新启动的窗口子进程。</p>
-<p>应用从启动到退出有一系列生命周期事件，通过 <code>electron.app.on()</code> 函数去监听生命周期事件，在特定的时刻做出反应。 例如在 <code>app.on(&#39;ready&#39;)</code> 事件中通过 <code>BrowserWindow</code> 去展示应用的主窗口。</p>
-<p>启动的窗口其实是一个网页，启动时会去加载在 <code>loadURL</code> 中传入的网页地址。 每个窗口都是一个单独的网页进程，窗口之间的通信需要借助主进程传递消息。</p>
-<p>总体来说开发 Electron 应用和开发 Web 应用很相似，区别在于 Electron 的运行环境同时内置了浏览器和 Node.js 的 API，在开发网页时除了可以使用浏览器提供的 API 外，还可以使用 Node.js 提供的 API。</p>
-<h2 id="-webpack">接入 Webpack</h2>
-<p>接下来做一个简单的 Electron 应用，要求为应用启动后显示一个主窗口，在主窗口里有一个按钮，点击这个按钮后新显示一个窗口，且使用 React 开发网页。</p>
-<p>由于 Electron 应用中的每一个窗口对应一个网页，所以需要开发2个网页，分别是主窗口的 <code>index.html</code> 和新打开的窗口 <code>login.html</code>。 </p>
-<p>需要改动的地方如下：</p>
-<ul>
-<li>在项目根目录下新建主进程的入口文件 <code>main.js</code>，内容和上面提到的一致；</li><li>主窗口网页的代码如下：</li></ul>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="odRogQ" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/odRogQ/">main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<p>重新执行构建后，你将会在项目目录下看到一个新目录 <code>lib</code>，里面放着要发布到 Npm 仓库的最终代码。</p>
+<h2 id="-npm">发布到 Npm</h2>
+<p>在把构建出的代码发布到 Npm 仓库前，还需要确保你的模块描述文件 <code>package.json</code> 是正确配置的。</p>
+<p>由于构建出的代码的入口文件是 <code>./lib/index.js</code>，需要修改 <code>package.json</code> 中的 <code>main</code> 字段如下：</p>
+<pre><code>{
+  &quot;main&quot;: &quot;lib/index.js&quot;,
+  &quot;jsnext:main&quot;: &quot;src/index.js&quot;
+}
+</code></pre><p>其中 <code>jsnext:main</code> 字段用于指出采用 ES6 编写的模块入口文件所在的位置。</p>
+<p>修改完毕后在项目目录下执行 <code>npm publish</code> 就能把构建出的代码发布到 Npm 仓库中(确保已经 <code>npm login</code> 过)。</p>
+<blockquote>
+<p>如果你想让发布到 Npm 上去的代码保持和源码的目录结构一致，那么用 Webpack 将不在适合。 因为源码是一个个分割的模块化文件，而 Webpack 会把这些模块组合在一起。 虽然 Webpack 输出的文件也可以是采用 CommonJS 模块化语法的，但在有些场景下把所有模块打包成一个文件发布到 Npm 是不适合的。 例如像 Lodash 这样的工具函数库在项目中可能只用到了其中几个工具函数，如果所有工具函数打包在一个文件中，那么所有工具函数都会被打包进去，而保持模块文件的独立能做到只打包进使用到的。 还有就是像 UI 组件库这样由大量独立组件组成的库也和 Lodash 类似。<br>所以 Webpack 适合于构建完整不可分割的 Npm 模块。</p>
+</blockquote>
 
-<p>其中最关键的部分在于在按钮点击事件里通过 <code>electron</code> 库里提供的 API 去新打开一个窗口，并加载网页文件所在的地址。</p>
-<p>页面部分的代码已经修改完成，接下来修改构建方面的代码。 这里构建需要做到以下几点：</p>
-<ul>
-<li>构建出2个可在浏览器里运行的网页，分别对应2个窗口的界面；</li><li>由于在网页的 JavaScript 代码里可能会有调用 Node.js 原生模块或者 electron 模块，也就是输出的代码依赖这些模块。但由于这些模块都是内置支持的，构建出的代码不能把这些模块打包进去。</li></ul>
-<p>要完成以上要求非常简单，因为 Webpack 内置了对 Electron 的支持。 只需要给 Webpack 配置文件加上一行代码即可，如下：</p>
-<pre><code>target: &#39;electron-renderer&#39;,
-</code></pre><p>以上修改都完成后重新执行 Webpack 构建，对应的网页需要的代码都输出到了项目根目录下的 <code>dist</code> 目录里。</p>
-<p>为了以 Electron 应用的形式运行，还需要安装新依赖：</p>
-<pre><code># 安装 Electron 执行环境到项目中
-npm i -D electron
-</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

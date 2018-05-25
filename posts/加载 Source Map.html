@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>构建Electron应用</title>
+<title>加载 Source Map</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -67,19 +67,19 @@ h1 {
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 26px;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 22px;
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 h5 {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 h6 {
@@ -174,7 +174,6 @@ dl dd>:last-child {
 =============================================================================*/
 
 pre, code, tt {
-  font-size: 14px;
   font-family: Consolas, "Liberation Mono", Courier, monospace;
 }
 
@@ -199,7 +198,6 @@ pre>code {
 pre {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
-  font-size: 13px;
   line-height: 19px;
   overflow: auto;
   padding: 6px 10px;
@@ -267,17 +265,18 @@ table {
 	margin: 0 auto;
 	border-collapse: collapse;
 	width: 100%;
+	box-sizing: border-box;
 }
 
 table th, table td {
   border: 1px solid #ccc;
-  padding: 6px 13px;
+  padding: 6px 13px; 
 }
 
 table th {
   font-weight: bold;
   text-align: center !important;
-  background-color: #d9edf7;
+  background-color: #9ec68e;
 }
 
 table tr {
@@ -480,39 +479,89 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-electron-">构建Electron应用</h1>
-<p>Electron 是 Node.js 和 Chromium 浏览器的结合体，用 Chromium 浏览器显示出的 Web 页面作为应用的 GUI，通过 Node.js 去和操作系统交互。 当你在 Electron 应用中的一个窗口操作时，实际上是在操作一个网页。当你的操作需要通过操作系统去完成时，网页会通过 Node.js 去和操作系统交互。</p>
-<p>采用这种方式开发桌面端应用的优点有：</p>
+<h1 id="-source-map">加载 Source Map</h1>
+<p>由于在开发过程中经常会使用新语言去开发项目，最后会把源码转换成能在浏览器中直接运行的 JavaScript 代码。 这样做虽能提升开发效率，在调试代码的过程中你会发现生成的代码可读性非常差，这给代码调试带来了不便。</p>
+<p>Webpack 支持为转换生成的代码输出对应的 Source Map 文件，以方便在浏览器中能通过源码调试。 控制 Source Map 输出的 Webpack 配置项是 <code>devtool</code>，它有很多选项，下面来一一详细介绍。</p>
+<table>
+<thead>
+<tr>
+<th>devtool</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>空</td>
+<td>不生成 Source Map</td>
+</tr>
+<tr>
+<td><code>eval</code></td>
+<td>每个 <code>module</code> 会封装到 <code>eval</code> 里包裹起来执行，并且会在每个 <code>eval</code> 语句的末尾追加注释 <code>//# sourceURL=webpack:///./main.js</code></td>
+</tr>
+<tr>
+<td><code>source-map</code></td>
+<td>会额外生成一个单独 Source Map 文件，并且会在 JavaScript 文件末尾追加 <code>//# sourceMappingURL=bundle.js.map</code></td>
+</tr>
+<tr>
+<td><code>hidden-source-map</code></td>
+<td>和 <code>source-map</code> 类似，但不会在 JavaScript 文件末尾追加 <code>//# sourceMappingURL=bundle.js.map</code></td>
+</tr>
+<tr>
+<td><code>inline-source-map</code></td>
+<td>和 <code>source-map</code> 类似，但不会额外生成一个单独 Source Map 文件，而是把 Source Map 转换成 <code>base64</code> 编码内嵌到 JavaScript 中</td>
+</tr>
+<tr>
+<td><code>eval-source-map</code></td>
+<td>和 <code>eval</code> 类似，但会把每个模块的 Source Map 转换成 <code>base64</code> 编码内嵌到 <code>eval</code> 语句的末尾，例如 <code>//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW...</code></td>
+</tr>
+<tr>
+<td><code>cheap-source-map</code></td>
+<td>和 <code>source-map</code> 类似，但生成的 Source Map 文件中没有列信息，因此生成速度更快</td>
+</tr>
+<tr>
+<td><code>cheap-module-source-map</code></td>
+<td>和 <code>cheap-source-map</code> 类似，但会包含 Loader 生成的 Source Map</td>
+</tr>
+</tbody>
+</table>
+<p>其实以上表格只是列举了 <code>devtool</code> 可能取值的一部分， 它的取值其实可以由 <code>source-map</code>、<code>eval</code>、<code>inline</code>、<code>hidden</code>、<code>cheap</code>、<code>module</code> 这六个关键字随意组合而成。 这六个关键字每个都代表一种特性，它们的含义分别是：</p>
 <ul>
-<li>降低开发门槛，只需掌握网页开发技术和 Node.js 即可，大量的 Web 开发技术和现成库可以复用于 Electron；</li><li>由于 Chromium 浏览器和 Node.js 都是跨平台的，Electron 能做到写一份代码在不同的操作系统运行。</li></ul>
-<p>在运行 Electron 应用时，会从启动一个主进程开始。主进程的启动是通过 Node.js 去执行一个入口 JavaScript 文件实现的，这个入口文件 <code>main.js</code> 内容如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="vjweQv" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="Electron-main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/vjweQv/">Electron-main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<li><code>eval</code>：用 <code>eval</code> 语句包裹需要安装的模块；</li><li><code>source-map</code>：生成独立的 Source Map 文件；</li><li><code>hidden</code>：不在 JavaScript 文件中指出 Source Map 文件所在，这样浏览器就不会自动加载 Source Map；</li><li><code>inline</code>：把生成的 Source Map 转换成 <code>base64</code> 格式内嵌在 JavaScript 文件中；</li><li><code>cheap</code>：生成的 Source Map 中不会包含列信息，这样计算量更小，输出的 Source Map 文件更小；同时 Loader 输出的 Source Map 不会被采用；</li><li><code>module</code>：来自 Loader 的 Source Map 被简单处理成每行一个模块；</li></ul>
+<h2 id="-">该如何选择</h2>
+<p>如果你不关心细节和性能，只是想在不出任何差错的情况下调试源码，可以直接设置成 <code>source-map</code>，但这样会造成两个问题：</p>
+<ul>
+<li><code>source-map</code> 模式下会输出质量最高最详细的 Source Map，这会造成构建速度缓慢，特别是在开发过程需要频繁修改的时候会增加等待时间；</li><li><code>source-map</code> 模式下会把 Source Map 暴露出去，如果构建发布到线上的代码的 Source Map 暴露出去就等于源码被泄露；</li></ul>
+<p>为了解决以上两个问题，可以这样做：</p>
+<ul>
+<li>在开发环境下把 <code>devtool</code> 设置成 <code>cheap-module-eval-source-map</code>，因为生成这种 Source Map 的速度最快，能加速构建。由于在开发环境下不会做代码压缩，Source Map 中即使没有列信息也不会影响断点调试；</li><li>在生产环境下把 <code>devtool</code> 设置成 <code>hidden-source-map</code>，意思是生成最详细的 Source Map，但不会把 Source Map 暴露出去。由于在生产环境下会做代码压缩，一个 JavaScript 文件只有一行，所以需要列信息。</li></ul>
+<blockquote>
+<p>在生产环境下通常不会把 Source Map 上传到 HTTP 服务器让用户获取，而是上传到 JavaScript 错误收集系统，在错误收集系统上根据 Source Map 和收集到的 JavaScript 运行错误堆栈计算出错误所在源码的位置。</p>
+<p>不要在生产环境下使用 <code>inline</code> 模式的 Source Map， 因为这会使 JavaScript 文件变得很大，而且会泄露源码。</p>
+</blockquote>
+<h2 id="-source-map">加载现有的 Source Map</h2>
+<p>有些从 Npm 安装的第三方模块是采用 ES6 或者 TypeScript 编写的，它们在发布时会同时带上编译出来的 JavaScript 文件和对应的 Source Map 文件，以方便你在使用它们出问题的时候调试它们；</p>
+<p>默认情况下 Webpack 是不会去加载这些附加的 Source Map 文件的，Webpack 只会在转换过程中生成 Source Map。 为了让 Webpack 加载这些附加的 Source Map 文件，需要安装 <a href="https://github.com/webpack-contrib/source-map-loader">source-map-loader</a> 。 使用方法如下：</p>
+<pre><code>module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        // 只加载你关心的目录下的 Source Map，以提升构建速度
+        include: [path.resolve(root, &#39;node_modules/some-components/&#39;)],
+        use: [&#39;source-map-loader&#39;],
+        // 要把 source-map-loader 的执行顺序放到最前面，如果在 source-map-loader 之前有 Loader 转换了该 JavaScript 文件，会导致 Source Map 映射错误
+        enforce: &#39;pre&#39;
+      }
+    ]
+  }
+};
+</code></pre><blockquote>
+<p>由于 <code>source-map-loader</code> 在加载 Source Map 时计算量很大，因此要避免让该 Loader 处理过多的文件，不然会导致构建速度缓慢。 通常会采用 <code>include</code> 去命中只关心的文件。    </p>
+</blockquote>
+<p>再安装新引入的依赖：</p>
+<pre><code>npm i -D source-map-loader
+</code></pre><p>重启 Webpack 后，你就能在浏览器中调试 <code>node_modules/some-components/</code> 目录下的源码了。    </p>
 
-<p>主进程启动后会一直驻留在后台运行，你眼睛所看得的和操作的窗口并不是主进程，而是由主进程新启动的窗口子进程。</p>
-<p>应用从启动到退出有一系列生命周期事件，通过 <code>electron.app.on()</code> 函数去监听生命周期事件，在特定的时刻做出反应。 例如在 <code>app.on(&#39;ready&#39;)</code> 事件中通过 <code>BrowserWindow</code> 去展示应用的主窗口。</p>
-<p>启动的窗口其实是一个网页，启动时会去加载在 <code>loadURL</code> 中传入的网页地址。 每个窗口都是一个单独的网页进程，窗口之间的通信需要借助主进程传递消息。</p>
-<p>总体来说开发 Electron 应用和开发 Web 应用很相似，区别在于 Electron 的运行环境同时内置了浏览器和 Node.js 的 API，在开发网页时除了可以使用浏览器提供的 API 外，还可以使用 Node.js 提供的 API。</p>
-<h2 id="-webpack">接入 Webpack</h2>
-<p>接下来做一个简单的 Electron 应用，要求为应用启动后显示一个主窗口，在主窗口里有一个按钮，点击这个按钮后新显示一个窗口，且使用 React 开发网页。</p>
-<p>由于 Electron 应用中的每一个窗口对应一个网页，所以需要开发2个网页，分别是主窗口的 <code>index.html</code> 和新打开的窗口 <code>login.html</code>。 </p>
-<p>需要改动的地方如下：</p>
-<ul>
-<li>在项目根目录下新建主进程的入口文件 <code>main.js</code>，内容和上面提到的一致；</li><li>主窗口网页的代码如下：</li></ul>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="odRogQ" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/odRogQ/">main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>其中最关键的部分在于在按钮点击事件里通过 <code>electron</code> 库里提供的 API 去新打开一个窗口，并加载网页文件所在的地址。</p>
-<p>页面部分的代码已经修改完成，接下来修改构建方面的代码。 这里构建需要做到以下几点：</p>
-<ul>
-<li>构建出2个可在浏览器里运行的网页，分别对应2个窗口的界面；</li><li>由于在网页的 JavaScript 代码里可能会有调用 Node.js 原生模块或者 electron 模块，也就是输出的代码依赖这些模块。但由于这些模块都是内置支持的，构建出的代码不能把这些模块打包进去。</li></ul>
-<p>要完成以上要求非常简单，因为 Webpack 内置了对 Electron 的支持。 只需要给 Webpack 配置文件加上一行代码即可，如下：</p>
-<pre><code>target: &#39;electron-renderer&#39;,
-</code></pre><p>以上修改都完成后重新执行 Webpack 构建，对应的网页需要的代码都输出到了项目根目录下的 <code>dist</code> 目录里。</p>
-<p>为了以 Electron 应用的形式运行，还需要安装新依赖：</p>
-<pre><code># 安装 Electron 执行环境到项目中
-npm i -D electron
-</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
