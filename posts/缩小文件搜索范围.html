@@ -1,0 +1,606 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>缩小文件搜索范围</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 16px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 26px;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+h6 {
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 3px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #eee;
+  color: #00d;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 16px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #42b983;
+  padding: 0 15px;
+  color: #777;
+  background: #f8f8f8;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+table {
+	margin: 0 auto;
+	border-collapse: collapse;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px; 
+}
+
+table th {
+  font-weight: bold;
+  text-align: center !important;
+  background-color: #9ec68e;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #dff0d8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%;
+}
+
+p > img {
+    display: table;
+    margin: 0 auto;
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<h1 id="-">缩小文件搜索范围</h1>
+<p>Webpack 启动后会从配置的 Entry 出发，解析出文件中的导入语句，再递归的解析。 在遇到导入语句时 Webpack 会做两件事情：</p>
+<ol>
+<li>根据导入语句去寻找对应的要导入的文件。例如 <code>require(&#39;react&#39;)</code> 导入语句对应的文件是 <code>./node_modules/react/react.js，require(&#39;./util&#39;)</code> 对应的文件是 <code>./util.js</code>。</li><li>根据找到的要导入文件的后缀，使用配置中的 Loader 去处理文件。例如使用 ES6 开发的 JavaScript 文件需要使用 <code>babel-loader</code> 去处理。</li></ol>
+<h2 id="-loader-">优化 <code>loader</code> 配置</h2>
+<p>由于 Loader 对文件的转换操作很耗时，需要让尽可能少的文件被 Loader 处理。</p>
+<p>在 Module 中介绍过在使用 Loader 时可以通过 <code>test</code> 、 <code>include</code> 、 <code>exclude</code> 三个配置项来命中 Loader 要应用规则的文件。 为了尽可能少的让文件被 Loader 处理，可以通过 <code>include</code> 去命中只有哪些文件需要被处理。</p>
+<p>以采用 ES6 的项目为例，在配置 <code>babel-loader</code> 时，可以这样：</p>
+<pre><code>module.exports = {
+  module: {
+    rules: [
+      {
+        // 如果项目源码中只有 js 文件就不要写成 /\.jsx?$/，提升正则表达式性能
+        test: /\.js$/,
+        // babel-loader 支持缓存转换出的结果，通过 cacheDirectory 选项开启
+        use: [&#39;babel-loader?cacheDirectory&#39;],
+        // 只对项目根目录下的 src 目录中的文件采用 babel-loader
+        include: path.resolve(__dirname, &#39;src&#39;),
+      },
+    ]
+  },
+};
+</code></pre><blockquote>
+<p>你可以适当的调整项目的目录结构，以方便在配置 Loader 时通过 <code>include</code> 去缩小命中范围。</p>
+</blockquote>
+<h2 id="-resolve-modules-">优化 <code>resolve.modules</code> 配置</h2>
+<p>在 Resolve 中介绍过 <code>resolve.modules</code> 用于配置 Webpack 去哪些目录下寻找第三方模块。</p>
+<p><code>resolve.modules</code> 的默认值是 <code>[&#39;node_modules&#39;]</code>，含义是先去当前目录下的 <code>./node_modules</code> 目录下去找想找的模块，如果没找到就去上一级目录 <code>../node_modules</code> 中找，再没有就去 <code>../../node_modules</code> 中找，以此类推，这和 Node.js 的模块寻找机制很相似。</p>
+<p>当安装的第三方模块都放在项目根目录下的 <code>./node_modules</code> 目录下时，没有必要按照默认的方式去一层层的寻找，可以指明存放第三方模块的绝对路径，以减少寻找，配置如下：</p>
+<pre><code>module.exports = {
+  resolve: {
+    // 使用绝对路径指明第三方模块存放的位置，以减少搜索步骤
+    // 其中 __dirname 表示当前工作目录，也就是项目根目录
+    modules: [path.resolve(__dirname, &#39;node_modules&#39;)]
+  },
+};
+</code></pre><h2 id="-resolve-mainfields-">优化 <code>resolve.mainFields</code> 配置</h2>
+<p>在 Resolve 中介绍过 <code>resolve.mainFields</code> 用于配置第三方模块使用哪个入口文件。</p>
+<p>安装的第三方模块中都会有一个 <code>package.json</code> 文件用于描述这个模块的属性，其中有些字段用于描述入口文件在哪里，<code>resolve.mainFields</code> 用于配置采用哪个字段作为入口文件的描述。</p>
+<p>可以存在多个字段描述入口文件的原因是因为有些模块可以同时用在多个环境中，准对不同的运行环境需要使用不同的代码。 以 <a href="https://github.com/matthew-andrews/isomorphic-fetch">isomorphic-fetch</a> 为例，它是 fetch API 的一个实现，但可同时用于浏览器和 Node.js 环境。 它的 <code>package.json</code> 中就有2个入口文件描述字段：</p>
+<pre><code>{
+  &quot;browser&quot;: &quot;fetch-npm-browserify.js&quot;,
+  &quot;main&quot;: &quot;fetch-npm-node.js&quot;
+}   
+</code></pre><blockquote>
+<p><code>isomorphic-fetch</code> 在不同的运行环境下使用不同的代码是因为 fetch API 的实现机制不一样，在浏览器中通过原生的 <code>fetch</code> 或者 <code>XMLHttpRequest</code> 实现，在 Node.js 中通过 <code>http</code> 模块实现。    </p>
+</blockquote>
+<p><code>resolve.mainFields</code> 的默认值和当前的 <code>target</code> 配置有关系，对应关系如下：   </p>
+<ul>
+<li>当 <code>target</code> 为 <code>web</code> 或者 <code>webworker</code> 时，值是 <code>[&quot;browser&quot;, &quot;module&quot;, &quot;main&quot;]</code></li><li>当 <code>target</code> 为其它情况时，值是 <code>[&quot;module&quot;, &quot;main&quot;]</code></li></ul>
+<p>以 <code>target</code> 等于 web 为例，Webpack 会先采用第三方模块中的 <code>browser</code> 字段去寻找模块的入口文件，如果不存在就采用 <code>module</code> 字段，以此类推。</p>
+<p>为了减少搜索步骤，在你明确第三方模块的入口文件描述字段时，你可以把它设置的尽量少。 由于大多数第三方模块都采用 <code>main</code> 字段去描述入口文件的位置，可以这样配置 Webpack：</p>
+<pre><code>module.exports = {
+  resolve: {
+    // 只采用 main 字段作为入口文件描述字段，以减少搜索步骤
+    mainFields: [&#39;main&#39;],
+  },
+};   
+</code></pre><blockquote>
+<p>使用本方法优化时，你需要考虑到所有运行时依赖的第三方模块的入口文件描述字段，就算有一个模块搞错了都可能会造成构建出的代码无法正常运行。</p>
+</blockquote>
+<h2 id="-resolve-alias-">优化 <code>resolve.alias</code> 配置</h2>
+<p><code>resolve.alias</code> 配置项通过别名来把原导入路径映射成一个新的导入路径。</p>
+<p>在实战项目中经常会依赖一些庞大的第三方模块，以 React 库为例，安装到 <code>node_modules</code> 目录下的 React 库的目录结构如下：</p>
+<pre><code>├── dist
+│   ├── react.js
+│   └── react.min.js
+├── lib
+│   ... 还有几十个文件被忽略
+│   ├── LinkedStateMixin.js
+│   ├── createClass.js
+│   └── React.js
+├── package.json
+└── react.js
+</code></pre><p>可以看到发布出去的 React 库中包含两套代码：</p>
+<ul>
+<li>一套是采用 CommonJS 规范的模块化代码，这些文件都放在 <code>lib</code> 目录下，以 <code>package.json</code> 中指定的入口文件 <code>react.js</code> 为模块的入口。</li><li>一套是把 React 所有相关的代码打包好的完整代码放到一个单独的文件中，这些代码没有采用模块化可以直接执行。其中 <code>dist/react.js</code> 是用于开发环境，里面包含检查和警告的代码。<code>dist/react.min.js</code> 是用于线上环境，被最小化了。</li></ul>
+<p>默认情况下 Webpack 会从入口文件 <code>./node_modules/react/react.js</code> 开始递归的解析和处理依赖的几十个文件，这会时一个耗时的操作。 通过配置 <code>resolve.alias</code> 可以让 Webpack 在处理 React 库时，直接使用单独完整的 <code>react.min.js</code> 文件，从而跳过耗时的递归解析操作。</p>
+<p>相关 Webpack 配置如下：</p>
+<pre><code>module.exports = {
+  resolve: {
+    // 使用 alias 把导入 react 的语句换成直接使用单独完整的 react.min.js 文件，
+    // 减少耗时的递归解析操作
+    alias: {
+      &#39;react&#39;: path.resolve(__dirname, &#39;./node_modules/react/dist/react.min.js&#39;),
+    }
+  },
+};
+</code></pre><blockquote>
+<p>除了 React 库外，大多数库发布到 Npm 仓库中时都会包含打包好的完整文件，对于这些库你也可以对它们配置 <code>alias</code>。</p>
+<p>但是对于有些库使用本优化方法后会影响到后面要讲的使用 <code>Tree-Shaking</code> 去除无效代码的优化，因为打包好的完整文件中有部分代码你的项目可能永远用不上。 一般对整体性比较强的库采用本方法优化，因为完整文件中的代码是一个整体，每一行都是不可或缺的。 但是对于一些工具类的库，例如 <code>lodash</code>，你的项目可能只用到了其中几个工具函数，你就不能使用本方法去优化，因为这会导致你的输出代码中包含很多永远不会执行的代码。    </p>
+</blockquote>
+<h2 id="-resolve-extensions-">优化 <code>resolve.extensions</code> 配置</h2>
+<p>在导入语句没带文件后缀时，Webpack 会自动带上后缀后去尝试询问文件是否存在。<code>resolve.extensions</code> 用于配置在尝试过程中用到的后缀列表，默认是：</p>
+<pre><code>extensions: [&#39;.js&#39;, &#39;.json&#39;]
+</code></pre><p>也就是说当遇到 <code>require(&#39;./data&#39;)</code> 这样的导入语句时，Webpack 会先去寻找 <code>./data.js</code> 文件，如果该文件不存在就去寻找 <code>./data.json</code> 文件，如果还是找不到就报错。    </p>
+<p>如果这个列表越长，或者正确的后缀在越后面，就会造成尝试的次数越多，所以 <code>resolve.extensions</code> 的配置也会影响到构建的性能。 在配置 <code>resolve.extensions</code> 时你需要遵守以下几点，以做到尽可能的优化构建性能：</p>
+<ul>
+<li>后缀尝试列表要尽可能的小，不要把项目中不可能存在的情况写到后缀尝试列表中。</li><li>频率出现最高的文件后缀要优先放在最前面，以做到尽快的退出寻找过程。</li><li>在源码中写导入语句时，要尽可能的带上后缀，从而可以避免寻找过程。例如在你确定的情况下把 <code>require(&#39;./data&#39;) 写成 require(&#39;./data.json&#39;)</code>。</li></ul>
+<p>相关 Webpack 配置如下：</p>
+<pre><code>module.exports = {
+  resolve: {
+    // 尽可能的减少后缀尝试的可能性
+    extensions: [&#39;js&#39;],
+  },
+};
+</code></pre><h2 id="-module-noparse-">优化 <code>module.noParse</code> 配置</h2>
+<p><code>module.noParse</code> 配置项可以让 Webpack 忽略对部分没采用模块化的文件的递归解析处理，这样做的好处是能提高构建性能。 原因是一些库，例如 jQuery 、ChartJS， 它们庞大又没有采用模块化标准，让 Webpack 去解析这些文件耗时又没有意义。</p>
+<p>在上面的 优化 <code>resolve.alias</code>配置 中讲到单独完整的 <code>react.min.js</code> 文件就没有采用模块化，让我们来通过配置 <code>module.noParse</code> 忽略对 <code>react.min.js</code> 文件的递归解析处理， 相关 Webpack 配置如下：</p>
+<pre><code>const path = require(&#39;path&#39;);
+
+module.exports = {
+  module: {
+    // 独完整的 `react.min.js` 文件就没有采用模块化，忽略对 `react.min.js` 文件的递归解析处理
+    noParse: [/react\.min\.js$/],
+  },
+};
+</code></pre><blockquote>
+<p>注意被忽略掉的文件里不应该包含 <code>import</code> 、 <code>require</code> 、 <code>define</code> 等模块化语句，不然会导致构建出的代码中包含无法在浏览器环境下执行的模块化语句。</p>
+</blockquote>
+<p>以上就是所有和缩小文件搜索范围相关的构建性能优化了，在根据自己项目的需要去按照以上方法改造后，你的构建速度一定会有所提升。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
