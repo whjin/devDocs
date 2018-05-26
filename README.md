@@ -129,5 +129,6 @@
     - [加载 Source Map](https://whjin.github.io/full-stack-development/posts/%E5%8A%A0%E8%BD%BD%20Source%20Map.html)
     - [实战总结](https://whjin.github.io/full-stack-development/posts/%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93.html)
 5. [webpack优化](https://whjin.github.io/full-stack-development/posts/webpack%E4%BC%98%E5%8C%96.html)
-    - 缩小文件搜索范围
-    - 使用 DllPlugin
+    - [缩小文件搜索范围](https://whjin.github.io/full-stack-development/posts/%E7%BC%A9%E5%B0%8F%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E8%8C%83%E5%9B%B4.html)
+    - [使用 DllPlugin](https://whjin.github.io/full-stack-development/posts/%E4%BD%BF%E7%94%A8%20DllPlugin.html)
+    - 使用 HappyPack
