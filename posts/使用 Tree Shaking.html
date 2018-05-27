@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>使用 Tree Shaking</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,34 +479,87 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
-<blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
-</blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<h1 id="-tree-shaking">使用 Tree Shaking</h1>
+<p>Tree Shaking 可以用来剔除 JavaScript 中用不上的死代码。它依赖静态的 ES6 模块化语法，例如通过 <code>import</code> 和 <code>export</code> 导入导出。 Tree Shaking 最先在 Rollup 中出现，Webpack 在 2.0 版本中将其引入。</p>
+<p>为了更直观的理解它，来看一个具体的例子。假如有一个文件 <code>util.js</code> 里存放了很多工具函数和常量，在 <code>main.js</code> 中会导入和使用 <code>util.js</code>，代码如下：</p>
+<p><code>util.js</code> 源码：</p>
+<pre><code>export function funcA() {
+}
 
-<p>以上代码有两点重要的修改：</p>
-<ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+export function funB() {
+}
+</code></pre><p><code>main.js</code> 源码：</p>
+<pre><code>import {funcA} from &#39;./util.js&#39;;
+funcA();
+</code></pre><p>Tree Shaking 后的 <code>util.js</code>：</p>
+<pre><code>export function funcA() {
+}
+</code></pre><p>由于只用到了 <code>util.js</code> 中的 <code>funcA</code>，所以剩下的都被 Tree Shaking 当作死代码给剔除了。</p>
+<p>需要注意的是要让 Tree Shaking 正常工作的前提是交给 Webpack 的 JavaScript 代码必须是采用 ES6 模块化语法的， 因为 ES6 模块化语法是静态的（导入导出语句中的路径必须是静态的字符串，而且不能放入其它代码块中），这让 Webpack 可以简单的分析出哪些 <code>export</code> 的被 <code>import</code> 过了。 如果你采用 ES5 中的模块化，例如 <code>module.export={...}</code>、<code>require(x+y)</code>、<code>if(x){require(&#39;./util&#39;)}</code>，Webpack 无法分析出哪些代码可以剔除。    </p>
+<h2 id="-tree-shaking">接入 Tree Shaking</h2>
+<p>上面讲了 Tree Shaking 是做什么的，接下来一步步教你如何配置 Webpack 让 Tree Shaking 生效。</p>
+<p>首先，为了把采用 ES6 模块化的代码交给 Webpack，需要配置 Babel 让其保留 ES6 模块化语句，修改 <code>.babelrc</code> 文件为如下：</p>
+<pre><code>{
+  &quot;presets&quot;: [
+    [
+      &quot;env&quot;,
+      {
+        &quot;modules&quot;: false
+      }
+    ]
+  ]
+}
+</code></pre><p>其中 <code>&quot;modules&quot;: false</code> 的含义是关闭 Babel 的模块转换功能，保留原本的 ES6 模块化语法。</p>
+<p>配置好 Babel 后，重新运行 Webpack，在启动 Webpack 时带上 <code>--display-used-exports</code> 参数，以方便追踪 Tree Shaking 的工作， 这时你会发现在控制台中输出了如下的日志：</p>
+<pre><code>&gt; webpack --display-used-exports
+bundle.js  3.5 kB       0  [emitted]  main
+   [0] ./main.js 41 bytes {0} [built]
+   [1] ./util.js 511 bytes {0} [built]
+       [only some exports used: funcA]
+</code></pre><p>其中 [only some exports used: funcA] 提示了 util.js 只导出了用到的 funcA，说明 Webpack 确实正确的分析出了如何剔除死代码。</p>
+<p>但当你打开 Webpack 输出的 <code>bundle.js</code> 文件看下时，你会发现用不上的代码还在里面，如下：</p>
+<pre><code>/* harmony export (immutable) */
+__webpack_exports__[&quot;a&quot;] = funcA;
 
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
+/* unused harmony export funB */
+
+function funcA() {
+  console.log(&#39;funcA&#39;);
+}
+
+function funB() {
+  console.log(&#39;funcB&#39;);
+}
+</code></pre><p>Webpack 只是指出了哪些函数用上了哪些没用上，要剔除用不上的代码还得经过 UglifyJS 去处理一遍。 要接入 UglifyJS 也很简单，不仅可以通过4-8压缩代码中介绍的加入 UglifyJSPlugin 去实现， 也可以简单的通过在启动 Webpack 时带上 <code>--optimize-minimize</code> 参数，为了快速验证 Tree Shaking 我们采用较简单的后者来实验下。</p>
+<p>通过 <code>webpack --display-used-exports --optimize-minimize</code> 重启 Webpack 后，打开新输出的 <code>bundle.js</code>，内容如下：    </p>
+<pre><code>function r() {
+  console.log(&quot;funcA&quot;)
+}
+
+t.a = r
+</code></pre><p>可以看出 Tree Shaking 确实做到了，用不上的代码都被剔除了。</p>
+<p>当你的项目使用了大量第三方库时，你会发现 Tree Shaking 似乎不生效了，原因是大部分 Npm 中的代码都是采用的 CommonJS 语法， 这导致 Tree Shaking 无法正常工作而降级处理。 但幸运的时有些库考虑到了这点，这些库在发布到 Npm 上时会同时提供两份代码，一份采用 CommonJS 模块化语法，一份采用 ES6 模块化语法。 并且在 <code>package.json</code> 文件中分别指出这两份代码的入口。</p>
+<p>以 <code>redux</code> 库为例，其发布到 Npm 上的目录结构为：   </p>
+<pre><code>node_modules/redux
+|-- es
+|   |-- index.js # 采用 ES6 模块化语法
+|-- lib
+|   |-- index.js # 采用 ES5 模块化语法
+|-- package.json
+</code></pre><p><code>package.json</code> 文件中有两个字段：</p>
+<pre><code>{
+  &quot;main&quot;: &quot;lib/index.js&quot;, // 指明采用 CommonJS 模块化的代码入口
+  &quot;jsnext:main&quot;: &quot;es/index.js&quot; // 指明采用 ES6 模块化的代码入口
+}
+</code></pre><p><code>mainFields</code> 用于配置采用哪个字段作为模块的入口描述。 为了让 Tree Shaking 对 <code>redux</code> 生效，需要配置 Webpack 的文件寻找规则为如下：</p>
+<pre><code>module.exports = {
+  resolve: {
+    // 针对 Npm 中的第三方模块优先采用 jsnext:main 中指向的 ES6 模块化语法的文件
+    mainFields: [&#39;jsnext:main&#39;, &#39;browser&#39;, &#39;main&#39;]
+  },
+};
+</code></pre><p>以上配置的含义是优先使用 <code>jsnext:main</code> 作为入口，如果不存在 <code>jsnext:main</code> 就采用 <code>browser</code> 或者 <code>main</code> 作为入口。 虽然并不是每个 Npm 中的第三方模块都会提供 ES6 模块化语法的代码，但对于提供了的不能放过，能优化的就优化。</p>
+<p>目前越来越多的 Npm 中的第三方模块考虑到了 Tree Shaking，并对其提供了支持。 采用 <code>jsnext:main</code> 作为 ES6 模块化代码的入口是社区的一个约定，假如将来你要发布一个库到 Npm 时，希望你能支持 Tree Shaking， 以让 Tree Shaking 发挥更大的优化效果，让更多的人为此受益。    </p>
 
 </body>
 </html>

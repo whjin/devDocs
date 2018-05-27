@@ -132,3 +132,16 @@
     - [缩小文件搜索范围](https://whjin.github.io/full-stack-development/posts/%E7%BC%A9%E5%B0%8F%E6%96%87%E4%BB%B6%E6%90%9C%E7%B4%A2%E8%8C%83%E5%9B%B4.html)
     - [使用 DllPlugin](https://whjin.github.io/full-stack-development/posts/%E4%BD%BF%E7%94%A8%20DllPlugin.html)
     - 使用 HappyPack
+    - 使用 ParallelUglifyPlugin
+    - 使用自动刷新
+    - 开启模块热替换
+    - 区分环境
+    - 压缩代码
+    - CDN 加速
+    - 使用 Tree Shaking
+    - 提取公共代码
+    - 分割代码按需加载
+    - 使用 Prepack
+    - 开启 Scope Hoisting
+    - 输出分析
+    - 优化总结

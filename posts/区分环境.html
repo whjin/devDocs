@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>区分环境</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,34 +479,70 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
-<blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
+<h1 id="-">区分环境</h1>
+<h2 id="-">为什么需要区分环境</h2>
+<p>在开发网页的时候，一般都会有多套运行环境，例如：</p>
+<ol>
+<li>在开发过程中方便开发调试的环境。</li><li>发布到线上给用户使用的运行环境。</li></ol>
+<p>这两套不同的环境虽然都是由同一套源代码编译而来，但是代码内容却不一样，差异包括：</p>
+<ul>
+<li>线上代码被通过压缩代码 中提到的方法压缩过。</li><li>开发用的代码包含一些用于提示开发者的提示日志，这些日志普通用户不可能去看它。</li><li>开发用的代码所连接的后端数据接口地址也可能和线上环境不同，因为要避免开发过程中造成对线上数据的影响。</li></ul>
+<p>为了尽可能的复用代码，在构建的过程中需要根据目标代码要运行的环境而输出不同的代码，我们需要一套机制在源码中去区分环境。 幸运的是 Webpack 已经为我们实现了这点。</p>
+<h2 id="-">如何区分环境</h2>
+<p>具体区分方法很简单，在源码中通过如下方式：</p>
+<pre><code>if (process.env.NODE_ENV === &#39;production&#39;) {
+  console.log(&#39;你正在线上环境&#39;);
+} else {
+  console.log(&#39;你正在使用开发环境&#39;);
+}
+</code></pre><p>其大概原理是借助于环境变量的值去判断执行哪个分支。</p>
+<p>当你的代码中出现了使用 <code>process</code> 模块的语句时，Webpack 就自动打包进 <code>process</code> 模块的代码以支持非 Node.js 的运行环境。 当你的代码中没有使用 <code>process</code> 时就不会打包进 <code>process</code> 模块的代码。这个注入的 process 模块作用是为了模拟 Node.js 中的 <code>process</code>，以支持上面使用的 <code>process.env.NODE_ENV === &#39;production&#39;</code> 语句。</p>
+<p>在构建线上环境代码时，需要给当前运行环境设置环境变量 <code>NODE_ENV = &#39;production&#39;，Webpack</code> 相关配置如下：    </p>
+<pre><code>const DefinePlugin = require(&#39;webpack/lib/DefinePlugin&#39;);
+
+module.exports = {
+  plugins: [
+    new DefinePlugin({
+      // 定义 NODE_ENV 环境变量为 production
+      &#39;process.env&#39;: {
+        NODE_ENV: JSON.stringify(&#39;production&#39;)
+      }
+    }),
+  ],
+};
+</code></pre><blockquote>
+<p>注意在定义环境变量的值时用 <code>JSON.stringify</code> 包裹字符串的原因是环境变量的值需要是一个由双引号包裹的字符串，而 <code>JSON.stringify(&#39;production&#39;)</code>的值正好等于<code>&#39;&quot;production&quot;&#39;</code>。</p>
 </blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>以上代码有两点重要的修改：</p>
-<ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
+<p>执行构建后，你会在输出的文件中发现如下代码：</p>
+<pre><code>if (true) {
+  console.log(&#39;你正在使用线上环境&#39;);
+} else {
+  console.log(&#39;你正在使用开发环境&#39;);
+}
+</code></pre><p>定义的环境变量的值被代入到了源码中，<code>process.env.NODE_ENV === &#39;production&#39;</code> 被直接替换成了 <code>true</code>。 并且由于此时访问 <code>process</code> 的语句被替换了而没有了，Webpack 也不会打包进 <code>process</code> 模块了。</p>
+<p>DefinePlugin 定义的环境变量只对 <code>Webpack</code> 需要处理的代码有效，而不会影响 Node.js 运行时的环境变量的值。</p>
+<p>通过 Shell 脚本的方式去定义的环境变量，例如 <code>NODE_ENV=production webpack，Webpack</code> 是不认识的，对 Webpack 需要处理的代码中的环境区分语句是没有作用的。</p>
+<p>也就是说只需要通过 DefinePlugin 定义环境变量就能使上面介绍的环境区分语句正常工作，没必要又通过 Shell 脚本的方式去定义一遍。</p>
+<p>如果你想让 Webpack 使用通过 Shell 脚本的方式去定义的环境变量，你可以使用 <code>EnvironmentPlugin</code>，代码如下：    </p>
+<pre><code>new webpack.EnvironmentPlugin([&#39;NODE_ENV&#39;])
+</code></pre><p>以上这句代码实际上等价于：</p>
+<pre><code>new webpack.DefinePlugin({
+  &#39;process.env.NODE_ENV&#39;: JSON.stringify(process.env.NODE_ENV),
+})
+</code></pre><h2 id="-uglifyjs">结合 UglifyJS</h2>
+<p>其实以上输出的代码还可以进一步优化，因为 <code>if(true)</code> 语句永远只会执行前一个分支中的代码，也就是说最佳的输出其实应该直接是：</p>
+<pre><code>console.log(&#39;你正在线上环境&#39;);
+</code></pre><p>Webpack 没有实现去除死代码功能，但是 UglifyJS 可以做这个事情，如何使用请阅读 <a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-8%E5%8E%8B%E7%BC%A9%E4%BB%A3%E7%A0%81.html">压缩代码</a> 中的压缩 JavaScript。 </p>
+<h2 id="-">第三方库中的环境区分</h2>
+<p>除了在自己写的源码中可以有环境区分的代码外，很多第三方库也做了环境区分的优化。 以 React 为例，它做了两套环境区分，分别是：</p>
+<ol>
+<li>开发环境：包含类型检查、HTML 元素检查等等针对开发者的警告日志代码。</li><li>线上环境：去掉了所有针对开发者的代码，只保留让 React 能正常运行的部分，以优化大小和性能。</li></ol>
+<p>例如 React 源码中有大量类似下面这样的代码：</p>
+<pre><code>if (process.env.NODE_ENV !== &#39;production&#39;) {
+  warning(false, &#39;%s(...): Can only update a mounted or mounting component.... &#39;)
+}
+</code></pre><p>如果你不定义 <code>NODE_ENV=production</code> 那么这些警告日志就会被包含到输出的代码中，输出的文件将会非常大。</p>
+<p><code>process.env.NODE_ENV !== &#39;production&#39;</code> 中的 <code>NODE_ENV</code> 和 <code>&#39;production&#39;</code> 两个值是社区的约定，通常使用这条判断语句在区分开发环境和线上环境。    </p>
 
 </body>
 </html>

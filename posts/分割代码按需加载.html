@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>分割代码按需加载</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,34 +479,74 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
+<h1 id="-">分割代码按需加载</h1>
+<h2 id="-">为什么需要按需加载</h2>
+<p>随着互联网的发展，一个网页需要承载的功能越来越多。 对于采用单页应用作为前端架构的网站来说，会面临着一个网页需要加载的代码量很大的问题，因为许多功能都集中的做到了一个 HTML 里。 这会导致网页加载缓慢、交互卡顿，用户体验将非常糟糕。</p>
+<p>导致这个问题的根本原因在于一次性的加载所有功能对应的代码，但其实用户每一阶段只可能使用其中一部分功能。 所以解决以上问题的方法就是用户当前需要用什么功能就只加载这个功能对应的代码，也就是所谓的按需加载。</p>
+<h2 id="-">如何使用按需加载</h2>
+<p>在给单页应用做按需加载优化时，一般采用以下原则：</p>
+<ul>
+<li>把整个网站划分成一个个小功能，再按照每个功能的相关程度把它们分成几类。</li><li>把每一类合并为一个 Chunk，按需加载对应的 Chunk。</li><li>对于用户首次打开你的网站时需要看到的画面所对应的功能，不要对它们做按需加载，而是放到执行入口所在的 Chunk 中，以降低用户能感知的网页加载时间。</li><li>对于个别依赖大量代码的功能点，例如依赖 <code>Chart.js</code> 去画图表、依赖 <code>flv.js</code> 去播放视频的功能点，可再对其进行按需加载。</li></ul>
+<p>被分割出去的代码的加载需要一定的时机去触发，也就是当用户操作到了或者即将操作到对应的功能时再去加载对应的代码。 被分割出去的代码的加载时机需要开发者自己去根据网页的需求去衡量和确定。</p>
+<p>由于被分割出去进行按需加载的代码在加载的过程中也需要耗时，你可以预言用户接下来可能会进行的操作，并提前加载好对应的代码，从而让用户感知不到网络加载时间。</p>
+<h2 id="-webpack-">用 Webpack 实现按需加载</h2>
+<p>Webpack 内置了强大的分割代码的功能去实现按需加载，实现起来非常简单。</p>
+<p>举个例子，现在需要做这样一个进行了按需加载优化的网页：</p>
+<ul>
+<li>网页首次加载时只加载 <code>main.js</code> 文件，网页会展示一个按钮，<code>main.js</code> 文件中只包含监听按钮事件和加载按需加载的代码。</li><li>当按钮被点击时才去加载被分割出去的 <code>show.js</code> 文件，加载成功后再执行 <code>show.js</code> 里的函数。</li></ul>
+<p>其中 <code>main.js</code> 文件内容如下：</p>
+<pre><code>window.document.getElementById(&#39;btn&#39;).addEventListener(&#39;click&#39;, function () {
+  // 当按钮被点击后才去加载 show.js 文件，文件加载成功后执行文件导出的函数
+  import(/* webpackChunkName: &quot;show&quot; */ &#39;./show&#39;).then((show) =&gt; {
+    show(&#39;Webpack&#39;);
+  })
+});
+</code></pre><p><code>show.js</code> 文件内容如下：</p>
+<pre><code>module.exports = function (content) {
+  window.alert(&#39;Hello &#39; + content);
+};
+</code></pre><p>代码中最关键的一句是 <code>import(/* webpackChunkName: &quot;show&quot; */ &#39;./show&#39;)</code>，Webpack 内置了对 <code>import(*)</code> 语句的支持，当 Webpack 遇到了类似的语句时会这样处理：</p>
+<ul>
+<li>以 <code>./show.js</code> 为入口新生成一个 Chunk；</li><li>当代码执行到 <code>import</code> 所在语句时才会去加载由 Chunk 对应生成的文件。</li><li><code>import</code> 返回一个 Promise，当文件加载成功时可以在 Promise 的 <code>then</code> 方法中获取到 <code>show.js</code> 导出的内容。</li></ul>
 <blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
+<p>在使用 <code>import()</code> 分割代码后，你的浏览器并且要支持 Promise API 才能让代码正常运行， 因为 import() 返回一个 Promise，它依赖 Promise。对于不原生支持 Promise 的浏览器，你可以注入 Promise polyfill。</p>
+<p><code>/* webpackChunkName: &quot;show&quot; */</code> 的含义是为动态生成的 Chunk 赋予一个名称，以方便我们追踪和调试代码。 如果不指定动态生成的 Chunk 的名称，默认名称将会是 <code>[id].js</code>。 <code>/* webpackChunkName: &quot;show&quot; */</code> 是在 Webpack3 中引入的新特性，在 Webpack3 之前是无法为动态生成的 Chunk 赋予名称的。</p>
 </blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<p>为了正确的输出在 /<em> webpackChunkName: “show” </em>/ 中配置的 ChunkName，还需要配置下 Webpack，配置如下：</p>
+<pre><code>module.exports = {
+  // JS 执行入口文件
+  entry: {
+    main: &#39;./main.js&#39;,
+  },
+  output: {
+    // 为从 entry 中配置生成的 Chunk 配置输出文件的名称
+    filename: &#39;[name].js&#39;,
+    // 为动态加载的 Chunk 配置输出文件的名称
+    chunkFilename: &#39;[name].js&#39;,
+  }
+};
+</code></pre><p>其中最关键的一行是 <code>chunkFilename: &#39;[name].js&#39;</code>,，它专门指定动态生成的 Chunk 在输出时的文件名称。 如果没有这行，分割出的代码的文件名称将会是 <code>[id].js</code>。</p>
+<h2 id="-reactrouter">按需加载与 ReactRouter</h2>
+<p>在实战中，不可能会有上面那么简单的场景，接下来举一个实战中的例子：对采用了 ReactRouter 的应用进行按需加载优化。 这个例子由一个单页应用构成，这个单页应用由两个子页面构成，通过 ReactRouter 在两个子页面之间切换和管理路由。</p>
+<p>这个单页应用的入口文件 <code>main.js</code> 如下：</p>
+<p><p data-height="565" data-theme-id="0" data-slug-hash="KROoWV" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/KROoWV/">main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-<p>以上代码有两点重要的修改：</p>
+<p>以上代码中最关键的部分是 <code>getAsyncComponent</code> 函数，它的作用是配合 ReactRouter 去按需加载组件，具体含义请看代码中的注释。</p>
+<p>由于以上源码需要通过 Babel 去转换后才能在浏览器中正常运行，需要在 Webpack 中配置好对应的 <code>babel-loader</code>，源码先交给 <code>babel-loader</code> 处理后再交给 Webpack 去处理其中的 <code>import(*)</code> 语句。 但这样做后你很快会发现一个问题：Babel 报出错误说不认识 <code>import(*)</code> 语法。 导致这个问题的原因是 <code>import(*)</code> 语法还没有被加入到在使用ES6语言中提到的 ECMAScript 标准中去， 为此我们需要安装一个 Babel 插件 <code>babel-plugin-syntax-dynamic-import</code>，并且将其加入到 <code>.babelrc</code> 中去：</p>
+<pre><code>{
+  &quot;presets&quot;: [
+    &quot;env&quot;,
+    &quot;react&quot;
+  ],
+  &quot;plugins&quot;: [
+    &quot;syntax-dynamic-import&quot;
+  ]
+}
+</code></pre><p>执行 Webpack 构建后，你会发现输出了三个文件：</p>
 <ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
+<li><code>main.js</code>：执行入口所在的代码块，同时还包括 <code>PageHome</code> 所需的代码，因为用户首次打开网页时就需要看到 <code>PageHome</code> 的内容，所以不对其进行按需加载，以降低用户能感知到的加载时间；</li><li><code>page-about.js</code>：当用户访问 <code>/about</code> 时才会加载的代码块；</li><li><code>page-login.js</code>：当用户访问 <code>/login</code> 时才会加载的代码块。</li></ul>
+<p>同时你还会发现 <code>page-about.js</code> 和 <code>page-login.js</code> 这两个文件在首页是不会加载的，而是会当你切换到了对应的子页面后文件才会开始加载。    </p>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>开启模块热替换</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,34 +479,59 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
+<h1 id="-">开启模块热替换</h1>
+<p>要做到实时预览，除了在使用自动刷新中介绍的刷新整个网页外，DevServer 还支持一种叫做模块热替换(Hot Module Replacement)的技术可在不刷新整个网页的情况下做到超灵敏的实时预览。 原理是当一个源码发生变化时，只重新编译发生变化的模块，再用新输出的模块替换掉浏览器中对应的老模块。</p>
+<p>模块热替换技术的优势有：</p>
+<ul>
+<li>实时预览反应更快，等待时间更短。</li><li>不刷新浏览器能保留当前网页的运行状态，例如在使用 Redux 来管理数据的应用中搭配模块热替换能做到代码更新时 Redux 中的数据还保持不变。</li></ul>
+<p>总的来说模块热替换技术很大程度上的提高了开发效率和体验。</p>
+<h2 id="-">模块热替换的原理</h2>
+<p>模块热替换的原理和自动刷新原理类似，都需要往要开发的网页中注入一个代理客户端用于连接 DevServer 和网页， 不同在于模块热替换独特的模块替换机制。</p>
+<p>DevServer 默认不会开启模块热替换模式，要开启该模式，只需在启动时带上参数 <code>--hot</code>，完整命令是 <code>webpack-dev-server --hot</code>。</p>
+<p>除了通过在启动时带上 <code>--hot</code> 参数，还可以通过接入 Plugin 实现，相关代码如下：</p>
+<pre><code>const HotModuleReplacementPlugin = require(&#39;webpack/lib/HotModuleReplacementPlugin&#39;);
+
+module.exports = {
+  entry:{
+    // 为每个入口都注入代理客户端
+    main:[&#39;webpack-dev-server/client?http://localhost:8080/&#39;, &#39;webpack/hot/dev-server&#39;,&#39;./src/main.js&#39;],
+  },
+  plugins: [
+    // 该插件的作用就是实现模块热替换，实际上当启动时带上 `--hot` 参数，会注入该插件，生成 .hot-update.json 文件。
+    new HotModuleReplacementPlugin(),
+  ],
+  devServer:{
+    // 告诉 DevServer 要开启模块热替换模式
+    hot: true,      
+  }  
+};
+</code></pre><p>在启动 Webpack 时带上参数 <code>--hot</code> 其实就是自动为你完成以上配置。</p>
+<p>相比于自动刷新的代理客户端，多出了后三个用于模块热替换的文件，也就是说代理客户端更大了。</p>
+<p>可见补丁中包含了 <code>main.css</code> 文件新编译出来 CSS 代码，网页中的样式也立刻变成了源码中描述的那样。</p>
+<p>但当你修改 <code>main.js</code> 文件时，会发现模块热替换没有生效，而是整个页面被刷新了，为什么修改 main.js 文件时会这样呢？</p>
+<p>Webpack 为了让使用者在使用了模块热替换功能时能灵活地控制老模块被替换时的逻辑，可以在源码中定义一些代码去做相应的处理。</p>
+<p>把的 <code>main.js</code> 文件改为如下：</p>
+<p><p data-height="365" data-theme-id="0" data-slug-hash="QreOEw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="main.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/QreOEw/">main.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>其中的 <code>module.hot</code> 是当开启模块热替换后注入到全局的 API，用于控制模块热替换的逻辑。</p>
+<p>现在修改 <code>AppComponent.js</code> 文件，把 <code>Hello,Webpack</code> 改成 <code>Hello,World</code>，你会发现模块热替换生效了。 但是当你编辑 <code>main.js</code> 时，你会发现整个网页被刷新了。为什么修改这两个文件会有不一样的表现呢？</p>
+<p>当子模块发生更新时，更新事件会一层层往上传递，也就是从 <code>AppComponent.js</code> 文件传递到 <code>main.js</code> 文件， 直到有某层的文件接受了当前变化的模块，也就是 <code>main.js</code> 文件中定义的 <code>module.hot.accept([&#39;./AppComponent&#39;], callback)</code>， 这时就会调用 <code>callback</code> 函数去执行自定义逻辑。如果事件一直往上抛到最外层都没有文件接受它，就会直接刷新网页。</p>
+<p>那为什么没有地方接受过 <code>.css</code> 文件，但是修改所有的 <code>.css</code> 文件都会触发模块热替换呢？ 原因在于 <code>style-loader</code> 会注入用于接受 CSS 的代码。</p>
 <blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
+<p>请不要把模块热替换技术用于线上环境，它是专门为提升开发效率生的。</p>
 </blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<h2 id="-">优化模块热替换</h2>
+<p>其中的 Updated modules: 68 是指 ID 为68的模块被替换了，这对开发者来说很不友好，因为开发者不知道 ID 和模块之间的对应关系，最好是把替换了的模块的名称输出出来。 Webpack 内置的 NamedModulesPlugin 插件可以解决该问题，修改 Webpack 配置文件接入该插件：</p>
+<pre><code>const NamedModulesPlugin = require(&#39;webpack/lib/NamedModulesPlugin&#39;);
 
-<p>以上代码有两点重要的修改：</p>
-<ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
+module.exports = {
+  plugins: [
+    // 显示出被替换模块的名称
+    new NamedModulesPlugin(),
+  ],
+};
+</code></pre><p>除此之外，模块热替换还面临着和自动刷新一样的性能问题，因为它们都需要监听文件变化和注入客户端。 要优化模块热替换的构建性能，思路和在使用自动刷新中提到的很类似：监听更少的文件，忽略掉 <code>node_modules</code> 目录下的文件。 但是其中提到的关闭默认的 <code>inline</code> 模式手动注入代理客户端的优化方法不能用于在使用模块热替换的情况下， 原因在于模块热替换的运行依赖在每个 Chunk 中都包含代理客户端的代码。    </p>
 
 </body>
 </html>

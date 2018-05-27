@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>开启 Scope Hoisting</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,35 +479,71 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
-<blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
-</blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>以上代码有两点重要的修改：</p>
+<h1 id="-scope-hoisting">开启 Scope Hoisting</h1>
+<p>Scope Hoisting 可以让 Webpack 打包出来的代码文件更小、运行的更快， 它又译作 “作用域提升”，是在 Webpack3 中新推出的功能。 单从名字上看不出 Scope Hoisting 到底做了什么，下面来详细介绍它。</p>
+<p>让我们先来看看在没有 Scope Hoisting 之前 Webpack 的打包方式。</p>
+<p>假如现在有两个文件分别是 <code>util.js</code>:</p>
+<pre><code>export default &#39;Hello,Webpack&#39;;
+</code></pre><p>和入口文件 <code>main.js</code>:</p>
+<pre><code>import str from &#39;./util.js&#39;;
+console.log(str);
+</code></pre><p>以上源码用 Webpack 打包后输出中的部分代码如下：</p>
+<pre><code>[
+  (function (module, __webpack_exports__, __webpack_require__) {
+    var __WEBPACK_IMPORTED_MODULE_0__util_js__ = __webpack_require__(1);
+    console.log(__WEBPACK_IMPORTED_MODULE_0__util_js__[&quot;a&quot;]);
+  }),
+  (function (module, __webpack_exports__, __webpack_require__) {
+    __webpack_exports__[&quot;a&quot;] = (&#39;Hello,Webpack&#39;);
+  })
+]
+</code></pre><p>在开启 Scope Hoisting 后，同样的源码输出的部分代码如下：</p>
+<pre><code>[
+  (function (module, __webpack_exports__, __webpack_require__) {
+    var util = (&#39;Hello,Webpack&#39;);
+    console.log(util);
+  })
+]
+</code></pre><p>从中可以看出开启 Scope Hoisting 后，函数申明由两个变成了一个，<code>util.js</code> 中定义的内容被直接注入到了 <code>main.js</code> 对应的模块中。 这样做的好处是：</p>
 <ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+<li>代码体积更小，因为函数申明语句会产生大量代码；</li><li>代码在运行时因为创建的函数作用域更少了，内存开销也随之变小。</li></ul>
+<p>Scope Hoisting 的实现原理其实很简单：分析出模块之间的依赖关系，尽可能的把打散的模块合并到一个函数中去，但前提是不能造成代码冗余。 因此只有那些被引用了一次的模块才能被合并。</p>
+<p>由于 Scope Hoisting 需要分析出模块之间的依赖关系，因此源码必须采用 ES6 模块化语句，不然它将无法生效。</p>
+<h2 id="-scope-hoisting">使用 Scope Hoisting</h2>
+<p>要在 Webpack 中使用 Scope Hoisting 非常简单，因为这是 Webpack 内置的功能，只需要配置一个插件，相关代码如下：</p>
+<pre><code>const ModuleConcatenationPlugin = require(&#39;webpack/lib/optimize/ModuleConcatenationPlugin&#39;);
 
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
+module.exports = {
+  plugins: [
+    // 开启 Scope Hoisting
+    new ModuleConcatenationPlugin(),
+  ],
+};
+</code></pre><p>同时，考虑到 Scope Hoisting 依赖源码需采用 ES6 模块化语法，还需要配置 mainFields。 原因在 4-10 使用 TreeShaking 中提到过：因为大部分 Npm 中的第三方库采用了 CommonJS 语法，但部分库会同时提供 ES6 模块化的代码，为了充分发挥 Scope Hoisting 的作用，需要增加以下配置：</p>
+<pre><code>module.exports = {
+  resolve: {
+    // 针对 Npm 中的第三方模块优先采用 jsnext:main 中指向的 ES6 模块化语法的文件
+    mainFields: [&#39;jsnext:main&#39;, &#39;browser&#39;, &#39;main&#39;]
+  },
+};
+</code></pre><p>对于采用了非 ES6 模块化语法的代码，Webpack 会降级处理不使用 Scope Hoisting 优化，为了知道 Webpack 对哪些代码做了降级处理， 你可以在启动 Webpack 时带上 <code>--display-optimization-bailout</code> 参数，这样在输出日志中就会包含类似如下的日志：    </p>
+<pre><code>[0] ./main.js + 1 modules 80 bytes {0} [built]
+    ModuleConcatenation bailout: Module is not an ECMAScript module
+</code></pre><p>其中的 <code>ModuleConcatenation bailout</code> 告诉了你哪个文件因为什么原因导致了降级处理。</p>
+<p>也就是说要开启 Scope Hoisting 并发挥最大作用的配置如下：      </p>
+<pre><code>const ModuleConcatenationPlugin = require(&#39;webpack/lib/optimize/ModuleConcatenationPlugin&#39;);
 
+module.exports = {
+  resolve: {
+    // 针对 Npm 中的第三方模块优先采用 jsnext:main 中指向的 ES6 模块化语法的文件
+    mainFields: [&#39;jsnext:main&#39;, &#39;browser&#39;, &#39;main&#39;]
+  },
+  plugins: [
+    // 开启 Scope Hoisting
+    new ModuleConcatenationPlugin(),
+  ],
+};
+</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

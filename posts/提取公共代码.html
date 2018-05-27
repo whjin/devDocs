@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>提取公共代码</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,34 +479,75 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
+<h1 id="-">提取公共代码</h1>
+<h2 id="-">为什么需要提取公共代码</h2>
+<p>大型网站通常会由多个页面组成，每个页面都是一个独立的单页应用。 但由于所有页面都采用同样的技术栈，以及使用同一套样式代码，这导致这些页面之间有很多相同的代码。</p>
+<p>如果每个页面的代码都把这些公共的部分包含进去，会造成以下问题：</p>
+<ul>
+<li>相同的资源被重复的加载，浪费用户的流量和服务器的成本；</li><li>每个页面需要加载的资源太大，导致网页首屏加载缓慢，影响用户体验。</li></ul>
+<p>如果把多个页面公共的代码抽离成单独的文件，就能优化以上问题。 原因是假如用户访问了网站的其中一个网页，那么访问这个网站下的其它网页的概率将非常大。 在用户第一次访问后，这些页面公共代码的文件已经被浏览器缓存起来，在用户切换到其它页面时，存放公共代码的文件就不会再重新加载，而是直接从缓存中获取。 这样做后有如下好处：</p>
+<ul>
+<li>减少网络传输流量，降低服务器成本；</li><li>虽然用户第一次打开网站的速度得不到优化，但之后访问其它页面的速度将大大提升。</li></ul>
+<h2 id="-">如何提取公共代码</h2>
+<p>你已经知道了提取公共代码会有什么好处，但是在实战中具体要怎么做，以达到效果最优呢？ 通常你可以采用以下原则去为你的网站提取公共代码：</p>
+<ul>
+<li>根据你网站所使用的技术栈，找出网站所有页面都需要用到的基础库，以采用 React 技术栈的网站为例，所有页面都会依赖 <code>react</code>、<code>react-dom</code> 等库，把它们提取到一个单独的文件。 一般把这个文件叫做 base.js，因为它包含所有网页的基础运行环境；</li><li>在剔除了各个页面中被 <code>base.js</code> 包含的部分代码外，再找出所有页面都依赖的公共部分的代码提取出来放到 <code>common.js</code> 中去。</li><li>再为每个网页都生成一个单独的文件，这个文件中不再包含 <code>base.js</code> 和 <code>common.js</code> 中包含的部分，而只包含各个页面单独需要的部分代码。</li></ul>
+<p>文件之间的结构图如下：</p>
+<p><img src="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/img/4-11%E6%8F%90%E5%8F%96%E5%85%AC%E5%85%B1%E4%BB%A3%E7%A0%81.png" alt=""></p>
+<p>读到这里你可以会有疑问：既然能找出所有页面都依赖的公共代码，并提取出来放到 <code>common.js</code> 中去，为什么还需要再把网站所有页面都需要用到的基础库提取到 <code>base.js</code> 去呢？ 原因是为了长期的缓存 <code>base.js</code> 这个文件。</p>
+<p>发布到线上的文件都会采用在4-9CDN加速中介绍过的方法，对静态文件的文件名都附加根据文件内容计算出 Hash 值，也就是最终 <code>base.js</code> 的文件名会变成 <code>base_3b1682ac.js</code>，以长期缓存文件。 网站通常会不断的更新发布，每次发布都会导致 <code>common.js</code> 和各个网页的 JavaScript 文件都会因为文件内容发生变化而导致其 Hash 值被更新，也就是缓存被更新。</p>
+<p>把所有页面都需要用到的基础库提取到 <code>base.js</code> 的好处在于只要不升级基础库的版本，<code>base.js</code> 的文件内容就不会变化，Hash 值不会被更新，缓存就不会被更新。 每次发布浏览器都会使用被缓存的 <code>base.js</code> 文件，而不用去重新下载 <code>base.js</code> 文件。 由于 <code>base.js</code> 通常会很大，这对提升网页加速速度能起到很大的效果。</p>
+<h2 id="-webpack-">如何通过 Webpack 提取公共代码</h2>
+<p>你已经知道如何提取公共代码，接下来教你如何用 Webpack 实现。</p>
+<p>Webpack 内置了专门用于提取多个 Chunk 中公共部分的插件 <code>CommonsChunkPlugin</code>，<code>CommonsChunkPlugin</code> 大致使用方法如下：</p>
+<pre><code>const CommonsChunkPlugin = require(&#39;webpack/lib/optimize/CommonsChunkPlugin&#39;);
+
+new CommonsChunkPlugin({
+  // 从哪些 Chunk 中提取
+  chunks: [&#39;a&#39;, &#39;b&#39;],
+  // 提取出的公共部分形成一个新的 Chunk，这个新 Chunk 的名称
+  name: &#39;common&#39;
+})
+</code></pre><p>以上配置就能从网页 A 和网页 B 中抽离出公共部分，放到 <code>common</code> 中。</p>
+<p>每个 CommonsChunkPlugin 实例都会生成一个新的 Chunk，这个新 Chunk 中包含了被提取出的代码，在使用过程中必须指定 <code>name</code> 属性，以告诉插件新生成的 Chunk 的名称。 其中 <code>chunks</code> 属性指明从哪些已有的 Chunk 中提取，如果不填该属性，则默认会从所有已知的 Chunk 中提取。</p>
 <blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
+<p>Chunk 是一系列文件的集合，一个 Chunk 中会包含这个 Chunk 的入口文件和入口文件依赖的文件。</p>
 </blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>以上代码有两点重要的修改：</p>
+<p>通过以上配置输出的 common Chunk 中会包含所有页面都依赖的基础运行库 <code>react</code>、<code>react-dom</code>，为了把基础运行库从 <code>common</code> 中抽离到 <code>base</code> 中去，还需要做一些处理。</p>
+<p>首先需要先配置一个 Chunk，这个 Chunk 中只依赖所有页面都依赖的基础库以及所有页面都使用的样式，为此需要在项目中写一个文件 <code>base.js</code> 来描述 base Chunk 所依赖的模块，文件内容如下：</p>
+<pre><code>// 所有页面都依赖的基础库
+import &#39;react&#39;;
+import &#39;react-dom&#39;;
+// 所有页面都使用的样式
+import &#39;./base.css&#39;;
+</code></pre><p>接着再修改 Webpack 配置，在 <code>entry</code> 中加入 <code>base</code>，相关修改如下：   </p>
+<pre><code>module.exports = {
+  entry: {
+    base: &#39;./base.js&#39;
+  },
+};
+</code></pre><p>以上就完成了对新 Chunk base 的配置。</p>
+<p>为了从 common 中提取出 <code>base</code> 也包含的部分，还需要配置一个 <code>CommonsChunkPlugin</code>，相关代码如下：</p>
+<pre><code>new CommonsChunkPlugin({
+  // 从 common 和 base 两个现成的 Chunk 中提取公共的部分
+  chunks: [&#39;common&#39;, &#39;base&#39;],
+  // 把公共的部分放到 base 中
+  name: &#39;base&#39;
+})
+</code></pre><p>由于 <code>common</code> 和 <code>base</code> 公共的部分就是 <code>base</code> 目前已经包含的部分，所以这样配置后 <code>common</code> 将会变小，而 <code>base</code> 将保持不变。</p>
+<p>以上都配置好后重新执行构建，你将会得到四个文件，它们分别是：</p>
+<p><code>base.js</code>：所有网页都依赖的基础库组成的代码；<br><code>common.js</code>：网页A、B都需要的，但又不在 <code>base.js</code> 文件中出现过的代码；<br><code>a.js</code>：网页 A 单独需要的代码；<br><code>b.js</code>：网页 B 单独需要的代码。<br>为了让网页正常运行，以网页 <code>A</code> 为例，你需要在其 HTML 中按照以下顺序引入以下文件才能让网页正常运行：</p>
+<pre><code>&lt;script src=&quot;base.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;common.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;a.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>以上就完成了提取公共代码需要的所有步骤。</p>
+<p>针对 CSS 资源，以上理论和方法同样有效，也就是说你也可以对 CSS 文件做同样的优化。</p>
+<p>以上方法可能会出现 <code>common.js</code> 中没有代码的情况，原因是去掉基础运行库外很难再找到所有页面都会用上的模块。 在出现这种情况时，你可以采取以下做法之一：</p>
 <ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
+<li>CommonsChunkPlugin 提供一个选项 <code>minChunks</code>，表示文件要被提取出来时需要在指定的 Chunks 中最小出现最小次数。 假如 <code>minChunks=2、chunks=[&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;]</code>，任何一个文件只要在 <code>[&#39;a&#39;,&#39;b&#39;,&#39;c&#39;,&#39;d&#39;]</code> 中任意两个以上的 Chunk 中都出现过，这个文件就会被提取出来。 你可以根据自己的需求去调整 <code>minChunks</code> 的值，<code>minChunks</code> 越小越多的文件会被提取到 <code>common.js</code> 中去，但这也会导致部分页面加载的不相关的资源越多； <code>minChunks</code> 越大越少的文件会被提取到 <code>common.js</code> 中去，但这会导致 <code>common.js</code> 变小、效果变弱。</li><li>根据各个页面之间的相关性选取其中的部分页面用 <code>CommonsChunkPlugin</code> 去提取这部分被选出的页面的公共部分，而不是提取所有页面的公共部分，而且这样的操作可以叠加多次。 这样做的效果会很好，但缺点是配置复杂，你需要根据页面之间的关系去思考如何配置，该方法不通用。    </li></ul>
+<blockquote>
+<p>本实例提供<a href="http://webpack.wuhaolin.cn/4-11%E6%8F%90%E5%8F%96%E5%85%AC%E5%85%B1%E4%BB%A3%E7%A0%81.zip">项目完整代码</a></p>
+</blockquote>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>压缩代码</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,35 +479,70 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
-<blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
-</blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<h1 id="-">压缩代码</h1>
+<p>浏览器从服务器访问网页时获取的 JavaScript、CSS 资源都是文本形式的，文件越大网页加载时间越长。 为了提升网页加速速度和减少网络传输流量，可以对这些资源进行压缩。 压缩的方法除了可以通过 <code>GZIP</code> 算法对文件压缩外，还可以对文本本身进行压缩。</p>
+<p>对文本本身进行压缩的作用除了有提升网页加载速度的优势外，还具有混淆源码的作用。 由于压缩后的代码可读性非常差，就算别人下载到了网页的代码，也大大增加了代码分析和改造的难度。</p>
+<p>下面来一一介绍如何在 Webpack 中压缩代码。</p>
+<h2 id="-javascript">压缩 JavaScript</h2>
+<p>目前最成熟的 JavaScript 代码压缩工具是 UglifyJS ， 它会分析 JavaScript 代码语法树，理解代码含义，从而能做到诸如去掉无效代码、去掉日志输出代码、缩短变量名等优化。</p>
+<p>要在 Webpack 中接入 UglifyJS 需要通过插件的形式，目前有两个成熟的插件，分别是：</p>
+<ul>
+<li><code>UglifyJsPlugin</code>：通过封装 UglifyJS 实现压缩。</li><li><code>ParallelUglifyPlugin</code>：多进程并行处理压缩，使用 <a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-4%E4%BD%BF%E7%94%A8ParallelUglifyPlugin.html">ParallelUglifyPlugin</a> 中有详细介绍。</li></ul>
+<p>由于 ParallelUglifyPlugin 在 4-4使用ParallelUglifyPlugin 中介绍过就不再复述， 这里重点介绍如何配置 UglifyJS 以达到最优的压缩效果。</p>
+<p>UglifyJS 提供了非常多的选择用于配置在压缩过程中采用哪些规则，所有的选项说明可以在 其官方文档 上看到。 由于选项非常多，就挑出一些常用的拿出来详细讲解其应用方式：</p>
+<ul>
+<li><code>sourceMap</code>：是否为压缩后的代码生成对应的 Source Map，默认为不生成，开启后耗时会大大增加。一般不会把压缩后的代码的 Source Map 发送给网站用户的浏览器，而是用于内部开发人员调试线上代码时使用。</li><li><code>beautify</code>： 是否输出可读性较强的代码，即会保留空格和制表符，默认为是，为了达到更好的压缩效果，可以设置为 false。</li><li><code>comments</code>：是否保留代码中的注释，默认为保留，为了达到更好的压缩效果，可以设置为 <code>false</code>。</li><li><code>compress.warnings</code>：是否在 UglifyJs 删除没有用到的代码时输出警告信息，默认为输出，可以设置为 <code>false</code> 以关闭这些作用不大的警告。</li><li><code>drop_console</code>：是否剔除代码中所有的 <code>console</code> 语句，默认为不剔除。开启后不仅可以提升代码压缩效果，也可以兼容不支持 <code>console</code> 语句 IE 浏览器。</li><li><code>collapse_vars</code>：是否内嵌定义了但是只用到一次的变量，例如把 <code>var x = 5; y = x</code>转换成<code>y = 5</code>，默认为不转换。为了达到更好的压缩效果，可以设置为 <code>false</code>。</li><li><code>reduce_vars</code>： 是否提取出出现多次但是没有定义成变量去引用的静态值，例如把 <code>x = &#39;Hello&#39;; y = &#39;Hello&#39;</code> 转换成 <code>var a = &#39;Hello&#39;; x = a; y = b</code>，默认为不转换。为了达到更好的压缩效果，可以设置为 <code>false</code>。</li></ul>
+<p>也就是说，在不影响代码正确执行的前提下，最优化的代码压缩配置为如下：</p>
+<pre><code>const UglifyJSPlugin = require(&#39;webpack/lib/optimize/UglifyJsPlugin&#39;);
+
+module.exports = {
+  plugins: [
+    // 压缩输出的 JS 代码
+    new UglifyJSPlugin({
+      compress: {
+        // 在UglifyJs删除没有用到的代码时不输出警告
+        warnings: false,
+        // 删除所有的 `console` 语句，可以兼容ie浏览器
+        drop_console: true,
+        // 内嵌定义了但是只用到一次的变量
+        collapse_vars: true,
+        // 提取出出现多次但是没有定义成变量去引用的静态值
+        reduce_vars: true,
+      },
+      output: {
+        // 最紧凑的输出
+        beautify: false,
+        // 删除所有的注释
+        comments: false,
+      }
+    }),
+  ],
+};
+</code></pre><p>从以上配置中可以看出 Webpack 内置了 UglifyJsPlugin，需要指出的是 UglifyJsPlugin 当前采用的是 UglifyJS2 而不是老的 UglifyJS1， 这两个版本的 UglifyJS 在配置上有所区别，看文档时注意版本。</p>
+<p>除此之外 Webpack 还提供了一个更简便的方法来接入 UglifyJSPlugin，直接在启动 Webpack 时带上 <code>--optimize-minimize</code> 参数，即 <code>webpack --optimize-minimize</code>， 这样 Webpack 会自动为你注入一个带有默认配置的 UglifyJSPlugin。</p>
+<h2 id="-es6">压缩 ES6</h2>
+<p>虽然当前大多数 JavaScript 引擎还不完全支持 ES6 中的新特性，但在一些特定的运行环境下已经可以直接执行 ES6 代码了，例如最新版的 Chrome、ReactNative 的引擎 JavaScriptCore。</p>
+<p>运行 ES6 的代码相比于转换后的 ES5 代码有如下优点：</p>
+<ul>
+<li>一样的逻辑用 ES6 实现的代码量比 ES5 更少。</li><li>JavaScript 引擎对 ES6 中的语法做了性能优化，例如针对 <code>const</code> 申明的变量有更快的读取速度。</li></ul>
+<p>所以在运行环境允许的情况下，我们要尽可能的使用原生的 ES6 代码去运行，而不是转换后的 ES5 代码。</p>
+<p>在你用上面所讲的压缩方法去压缩 ES6 代码时，你会发现 UglifyJS 会报错退出，原因是 UglifyJS 只认识 ES5 语法的代码。 为了压缩 ES6 代码，需要使用专门针对 ES6 代码的 UglifyES。</p>
+<p>UglifyES 和 UglifyJS 来自同一个项目的不同分支，它们的配置项基本相同，只是接入 Webpack 时有所区别。 在给 Webpack 接入 UglifyES 时，不能使用内置的 UglifyJsPlugin，而是需要单独安装和使用最新版本的 <code>uglifyjs-webpack-plugin</code>。 安装方法如下：</p>
+<pre><code>npm i -D uglifyjs-webpack-plugin@beta
+</code></pre><p>Webpack 相关配置代码如下：</p>
+<p><p data-height="465" data-theme-id="0" data-slug-hash="ELqbWw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="Webpack" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/ELqbWw/">Webpack</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-<p>以上代码有两点重要的修改：</p>
+<p>同时，为了不让 <code>babel-loader</code> 输出 ES5 语法的代码，需要去掉 <code>.babelrc</code> 配置文件中的 <code>babel-preset-env</code>，但是其它的 Babel 插件，比如 <code>babel-preset-react</code> 还是要保留， 因为正是 <code>babel-preset-env</code> 负责把 ES6 代码转换为 ES5 代码。</p>
+<h2 id="-css">压缩 CSS</h2>
+<p>CSS 代码也可以像 JavaScript 那样被压缩，以达到提升加载速度和代码混淆的作用。 目前比较成熟可靠的 CSS 压缩工具是 cssnano，基于 PostCSS。</p>
+<p><code>cssnano</code> 能理解 CSS 代码的含义，而不仅仅是删掉空格，例如：</p>
 <ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<li><code>margin: 10px 20px 10px 20px</code> 被压缩成 <code>margin: 10px 20px</code></li><li><code>color: #ff0000</code> 被压缩成 <code>color:red</code></li></ul>
+<p>还有很多压缩规则可以去其官网查看，通常压缩率能达到 60%。</p>
+<p>把 <code>cssnano</code> 接入到 Webpack 中也非常简单，因为 <code>css-loader</code> 已经将其内置了，要开启 <code>cssnano</code> 去压缩代码只需要开启 <code>css-loader</code> 的 <code>minimize</code> 选项。 相关 Webpack 配置如下：</p>
+<p><p data-height="565" data-theme-id="0" data-slug-hash="rvXYwm" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="cssnano" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/rvXYwm/">cssnano</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
-
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

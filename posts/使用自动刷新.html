@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>使用 HappyPack</title>
+<title>使用自动刷新</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,34 +479,74 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-happypack">使用 HappyPack</h1>
-<p>由于有大量文件需要解析和处理，构建是文件读写和计算密集型的操作，特别是当文件数量变多后，Webpack 构建慢的问题会显得严重。 运行在 Node.js 之上的 Webpack 是单线程模型的，也就是说 Webpack 需要处理的任务需要一件件挨着做，不能多个事情一起做。</p>
-<p>文件读写和计算操作是无法避免的，那能不能让 Webpack 同一时刻处理多个任务，发挥多核 CPU 电脑的威力，以提升构建速度呢？</p>
-<p>HappyPack 就能让 Webpack 做到这点，它把任务分解给多个子进程去并发的执行，子进程处理完后再把结果发送给主进程。</p>
+<h1 id="-">使用自动刷新</h1>
+<p>在开发阶段，修改源码是不可避免的操作。 对于开发网页来说，要想看到修改后的效果，需要刷新浏览器让其重新运行最新的代码才行。 虽然这相比于开发原生 iOS 和 Android 应用来说要方便很多，因为那需要重新编译这个项目再运行，但我们可以把这个体验优化的更好。 借助自动化的手段，可以把这些重复的操作交给代码去帮我们完成，在监听到本地源码文件发生变化时，自动重新构建出可运行的代码后再控制浏览器刷新。</p>
+<p>Webpack 把这些功能都内置了，并且还提供多种方案可选。</p>
+<h2 id="-">文件监听</h2>
+<p>文件监听是在发现源码文件发生变化时，自动重新构建出新的输出文件。</p>
+<p>Webpack 官方提供了两大模块，一个是核心的 webpack，一个是在使用 DevServer 中提到的 <code>webpack-dev-server</code> 扩展模块。 而文件监听功能是 webpack 模块提供的。</p>
+<p>在<a href="https://whjin.github.io/full-stack-development/posts/webpack%E9%85%8D%E7%BD%AE.html">其它配置项</a>中曾介绍过 Webpack 支持文件监听相关的配置项如下：</p>
+<pre><code>module.export = {
+  // 只有在开启监听模式时，watchOptions 才有意义
+  // 默认为 false，也就是不开启
+  watch: true,
+  // 监听模式运行时的参数
+  // 在开启监听模式时，才有意义
+  watchOptions: {
+    // 不监听的文件或文件夹，支持正则匹配
+    // 默认为空
+    ignored: /node_modules/,
+    // 监听到变化发生后会等300ms再去执行动作，防止文件更新太快导致重新编译频率太高
+    // 默认为 300ms
+    aggregateTimeout: 300,
+    // 判断文件是否发生变化是通过不停的去询问系统指定文件有没有变化实现的
+    // 默认每秒问 1000 次
+    poll: 1000
+  }
+}
+</code></pre><p>要让 Webpack 开启监听模式，有两种方式：</p>
+<ul>
+<li>在配置文件 <code>webpack.config.js</code> 中设置 <code>watch: true</code>。</li><li>在执行启动 Webpack 命令时，带上 <code>--watch</code> 参数，完整命令是 <code>webpack --watch</code>。</li></ul>
+<h2 id="-">文件监听工作原理</h2>
+<p>在 Webpack 中监听一个文件发生变化的原理是定时的去获取这个文件的最后编辑时间，每次都存下最新的最后编辑时间，如果发现当前获取的和最后一次保存的最后编辑时间不一致，就认为该文件发生了变化。 配置项中的 <code>watchOptions.poll</code> 就是用于控制定时检查的周期，具体含义是每秒检查多少次。</p>
+<p>当发现某个文件发生了变化时，并不会立刻告诉监听者，而是先缓存起来，收集一段时间的变化后，再一次性告诉监听者。 配置项中的 <code>watchOptions.aggregateTimeout</code> 就是用于配置这个等待时间。 这样做的目的是因为我们在编辑代码的过程中可能会高频的输入文字导致文件变化的事件高频的发生，如果每次都重新执行构建就会让构建卡死。</p>
+<p>对于多个文件来说，原理相似，只不过会对列表中的每一个文件都定时的执行检查。 但是这个需要监听的文件列表是怎么确定的呢？ 默认情况下 Webpack 会从配置的 Entry 文件出发，递归解析出 Entry 文件所依赖的文件，把这些依赖的文件都加入到监听列表中去。 可见 Webpack 这一点还是做的很智能的，不是粗暴的直接监听项目目录下的所有文件。</p>
+<p>由于保存文件的路径和最后编辑时间需要占用内存，定时检查周期检查需要占用 CPU 以及文件 I/O，所以最好减少需要监听的文件数量和降低检查频率。</p>
+<h2 id="-">优化文件监听性能</h2>
+<p>在明白文件监听工作原理后，就好分析如何优化文件监听性能了。</p>
+<p>开启监听模式时，默认情况下会监听配置的 Entry 文件和所有其递归依赖的文件。 在这些文件中会有很多存在于 <code>node_modules</code> 下，因为如今的 Web 项目会依赖大量的第三方模块。 在大多数情况下我们都不可能去编辑 <code>node_modules</code> 下的文件，而是编辑自己建立的源码文件。 所以一个很大的优化点就是忽略掉 <code>node_modules</code> 下的文件，不监听它们。相关配置如下：</p>
+<pre><code>module.export = {
+  watchOptions: {
+    // 不监听的 node_modules 目录下的文件
+    ignored: /node_modules/,
+  }
+}
+</code></pre><p>采用这种方法优化后，你的 Webpack 消耗的内存和 CPU 将会大大降低。</p>
 <blockquote>
-<p>由于 JavaScript 是单线程模型，要想发挥多核 CPU 的能力，只能通过多进程去实现，而无法通过多线程实现。</p>
+<p>有时你可能会觉得 <code>node_modules</code> 目录下的第三方模块有 <code>bug</code>，想修改第三方模块的文件，然后在自己的项目中试试。 在这种情况下如果使用了以上优化方法，我们需要重启构建以看到最新效果。 但这种情况毕竟是非常少见的。</p>
 </blockquote>
-<p>分解任务和管理线程的事情 HappyPack 都会帮你做好，你所需要做的只是接入 HappyPack。 接入 HappyPack 的相关代码如下：</p>
-<p><p data-height="665" data-theme-id="0" data-slug-hash="RyXLEy" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="HappyPack " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/RyXLEy/">HappyPack </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>以上代码有两点重要的修改：</p>
+<p>除了忽略掉部分文件的优化外，还有如下两种方法：</p>
 <ul>
-<li>在 Loader 配置中，所有文件的处理都交给了 <code>happypack/loader</code> 去处理，使用紧跟其后的 <code>querystring ?id=babel</code> 去告诉 <code>happypack/loader</code> 去选择哪个 HappyPack 实例去处理文件。</li><li>在 Plugin 配置中，新增了两个 HappyPack 实例分别用于告诉 <code>happypack/loader</code> 去如何处理 <code>.js</code>和 <code>.css</code> 文件。选项中的 <code>id</code> 属性的值和上面 <code>querystring</code> 中的 <code>?id=babel</code> 相对应，选项中的 <code>loaders</code> 属性和 Loader 配置中一样。</li></ul>
-<p>在实例化 HappyPack 插件的时候，除了可以传入 <code>id</code> 和 <code>loaders</code> 两个参数外，HappyPack 还支持如下参数：</p>
-<ul>
-<li><code>threads</code> 代表开启几个子进程去处理这一类型的文件，默认是<code>3</code>个，类型必须是整数。</li><li><code>verbose</code> 是否允许 HappyPack 输出日志，默认是 <code>true</code>。</li><li><code>threadPool</code> 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多，相关代码如下：</li></ul>
-<p><p data-height="465" data-theme-id="0" data-slug-hash="MGNERw" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="threadPool " class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/MGNERw/">threadPool </a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>接入 HappyPack 后，你需要给项目安装新的依赖：</p>
-<pre><code>npm i -D happypack
-</code></pre><h2 id="happypack-">HappyPack 原理</h2>
-<p>在整个 Webpack 构建流程中，最耗时的流程可能就是 Loader 对文件的转换操作了，因为要转换的文件数据巨多，而且这些转换操作都只能一个个挨着处理。 HappyPack 的核心原理就是把这部分任务分解到多个进程去并行处理，从而减少了总的构建时间。</p>
-<p>从前面的使用中可以看出所有需要通过 Loader 处理的文件都先交给了 <code>happypack/loader</code> 去处理，收集到了这些文件的处理权后 HappyPack 就好统一分配了。</p>
-<p>每通过<code>new HappyPack()</code> 实例化一个 HappyPack 其实就是告诉 HappyPack 核心调度器如何通过一系列 Loader 去转换一类文件，并且可以指定如何给这类转换操作分配子进程。</p>
-<p>核心调度器的逻辑代码在主进程中，也就是运行着 Webpack 的进程中，核心调度器会把一个个任务分配给当前空闲的子进程，子进程处理完毕后把结果发送给核心调度器，它们之间的数据交换是通过进程间通信 API 实现的。</p>
-<p>核心调度器收到来自子进程处理完毕的结果后会通知 Webpack 该文件处理完毕。</p>
+<li><code>watchOptions.aggregateTimeout</code> 值越大性能越好，因为这能降低重新构建的频率。</li><li><code>watchOptions.poll</code> 值越小越好，因为这能降低检查的频率。</li></ul>
+<p>但两种优化方法的后果是会让你感觉到监听模式的反应和灵敏度降低了。</p>
+<h1 id="-">自动刷新浏览器</h1>
+<p>监听到文件更新后的下一步是去刷新浏览器，<code>webpack</code> 模块负责监听文件，<code>webpack-dev-server</code> 模块则负责刷新浏览器。 在使用 <code>webpack-dev-server</code> 模块去启动 <code>webpack</code> 模块时，<code>webpack</code> 模块的监听模式默认会被开启。 <code>webpack</code> 模块会在文件发生变化时告诉 <code>webpack-dev-server</code> 模块。</p>
+<h2 id="-">自动刷新的原理</h2>
+<p>控制浏览器刷新有三种方法：</p>
+<ol>
+<li>借助浏览器扩展去通过浏览器提供的接口刷新，WebStorm IDE 的 LiveEdit 功能就是这样实现的。</li><li>往要开发的网页中注入代理客户端代码，通过代理客户端去刷新整个页面。</li><li>把要开发的网页装进一个 <code>iframe</code> 中，通过刷新 <code>iframe</code> 去看到最新效果。</li></ol>
+<p>DevServer 支持第2、3种方法，第2种是 DevServer 默认采用的刷新方法。</p>
+<h2 id="-">优化自动刷新的性能</h2>
+<p>在DevServer中曾介绍过 <code>devServer.inline</code> 配置项，它就是用来控制是否往 Chunk 中注入代理客户端的，默认会注入。 事实上，在开启 <code>inline</code> 时，DevServer 会为每个输出的 Chunk 中注入代理客户端的代码，当你的项目需要输出的 Chunk 有很多个时，这会导致你的构建缓慢。 其实要完成自动刷新，一个页面只需要一个代理客户端就行了，DevServer 之所以粗暴的为每个 Chunk 都注入，是因为它不知道某个网页依赖哪几个 Chunk，索性就全部都注入一个代理客户端。 网页只要依赖了其中任何一个 Chunk，代理客户端就被注入到网页中去。</p>
+<p>这里优化的思路是关闭还不够优雅的 <code>inline</code> 模式，只注入一个代理客户端。 为了关闭 <code>inline</code> 模式，在启动 DevServer 时，可通过执行命令 <code>webpack-dev-server --inline false</code>（也可以在配置文件中设置）。</p>
+<p>要开发的网页被放进了一个 <code>iframe</code> 中，编辑源码后，<code>iframe</code> 会被自动刷新。 同时你会发现构建时间从 <code>1566ms</code> 减少到了 <code>1130ms</code>，说明优化生效了。构建性能提升的效果在要输出的 Chunk 数量越多时会显得越突出。</p>
+<blockquote>
+<p>在你关闭了 <code>inline</code> 后，DevServer 会自动地提示你通过新网址 <code>http://localhost:8080/webpack-dev-server/</code> 去访问，这点是做的很人心化的。</p>
+</blockquote>
+<p>如果你不想通过 <code>iframe</code> 的方式去访问，但同时又想让网页保持自动刷新功能，你需要手动往网页中注入代理客户端脚本，往 <code>index.html</code> 中插入以下标签：</p>
+<pre><code>&lt;!--注入 DevServer 提供的代理客户端脚本，这个服务是 DevServer 内置的--&gt;
+&lt;script src=&quot;http://localhost:8080/webpack-dev-server.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>给网页注入以上脚本后，独立打开的网页就能自动刷新了。但是要注意在发布到线上时记得删除掉这段用于开发环境的代码。</p>
 
 </body>
 </html>
