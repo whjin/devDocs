@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>输出文件分析</title>
+<title>常用 Plugins</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -296,8 +296,8 @@ img {
 }
 
 p > img {
-    display: table;
-    margin: 0 auto;
+  display: table;
+  margin: 0 auto;
 }
 </style>
 <style type="text/css">
@@ -477,61 +477,19 @@ margin-right:3px;
 vertical-align:1px;
 }
 </style>
+<base target=_blank>
 </head>
 <body>
-<h1 id="-">输出文件分析</h1>
-<p>虽然在前面的章节中你学会了如何使用 Webpack ，也大致知道其工作原理，可是你想过 Webpack 输出的 <code>bundle.js</code> 是什么样子的吗？ 为什么原来一个个的模块文件被合并成了一个单独的文件？为什么 <code>bundle.js</code> 能直接运行在浏览器中？ 本节将解释清楚以上问题。</p>
-<p>先来看看由 安装与使用 中最简单的项目构建出的 <code>bundle.js</code> 文件内容，代码如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="NMQzxz" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="bundle.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/NMQzxz/">bundle.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>以上看上去复杂的代码其实是一个立即执行函数，可以简写为如下：</p>
-<pre><code>(function(modules) {
-
-  // 模拟 require 语句
-  function __webpack_require__() {
-  }
-
-  // 执行存放所有模块数组中的第0个模块
-  __webpack_require__(0);
-
-})([/*存放所有模块的数组*/])
-</code></pre><p><code>bundle.js</code> 能直接运行在浏览器中的原因在于输出的文件中通过 <code>__webpack_require__</code> 函数定义了一个可以在浏览器中执行的加载函数来模拟 Node.js 中的 <code>require</code> 语句。</p>
-<p>原来一个个独立的模块文件被合并到了一个单独的 <code>bundle.js</code> 的原因在于浏览器不能像 Node.js 那样快速地去本地加载一个个模块文件，而必须通过网络请求去加载还未得到的文件。 如果模块数量很多，加载时间会很长，因此把所有模块都存放在了数组中，执行一次网络加载。</p>
-<p>如果仔细分析 <code>__webpack_require__</code> 函数的实现，你还有发现 Webpack 做了缓存优化： 执行加载过的模块不会再执行第二次，执行结果会缓存在内存中，当某个模块第二次被访问时会直接去内存中读取被缓存的返回值。</p>
-<h2 id="-">分割代码时的输出</h2>
-<p>例如把源码中的 <code>main.js</code> 修改为如下：</p>
-<pre><code>// 异步加载 show.js
-import(&#39;./show&#39;).then((show) =&gt; {
-  // 执行 show 函数
-  show(&#39;Webpack&#39;);
-});
-</code></pre><p>重新构建后会输出两个文件，分别是执行入口文件 <code>bundle.js</code> 和 异步加载文件 <code>0.bundle.js</code>。</p>
-<p>其中 <code>0.bundle.js</code> 内容如下：</p>
-<pre><code>// 加载在本文件(0.bundle.js)中包含的模块
-webpackJsonp(
-  // 在其它文件中存放着的模块的 ID
-  [0],
-  // 本文件所包含的模块
-  [
-    // show.js 所对应的模块
-    (function (module, exports) {
-      function show(content) {
-        window.document.getElementById(&#39;app&#39;).innerText = &#39;Hello,&#39; + content;
-      }
-
-      module.exports = show;
-    })
-  ]
-);
-</code></pre><p><code>bundle.js</code> 内容如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="yjmRyG" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="bundle.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/yjmRyG/">bundle.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>这里的 <code>bundle.js</code> 和上面所讲的 <code>bundle.js</code> 非常相似，区别在于：</p>
+<h1 id="-plugins">常用 Plugins</h1>
+<h2 id="-">用于修改行为</h2>
 <ul>
-<li>多了一个 <code>__webpack_require__.e</code> 用于加载被分割出去的，需要异步加载的 Chunk 对应的文件;</li><li>多了一个 <code>webpackJsonp</code> 函数用于从异步加载的文件中安装模块。</li></ul>
-<p>在使用了 <code>CommonsChunkPlugin</code> 去提取公共代码时输出的文件和使用了异步加载时输出的文件是一样的，都会有 <code>__webpack_require__.e</code> 和 <code>webpackJsonp</code>。 原因在于提取公共代码和异步加载本质上都是代码分割。</p>
+<li><a href="https://webpack.js.org/plugins/define-plugin/">define-plugin</a>：定义环境变量，在<a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-7%E5%8C%BA%E5%88%86%E7%8E%AF%E5%A2%83.html">4-7区分环境</a>中有介绍。</li><li><a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-7%E5%8C%BA%E5%88%86%E7%8E%AF%E5%A2%83.html">context-replacement-plugin</a>：修改 require 语句在寻找文件时的默认行为。</li><li><a href="https://webpack.js.org/plugins/ignore-plugin/">ignore-plugin</a>：用于忽略部分文件。</li></ul>
+<h2 id="-">用于优化</h2>
+<ul>
+<li><a href="https://webpack.js.org/plugins/commons-chunk-plugin/">commons-chunk-plugin</a>：提取公共代码，在<a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-11%E6%8F%90%E5%8F%96%E5%85%AC%E5%85%B1%E4%BB%A3%E7%A0%81.html">4-11提取公共代码</a>中有介绍。</li><li><a href="https://github.com/webpack-contrib/extract-text-webpack-plugin">extract-text-webpack-plugin</a>：提取 JavaScript 中的 CSS 代码到单独的文件中，在<a href="http://webpack.wuhaolin.cn/1%E5%85%A5%E9%97%A8/1-5%E4%BD%BF%E7%94%A8Plugin.html">1-5使用 Plugin</a> 中有介绍。</li><li><a href="http://webpack.wuhaolin.cn/1%E5%85%A5%E9%97%A8/1-5%E4%BD%BF%E7%94%A8Plugin.html">prepack-webpack-plugin</a>：通过 Facebook 的 Prepack 优化输出的 JavaScript 代码性能，在 <a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-13%E4%BD%BF%E7%94%A8Prepack.html">4-13使用 Prepack</a> 中有介绍。</li><li><a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-13%E4%BD%BF%E7%94%A8Prepack.html">uglifyjs-webpack-plugin</a>：通过 UglifyES 压缩 ES6 代码，在 <a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-13%E4%BD%BF%E7%94%A8Prepack.html">4-8压缩代码</a>中有介绍。</li><li><a href="https://github.com/gdborton/webpack-parallel-uglify-plugin">webpack-parallel-uglify-plugin</a>：多进程执行 UglifyJS 代码压缩，提升构建速度。</li><li><a href="https://www.npmjs.com/package/imagemin-webpack-plugin">imagemin-webpack-plugin</a>：压缩图片文件。</li><li><a href="https://www.npmjs.com/package/webpack-spritesmith">webpack-spritesmith</a>：用插件制作雪碧图。</li><li><a href="https://webpack.js.org/plugins/module-concatenation-plugin/">ModuleConcatenationPlugin</a>：开启 Webpack Scope Hoisting 功能，在<a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-14%E5%BC%80%E5%90%AFScopeHoisting.html">4-14开启 ScopeHoisting</a>中有介绍。</li><li><a href="https://webpack.js.org/plugins/dll-plugin/">dll-plugin</a>：借鉴 DDL 的思想大幅度提升构建速度，在<a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-2%E4%BD%BF%E7%94%A8DllPlugin.html">4-2使用 DllPlugin</a>中有介绍。</li><li><a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-2%E4%BD%BF%E7%94%A8DllPlugin.html">hot-module-replacement-plugin</a>：开启模块热替换功能。</li></ul>
+<h2 id="-">其它</h2>
+<ul>
+<li><a href="serviceworker-webpack-plugin：给网页应用增加离线缓存功能，在3-14 构建离线应用中有介绍。">serviceworker-webpack-plugin</a>：给网页应用增加离线缓存功能，在<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-14%E6%9E%84%E5%BB%BA%E7%A6%BB%E7%BA%BF%E5%BA%94%E7%94%A8.html">3-14 构建离线应用</a>中有介绍。</li><li><a href="https://github.com/JaKXz/stylelint-webpack-plugin">stylelint-webpack-plugin</a>：集成 <code>stylelint</code> 到项目中，在<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-16%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81.html">3-16检查代码</a>中有介绍。</li><li><a href="https://github.com/webpack-contrib/i18n-webpack-plugin">i18n-webpack-plugin</a>：给你的网页支持国际化。</li><li><a href="https://webpack.js.org/plugins/provide-plugin/">provide-plugin</a>：从环境中提供的全局变量中加载模块，而不用导入对应的文件。</li><li><a href="https://github.com/gwuhaolin/web-webpack-plugin">web-webpack-plugin</a>：方便的为单页应用输出 HTML，比 html-webpack-plugin 好用。</li></ul>
 
 </body>
 </html>

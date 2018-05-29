@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>输出文件分析</title>
+<title>调试 Webpack</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -479,59 +479,22 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-">输出文件分析</h1>
-<p>虽然在前面的章节中你学会了如何使用 Webpack ，也大致知道其工作原理，可是你想过 Webpack 输出的 <code>bundle.js</code> 是什么样子的吗？ 为什么原来一个个的模块文件被合并成了一个单独的文件？为什么 <code>bundle.js</code> 能直接运行在浏览器中？ 本节将解释清楚以上问题。</p>
-<p>先来看看由 安装与使用 中最简单的项目构建出的 <code>bundle.js</code> 文件内容，代码如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="NMQzxz" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="bundle.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/NMQzxz/">bundle.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>以上看上去复杂的代码其实是一个立即执行函数，可以简写为如下：</p>
-<pre><code>(function(modules) {
-
-  // 模拟 require 语句
-  function __webpack_require__() {
-  }
-
-  // 执行存放所有模块数组中的第0个模块
-  __webpack_require__(0);
-
-})([/*存放所有模块的数组*/])
-</code></pre><p><code>bundle.js</code> 能直接运行在浏览器中的原因在于输出的文件中通过 <code>__webpack_require__</code> 函数定义了一个可以在浏览器中执行的加载函数来模拟 Node.js 中的 <code>require</code> 语句。</p>
-<p>原来一个个独立的模块文件被合并到了一个单独的 <code>bundle.js</code> 的原因在于浏览器不能像 Node.js 那样快速地去本地加载一个个模块文件，而必须通过网络请求去加载还未得到的文件。 如果模块数量很多，加载时间会很长，因此把所有模块都存放在了数组中，执行一次网络加载。</p>
-<p>如果仔细分析 <code>__webpack_require__</code> 函数的实现，你还有发现 Webpack 做了缓存优化： 执行加载过的模块不会再执行第二次，执行结果会缓存在内存中，当某个模块第二次被访问时会直接去内存中读取被缓存的返回值。</p>
-<h2 id="-">分割代码时的输出</h2>
-<p>例如把源码中的 <code>main.js</code> 修改为如下：</p>
-<pre><code>// 异步加载 show.js
-import(&#39;./show&#39;).then((show) =&gt; {
-  // 执行 show 函数
-  show(&#39;Webpack&#39;);
-});
-</code></pre><p>重新构建后会输出两个文件，分别是执行入口文件 <code>bundle.js</code> 和 异步加载文件 <code>0.bundle.js</code>。</p>
-<p>其中 <code>0.bundle.js</code> 内容如下：</p>
-<pre><code>// 加载在本文件(0.bundle.js)中包含的模块
-webpackJsonp(
-  // 在其它文件中存放着的模块的 ID
-  [0],
-  // 本文件所包含的模块
-  [
-    // show.js 所对应的模块
-    (function (module, exports) {
-      function show(content) {
-        window.document.getElementById(&#39;app&#39;).innerText = &#39;Hello,&#39; + content;
-      }
-
-      module.exports = show;
-    })
-  ]
-);
-</code></pre><p><code>bundle.js</code> 内容如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="yjmRyG" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="bundle.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/yjmRyG/">bundle.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>这里的 <code>bundle.js</code> 和上面所讲的 <code>bundle.js</code> 非常相似，区别在于：</p>
+<h1 id="-webpack">调试 Webpack</h1>
+<p>在编写 Webpack 的 Plugin 和 Loader 时，可能执行结果会和你预期的不一样，就和你平时写代码遇到了奇怪的 Bug 一样。 对于无法一眼看出问题的 Bug，通常需要调试程序源码才能找出问题所在。</p>
+<p>虽然可以通过 <code>console.log</code> 的方式完成调试，但这种方法非常不方便也不优雅，本节将教你如何断点调试 <strong>工作原理概括</strong> 中的插件代码。 由于 Webpack 运行在 Node.js 之上，调试 Webpack 就相对于调试 Node.js 程序。</p>
+<h2 id="-webstorm-">在 Webstorm 中调试</h2>
+<p>Webstorm 集成了 Node.js 的调试工具，因此使用 Webstorm 调试 Webpack 非常简单。</p>
+<h3 id="1-">1. 设置断点</h3>
+<p>在你认为可能出现问题的地方设下断点，点击编辑区代码左侧出现红点表示设置了断点。</p>
+<h3 id="2-">2. 配置执行入口</h3>
+<p>告诉 Webstorm 如何启动 Webpack，由于 Webpack 实际上就是一个 Node.js 应用，因此需要新建一个 Node.js 类型的执行入口。</p>
+<p>以上配置中有三点需要注意：</p>
 <ul>
-<li>多了一个 <code>__webpack_require__.e</code> 用于加载被分割出去的，需要异步加载的 Chunk 对应的文件;</li><li>多了一个 <code>webpackJsonp</code> 函数用于从异步加载的文件中安装模块。</li></ul>
-<p>在使用了 <code>CommonsChunkPlugin</code> 去提取公共代码时输出的文件和使用了异步加载时输出的文件是一样的，都会有 <code>__webpack_require__.e</code> 和 <code>webpackJsonp</code>。 原因在于提取公共代码和异步加载本质上都是代码分割。</p>
+<li><code>Name</code> 设置成了 <code>debug webpack</code>，就像设置了一个别名，方便记忆和区分；</li><li><code>Working directory</code> 设置为需要调试的插件所在的项目的根目录；</li><li><code>JavaScript file</code> 即 Node.js 的执行入口文件，设置为 Webpack 的执行入口文件 <code>node_modules/webpack/bin/webpack.js</code>。</li></ul>
+<h3 id="3-">3. 启动调试</h3>
+<p>经过以上两步，准备工作已经完成，下面启动调试，启动时选中前面设置的 <code>debug webpack</code>。</p>
+<h3 id="4-">4. 执行到断点</h3>
+<p>启动后程序就会停在断点所在的位置，在这里你可以方便的查看变量当前的状态，找出问题。</p>
 
 </body>
 </html>

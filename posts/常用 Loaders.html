@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>输出文件分析</title>
+<title>常用 Loaders</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -296,8 +296,8 @@ img {
 }
 
 p > img {
-    display: table;
-    margin: 0 auto;
+  display: table;
+  margin: 0 auto;
 }
 </style>
 <style type="text/css">
@@ -477,61 +477,28 @@ margin-right:3px;
 vertical-align:1px;
 }
 </style>
+<base target=_blank>
 </head>
 <body>
-<h1 id="-">输出文件分析</h1>
-<p>虽然在前面的章节中你学会了如何使用 Webpack ，也大致知道其工作原理，可是你想过 Webpack 输出的 <code>bundle.js</code> 是什么样子的吗？ 为什么原来一个个的模块文件被合并成了一个单独的文件？为什么 <code>bundle.js</code> 能直接运行在浏览器中？ 本节将解释清楚以上问题。</p>
-<p>先来看看由 安装与使用 中最简单的项目构建出的 <code>bundle.js</code> 文件内容，代码如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="NMQzxz" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="bundle.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/NMQzxz/">bundle.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>以上看上去复杂的代码其实是一个立即执行函数，可以简写为如下：</p>
-<pre><code>(function(modules) {
-
-  // 模拟 require 语句
-  function __webpack_require__() {
-  }
-
-  // 执行存放所有模块数组中的第0个模块
-  __webpack_require__(0);
-
-})([/*存放所有模块的数组*/])
-</code></pre><p><code>bundle.js</code> 能直接运行在浏览器中的原因在于输出的文件中通过 <code>__webpack_require__</code> 函数定义了一个可以在浏览器中执行的加载函数来模拟 Node.js 中的 <code>require</code> 语句。</p>
-<p>原来一个个独立的模块文件被合并到了一个单独的 <code>bundle.js</code> 的原因在于浏览器不能像 Node.js 那样快速地去本地加载一个个模块文件，而必须通过网络请求去加载还未得到的文件。 如果模块数量很多，加载时间会很长，因此把所有模块都存放在了数组中，执行一次网络加载。</p>
-<p>如果仔细分析 <code>__webpack_require__</code> 函数的实现，你还有发现 Webpack 做了缓存优化： 执行加载过的模块不会再执行第二次，执行结果会缓存在内存中，当某个模块第二次被访问时会直接去内存中读取被缓存的返回值。</p>
-<h2 id="-">分割代码时的输出</h2>
-<p>例如把源码中的 <code>main.js</code> 修改为如下：</p>
-<pre><code>// 异步加载 show.js
-import(&#39;./show&#39;).then((show) =&gt; {
-  // 执行 show 函数
-  show(&#39;Webpack&#39;);
-});
-</code></pre><p>重新构建后会输出两个文件，分别是执行入口文件 <code>bundle.js</code> 和 异步加载文件 <code>0.bundle.js</code>。</p>
-<p>其中 <code>0.bundle.js</code> 内容如下：</p>
-<pre><code>// 加载在本文件(0.bundle.js)中包含的模块
-webpackJsonp(
-  // 在其它文件中存放着的模块的 ID
-  [0],
-  // 本文件所包含的模块
-  [
-    // show.js 所对应的模块
-    (function (module, exports) {
-      function show(content) {
-        window.document.getElementById(&#39;app&#39;).innerText = &#39;Hello,&#39; + content;
-      }
-
-      module.exports = show;
-    })
-  ]
-);
-</code></pre><p><code>bundle.js</code> 内容如下：</p>
-<p><p data-height="565" data-theme-id="0" data-slug-hash="yjmRyG" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="bundle.js" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/yjmRyG/">bundle.js</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>这里的 <code>bundle.js</code> 和上面所讲的 <code>bundle.js</code> 非常相似，区别在于：</p>
+<h1 id="-loaders">常用 Loaders</h1>
+<h2 id="-">加载文件</h2>
 <ul>
-<li>多了一个 <code>__webpack_require__.e</code> 用于加载被分割出去的，需要异步加载的 Chunk 对应的文件;</li><li>多了一个 <code>webpackJsonp</code> 函数用于从异步加载的文件中安装模块。</li></ul>
-<p>在使用了 <code>CommonsChunkPlugin</code> 去提取公共代码时输出的文件和使用了异步加载时输出的文件是一样的，都会有 <code>__webpack_require__.e</code> 和 <code>webpackJsonp</code>。 原因在于提取公共代码和异步加载本质上都是代码分割。</p>
+<li><a href="https://github.com/webpack-contrib/raw-loader">raw-loader</a>：把文本文件的内容加载到代码中去，在 <a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-20%E5%8A%A0%E8%BD%BDSVG.html">3-20加载SVG</a> 中有介绍。</li><li><a href="https://github.com/webpack-contrib/file-loader">file-loader</a>：把文件输出到一个文件夹中，在代码中通过相对 URL 去引用输出的文件，在 <a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-19%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87.html">3-19加载图片</a>、<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-20%E5%8A%A0%E8%BD%BDSVG.html">3-20加载 SVG</a>、<a href="http://webpack.wuhaolin.cn/4%E4%BC%98%E5%8C%96/4-9CDN%E5%8A%A0%E9%80%9F.html">4-9 CDN 加速</a> 中有介绍。</li><li><a href="https://github.com/webpack-contrib/url-loader">url-loader</a>：和 <code>file-loader</code> 类似，但是能在文件很小的情况下以 <code>base64</code> 的方式把文件内容注入到代码中去，在 <a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-19%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87.html">3-19加载图片</a>、<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-20%E5%8A%A0%E8%BD%BDSVG.html">3-20加载 SVG</a> 中有介绍。</li><li><a href="https://github.com/webpack-contrib/source-map-loader">source-map-loader</a>：加载额外的 Source Map 文件，以方便断点调试，在 <a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-21%E5%8A%A0%E8%BD%BDSourceMap.html">3-21加载 Source Map</a> 中有介绍。</li><li><a href="https://github.com/webpack-contrib/svg-inline-loader">svg-inline-loader</a>：把压缩后的 SVG 内容注入到代码中，在 <a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-20%E5%8A%A0%E8%BD%BDSVG.html">3-20加载 SVG</a> 中有介绍。</li><li><a href="https://github.com/webpack-contrib/svg-inline-loader">node-loader</a>：加载 Node.js 原生模块 .node 文件。</li><li><a href="https://github.com/tcoopman/image-webpack-loader">image-loader</a>：加载并且压缩图片文件。</li><li><a href="https://github.com/webpack-contrib/json-loader">json-loader</a>：加载 JSON 文件。</li><li><a href="https://github.com/okonet/yaml-loader">yaml-loader</a>：加载 YAML 文件。</li></ul>
+<h2 id="-">编译模版</h2>
+<ul>
+<li><a href="https://github.com/pugjs/pug-loader">pug-loader</a>：把 Pug 模版转换成 JavaScript 函数返回。</li><li><a href="https://github.com/pcardune/handlebars-loader">handlebars-loader</a>：把 Handlebars 模版编译成函数返回。</li><li><a href="https://github.com/okonet/ejs-loader">ejs-loader</a>：把 EJS 模版编译成函数返回。</li><li><a href="https://github.com/AlexanderPavlenko/haml-loader">haml-loader</a>：把 HAML 代码转换成 HTML。</li><li><a href="https://github.com/peerigon/markdown-loader">markdown-loader</a>：把 Markdown 文件转换成 HTML。</li></ul>
+<h2 id="-">转换脚本语言</h2>
+<ul>
+<li><a href="https://github.com/babel/babel-loader">babel-loader</a>：把 ES6 转换成 ES5，在 <a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-1%E4%BD%BF%E7%94%A8ES6%E8%AF%AD%E8%A8%80.html">3-1使用 ES6 语言</a> 中有介绍。</li><li><a href="https://github.com/TypeStrong/ts-loader">ts-loader</a>：把 TypeScript 转换成 JavaScript，在<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-2%E4%BD%BF%E7%94%A8TypeScript%E8%AF%AD%E8%A8%80.html">3-2使用 TypeScript 语言</a>中有遇到。</li><li><a href="https://github.com/s-panferov/awesome-typescript-loader">awesome-typescript-loader</a>：把 TypeScript 转换成 JavaScript，性能要比 <code>ts-loader</code> 好。</li><li><a href="https://github.com/webpack-contrib/coffee-loader">coffee-loader</a>：把 CoffeeScript 转换成 JavaScript。</li></ul>
+<h2 id="-">转换样式文件</h2>
+<ul>
+<li><a href="https://github.com/webpack-contrib/css-loader">css-loader</a>：加载 CSS，支持模块化、压缩、文件导入等特性。</li><li><a href="https://github.com/webpack-contrib/style-loader">style-loader</a>：把 CSS 代码注入到 JavaScript 中，通过 DOM 操作去加载 CSS。</li><li><a href="https://github.com/webpack-contrib/sass-loader">sass-loader</a>：把 SCSS/SASS 代码转换成 CSS，在<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-4%E4%BD%BF%E7%94%A8SCSS%E8%AF%AD%E8%A8%80.html">3-4使用 SCSS 语言</a>中有介绍。</li><li><a href="https://github.com/postcss/postcss-loader">postcss-loader</a>：扩展 CSS 语法，使用下一代 CSS，在<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-5%E4%BD%BF%E7%94%A8PostCSS.html">3-5使用 PostCSS</a>中有介绍。</li><li><a href="https://github.com/webpack-contrib/less-loader">less-loader</a>：把 Less 代码转换成 CSS 代码。</li><li><a href="https://github.com/shama/stylus-loader">stylus-loader</a>：把 Stylus 代码转换成 CSS 代码。</li></ul>
+<h2 id="-">检查代码</h2>
+<ul>
+<li><a href="https://github.com/MoOx/eslint-loader">eslint-loader</a>：通过 ESLint 检查 JavaScript 代码，在 <a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-16%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81.html">3-16检查代码</a>中有介绍。</li><li><a href="https://github.com/wbuchwalter/tslint-loader">tslint-loader</a>：通过 TSLint 检查 TypeScript 代码。</li><li><a href="https://github.com/webpack-contrib/mocha-loader">mocha-loader</a>：加载 Mocha 测试用例代码。</li><li><a href="https://github.com/webpack-contrib/coverjs-loader">coverjs-loader</a>：计算测试覆盖率。</li></ul>
+<h2 id="-">其它</h2>
+<ul>
+<li><a href="https://github.com/vuejs/vue-loader">vue-loader</a>：加载 Vue.js 单文件组件，在<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-7%E4%BD%BF%E7%94%A8Vue%E6%A1%86%E6%9E%B6.html">3-7使用 Vue 框架</a>中有介绍。</li><li><a href="https://github.com/webpack-contrib/i18n-loader">i18n-loader</a>：加载多语言版本，支持国际化。</li><li><a href="https://github.com/webpack-contrib/i18n-loader">ignore-loader</a>：忽略掉部分文件，在<a href="http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-11%E6%9E%84%E5%BB%BA%E5%90%8C%E6%9E%84%E5%BA%94%E7%94%A8.html">3-11构建同构应用</a>中有介绍。</li><li><a href="https://github.com/gwuhaolin/ui-component-loader">ui-component-loader</a>：按需加载 UI 组件库，例如在使用 antd UI 组件库时，不会因为只用到了 Button 组件而打包进所有的组件。</li></ul>
 
 </body>
 </html>
