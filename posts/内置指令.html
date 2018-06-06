@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>Vue基础</title>
+<title>内置指令</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -484,115 +484,88 @@ vertical-align:1px;
 <base target=_blank>
 </head>
 <body>
-<h1 id="vue-">Vue基础</h1>
-<p>构造函数Vue的根实例<code>new Vue({})</code>，并启动Vue应用。</p>
-<pre><code>var app = Vue({
-    el: &quot;#app&quot;,
-    data: {},
-    methods: {}
-});
-</code></pre><p>变量<code>app</code>代表这个Vue实例。</p>
-<p>其中，必不可少的选项是<code>el</code>，用于指定一个页面中已存在的DOM元素来挂载Vue实例，可以是<code>HTMLElement</code>，也可以是CSS选择器。</p>
-<pre><code>var app = Vue({
-    el: document.getElementById(&#39;app&#39;)
-});
-</code></pre><p>挂载成功后，可以通过<code>app.$el</code>访问该元素。Vue提供了很多常用的实例属性和方法，都以<code>$</code>开头。</p>
-<p><code>data</code>选项用于声明应用内需要双向绑定的数据。建议所有会用到的数据都预先在<code>data</code>内声明，提升业务的可维护性。</p>
-<p>Vue实例<code>new Vue({})</code>，这里可以使用<code>app</code>代理了<code>data</code>对象里的所有属性，可以这样访问<code>data</code>中的数据：</p>
-<pre><code>console.log(app.name);
-</code></pre><p>除了显式地声明数据外，还可以指向一个已有的变量，并且它们之间默认建立了双向绑定，当修改其中任意一个时，另一个也会跟着变化。</p>
-<pre><code>var myData = {
-    a: 1
-};
+<h1 id="-">内置指令</h1>
+<h2 id="-">基本指令</h2>
+<h3 id="-v-cloak-"><code>v-cloak</code></h3>
+<p><code>v-cloak</code>不需要表达式，它会在Vue实例结束编译时从绑定的HTML元素上移除，经常和CSS的<code>display: none;</code>配合使用：</p>
+<pre><code>&lt;div id=&quot;app&quot; v-cloak&gt;
+    {{message}}
+&lt;/div&gt;
+</code></pre><p>当网速较慢、Vue.js文件还没加载完时，在页面上会显示<code>{{message}}</code>的字样，直到Vue创建实例、编译模板时，DOM才会被替换，所以这个过程屏幕有闪。只要加一句CSS就可以解决这个问题：</p>
+<pre><code>[v-cloak] {
+    display: none;
+}
+</code></pre><p>v-cloak是一个解决初始化慢导致页面闪动的最佳实践，对于简单的项目很实用。</p>
+<p>在工程化的项目中，项目的HTML结构只有一个空的<code>div</code>元素，剩下的内容都由路由挂载不同组件完成，这时不再需要<code>v-cloak</code>。</p>
+<h3 id="-v-once-"><code>v-once</code></h3>
+<p><code>v-once</code>是一个不需要表达式的指令，作用是定义它的元素或者组件只渲染一次，包括元素或组件的所有子节点。首次渲染后，不再随数据的变化重新渲染，将被视为静态内容。</p>
+<p><code>v-once</code>在业务中很少使用，如果需要进一步优化性能时，可能会用到。</p>
+<h2 id="-">条件渲染指令</h2>
+<h3 id="-v-if-v-else-if-v-else-"><code>v-if</code>、<code>v-else-if</code>、<code>v-else</code></h3>
+<p>Vue.js的条件指令可以根据表达式的值在DOM中渲染或销毁元素/组件。</p>
+<p><code>v-else-if</code>要紧跟<code>v-if</code>，<code>v-else</code>要紧跟<code>v-else-if</code>或<code>v-if</code>，表达式的值为真时，当前元素/组件及所有子节点将被渲染，为假时被移除。</p>
+<p>如果一次判断的是多个元素，可以在Vue.js内置的<code>&lt;template&gt;</code>元素上使用条件指令，最终渲染的结果不会包含该元素。</p>
+<p>Vue在渲染元素时，处于效率考虑，会尽可能地复用已有的元素，而非重新渲染。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="KewYmd" data-default-tab="html,result" data-user="whjin" data-embed-version="2" data-pen-title="条件渲染指令" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/KewYmd/">条件渲染指令</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-var app = Vue({
-    el: &quot;#app&quot;,
-    data: myData
-});
-
-app.a = 2;
-console.log(myData.a);//2
-myData.a = 3;
-console.log(app.a);//3
-</code></pre><h2 id="-">生命周期</h2>
-<p>Vue的生命周期钩子：</p>
+<p>示例中键入内容后，点击切换按钮，虽然DOM改变了，但是之前在输入框键入的内容并没有改变，只是替换了<code>placeholder</code>的内容，说明<code>&lt;input&gt;</code>元素被复用了。</p>
+<p>使用Vue.js提供的<code>key</code>属性，可以让你自己决定是否要复用元素，<code>key</code>的值必须是唯一的。</p>
+<pre><code>&lt;input type=&quot;text&quot; placeholder=&quot;输入用户名&quot; key=&quot;name-input&quot;&gt;
+</code></pre><p>给两个<code>&lt;input&gt;</code>元素都增加了<code>key</code>后，就不会复用了。切换类型时键入的内容也会被删除，不过<code>&lt;label&gt;</code>元素仍然会被复用，因为没有添加<code>key</code>属性。</p>
+<h3 id="-v-show-"><code>v-show</code></h3>
+<p><code>v-show</code>的用法与<code>v-if</code>基本一致，只不过<code>v-show</code>是改变元素的CSS属性<code>display</code>。</p>
+<p>当<code>v-show</code>表达式的值为<code>false</code>时元素会隐藏，DOM结构元素上加载了内联样式<code>display:none;</code>。</p>
+<p><strong><code>v-show</code>不能在<code>&lt;template&gt;</code>上使用</strong>。</p>
+<h3 id="-v-if-v-show-"><code>v-if</code>与<code>v-show</code>的选择</h3>
+<p><code>v-if</code>和<code>v-show</code>具有类似的功能，不过<code>v-if</code>才是真正的条件渲染，它会根据表达式适当地<strong>销毁或重建</strong>元素及绑定的事件或子组件。</p>
+<p>若表达式初始值为<code>false</code>，则一开始元素/组件并不会渲染，只有当条件第一次变为真时才开始编译。</p>
+<p>而<code>v-show</code>只是简单的CSS属性切换，无论条件真与否，都会被编译。</p>
+<p>相比之下，<code>v-if</code>更适合条件不经常改变的场景，因为它的切换开销相对较大，而<code>v-show</code>适用于频繁切换条件。</p>
+<h2 id="-v-for-">列表渲染指令<code>v-for</code></h2>
+<h3 id="-">基本用法</h3>
+<p>当需要将一个数组遍历或枚举一个对象循环显示时，就会用到列表渲染指令<code>v-for</code>。它的表达式需结合<code>in</code>来使用，类似<code>item in items</code>的形式。</p>
+<p>列表渲染也支持用<code>of</code>代替<code>in</code>作为分隔符，它更接近JavaScript迭代器的语法：</p>
+<pre><code>&lt;li v-for=&quot;book of books&quot;&gt;{{book.name}}&lt;/li&gt;
+</code></pre><p><code>v-for</code>的表达式支持一个可选参数作为当前项的索引。</p>
+<pre><code>&lt;li v-for=&quot;(book,index) of books&quot;&gt;{{index}} - {{book.name}}&lt;/li&gt;
+</code></pre><p>分隔符<code>in</code>前的语句使用括号，第二项就是<code>books</code>当前项的索引。</p>
+<p>与<code>v-if</code>一样，<code>v-for</code>也可以用在内置标签<code>&lt;template&gt;</code>上，将多个元素进行渲染。</p>
+<p>除了数组外，对象的属性也是可以遍历的。</p>
+<p>遍历对象属性时，有两个可选参数，分别是键名和索引：</p>
+<pre><code>&lt;div id=&quot;app&quot;&gt;
+    &lt;ul&gt;
+        &lt;li v-for=&quot;(value,key,index) of users&quot;&gt;
+            {{index}} - {{key}} - {{value}}
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+</code></pre><p><code>v-for</code>还可以迭代整数：</p>
+<pre><code>&lt;div id=&quot;app&quot;&gt;
+    &lt;span v-for=&quot;n in 10&quot;&gt;{{n}}&lt;/span&gt;
+&lt;/div&gt;
+</code></pre><h2 id="-">数组更新</h2>
+<p>Vue的核心是数据与视图的双向绑定，包含了一组观察数组变化的方法，使用它们改变数组也会触发视图更新：</p>
 <ul>
-<li><code>created</code>：实例创建完成后调用，此阶段完成了数据的观测等，但未挂载，<code>$el</code>还不可用。（需要初始化处理一些数据时会比较有用）</li><li><code>mounted</code>：<code>el</code>挂载到实例上后调用，第一个业务逻辑会在这里开始。</li><li><code>beforeDestroy</code>：实例销毁之前调用。主要解绑一些使用<code>addEventListener</code>监听的事件等。</li></ul>
-<p>这些钩子与<code>el</code>和<code>data</code>类似，也是作为选项写入Vue实例中，并且钩子的<code>this</code>指向的是调用它的Vue实例。</p>
-<h2 id="-">插值与表达式</h2>
-<p>使用（Mustache语法）<code>{{}}</code>是最基本的文本插值方法，它会自动将我们双向绑定的数据实时显示出来。</p>
-<p><code>v-html</code>直接输出HTML，而不是将数据解析后的纯文本。</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
-&lt;span v-html=&quot;link&quot;&gt;&lt;/span&gt;
-&lt;/div&gt;
-
-new Vue({
-    el: &quot;#app&quot;,
-    data: {
-        link: &#39;&lt;a href=&quot;#&quot;&gt;this is a link.&lt;/a&gt;&#39;
-    }
-});
-</code></pre><p>link的内容将会被渲染成一个<code>a</code>标签，而不是纯文本。</p>
-<p>如果将用户产生的内容使用<code>v-html</code>输出后，有可能导致XSS攻击，所以要在服务端对用户提交的内容进行处理，一般可将<code>&lt;&gt;</code>转义。</p>
-<p>如果想要显示<code>{{}}</code>标签，不进行替换，使用<code>v-pre</code>即可跳过这个元素和它的子元素的编译过程。</p>
+<li><code>push()</code></li><li><code>pop()</code></li><li><code>shift()</code></li><li><code>unshift()</code></li><li><code>splice()</code></li><li><code>sort()</code></li><li><code>reverse()</code></li></ul>
+<p>使用以上方法会改变被这些方法调用的原始数组。</p>
+<p>以下方法不会改变原数组：</p>
 <ul>
-<li>在<code>{{}}</code>中除了简单的绑定属性值外，还可以使用JavaScript表达式进行简单的运算、三元运算等。</li><li>Vue只支持单个表达式，不支持语句和流程控制。</li><li>在表达式中不能使用用户自定义的全局变量，只能使用Vue白名单内的全局变量，例如<code>Math</code>和<code>Date</code>。</li></ul>
-<h2 id="-">过滤器</h2>
-<p>Vue.js支持在<code>{{}}</code>插值的尾部添加一个管道符<code>(|)</code>对数据进行过滤，经常用户格式化文本，比如<strong>字母全部大写</strong>、<strong>货币千位使用逗号分隔</strong>等。过滤的规则是自定义的，通过给Vue实例添加选项<code>filter</code>来设置。</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
-    {{date | formatDate}}
-&lt;/div&gt;
-</code></pre><p>过滤器也可以串联，而且可以接收参数：</p>
-<pre><code>&lt;!--串联--&gt;
-{{message | filterA | filterB}}
-
-&lt;!--接收参数--&gt;
-{{message | filterA(&#39;arg1&#39;,&#39;arg2&#39;)}}
-</code></pre><p>过滤器应当用于处理简单的文本转换，如果要实现更为复杂的数据转换，应该使用计算属性。</p>
-<h2 id="-">指令事件</h2>
-<p>指令（<code>Directives</code>）是Vue.js模板中最常用的一项功能，它带有前缀<code>v-</code>。指令的主要职责就是当其表达式的值改变时，相应地将某些行为应用到DOM上。</p>
-<p><code>v-bind</code>的基本用途是动态更新HTML元素上的属性，比如<code>id</code>、<code>class</code>等。</p>
-<p>另一个非常重要的指令就是<code>v-on</code>，用来绑定事件监听器。</p>
-<p>在普通元素上，<code>v-on</code>可以监听原生的DOM事件，除了<code>click</code>外还有<code>dbclick</code>、<code>keyup</code>、<code>mousemove</code>等。表达式可以是一个方法名，这些方法都写在Vue市里的<code>methods</code>属性内，并且是函数的形式，这些函数的<code>this</code>指向的是当前Vue实例本身，因此可以直接使用<code>this.xxx</code>的形式访问或修改数据。</p>
-<p>Vue.js将<code>methods</code>里的方法进行代理，可以像访问Vue数据一样调用方法：</p>
-<pre><code>&lt;div id=&quot;app&quot;&gt;
-    &lt;p v-if=&quot;show&quot;&gt;这是一段为本&lt;/p&gt;
-    &lt;button @click=&quot;handleClose&quot;&gt;点击隐藏&lt;/button&gt;
-&lt;/div&gt;
-
-new Vue({
-    el: &quot;#app&quot;,
-    data: {
-        show: true
-    },
-    methods: {
-        handleClose: function () {
-            this.close()
-        },
-        close: function () {
-            this.show = false
-        }
-    }
+<li><code>filter()</code></li><li><code>concat()</code></li><li><code>slice()</code></li></ul>
+<p>它们返回的是一个新数组，在使用这些非变异方法时，可以用新数组来替换元素组。</p>
+<p>Vue在检测到数组变化时，并不是直接重新渲染整个列表，而是最大化地复用DOM元素。替换的数组中，含有相同元素的项不会被重新渲染，因此可以大胆地用新数组来替换旧数组，不用担心性能问题。</p>
+<p>需要注意的是，以下变动的数组中，Vue时不能检测到的，也不会触发视图更新：</p>
+<ul>
+<li>通过索引直接设置项，<code>app.books[3]={}</code></li><li>修改数组长度，<code>app.books.length=1</code></li></ul>
+<p>解决第一个问题可以用两种方法实现同样的效果，第一种是使用Vue内置的<code>set</code>方法：</p>
+<pre><code>Vue.set(app.books, 3, {
+    name: &#39;《CSS秘密花园》&#39;,
+    author: &#39;无名氏&#39;
 });
-</code></pre><p>在<code>handleClose</code>方法中直接通过<code>this.close()</code>调用了<code>close()</code>函数。</p>
-<pre><code>var app = new Vue({
-    el: &quot;#app&quot;,
-    data: {
-        show: true
-    },
-    methods: {
-        init: function (text) {
-            console.log(text);
-        },
-    },
-    mounted: function () {
-        this.init(&#39;在初始化时调用&#39;);
-    }
-});
-app.init(&#39;通过外部调用&#39;);
-</code></pre><h2 id="-">语法糖</h2>
-<p>语法糖是指在不影响功能的情况下，添加某种方法实现同样的效果，从而方便程序开发。</p>
-<p>Vue.js的<code>v-bind</code>和<code>v-on</code>指令都提供了语法糖，也可以说是缩写，比如<code>v-bind</code>缩写成<code>:</code>，多用于<code>a</code>、<code>img</code>标签；<code>v-on</code>缩写成<code>@</code>，所用于<code>input</code>、<code>button</code>标签。</p>
+</code></pre><p>如果是在webpack中使用组件化的方式，默认是没有导入Vue的，这时可以使用<code>this.$set</code>。</p>
+<p>另一种方法：<code>app.books.splice(3,1,{})</code></p>
+<h2 id="-">过滤与排序</h2>
+<p>如果不希望改变原数组，想通过一个数组的副本来做过滤或排序的显示时，可以使用计算属性返回过滤或排序后的数组。</p>
 
 </body>
 </html>
