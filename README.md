@@ -52,6 +52,10 @@
 5. [学习JS的8张思维导图](https://whjin.github.io/full-stack-development/posts/%E5%AD%A6%E4%B9%A0JS%E7%9A%848%E5%BC%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.html)
 6. [正则表达式实例](https://whjin.github.io/full-stack-development/posts/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AE%9E%E4%BE%8B.html)
 
+## JS库 ##
+
+1. [小丑(KineticJS)](https://whjin.github.io/full-stack-development/instance/framework/KineticJS/index.html)
+
 ## JS实例 ##
 
 1. [图片轮播](https://whjin.github.io/full-stack-development/instance/js/slideshow/index.html)
@@ -69,40 +73,6 @@
 3. [全屏焦点图](https://whjin.github.io/full-stack-development/instance/jquery/focus-picture/index.html)
 4. [时钟](https://whjin.github.io/full-stack-development/instance/jquery/clock/index.html)
 5. [垂直多级菜单](https://whjin.github.io/full-stack-development/instance/jquery/multi-menu/index.html)
-
-## HTTP/Ajax ##
-
-1. [HTTP细节](https://whjin.github.io/full-stack-development/posts/HTTP%E7%BB%86%E8%8A%82.html)
-2. [性能优化](https://whjin.github.io/full-stack-development/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html)
-3. [Ajax技术细节](https://whjin.github.io/full-stack-development/posts/Ajax%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82.html)
-4. [全栈开发技能](https://whjin.github.io/full-stack-development/posts/%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E6%8A%80%E8%83%BD.html)
-5. [HTTP反向代理服务器](https://whjin.github.io/full-stack-development/posts/HTTP%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8.html)
-
-## Git ##
-
-1. [Git命令](https://whjin.github.io/full-stack-development/posts/Git%E5%91%BD%E4%BB%A4.html)
-2. [Git技术细节](https://whjin.github.io/full-stack-development/posts/Git%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82.html)
-
-
-## Vue ##
-
-1. [Vue实例](https://whjin.github.io/full-stack-development/posts/Vue%E5%AE%9E%E4%BE%8B.html)
-2. [TodoMVC](https://whjin.github.io/full-stack-development/instance/vue/todoMVC/index.html)
-3. [评论面板](https://whjin.github.io/full-stack-development/instance/vue/commentBoard/index.html)
-
-## 框架/库/工具 ##
-
-1. [小丑(KineticJS)](https://whjin.github.io/full-stack-development/instance/framework/KineticJS/index.html)
-2. [前端发展概述](https://whjin.github.io/full-stack-development/posts/%E5%89%8D%E7%AB%AF%E5%8F%91%E5%B1%95%E6%A6%82%E8%BF%B0.html)
-3. [webpack入门](https://whjin.github.io/full-stack-development/posts/webpack%E5%85%A5%E9%97%A8.html)
-4. [webpack配置](https://whjin.github.io/full-stack-development/posts/webpack%E9%85%8D%E7%BD%AE.html)
-5. [webpack实战](https://whjin.github.io/full-stack-development/posts/webpack%E5%AE%9E%E6%88%98.html)
-
-## 项目 ##
-
-1. [简历(CV)](https://whjin.github.io/full-stack-development/instance/project/cv/index.html)
-2. [简历(VITAE)](https://whjin.github.io/full-stack-development/instance/project/vitae/index.html)
-3. [简历(RESUME)](https://whjin.github.io/full-stack-development/instance/project/resume/index.html)
 
 ## Webpack ##
 
@@ -147,13 +117,49 @@
     - [开启 Scope Hoisting](https://whjin.github.io/full-stack-development/posts/%E4%BD%BF%E7%94%A8%20Prepack.html)
     - [输出分析](https://whjin.github.io/full-stack-development/posts/%E8%BE%93%E5%87%BA%E5%88%86%E6%9E%90.html)
     - [优化总结](https://whjin.github.io/full-stack-development/posts/%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93.html)
-5. [webpack原理](https://whjin.github.io/full-stack-development/posts/webpack%E5%8E%9F%E7%90%86.html)
+6. [webpack原理](https://whjin.github.io/full-stack-development/posts/webpack%E5%8E%9F%E7%90%86.html)
     - [工作原理概括](https://whjin.github.io/full-stack-development/posts/webpack%E5%8E%9F%E7%90%86.html)
     - [输出文件分析](https://whjin.github.io/full-stack-development/posts/%E8%BE%93%E5%87%BA%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90.html)
     - [编写 Loader](https://whjin.github.io/full-stack-development/posts/%E7%BC%96%E5%86%99%20Loader.html)
     - [编写 Plugin](https://whjin.github.io/full-stack-development/posts/%E7%BC%96%E5%86%99%20Plugin.html)
     - [调试 Webpack](https://whjin.github.io/full-stack-development/posts/%E8%B0%83%E8%AF%95%20Webpack.html)
     - [原理总结](https://whjin.github.io/full-stack-development/posts/%E5%8E%9F%E7%90%86%E6%80%BB%E7%BB%93.html)
-6. 常用 Loaders
+7. 常用 Loaders
     - [常用 Loaders](https://whjin.github.io/full-stack-development/posts/%E5%B8%B8%E7%94%A8%20Loaders.html)
     - [常用 Plugins](https://whjin.github.io/full-stack-development/posts/%E5%B8%B8%E7%94%A8%20Plugins.html) 
+
+## Vue基础 ##
+
+1. [Vue基础](https://whjin.github.io/full-stack-development/posts/Vue%E5%9F%BA%E7%A1%80.html)
+    - [计算属性](https://whjin.github.io/full-stack-development/posts/%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7.html)
+    - [v-bind及class与style绑定](https://whjin.github.io/full-stack-development/posts/v-bind%E5%8F%8Aclass%E4%B8%8Estyle%E7%BB%91%E5%AE%9A.html)
+    - [内置指令](https://whjin.github.io/full-stack-development/posts/%E5%86%85%E7%BD%AE%E6%8C%87%E4%BB%A4.html)
+    - [方法与事件](https://whjin.github.io/full-stack-development/posts/%E6%96%B9%E6%B3%95%E4%B8%8E%E4%BA%8B%E4%BB%B6.html)
+    - [实战：开发购物车](https://whjin.github.io/full-stack-development/posts/%E5%AE%9E%E6%88%98%EF%BC%9A%E5%BC%80%E5%8F%91%E8%B4%AD%E7%89%A9%E8%BD%A6.html)
+    - [表单与v-model](https://whjin.github.io/full-stack-development/posts/%E5%AE%9E%E6%88%98%EF%BC%9A%E5%BC%80%E5%8F%91%E8%B4%AD%E7%89%A9%E8%BD%A6.html)
+    - [组件详解](https://whjin.github.io/full-stack-development/posts/%E7%BB%84%E4%BB%B6%E8%AF%A6%E8%A7%A3.html)
+
+## Vue实战 ##
+
+1. [Vue实例](https://whjin.github.io/full-stack-development/posts/Vue%E5%AE%9E%E4%BE%8B.html)
+2. [TodoMVC](https://whjin.github.io/full-stack-development/instance/vue/todoMVC/index.html)
+3. [评论面板](https://whjin.github.io/full-stack-development/instance/vue/commentBoard/index.html)
+
+## HTTP/Ajax ##
+
+1. [HTTP细节](https://whjin.github.io/full-stack-development/posts/HTTP%E7%BB%86%E8%8A%82.html)
+2. [性能优化](https://whjin.github.io/full-stack-development/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html)
+3. [Ajax技术细节](https://whjin.github.io/full-stack-development/posts/Ajax%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82.html)
+4. [全栈开发技能](https://whjin.github.io/full-stack-development/posts/%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E6%8A%80%E8%83%BD.html)
+5. [HTTP反向代理服务器](https://whjin.github.io/full-stack-development/posts/HTTP%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8.html)
+
+## Git ##
+
+1. [Git命令](https://whjin.github.io/full-stack-development/posts/Git%E5%91%BD%E4%BB%A4.html)
+2. [Git技术细节](https://whjin.github.io/full-stack-development/posts/Git%E6%8A%80%E6%9C%AF%E7%BB%86%E8%8A%82.html)
+
+## 简历 ##
+
+1. [简历(CV)](https://whjin.github.io/full-stack-development/instance/project/cv/index.html)
+2. [简历(VITAE)](https://whjin.github.io/full-stack-development/instance/project/vitae/index.html)
+3. [简历(RESUME)](https://whjin.github.io/full-stack-development/instance/project/resume/index.html)
