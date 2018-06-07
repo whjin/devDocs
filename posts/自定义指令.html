@@ -485,6 +485,52 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-">自定义指令</h1>
+<p>自定义指令的注册方法分为<strong>全局注册</strong>和<strong>局部注册</strong>，比如注册一个<code>v-focus</code>指令，用于在<code>&lt;input&gt;</code>、<code>&lt;textarea&gt;</code>元素初始化时自动获得焦点，两种写法分别是：</p>
+<pre><code>//全局注册
+Vue.directive(&#39;focus&#39;, {});
+
+//局部注册
+new Vue({
+    el: &#39;#app&#39;,
+    directives: {
+        focus: {}
+    }
+});
+</code></pre><p>自定义指令的选项是由几个钩子函数组成，每个都是可选的：</p>
+<ul>
+<li><code>bind</code>：只调用一次，指令第一次绑定到元素时调用，用这个钩子函数可以定义一个在绑定时执行一次的初始化动作。</li><li><code>inserted</code>：被绑定元素插入父节点时调用（父节点存在即可调用，不必存在于<code>document</code>中）。</li><li><code>update</code>：被绑定元素所在的模板更新时调用，而不论绑定值是否变化。通过比较更新前后的绑定值，可以忽略不必要的模板更新。</li><li><code>componentUpdate</code>：被绑定元素所在模板完成一次更新周期时调用。</li><li><code>unbind</code>：只调用一次，指令与元素解绑时调用。</li></ul>
+<p>可以根据需求在不同的钩子函数内完成逻辑代码。在元素插入父节点时就调用，用到的最好是<code>inserted</code>。</p>
+<pre><code>&lt;div id=&quot;app&quot;&gt;
+    &lt;input type=&quot;text&quot; v-focus&gt;
+&lt;/div&gt;
+
+Vue.directive(&#39;focus&#39;, {
+    inserted(el) {
+        el.focus();
+    }
+});
+new Vue({
+    el: &#39;#app&#39;,
+});
+</code></pre><p>打开页面，<code>input</code>输入框自动获得焦点，成为可输入状态。</p>
+<p>每个钩子函数都有几个参数可用：</p>
+<ul>
+<li><code>el</code> 指令所绑定的元素，可以用来直接操作DOM</li><li><code>binding</code> 一个对象，包含以下属性：<ul>
+<li><code>name</code> 指令名，不包括<code>v-</code>前缀</li><li><code>value</code> 指令的绑定值</li><li><code>oldValue</code> 指令绑定的前一个值，仅在<code>update</code>和<code>componentUpdate</code>钩子中可用。无论值是否改变都可用。</li><li><code>expression</code> 绑定值的字符串形式。</li><li><code>arg</code> 传给指令的参数。</li><li><code>modifiers</code> 一个包含修饰符的对象。</li></ul>
+</li><li><code>vnode</code> Vue编译生成的虚拟节点。</li><li><code>oldVnode</code> 上一个虚拟节点仅在<code>update</code>和<code>componentUpdate</code>钩子中可用。</li></ul>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="QxKQqY" data-default-tab="html,result" data-user="whjin" data-embed-version="2" data-pen-title="Vue-自定义指令" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/QxKQqY/">Vue-自定义指令</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>如果需要多个值，自定义指令可以传入一个JavaScript对象字面量。</p>
+<div id="app"><br>    <div v-test="{msg:'hello',name:'Andy}"></div><br></div>
+
+<h1 id="-v-time-">开发一个实时时间转换指令<code>v-time</code></h1>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="wXoMpg" data-default-tab="html,result" data-user="whjin" data-embed-version="2" data-pen-title="Vue-实时时间转换指令" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/wXoMpg/">Vue-实时时间转换指令</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>Time.getFormatTime()</code>方法就是自定义指令<code>v-time</code>所需要的，入参为毫秒级时间戳，返回已经整理好时间格式的字符串。</p>
+<p>在<code>bind</code>钩子里，将指令<code>v-time</code>表达式的值<code>binding.value</code>作为参数传入<code>TimeFormatTime()</code>方法得到格式化时间，再通过<code>el.innerHTML</code>写入指令所在元素。定时器<code>el.__timeout__</code>每分钟触发一次，更新时间，并且在<code>unbind</code>钩子里清除掉。</p>
+<p><strong>总结：</strong>在编写自定义指令时，给DOM绑定一次性事件等初始动作，建议在<code>bind</code>钩子内完成，同时要在<code>unbind</code>内解除相关绑定。</p>
 
 </body>
 </html>
