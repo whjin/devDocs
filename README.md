@@ -130,7 +130,7 @@
 
 ## Vue基础 ##
 
-1. [基础知识](https://whjin.github.io/full-stack-development/posts/Vue%E5%9F%BA%E7%A1%80.html)
+1. [基础知识](https://whjin.github.io/full-stack-development/posts/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html)
 2. [计算属性](https://whjin.github.io/full-stack-development/posts/%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7.html)
 3. [v-bind及class与style绑定](https://whjin.github.io/full-stack-development/posts/v-bind%E5%8F%8Aclass%E4%B8%8Estyle%E7%BB%91%E5%AE%9A.html)
 4. [内置指令](https://whjin.github.io/full-stack-development/posts/%E5%86%85%E7%BD%AE%E6%8C%87%E4%BB%A4.html)
@@ -140,8 +140,10 @@
 8. [组件详解](https://whjin.github.io/full-stack-development/posts/%E7%BB%84%E4%BB%B6%E8%AF%A6%E8%A7%A3.html)
 9. [实战：常用组件的开发](https://whjin.github.io/full-stack-development/posts/%E5%AE%9E%E6%88%98%EF%BC%9A%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6%E7%9A%84%E5%BC%80%E5%8F%91.html)
 10. [自定义指令](https://whjin.github.io/full-stack-development/posts/%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4.html)
-2. Vue进阶
-    - 
+
+## Vue进阶 ##
+
+1. 
 
 
 ## Vue实战 ##
