@@ -139,6 +139,7 @@
     - [表单与v-model](https://whjin.github.io/full-stack-development/posts/%E5%AE%9E%E6%88%98%EF%BC%9A%E5%BC%80%E5%8F%91%E8%B4%AD%E7%89%A9%E8%BD%A6.html)
     - [组件详解](https://whjin.github.io/full-stack-development/posts/%E7%BB%84%E4%BB%B6%E8%AF%A6%E8%A7%A3.html)
     - [实战：常用组件的开发](https://whjin.github.io/full-stack-development/posts/%E5%AE%9E%E6%88%98%EF%BC%9A%E5%B8%B8%E7%94%A8%E7%BB%84%E4%BB%B6%E7%9A%84%E5%BC%80%E5%8F%91.html)
+    - 自定义指令
 
 ## Vue实战 ##
 
