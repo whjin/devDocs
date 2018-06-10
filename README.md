@@ -143,7 +143,8 @@
 
 ## Vue进阶 ##
 
-1. Render函数
+1. [Render函数](https://whjin.github.io/full-stack-development/posts/Render%E5%87%BD%E6%95%B0.html)
+2. 函数化组件
 
 
 ## Vue实战 ##

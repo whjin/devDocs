@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>Render函数</title>
+<title>函数化组件</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -484,131 +484,7 @@ vertical-align:1px;
 <base target=_blank>
 </head>
 <body>
-<h1 id="render-">Render函数</h1>
-<p>Vue2与Vue1最大的区别就在于Vue2使用了虚拟DOM来更新DOM节点，提升渲染性能。</p>
-<h2 id="-dom">虚拟DOM</h2>
-<p>React和Vue2都使用了虚拟DOM技术，虚拟DOM并不是真正意义上的DOM，而是一个轻量级的JavaScript对象，在状态发生变化时，虚拟DOM会进行Different运算，来更新只需要被替换的DOM，而不是全部重绘。</p>
-<p>与DOM操作相比，虚拟DOM是基于JavaScript计算的，所以开销会小很多。</p>
-<p><img src="https://i.imgur.com/WDPrxd6.png" alt=""></p>
-<p>在Vue2中，虚拟DOM就是通过一种VNode类表达，每个DOM元素或组件对对应一个VNode对象。</p>
-<p><code>VNodeData</code>节点解析：</p>
-<ul>
-<li><code>children</code> 子节点，数组，也是VNode类型。</li><li><code>text</code> 当前节点的文本，一般文本节点或注释节点会有该属性。</li><li><code>elm</code> 当前虚拟节点对应的真实的DOM节点。</li><li><code>ns</code> 节点的<code>namespace</code></li><li><code>content</code> 编译作用域</li><li><code>functionalContext</code> 函数化组件的作用域</li><li><code>key</code> 节点的<code>key</code>属性，用于作为节点的标识，有利于<code>patch</code>的优化</li><li><code>componentOptions</code> 创建组件实例时会用到的选项信息。</li><li><code>child</code> 当前节点对应的组件实例。</li><li><code>parent</code> 组件的占位节点。</li><li><code>raw</code> 原始<code>html</code></li><li><code>isStatic</code> 静态节点的标识</li><li><code>isRootInset</code> 是否作为根节点插入，被<code>&lt;transition&gt;</code>包裹的节点，该属性的值为<code>false</code>。</li><li><code>isConment</code> 当前节点是否是注释节点。</li><li><code>isCloned</code> 当前节点是否为克隆节点。</li><li><code>isOnce</code> 当前节点是否有<code>v-once</code>指令。</li></ul>
-<p>VNode主要可以分为以下几类：</p>
-<p><img src="https://i.imgur.com/joGkCXE.png" alt=""></p>
-<ul>
-<li><code>TextVNode</code> 文本节点。</li><li><code>ElementVNode</code> 普通元素节点。</li><li><code>ComponentVNode</code> 组件节点。</li><li><code>EmptyVNode</code> 没有内容的注释节点。</li><li><code>CloneVNode</code> 克隆节点，可以是以上任意类型的节点，唯一的区别在于<code>isCloned</code>属性为<code>true</code>。</li></ul>
-<p>Render函数通过<code>createElement</code>参数来创建虚拟DOM，结构精简。其中，<strong>访问<code>slot</code>的用法，使用场景集中在Render函数</strong>。</p>
-<p><p data-height="265" data-theme-id="0" data-slug-hash="wXozpg" data-default-tab="html,result" data-user="whjin" data-embed-version="2" data-pen-title="Vue-render函数" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/wXozpg/">Vue-render函数</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<h2 id="-createelement-"><code>createElement</code>用法</h2>
-<h3 id="-">基本参数</h3>
-<p><code>createElement</code>构成了Vue虚拟DOM的模板，它有<strong>3</strong>个参数：</p>
-<pre><code>createElement(
-    //{String | Object | Function}
-    //一个HTML标签，组件选项，或一个函数
-    //必须return上面其中一个
-    &#39;div&#39;,
-    //{Object}
-    //一个对应属性的数据对象，可选
-    //可以在template中使用
-    //{String | Array}
-    //子节点(VNode)，可选
-    [
-        createElement(&#39;h1&#39;,&#39;hello world&#39;),
-        createElement(MyComponent,{
-            props:{
-                someProp:&#39;foo&#39;
-            }
-        }),
-        &#39;bar&#39;
-    ]
-);
-</code></pre><p>第一个参数必选，可以是一个HTML标签，也可以是一个组件或函数；第二个是可选参数，数据对象，在<code>template</code>中使用。第三个是子节点，也是可选参数，用法一直。</p>
-<p>之前在<code>template</code>中都是在组件的标签上使用<code>v-bind:class</code>、<code>v-bind:style</code>、<code>v-on:click</code>这样的指令，在Render函数都将其写在了数据对象中。</p>
-<h3 id="-">约束</h3>
-<p>所有的组件树中，如果VNode是组件或含有组件的<code>slot</code>，nameVNode必须唯一。</p>
-<p>在Render函数里创建了一个<code>cloneVNode</code>的工厂函数，通过递归将<code>slot</code>所有子节点都克隆了一份，并对VNode的关键属性也进行复制。</p>
-<h3 id="-javascript-">使用JavaScript代替模板功能</h3>
-<p>在Render函数中，不再需要Vue内置的指令，比如<code>v-if</code>、<code>v-for</code>。无论要实现什么功能，都可以使用原生JavaScript。</p>
-<p><p data-height="265" data-theme-id="0" data-slug-hash="eKgVgQ" data-default-tab="html,result" data-user="whjin" data-embed-version="2" data-pen-title="render--v-for" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/eKgVgQ/">render—v-for</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<blockquote>
-<p><code>map()</code>方法时快速改变数组结构，返回一个新数组。<code>map</code>常和<code>filter</code>、<code>sort</code>等方法一起使用，它们返回的都是新数组。</p>
-</blockquote>
-<p>Render函数里没有与<code>v-model</code>对应的API，需要自己来实现逻辑。</p>
-<p><p data-height="265" data-theme-id="0" data-slug-hash="BVpYdd" data-default-tab="html,result" data-user="whjin" data-embed-version="2" data-pen-title="Vue-render-API" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/BVpYdd/">Vue-render-API</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p><code>v-model</code>就是<code>prop:value</code>和<code>event:input</code>组合使用的一个语法糖，虽然在Render里写起来比较复杂，但是可以自由控制，深入到更底层。</p>
-<p>对于事件修饰符和按键修饰符，基本需要自己实现：</p>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>对应的句柄</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>.stop</code></td>
-<td><code>event.stopPropagation()</code></td>
-</tr>
-<tr>
-<td><code>.prevent</code></td>
-<td><code>event.preventDefault()</code></td>
-</tr>
-<tr>
-<td><code>.self</code></td>
-<td><code>if(event.target!==event.currentTarget) return</code></td>
-</tr>
-<tr>
-<td><code>.ente</code>、<code>.13</code></td>
-<td><code>if(event.keyCode!==13) return</code>替换<strong>13</strong>位需要的keyCode</td>
-</tr>
-<tr>
-<td><code>.ctrl</code>、<code>.alt</code>、<code>.shift</code>、<code>.meta</code></td>
-<td><code>if(!event.ctrlKey) return</code>根据需要替换<strong>ctrlKey</strong>位<strong>altKey</strong>、<strong>shiftKey</strong>或<strong>metaKey</strong></td>
-</tr>
-</tbody>
-</table>
-<p>对于事件修饰符<code>.capture</code>和<code>.once</code>，Vue提供了特殊的前缀，可以直接写在<code>on</code>的配置里。</p>
-<table>
-<thead>
-<tr>
-<th>修饰符</th>
-<th>前缀</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>.capture</code></td>
-<td><code>!</code></td>
-</tr>
-<tr>
-<td><code>.once</code></td>
-<td><code>~</code></td>
-</tr>
-<tr>
-<td><code>.capture.once</code>或<code>.once.capture</code></td>
-<td><code>~!</code></td>
-</tr>
-</tbody>
-</table>
-<p>写法如下：</p>
-<pre><code>on: {
-    &#39;!click&#39;: this.doThisInCapturingMode,
-        &#39;~keyup&#39;: this.doThisOnce,
-        &#39;~!mouseover&#39;: this.doThisOnceInCapturingMode
-}
-</code></pre><p>简单模拟聊天发送内容的场景：</p>
-<p><p data-height="265" data-theme-id="0" data-slug-hash="ZRLrPN" data-default-tab="html,result" data-user="whjin" data-embed-version="2" data-pen-title="Vue-模拟聊天发送内容" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/ZRLrPN/">Vue-模拟聊天发送内容</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
-<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
-
-<p>在Render函数中会大量使用<code>slot</code>，在没有使用<code>slot</code>时会显示一个默认的内容，这部分需要自己实现。</p>
-<p><code>this.$slots.default</code>等于<code>undefined</code>，就说明父组件中没有定义<code>slot</code>，这是可以自定义显示的内容。</p>
+<h1 id="-">函数化组件</h1>
 
 </body>
 </html>
