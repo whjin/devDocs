@@ -145,7 +145,7 @@
 
 1. [Render函数](https://whjin.github.io/full-stack-development/posts/Render%E5%87%BD%E6%95%B0.html)
 2. [函数化组件](https://whjin.github.io/full-stack-development/posts/%E5%87%BD%E6%95%B0%E5%8C%96%E7%BB%84%E4%BB%B6.html)
-3. 使用webpack构建
+3. [使用webpack构建](https://whjin.github.io/full-stack-development/posts/%E4%BD%BF%E7%94%A8webpack%E6%9E%84%E5%BB%BA.html)
 
 
 ## Vue实战 ##
