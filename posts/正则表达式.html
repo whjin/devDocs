@@ -1,0 +1,1222 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>正则表达式</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 16px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h1:first-child {
+  font-size: 32px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 26px;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 16px;
+}
+
+h6 {
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 3px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #eee;
+  color: #00d;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 16px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #42b983;
+  padding: 0 15px;
+  color: #777;
+  background: #f8f8f8;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+table {
+	margin: 0 auto;
+	border-collapse: collapse;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px; 
+}
+
+table th {
+  font-weight: bold;
+  text-align: center !important;
+  background-color: #9ec68e;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #dff0d8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%;
+}
+
+p > img {
+  display: table;
+  margin: 0 auto;
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+<base target=_blank>
+</head>
+<body>
+<h1 id="-">正则表达式</h1>
+<blockquote>
+<p>正则表达式是匹配模式，要么匹配字符，要么匹配位置。</p>
+</blockquote>
+<h1 id="-">字符匹配</h1>
+<h2 id="-">两种模糊匹配</h2>
+<ul>
+<li>正则表达式能实现模糊匹配</li><li>模糊匹配，有两个方向上的模糊：横向和纵向</li></ul>
+<h3 id="-">横向模糊匹配</h3>
+<ul>
+<li>横向模糊指的是，一个正则可匹配的字符串的长度不是固定的</li><li>实现方式是使用量词。<code>{m,n}</code>，表示连续出现最少<code>m</code>次，最多<code>n</code>次</li></ul>
+<blockquote>
+<p><code>/ab{2,5}c/</code>匹配：第一个字符是<code>a</code>，接下来是<code>2</code>到<code>5</code>个字符<code>b</code>，最后是<code>c</code>。</p>
+</blockquote>
+<pre><code>var regex = /ab{2,5}c/g;
+var string = &quot;abc abbc abbbc abbbbc abbbbbc abbbbbbc&quot;;
+console.log(string.match(regex));
+//[ &#39;abbc&#39;, &#39;abbbc&#39;, &#39;abbbbc&#39;, &#39;abbbbbc&#39; ]
+</code></pre><h3 id="-">纵向模糊匹配</h3>
+<blockquote>
+<p>纵向模糊，一个正则匹配的字符串，具体到某一位字符时，它可以不是某个确定的字符，可以有多种可能</p>
+</blockquote>
+<ul>
+<li>实现方式是使用字符组。<code>[abc]</code>，表示该字符可以是<code>a</code>、<code>b</code>、<code>c</code>中的任何一个。</li></ul>
+<pre><code>var regex = /a[123]b/g;
+var string = &quot;a0b a1b a2b a3b a4b&quot;;
+console.log(string.match(regex));
+//[ &#39;a1b&#39;, &#39;a2b&#39;, &#39;a3b&#39; ]
+</code></pre><h2 id="-">字符组</h2>
+<blockquote>
+<p>虽然叫字符组（字符类），但只是匹配其中一个字符。<code>[abc]</code>表示匹配一个字符，它可以是<code>a</code>、<code>b</code>、<code>c</code>。</p>
+</blockquote>
+<h2 id="-">范围表示法</h2>
+<blockquote>
+<p>字符组里的字符比较多，可以使用范围表示法。</p>
+</blockquote>
+<ul>
+<li><code>[123456abcdefGHIJKLM]</code>可以写成<code>[1-6a-fG-M]</code>。用连字符<code>-</code>来省略和简写。</li><li>匹配<code>a</code>、<code>-</code>、<code>z</code>这三者中任意一个字符，可以写成<code>[-az]</code>或<code>[a\-z]</code>。要么放在开头，要么放在结尾，要么转义。</li></ul>
+<h2 id="-">排除字符组</h2>
+<ul>
+<li>纵向模糊匹配某位字符不能是<code>a</code>、<code>b</code>、<code>c</code></li><li><code>[^abc]</code>表示一个除<code>a</code>、<code>b</code>、<code>c</code>之外的任意一个字符。字符组的第一位放<code>^</code>（脱字符），表示求反的概念。</li></ul>
+<h2 id="-">常见的简写形式</h2>
+<ul>
+<li><code>\d</code>就是<code>[0-9]</code>。表示一位数字。<code>digit</code></li><li><code>\D</code>就是<code>[^0-9]</code>。表示除数字外的任意字符</li><li><code>\w</code>就是<code>[0-9a-zA-Z]</code>。表示数字、大小写字母和下划线。<code>word</code></li><li><code>\W</code>就是<code>[^0-9a-zA-Z]</code>。非单词字符</li><li><code>\s</code>就是<code>[\t\v\n\r\f]</code>。表示空白符，包括空格、水平制表符、垂直制表符、换行符、回车符、换页符。<code>space</code></li><li><code>\S</code>就是<code>[^\t\v\n\r\f]</code>。非空白符</li><li><code>.</code>就是<code>[^\n\r\u2028\u2029]</code>。通配符，表示所有任意字符。</li></ul>
+<blockquote>
+<p>匹配任意字符，可以使用<code>[\d\D]</code>、<code>[\w\W]</code>、<code>[\s\S]</code>、<code>[^]</code>中任意一个。</p>
+</blockquote>
+<h2 id="-">量词</h2>
+<blockquote>
+<p>量词也称重复。<code>{m,n}</code></p>
+</blockquote>
+<h3 id="-">简写形式</h3>
+<ul>
+<li><code>{m,}</code> 表示至少出现<code>m</code>次 </li><li><code>{m}</code> 等价于<code>{m,m}</code>，表示出现<code>m</code>次</li><li><code>?</code> 等价于<code>{0,1}</code>，表示出现或不出现</li><li><code>+</code> 等价于<code>{1,}</code>，表示出现至少一次。</li><li><code>*</code> 等价于<code>{0,}</code>，表示出现任意次，有可能不出现。</li></ul>
+<h2 id="-">贪婪匹配和惰性匹配</h2>
+<pre><code>var regex = /\d{2,5}/g;
+var string = &quot;123 1234 12345 123456&quot;;
+console.log(string.match(regex));
+//[ &#39;123&#39;, &#39;1234&#39;, &#39;12345&#39;, &#39;12345&#39; ]
+</code></pre><ul>
+<li>贪婪匹配，就会尽可能多的匹配。</li><li>惰性匹配，就会尽可能少的匹配。</li></ul>
+<pre><code>var regex = /\d{2,5}?/g;
+var string = &quot;123 1234 12345 123456&quot;;
+console.log(string.match(regex));
+//[ &#39;12&#39;, &#39;12&#39;, &#39;34&#39;, &#39;12&#39;, &#39;34&#39;, &#39;12&#39;, &#39;34&#39;, &#39;56&#39; ]
+</code></pre><blockquote>
+<p><code>/\d{2,5}?/g</code> 表示<code>2</code>到<code>5</code>次都行，当<code>2</code>个就够的时候，不再往下匹配。</p>
+</blockquote>
+<ul>
+<li>通过在量词后面加<code>?</code>就能实现惰性匹配，所有的惰性匹配情形<ul>
+<li><code>{m,n}?</code></li><li><code>{m,}?</code></li><li><code>??</code></li><li><code>+?</code></li><li><code>*?</code></li></ul>
+</li><li><code>.*</code> 是贪婪模式</li><li><code>.*?</code>是惰性模式</li></ul>
+<h2 id="-">多选分支</h2>
+<ul>
+<li>一个模式可以实现横向和纵向模糊匹配。而多选分支可以支持多个子模式任选其一。</li><li><code>(p1|p2|p3)</code>其中<code>p1</code>、<code>p2</code>和<code>p3</code>是子模式，用<code>|</code>（管道符）分隔，表示其中任何一个。</li></ul>
+<pre><code>var regex = /good|nice/g;
+var string = &quot;good idea, nice try.&quot;;
+console.log(string.match(regex));
+//[ &#39;good&#39;, &#39;nice&#39; ]
+</code></pre><pre><code>var regex = /good|goodbye/g;
+var string = &quot;goodbye&quot;;
+console.log( string.match(regex) ); 
+// =&gt; [&quot;good&quot;]
+</code></pre><pre><code>var regex = /goodbye|good/g;
+var string = &quot;goodbye&quot;;
+console.log( string.match(regex) ); 
+// =&gt; [&quot;goodbye&quot;]
+</code></pre><p>以上得到的结果各不相同，<strong>分支结构也是惰性的，即当前面的匹配好了，后面的不再尝试</strong>。</p>
+<h1 id="-">案例分析</h1>
+<h2 id="-16-">匹配<code>16</code>进制颜色值</h2>
+<p><strong>要求匹配</strong></p>
+<pre><code>#ffbbad
+#Fc01DF
+#FFF
+#ffE
+</code></pre><p><strong>分析</strong></p>
+<ul>
+<li>表示一个<code>16</code>进制字符，可以用字符组<code>[0-9a-fA-F]</code></li><li>其中字符可以出现<code>3</code>或<code>6</code>次，需要是用量词和分支结构</li><li>使用分支结构时，需要注意顺序</li></ul>
+<pre><code>var regex = /#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})/g;
+var string = &quot;#ffbbad #Fc01DF #FFF #ffE&quot;;
+console.log(string.match(regex));
+//[ &#39;#ffbbad&#39;, &#39;#Fc01DF&#39;, &#39;#FFF&#39;, &#39;#ffE&#39; ]
+</code></pre><h3 id="-">匹配时间</h3>
+<p><strong>要求匹配</strong></p>
+<pre><code>23:59
+02:07
+</code></pre><p><strong>分析</strong></p>
+<ul>
+<li>共<code>4</code>位数字，第一位数字可以是<code>[0-2]</code></li><li>当第<code>1</code>位是<code>2</code>时，第<code>2</code>位可以是<code>[0-3]</code>，其他情况第<code>2</code>位是<code>[0-9]</code></li><li>第<code>3</code>位数字是<code>[0-5]</code>，第<code>4</code>位是<code>[0-9]</code></li></ul>
+<pre><code>var regex = /^([01][0-9]|[2][0-3]):[0-5][0-9]$/g;
+</code></pre><blockquote>
+<p>要求匹配<code>7:9</code>，时分前面的<code>0</code>可以省略。</p>
+</blockquote>
+<pre><code>var regex = /^(0?[0-9]|1[0-9]|2[0-3]):(0?[0-9]|[1-5][0-9])$/g;
+var string = &quot;7:9&quot;;
+console.log(regex.test(string));
+//true
+</code></pre><h3 id="-">匹配日期</h3>
+<p><strong>要求匹配</strong> <code>2017-06-10</code></p>
+<p><strong>分析</strong></p>
+<ul>
+<li><strong>年</strong>，四位数字即可<code>[0-9]{4}</code></li><li><strong>月</strong>，共12个月，分两种情况<code>01、02、...</code>和<code>10、11、12</code>，<code>(0[1-9]|1[0-2])</code></li><li><strong>年</strong>，最大31天，可用<code>(0[1-9]|[12][0-9]|3[01])</code></li></ul>
+<pre><code>var regex = /^[0-9]{4}-(0[0-9]|1[0-2])-(0[0-9]|[12][0-9]|3[01])$/g;
+console.log(regex.test(&quot;2017-10-20&quot;));
+//true
+</code></pre><h3 id="window-">window操作系统文件路径</h3>
+<pre><code>F:\study\javascript\regex\regular expression.pdf
+F:\study\javascript\regex\
+F:\study\javascript
+F:\
+</code></pre><p><strong>分析</strong></p>
+<ul>
+<li>整体模式是：盘符：<code>\文件夹\文件夹\文件夹\</code></li><li>其中匹配<code>F:\</code>，需要使用<code>[a-zA-Z]:\\</code>，其中盘符不区分大小写，注意<code>\</code>字符需要转移</li><li>文件名或文件夹名，不能包含一些字符字符，此时需要排除字符组<code>[^\\:*&lt;s&gt;|&quot;?\r\n/]</code>来表示合法字符。不能为空名，至少有一个字符，也就是要使用量词<code>+</code>。<ul>
+<li>匹配<code>文件夹\</code>，可用<code>[^\\:*&lt;&gt;|&quot;?\r\n/]+\\</code></li></ul>
+</li><li>另外<code>文件夹\</code>，可以出现任意次。也就是<code>([^\\:*&lt;&gt;|&quot;?\r\n/]+\\)*</code>。其中括号提供子表达式。</li><li>路径的最后一部分可以是<code>文件夹</code>，没有<code>\</code>，因此需要添加<code>([^\\:*&lt;&gt;|&quot;?\r\n/]+)?</code></li></ul>
+<pre><code>var regex = /^[a-zA-Z]:\\([^\\:*&lt;&gt;|&quot;?\r\n/]+\\)*([^\\:*&lt;&gt;|&quot;?\r\n/]+)?$/g;
+</code></pre><h3 id="-id">匹配id</h3>
+<blockquote>
+<p>要求从<code>&lt;div id=&quot;container&quot; class=&quot;main&quot;&gt;&lt;/div&gt;</code>中提取出<code>id=&quot;container&quot;</code></p>
+</blockquote>
+<pre><code>var regex = /id=&quot;.*?&quot;/;
+var string = &#39;&lt;div id=&quot;container&quot; class=&quot;main&quot;&gt;&lt;/div&gt;&#39;;
+console.log(string.match(regex)[0]);
+//id=&quot;container&quot;
+</code></pre><h1 id="-">位置匹配</h1>
+<blockquote>
+<p>在ES5中共有<code>6</code>个锚字符</p>
+</blockquote>
+<pre><code>^$\b\B(?=p)(?!p)
+</code></pre><h2 id="-"><code>$</code>和<code>^</code></h2>
+<ul>
+<li><code>^</code>（脱字符）匹配开头，在多行匹配中匹配行开头</li><li><code>$</code>（美元符号）匹配结尾，在多行匹配中匹配结尾</li></ul>
+<blockquote>
+<p>把字符串的开头和结尾用<code>#</code>替换</p>
+</blockquote>
+<pre><code>var result = &quot;hello&quot;.replace(/^|$/g, &#39;#&#39;);
+console.log(result);
+//#hello#
+</code></pre><blockquote>
+<p>多行匹配模式</p>
+</blockquote>
+<pre><code>var result = &quot;I\nlove\njavascript&quot;.replace(/^|$/gm, &#39;#&#39;);
+console.log(result);
+//#I#
+// #love#
+// #javascript#
+</code></pre><h3 id="-b-b-"><code>\b</code>和<code>\B</code></h3>
+<blockquote>
+<p><code>\b</code>是单词边界，具体就是<code>\w</code>和<code>\W</code>之间的位置，也包括<code>\w</code>和<code>\W</code>之间的位置，也包括<code>\w</code>和<code>$</code>之间的位置</p>
+</blockquote>
+<ul>
+<li>文件名是<code>[JS] Lesson_01.mp4</code>中的<code>\b</code></li></ul>
+<pre><code>var result = &quot;[JS] Lesson_01.mp4&quot;.replace(/\b/g, &#39;#&#39;);
+console.log(result);
+//[#JS#] #Lesson_01#.#mp4#
+</code></pre><h3 id="-p-p-"><code>(?=p)</code>和<code>(?!p)</code></h3>
+<ul>
+<li><code>(?=p)</code>，其中<code>p</code>是一个子模式，即<code>p</code>前面的位置</li><li><code>(?=l)</code>，表示<code>l</code>字符前面的位置</li></ul>
+<pre><code>var result = &quot;hello&quot;.replace(/(?=l)/g, &#39;#&#39;);
+console.log(result);
+//he#l#lo
+</code></pre><blockquote>
+<p><code>(?!p)</code>是<code>(?=p)</code>的反向操作</p>
+</blockquote>
+<pre><code>var result = &quot;hello&quot;.replace(/(?!l)/g, &#39;#&#39;);
+console.log(result);
+//#h#ell#o#
+</code></pre><blockquote>
+<p>分别是正向先行断言和反向先行断言，具体是<code>(?&lt;=p)</code>和<code>(?&lt;!p)</code></p>
+</blockquote>
+<ul>
+<li><code>(?=p)</code>就是<code>p</code>前面的那个位置</li></ul>
+<h2 id="-">位置的特性</h2>
+<pre><code>var result = /^^hello$$$/.test(&quot;hello&quot;);
+console.log(result); 
+// =&gt; true
+</code></pre><h1 id="-">案例</h1>
+<h2 id="-">不匹配任何东西的正则</h2>
+<pre><code>/.^/
+</code></pre><h2 id="-">数字的千位分隔符表示法</h2>
+<p><strong>把<code>12345678</code>，变成<code>12,345,678</code></strong></p>
+<blockquote>
+<p>使用<code>(?=\d{3}$)</code></p>
+</blockquote>
+<pre><code>var result = &quot;12345678&quot;.replace(/(?=\d{3}$)/g, &#39;,&#39;);
+console.log(result);
+//12345,678
+</code></pre><blockquote>
+<p>逗号出现的位置，要求后面<code>3</code>个数字一组，也就是<code>\d{3}</code>至少出现一次</p>
+</blockquote>
+<ul>
+<li>可以使用量词<code>+</code></li></ul>
+<pre><code>var result = &quot;12345678&quot;.replace(/(?=(\d{3})+$)/g, &#39;,&#39;);
+console.log(result);
+//12,345,678
+</code></pre><h2 id="-">匹配其他案例</h2>
+<ul>
+<li>匹配位置不是开头<code>(?!^)</code></li></ul>
+<pre><code>var string1 = &quot;12345678&quot;;
+var string2 = &quot;123456789&quot;;
+var reg = /(?!^)(?=(\d{3})+$)/g;
+var result1 = string1.replace(reg, &#39;,&#39;);
+console.log(result1);
+//12,345,678
+var result2 = string2.replace(reg, &#39;,&#39;);
+console.log(result2);
+//123,456,789
+</code></pre><h2 id="-">验证密码问题</h2>
+<ul>
+<li>密码长度6-12位，由数字、小写字符和大写字母组成，但必须至少包括2种字符。</li></ul>
+<p><strong>简化</strong></p>
+<blockquote>
+<p>不考虑“但至少包括2种字符”这个条件</p>
+</blockquote>
+<pre><code>var reg = /^[0-9A-Za-z]{6,12}$/;
+</code></pre><p><strong>判断是否含有某一种字符</strong></p>
+<blockquote>
+<p>如果要求必须包含数字，可以使用<code>(?=.*[0-9])</code></p>
+</blockquote>
+<pre><code>var reg = /(?=.*[0-9])^[0-9A-Za-z]{6,12}$/;
+</code></pre><p><strong>同时包含具有两种字符</strong></p>
+<blockquote>
+<p>同时包含数字和小写字母，可以用<code>(?=.*[0-9](?=.*[a-z]))</code></p>
+</blockquote>
+<pre><code>var reg = /(?=.*[0-9])(?=.*[a-z])^(0-9A-Za-z){6,12}$/;
+</code></pre><ul>
+<li>同时包含数字和小写字母</li><li>同时包含数字和大写字母</li><li>同时包含小写字母和大写字母</li><li>同时包含数字、小写字母和大写字母</li></ul>
+<pre><code>var reg = /((?=.*[0-9])(?=.*[a-z])|(?=.*[0-9])(?=.*[A-Z])|(?=.*[a-z])(?=.*[A-Z]))^[0-9A-Za-z]{6,12}$/;
+</code></pre><h1 id="-">括号的作用</h1>
+<ul>
+<li>括号提供分组</li><li>引用某个分组，有两种情形：在JS中引用，在正则表达式中应用</li></ul>
+<h2 id="-">分组和分支结构</h2>
+<h3 id="-">分组</h3>
+<ul>
+<li><code>/a+/</code>匹配连续出现的<code>a</code>，要匹配连续出现的<code>ab</code>时，需要使用<code>/(ab)+/</code></li><li>括号提供分组功能，使量词<code>+</code>作用于<code>ab</code>这个整体</li></ul>
+<pre><code>var regex = /(ab)+/g;
+var string = &quot;ababa abbb ababab&quot;;
+console.log(string.match(regex));
+//[ &#39;abab&#39;, &#39;ab&#39;, &#39;ababab&#39; ]
+</code></pre><h3 id="-">分支结构</h3>
+<ul>
+<li>多选分支结构<code>(p1|p2)</code>中括号的作用是提供了子表达式的所有可能</li></ul>
+<pre><code>I love JavaScript
+I love Regular Expression
+</code></pre><pre><code>var regex = /^I love (JavaScript|Regular Expression)$/;
+console.log( regex.test(&quot;I love JavaScript&quot;) );
+console.log( regex.test(&quot;I love Regular Expression&quot;) );
+// =&gt; true
+// =&gt; true
+</code></pre><h2 id="-">引用分组</h2>
+<ul>
+<li>括号的重要作用，可以进行数据提取，以及更强大的替换操作</li></ul>
+<p><strong>匹配日期<code>yyyy-mm-dd</code></strong></p>
+<p><strong>提取数据</strong></p>
+<blockquote>
+<p>提取出年、月、日</p>
+</blockquote>
+<pre><code>var regex = /(\d{4})-(\d{2})-(\d{2})/;
+var string = &quot;2018-06-18&quot;;
+console.log(string.match(regex));
+//[ &#39;2018-06-18&#39;, &#39;2018&#39;, &#39;06&#39;, &#39;18&#39;, index: 0, input: &#39;2018-06-18&#39; ]
+</code></pre><blockquote>
+<p><code>match</code>返回的一个数组，第一个元素是整体匹配结果，然后是各个分组（括号）匹配的内容，然后是匹配下标，最后是输入的文本。（正则是否有修饰符<code>g</code>，<code>match</code>返回的数组格式是不一样）</p>
+</blockquote>
+<ul>
+<li>可以使用正则对象的<code>exec</code>方法</li></ul>
+<blockquote>
+<p>可以使用构造函数的全局属性<code>$1</code>至<code>$9</code>来获取</p>
+</blockquote>
+<pre><code>var regex = /(\d{4})-(\d{2})-(\d{2})/;
+var string = &quot;2017-06-12&quot;;
+
+regex.test(string); // 正则操作即可，例如
+//regex.exec(string);
+//string.match(regex);
+
+console.log(RegExp.$1); // &quot;2017&quot;
+console.log(RegExp.$2); // &quot;06&quot;
+console.log(RegExp.$3); // &quot;12&quot;
+</code></pre><p><strong>替换</strong></p>
+<blockquote>
+<p>把<code>yyyy-mm-dd</code>格式，替换成<code>mm/dd/yyyy</code></p>
+</blockquote>
+<pre><code>var regex = /(\d{4})-(\d{2})-(\d{2})/;
+var string = &quot;2017-06-12&quot;;
+var result = string.replace(regex, &quot;$2/$3/$1&quot;);
+console.log(result); 
+// =&gt; &quot;06/12/2017&quot;
+</code></pre><blockquote>
+<p>其中<code>replace</code>中第二个参数用<code>$1</code>、<code>$2</code>、<code>$3</code>指代相应的分组。等价于<code>var regex=/(\d{4})-(\d{2})-(\d{2})/</code></p>
+</blockquote>
+<h2 id="-">反向引用</h2>
+<p>写一个正则支持匹配以下三种格式：</p>
+<pre><code>2016-06-12
+2016-06-12
+2016.06.12
+</code></pre><ul>
+<li>要求分割符前后一致，使用反向引用</li></ul>
+<pre><code>var regex = /\d{4}(-|\/|\.)\d{2}\1\d{2}/;
+var string1 = &quot;2017-06-12&quot;;
+var string2 = &quot;2017/06/12&quot;;
+var string3 = &quot;2017.06.12&quot;;
+var string4 = &quot;2016-06/12&quot;;
+console.log( regex.test(string1) ); // true
+console.log( regex.test(string2) ); // true
+console.log( regex.test(string3) ); // true
+console.log( regex.test(string4) ); // false
+</code></pre><ul>
+<li><code>\1</code>，表示的引用之前的分组<code>(-|\/|\.)</code>。不管它匹配到什么（比如<code>-</code>），<code>\1</code>都匹配那个同样的具体某个字符</li><li><code>\2</code>和<code>\3</code>分别指代第二个和第三个分组</li></ul>
+<p><strong>括号嵌套</strong></p>
+<blockquote>
+<p>以左括号（开括号）为准</p>
+</blockquote>
+<pre><code>var regex = /^((\d)(\d(\d)))\1\2\3\4$/;
+var string = &quot;1231231233&quot;;
+console.log( regex.test(string) ); // true
+console.log( RegExp.$1 ); // 123
+console.log( RegExp.$2 ); // 1
+console.log( RegExp.$3 ); // 23
+console.log( RegExp.$4 ); // 3
+</code></pre><p><strong>正则匹配模式</strong></p>
+<ul>
+<li>第一个字符是数字，比如说1，</li><li>第二个字符是数字，比如说2，</li><li>第三个字符是数字，比如说3，</li><li>接下来的是\1，是第一个分组内容，那么看第一个开括号对应的分组是什么，是123，</li><li>接下来的是\2，找到第2个开括号，对应的分组，匹配的内容是1，</li><li>接下来的是\3，找到第3个开括号，对应的分组，匹配的内容是23，</li><li>最后的是\4，找到第3个开括号，对应的分组，匹配的内容是3。</li></ul>
+<p><strong>引用不存在的分组</strong></p>
+<blockquote>
+<p>反向引用，引用前面的分组，在正则里引用了不存在的分组，正则不会报错，只是匹配反向引用的字符本身</p>
+</blockquote>
+<h2 id="-">非捕获分组</h2>
+<ul>
+<li>前面出现的分组，都会捕获它们匹配的数据，以便后续引用，因此也称它们是捕获型分组</li><li>非捕获分组<code>?:p</code></li></ul>
+<pre><code>var regex = /(?:ab)+/g;
+var string = &quot;ababa abbb ababab&quot;;
+console.log(string.match(regex));
+//[ &#39;abab&#39;, &#39;ab&#39;, &#39;ababab&#39; ]
+</code></pre><h2 id="-">案例</h2>
+<h3 id="-trim-">字符串<code>trim</code>方法模拟</h3>
+<blockquote>
+<p><code>trim</code>方法是去掉字符串的开头和结尾的空白符</p>
+</blockquote>
+<ul>
+<li>第一种，匹配到开头和结尾的空白符，然后替换成空白符</li></ul>
+<pre><code>function trim(str) {
+    return str.replace(/^\s+|\s+$/g, &#39;&#39;)
+}
+</code></pre><ul>
+<li>第二种，匹配整个字符串，然后用引用来提取出相应的数据</li></ul>
+<pre><code>function trim(str) {
+    return str.replace(/^\s*(.*?)\s*$/g, &quot;$1&quot;);
+}
+</code></pre><blockquote>
+<p>这里使用了惰性匹配<code>*?</code>，不然也会匹配最后一个空格之前的所有空格</p>
+</blockquote>
+<h3 id="-">将每个单词的首字母转换成大写</h3>
+<pre><code>function titleize(str) {
+    return str.toLowerCase().replace(/(?:^|\s)\w/g, function (c) {
+        return c.toUpperCase();
+    })
+}
+console.log(titleize(&#39;my name is epeli&#39;));
+//My Name Is Epeli
+</code></pre><blockquote>
+<p>思路是找到每个单词的首字母，这里不适用非捕获匹配也是可以的</p>
+</blockquote>
+<h3 id="-">驼峰化</h3>
+<pre><code>function camelize(str) {
+    return str.replace(/[-_\s]+(.)?/g, function (match, c) {
+        return c ? c.toUpperCase() : &#39;&#39;;
+    })
+}
+console.log(camelize(&#39;-moz-transform&#39;));
+//MozTransform
+</code></pre><blockquote>
+<p>其中分组<code>(.)</code>表示首字母。单词的界定是，前面的字符可以是多个连字符、下划线以及空白符。</p>
+<p>正则后面的<code>？</code>的目的，是为了应对<code>str</code>尾部的字符可能不是单词字符。</p>
+</blockquote>
+<h3 id="-">中划线化</h3>
+<blockquote>
+<p>驼峰化的逆过程</p>
+</blockquote>
+<pre><code>function dasherize(str) {
+    return str.replace(/([A-Z])/g,&#39;-$1&#39;).replace(/[-_\s]+/g,&#39;-&#39;).toLowerCase();
+}
+console.log(dasherize(&#39;MozTransform&#39;));
+//-moz-transform
+</code></pre><h3 id="-html-"><code>html</code>转义和反转义</h3>
+<h3 id="-">匹配成对标签</h3>
+<p><strong>要求匹配</strong></p>
+<pre><code>&lt;title&gt;regular expression&lt;/title&gt;
+&lt;p&gt;laoyao bye bye&lt;/p&gt;
+</code></pre><p><strong>不匹配</strong></p>
+<pre><code>&lt;title&gt;wrong!&lt;/p&gt;
+</code></pre><ul>
+<li>匹配一个开标签，使用正则<code>&lt;[^&gt;]+&gt;</code></li><li>匹配一个闭标签，使用<code>&lt;\/[^&gt;]+&gt;</code></li></ul>
+<blockquote>
+<p>要求匹配成对标签，需要使用反向引用</p>
+</blockquote>
+<pre><code>var regex = /&lt;([^&gt;]+)&gt;[\d\D]*&lt;\/\1&gt;/;
+var string1 = &quot;&lt;title&gt;regular expression&lt;/title&gt;&quot;;
+var string2 = &quot;&lt;p&gt;laoyao bye bye&lt;/p&gt;&quot;;
+var string3 = &quot;&lt;title&gt;wrong!&lt;/p&gt;&quot;;
+console.log(regex.test(string1)); // true
+console.log(regex.test(string2)); // true
+console.log(regex.test(string3)); // false
+</code></pre><ul>
+<li>其中开标签<code>&lt;[^&gt;]+&gt;</code>改成<code>&lt;([^&gt;]+)&gt;</code>，使用括号的目的是为了后面使用反向引用，而提供分组</li><li>闭标签使用了反向引用<code>&lt;\/\1&gt;</code></li><li><code>[\d\D]</code>这个字符是数字或不是数字，也就是匹配任意字符</li></ul>
+<h1 id="-">正则表达式回溯法</h1>
+<h2 id="-">没有回溯的匹配</h2>
+<blockquote>
+<p>当目标字符串是<code>abbbc</code>时，就没有所谓的“回溯”。</p>
+</blockquote>
+<h2 id="-">有回溯的匹配</h2>
+<blockquote>
+<p>如果目标字符串是<code>abbc</code>，中间就有回溯</p>
+</blockquote>
+<h2 id="-">常见的回溯形式</h2>
+<ul>
+<li>回溯法也称试探法，基本思想：从问题的某一种状态（初始状态）出发，搜索从这种状态出发所能达到的所有“状态”，当一条路走到“尽头”的时候，再后退一步或若干步，从另一种可能状态出发，继续搜索，直到所有的路径（状态）都试探过。这种不断前进、不断回溯寻找解的方法，称作“回溯法”。</li><li>本质上就是深度优先搜索算法。其中退到之前的某一步这个过程，成为“回溯”。</li></ul>
+<p><strong>正则表达式产生回溯的地方</strong></p>
+<h3 id="-">贪婪量词</h3>
+<pre><code>var string = &quot;12345&quot;;
+var regex = /(\d{1,3})(\d{1,3})/;
+console.log(string.match(regex));
+//[ &#39;12345&#39;, &#39;123&#39;, &#39;45&#39;, index: 0, input: &#39;12345&#39; ]
+</code></pre><blockquote>
+<p>前面的<code>\d{1,3}</code>匹配的是<code>123</code>，后面的<code>\d{1,3}</code>匹配的是<code>45</code></p>
+</blockquote>
+<h3 id="-">惰性量词</h3>
+<blockquote>
+<p>惰性量词就是在贪婪量词后面加个问好。表示尽可能少的匹配。</p>
+</blockquote>
+<pre><code>var string = &quot;12345&quot;;
+var regex = /(\d{1,3}?)(\d{1,3})/;
+console.log( string.match(regex) );
+// =&gt; [&quot;1234&quot;, &quot;1&quot;, &quot;234&quot;, index: 0, input: &quot;12345&quot;]
+</code></pre><ul>
+<li>其中<code>\d{1,3}?</code>只匹配到一个字符<code>1</code>，而后面的<code>\d{1,3}</code>匹配了<code>234</code></li><li>虽然惰性量词不贪婪，但也会有回溯现象。</li></ul>
+<p><img src="http://7xq6al.com1.z0.glb.clouddn.com/hs-77.jpeg" alt=""></p>
+<h3 id="-">分支结构</h3>
+<blockquote>
+<p>分支也是惰性的，比如<code>/can|candy/</code>，去匹配字符串<code>candy</code>，得到的结果是<code>can</code>，因为分支会一个一个尝试，如果前面的满足，后面就不会再试验。<br>分支结构，可能前面的子模式会形成了局部匹配，如果接下来表达式整体不匹配，仍会继续尝试剩下的分支。</p>
+</blockquote>
+<h1 id="-">正则表达式的拆分</h1>
+<h2 id="-">结构和操作符</h2>
+<blockquote>
+<p>在正则表达式中，操作符都体现在结构中，即由特殊字符和匹配字符所代表的一个特殊整体。</p>
+</blockquote>
+<p><strong>JS正则表达式中，都有哪些结构？</strong></p>
+<ul>
+<li>字符字面量、字符组、量词、锚字符、分组、选择分支、反向引用</li></ul>
+<p><strong>具体含义</strong></p>
+<ul>
+<li><strong>字面量</strong>，匹配一个具体字符，包括不用转义的和需要转义的。<ul>
+<li>比如<code>a</code>匹配字符<code>a</code>，<code>\n</code>匹配换行符，<code>\.</code>匹配小数点</li></ul>
+</li><li><strong>字符组</strong>，匹配一个字符，可以是多种可能之一，<ul>
+<li>比如<code>[0-9]</code>，表示匹配一个数字，<code>\d</code>是简写形式。</li><li>另外还有反义字符组，表示可以是除了特定字符之外任何一个字符，比如<code>[^0-9]</code>表示一个非数字字符，也有<code>\D</code>的简写形式</li></ul>
+</li><li><strong>量词</strong>，表示一个字符连续出现，比如<code>a{1,3}</code>表示<code>a</code>字符连续出现3次。<ul>
+<li>常见简写形式，<code>a+</code>表示<code>a</code>字符连续出现至少一次</li></ul>
+</li><li><strong>锚点</strong>，匹配一个位置，而不是字符。<ul>
+<li>比如<code>^</code>匹配字符串的开头，</li><li>比如<code>\b</code>匹配单词边界</li><li>比如<code>(?=\d)</code>表示数字前面的位置</li></ul>
+</li><li><strong>分组</strong>，用括号表示一个整体，<ul>
+<li>比如<code>(ab)+</code>表示<code>ab</code>两个字符连续出现多次，也可以使用非捕获分组<code>(?:ab)+</code></li></ul>
+</li><li><strong>分支</strong>，多个子表达式多选一<ul>
+<li>比如<code>abc|bcd</code>表示式匹配<code>abc</code>或<code>bcd</code>字符子串</li></ul>
+</li><li><strong>反向引用</strong>，比如<code>\2</code>表示引用第<code>2</code>个分组</li></ul>
+<p><strong>其中涉及到的操作符有</strong></p>
+<ul>
+<li>转义符 <code>\</code></li><li>括号和方括号 <code>(...)</code>、<code>(?:...)</code>、<code>(?=...)</code>、<code>(?!...)</code>、<code>[...]</code></li><li>量词限定符 <code>{m}</code>、<code>{m,n}</code>、<code>{m,}</code>、<code>?</code>、<code>*</code>、<code>+</code></li><li>位置和序列 <code>^</code>、<code>$</code>、<code>\元字符</code>、一般字符</li><li>管道符 <code>|</code></li></ul>
+<p>操作符的优先级从上至下，由高到低</p>
+<pre><code>/ab?(c|de*)+|fg/
+</code></pre><ul>
+<li>由于括号的存在，<code>(c|de*)</code>是一个整体结构</li><li>在<code>(c|de*)</code>中注意其中的量词，因此<code>e</code>是一个整体结构</li><li>因为分支结构<code>|</code>优先级最低，因此<code>c</code>是一个整体，而<code>de*</code>是另一个整体</li><li>同理，整个正则分成了<code>a</code>、<code>b?</code>、<code>(...)+</code>、<code>f</code>、<code>g</code>。而由于分支的原因，又可以分成<code>ab?(c|de*)+</code>和<code>fg</code>两部分</li></ul>
+<p><img src="http://7xq6al.com1.z0.glb.clouddn.com/regg.jpeg" alt=""></p>
+<h2 id="-">注意要点</h2>
+<p><strong>匹配字符串整体问题</strong></p>
+<ul>
+<li>要匹配整个字符串，在正则前后中加上锚字符<code>^</code>和<code>$</code></li></ul>
+<p><strong>量词连缀问题</strong></p>
+<pre><code>每个字符为a、b、c任选其一
+字符串的长度是3的倍数
+</code></pre><ul>
+<li><code>/([abc]{3})/</code></li></ul>
+<p><strong>元字符转义问题</strong></p>
+<ul>
+<li>元字符，就是正则中特殊含义的字符</li><li>所有结构里，用到的元字符：<ul>
+<li><code>^</code>、<code>$</code>、<code>.</code>、<code>*</code>、<code>+</code>、<code>?</code>、<code>|</code>、<code>|</code>、<code>/</code>、<code>()</code>、<code>[]</code>、<code>{}</code>、<code>=</code>、<code>!</code>、<code>:</code>、<code>-</code>、<code>,</code></li></ul>
+</li></ul>
+<p>当匹配上面的字符本身时，可以一律转义：</p>
+<pre><code>var string = &quot;^$.*+?|\\/[]{}=!:-,&quot;;
+var regex = /\^\$\.\*\+\?\|\\\/\[\]\{\}\=\!\:\-\,/;
+console.log(regex.test(string));
+// =&gt; true
+</code></pre><ul>
+<li>其中<code>string</code>中的<code>\</code>字符也要转义</li><li>另外在<code>string</code>中也可以把每个字符转义，转义后的结果仍然是自身</li></ul>
+<p><strong>字符组中的元字符</strong></p>
+<blockquote>
+<p>跟字符组相关的元字符有[]<code>`、</code>^<code>、</code>-<code>，需要在会引起歧义的地方进行转义。例如开头的</code>^`必须转义，不然会把整个字符组，看成反义字符组。</p>
+</blockquote>
+<pre><code>var string = &quot;^$.*+?|\\/[]{}=!:-,&quot;;
+var regex = /[\^$.*+?|\\/\[\]{}=!:\-,]/g;
+console.log( string.match(regex) );
+</code></pre><h2 id="-">案例分析</h2>
+<p><strong>身份证</strong></p>
+<pre><code>/^(\d{15}|\d{17}[\dxX])$/
+</code></pre><blockquote>
+<p>因为<code>|</code>的优先级最低，所以正则分成了两部分<code>\d{15}</code>和<code>\d{17}[\dxX]</code></p>
+</blockquote>
+<ul>
+<li><code>\d{15}</code>表示<code>15</code>位连续数字</li><li><code>\d{17}[\dxX]</code>表示<code>17</code>位连续数字，最后一位可以是数字或大小写字母<code>x</code></li></ul>
+<p><strong>IPV4地址</strong></p>
+<pre><code>(0{0,2}\d|0?\d{2}|1\d{2}|2[0-4]\d|25[0-5])(0{0,2}\d|0?\d{2}|1\d{2}|2[0-4]\d|25[0-5])
+</code></pre><p><strong>它是一个多选结构，分成<code>5</code>部分</strong></p>
+<ul>
+<li><code>0{0-2}\d</code>，匹配一位数，包括<code>0</code>补齐。比如<code>9</code>、<code>09</code>、<code>009</code></li><li><code>0?\d{2}</code>，匹配两位数，包括<code>0</code>补齐，也包括一位数</li><li><code>1\d{2}</code>，匹配<code>100</code>到<code>199</code></li><li><code>2[0-4]\d</code>，匹配<code>200-249</code></li><li><code>25[0-5]</code>，匹配<code>250-255</code></li></ul>
+<h1 id="-">正则表达式编程</h1>
+<h2 id="-">四种操作</h2>
+<h3 id="-">验证</h3>
+<ul>
+<li>验证时正则表达式最直接的应用，比如表单验证</li></ul>
+<blockquote>
+<p>判断一个字符串中是否有数字</p>
+</blockquote>
+<p><strong>使用<code>search</code></strong></p>
+<pre><code>var regex = /\d/;
+var string = &quot;abc123&quot;;
+console.log(!!~string.search(regex));
+//true
+</code></pre><p><strong>使用<code>test</code></strong></p>
+<pre><code>var regex = /\d/;
+var string = &quot;abc123&quot;;
+console.log( regex.test(string) );
+// =&gt; true
+</code></pre><p><strong>使用<code>match</code></strong></p>
+<pre><code>var regex = /\d/;
+var string = &quot;abc123&quot;;
+console.log( !!string.match(regex) );
+// =&gt; true
+</code></pre><p><strong>使用<code>exec</code></strong></p>
+<pre><code>var regex = /\d/;
+var string = &quot;abc123&quot;;
+console.log( !!regex.exec(string) );
+// =&gt; true
+</code></pre><blockquote>
+<p>其中，最常用的是<code>test</code></p>
+</blockquote>
+<h3 id="-">切分</h3>
+<ul>
+<li>切分，就是把目标字符串切成段，例如JS中的<code>split</code><ul>
+<li>比如目标字符串<code>html,css,javascript</code>，按逗号来切分</li></ul>
+</li></ul>
+<pre><code>var regex = /,/;
+var string = &quot;html,css,javascript&quot;;
+console.log(string.split(regex));
+//[ &#39;html&#39;, &#39;css&#39;, &#39;javascript&#39; ]
+</code></pre><p><strong>日期格式</strong></p>
+<pre><code>2018/06/20
+2018.06.20
+2018-06-20
+</code></pre><p>可以使用<code>split</code>切出年月日</p>
+<pre><code>var regex = /\D/;
+console.log(&quot;2018/06/20&quot;.split(regex));
+console.log(&quot;2018.06.20&quot;.split(regex));
+console.log(&quot;2018-06-20&quot;.split(regex));
+// [ &#39;2018&#39;, &#39;06&#39;, &#39;20&#39; ]
+// [ &#39;2018&#39;, &#39;06&#39;, &#39;20&#39; ]
+// [ &#39;2018&#39;, &#39;06&#39;, &#39;20&#39; ]
+</code></pre><h3 id="-">提取</h3>
+<ul>
+<li>此时正则通常要使用分组引用（分组捕获）功能</li></ul>
+<p><strong><code>match</code></strong></p>
+<pre><code>var regex = /^(\d{4})\D(\d{2})\D(\d{2})$/;
+var string = &quot;2018-06-20&quot;;
+console.log(string.match(regex));
+//[ &#39;2018-06-20&#39;, &#39;2018&#39;, &#39;06&#39;, &#39;20&#39;, index: 0, input: &#39;2018-06-20&#39; ]
+</code></pre><p><strong><code>exec</code></strong></p>
+<pre><code>var regex = /^(\d{4})\D(\d{2})\D(\d{2})$/;
+var string = &quot;2018-06-20&quot;;
+console.log(regex.exec(string));
+//[ &#39;2018-06-20&#39;, &#39;2018&#39;, &#39;06&#39;, &#39;20&#39;, index: 0, input: &#39;2018-06-20&#39; ]
+</code></pre><p><strong><code>test</code></strong></p>
+<pre><code>var regex = /^(\d{4})\D(\d{2})\D(\d{2})$/;
+var string = &quot;2018-06-20&quot;;
+regex.test(string);
+console.log(RegExp.$1, RegExp.$2, RegExp.$3);
+//2018 06 20
+</code></pre><p><strong><code>search</code></strong></p>
+<pre><code>var regex = /^(\d{4})\D(\d{2})\D(\d{2})$/;
+var string = &quot;2018-06-20&quot;;
+string.search(regex);
+console.log(RegExp.$1, RegExp.$2, RegExp.$3);
+//2018 06 20
+</code></pre><p><strong><code>replace</code></strong></p>
+<pre><code>var regex = /^(\d{4})\D(\d{2})\D(\d{2})$/;
+var string = &quot;2018-06-20&quot;;
+var date = [];
+string.replace(regex, function (match, year, month, day) {
+    date.push(year, month, day);
+});
+console.log(date);
+//[ &#39;2018&#39;, &#39;06&#39;, &#39;20&#39; ]
+</code></pre><blockquote>
+<p>其中最常用的是<code>match</code></p>
+</blockquote>
+<h3 id="-">替换</h3>
+<blockquote>
+<p>把日期格式，从<code>yyyy-mm-dd</code>替换成<code>yyyy/mm/dd</code>：</p>
+</blockquote>
+<pre><code>var string = &quot;2018-06-20&quot;;
+var today = new Date(string.replace(/-/g, &quot;/&quot;));
+console.log(today);
+//2018-06-19T16:00:00.000Z
+</code></pre><blockquote>
+<p>用于正则操作的方法，共有<code>6</code>个，字符串实例<code>4</code>个，正则实例<code>2</code>个</p>
+</blockquote>
+<ul>
+<li><code>string#search</code></li><li><code>string#split</code></li><li><code>string#match</code></li><li><code>string#replace</code></li><li><code>RegExp#test</code></li><li><code>RegExp#exec</code></li></ul>
+<p><strong><code>search</code>和<code>match</code>的参数问题</strong></p>
+<ul>
+<li>字符串实例的<code>4</code>个方法参数都支持正则和字符串</li><li>但<code>search</code>和<code>match</code>把字符串转换为正则</li></ul>
+<pre><code>var string = &quot;2018.06.20&quot;;
+
+console.log(string.search(&quot;.&quot;));//0
+//需要修改成下列形式之一
+console.log(string.search(&quot;\\.&quot;));//4
+console.log(string.search(/\./));//4
+
+console.log(string.match(&quot;.&quot;));
+//[ &#39;2&#39;, index: 0, input: &#39;2018.06.20&#39; ]
+//需要修改成下列形式之一
+console.log(string.match(&quot;\\.&quot;));
+//[ &#39;.&#39;, index: 4, input: &#39;2018.06.20&#39; ]
+console.log(string.match(/\./));
+//[ &#39;.&#39;, index: 4, input: &#39;2018.06.20&#39; ]
+
+console.log(string.split(&quot;.&quot;));
+//[ &#39;2018&#39;, &#39;06&#39;, &#39;20&#39; ]
+
+console.log(string.replace(&quot;.&quot;, &quot;/&quot;));
+//2018/06.20
+</code></pre><p><strong><code>match</code>返回结果的格式问题</strong></p>
+<blockquote>
+<p><code>match</code>返回结果的格式，跟正则对象是否有修饰符<code>g</code>有关</p>
+</blockquote>
+<pre><code>var string = &quot;2018.06.20&quot;;
+var regex1=/\b(\d+)\b/;
+var regex2=/\b(\d+)\b/g;
+console.log(string.match(regex1));
+//[ &#39;2018&#39;, &#39;2018&#39;, index: 0, input: &#39;2018.06.20&#39; ]
+console.log(string.match(regex2));
+//[ &#39;2018&#39;, &#39;06&#39;, &#39;20&#39; ]
+</code></pre><ul>
+<li>没有<code>g</code>，返回的是标准匹配格式，数组的第一个元素时整体匹配的内容，接下来是分组捕获的内容，然后是整体匹配的第一个下标，最后的输入的目标字符串</li><li>有<code>g</code>，返回的是所有匹配的内容</li><li>当没有匹配时，不管有没有<code>g</code>都返回<code>null</code></li></ul>
+<p><strong><code>exec</code>比<code>match</code>更强大</strong></p>
+<blockquote>
+<p>当正则没有<code>g</code>时，使用<code>match</code>返回的信息比较多。但是有<code>g</code>后，就没有关键信息<code>index</code><br>而<code>exec</code>方法就能解决这个问题，它能接着上一次匹配后继续匹配</p>
+</blockquote>
+<pre><code>var string = &quot;2018.06.20&quot;;
+var regex = /\b(\d+)\b/g;
+console.log(regex.exec(string));
+//[ &#39;2018&#39;, &#39;2018&#39;, index: 0, input: &#39;2018.06.20&#39; ]
+console.log(regex.lastIndex);//4
+console.log(regex.exec(string));
+// [ &#39;06&#39;, &#39;06&#39;, index: 5, input: &#39;2018.06.20&#39; ]
+console.log(regex.lastIndex);//7
+console.log(regex.exec(string));
+//[ &#39;20&#39;, &#39;20&#39;, index: 8, input: &#39;2018.06.20&#39; ]
+console.log(regex.lastIndex);//10
+console.log(regex.exec(string));//null
+console.log(regex.lastIndex);//0
+</code></pre><p><strong><code>test</code>整体匹配时需要使用<code>^</code>和<code>$</code></strong></p>
+<blockquote>
+<p><code>test</code>是看目标字符串中是否有子串匹配正则，即有部分匹配即可。</p>
+</blockquote>
+<ul>
+<li>要整体匹配，正则前后需要添加开头和结尾</li></ul>
+<pre><code>console.log( /123/.test(&quot;a123b&quot;) );
+// =&gt; true
+console.log( /^123$/.test(&quot;a123b&quot;) );
+// =&gt; false
+console.log( /^123$/.test(&quot;123&quot;) );
+// =&gt; true
+</code></pre><p><strong><code>split</code>相关注意事项</strong></p>
+<ol>
+<li>第一，它可以有第二个参数，表示结果数组的最大长度</li></ol>
+<pre><code>var string = &quot;html,css,javascript&quot;;
+console.log( string.split(/,/, 2) );
+// =&gt;[&quot;html&quot;, &quot;css&quot;]
+</code></pre><ol>
+<li>第二，正则使用分组时，结果数组中是包含分隔符的</li></ol>
+<pre><code>var string = &quot;html,css,javascript&quot;;
+console.log( string.split(/(,)/) );
+// =&gt;[&quot;html&quot;, &quot;,&quot;, &quot;css&quot;, &quot;,&quot;, &quot;javascript&quot;]
+</code></pre><p><strong><code>replace</code>是很强大的</strong></p>
+<blockquote>
+<p><code>replace</code>有两种使用形式，它的第二个参数，可以是字符串，也可以是函数。</p>
+</blockquote>
+<p>当第二个参数是字符串时，如下的字符有特殊的含义：</p>
+<ul>
+<li><code>$1</code>,<code>$2,...,$99</code> 匹配第<code>1~99</code>个分组里捕获的文本</li><li><code>$&amp;</code> 匹配到的子串文本</li><li>`$`` 匹配到的子串的左边文本</li><li><code>$&#39;</code> 匹配到的子串的右边文本</li><li><code>$$</code> 美元符号</li></ul>
+<p>例如，把”<code>2,3,5</code>“，变成”<code>5=2+3</code>“：</p>
+<pre><code>var result = &quot;2,3,5&quot;.replace(/(\d+),(\d+),(\d+)/, &quot;$3=$1+$2&quot;);
+console.log(result);
+// =&gt; &quot;5=2+3&quot;
+</code></pre><p>当第二个参数是函数时，该回调函数的参数具体：</p>
+<pre><code>&quot;1234 2345 3456&quot;.replace(/(\d)\d{2}(\d)/g, function(match, $1, $2, index, input) {
+    console.log([match, $1, $2, index, input]);
+});
+// =&gt; [&quot;1234&quot;, &quot;1&quot;, &quot;4&quot;, 0, &quot;1234 2345 3456&quot;]
+// =&gt; [&quot;2345&quot;, &quot;2&quot;, &quot;5&quot;, 5, &quot;1234 2345 3456&quot;]
+// =&gt; [&quot;3456&quot;, &quot;3&quot;, &quot;6&quot;, 10, &quot;1234 2345 3456&quot;]
+</code></pre><p><strong>修饰符</strong></p>
+<ul>
+<li><code>g</code> 全局匹配，即找到所有匹配的，单词是<code>global</code></li><li><code>i</code> 忽略字母大小写，单词<code>ingoreCase</code></li><li><code>m</code> 多行匹配，只影响<code>^</code>和<code>$</code>，二者变成行的概念，即行开头和行结尾。单词是<code>multiline</code></li></ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

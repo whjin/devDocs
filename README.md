@@ -51,6 +51,7 @@
 4. [jQuery学习笔记](https://whjin.github.io/full-stack-development/posts/jQuery%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html)
 5. [学习JS的8张思维导图](https://whjin.github.io/full-stack-development/posts/%E5%AD%A6%E4%B9%A0JS%E7%9A%848%E5%BC%A0%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE.html)
 6. [正则表达式实例](https://whjin.github.io/full-stack-development/posts/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AE%9E%E4%BE%8B.html)
+7. 正则表达式
 
 ## JS库 ##
 
