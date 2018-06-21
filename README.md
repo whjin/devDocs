@@ -6,7 +6,7 @@
 
 |Tables         | Are           | Cool  |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
+| [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html)      | [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html) | [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html) |
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
 
