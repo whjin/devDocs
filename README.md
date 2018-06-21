@@ -1,13 +1,11 @@
-﻿# 全栈开发 #
-
-> [站点地址](https://whjin.github.io/full-stack-development/)
+﻿# [全栈开发](https://whjin.github.io/full-stack-development/) #
 
 ## HTML5/CSS3 ##
 
 |HTML5/CSS3         | Less           | Font  | CSS实例 | Canvas实例 | Bootstrap实例
 | ------------- |:-------------:| -----:| --------:|---------:|-------:|
-| [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html)      |  | [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html) |
-| [语义化标签](https://whjin.github.io/full-stack-development/posts/%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE.html)      | centered      |   $12 |
+| [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html) | [Less基础](https://whjin.github.io/full-stack-development/posts/Less%E5%9F%BA%E7%A1%80.html) | [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html) | [Web字体](https://whjin.github.io/full-stack-development/posts/Web%E5%AD%97%E4%BD%93.html) | [动画](https://whjin.github.io/full-stack-development/instance/css/animation/index.html) | [时钟](https://whjin.github.io/full-stack-development/instance/canvas/clock/index.html) | [图书列表](https://whjin.github.io/full-stack-development/instance/bootstrap/book-list/index.html)|
+| [语义化标签](https://whjin.github.io/full-stack-development/posts/%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE.html)| [旋转下拉菜单](https://whjin.github.io/full-stack-development/instance/css/rotate-dropdown-menu/index.html)| [图像缩放和裁剪](https://whjin.github.io/full-stack-development/instance/canvas/imageCut/index.html) | [标签页](https://whjin.github.io/full-stack-development/instance/bootstrap/tabPage/index.html) |
 | [CSS3样式](https://whjin.github.io/full-stack-development/posts/CSS3%E6%A0%B7%E5%BC%8F.html) | are neat      |    $1 |
 | [CSS选择器](https://whjin.github.io/full-stack-development/posts/CSS%E9%80%89%E6%8B%A9%E5%99%A8.html) | bbb      |    ccc | 111 | 222 | 333 |
 | [CSS继承属性](https://whjin.github.io/full-stack-development/posts/CSS%E7%BB%A7%E6%89%BF%E5%B1%9E%E6%80%A7.html) | bbb      |    ccc | 111 | 222 | 333 |
@@ -25,44 +23,13 @@
 | aaa | bbb      |    ccc | 111 | 222 | 333 |
 | aaa | bbb      |    ccc | 111 | 222 | 333 |
 
-1. [HTML元素](https://whjin.github.io/full-stack-development/posts/HTML%E5%85%83%E7%B4%A0.html)
-2. [语义化标签](https://whjin.github.io/full-stack-development/posts/%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE.html)
-3. [CSS3样式](https://whjin.github.io/full-stack-development/posts/CSS3%E6%A0%B7%E5%BC%8F.html)
-    - [CSS选择器](https://whjin.github.io/full-stack-development/posts/CSS%E9%80%89%E6%8B%A9%E5%99%A8.html)
-    - [CSS继承属性](https://whjin.github.io/full-stack-development/posts/CSS%E7%BB%A7%E6%89%BF%E5%B1%9E%E6%80%A7.html)
-    - [CSS3核心模块](https://whjin.github.io/full-stack-development/posts/CSS3%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97.html)
-    - [CSS盒子模型](https://whjin.github.io/full-stack-development/posts/CSS%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B.html)
-    - [CSS背景图像](https://whjin.github.io/full-stack-development/posts/CSS%E8%83%8C%E6%99%AF%E5%9B%BE%E5%83%8F.html)
-    - [CSS清除浮动](https://whjin.github.io/full-stack-development/posts/CSS%E6%B8%85%E9%99%A4%E6%B5%AE%E5%8A%A8.html)
-    - [CSS定位](https://whjin.github.io/full-stack-development/posts/CSS%E5%AE%9A%E4%BD%8D.html)
-4. [SVG指南](https://whjin.github.io/full-stack-development/posts/SVG%E6%8C%87%E5%8D%97.html)
-5. [弹性图片](https://whjin.github.io/full-stack-development/posts/%E5%BC%B9%E6%80%A7%E5%9B%BE%E7%89%87.html)
-6. [CSS BFC](https://whjin.github.io/full-stack-development/posts/CSS%20BFC.html)
-
-## Less ##
-
-1. [Less基础](https://whjin.github.io/full-stack-development/posts/Less%E5%9F%BA%E7%A1%80.html)
-
-## Font ##
-
-1. [Web字体](https://whjin.github.io/full-stack-development/posts/Web%E5%AD%97%E4%BD%93.html)
-
 ## CSS实例 ##
 
-1. [动画](https://whjin.github.io/full-stack-development/instance/css/animation/index.html)
-2. [旋转下拉菜单](https://whjin.github.io/full-stack-development/instance/css/rotate-dropdown-menu/index.html)
+
+2. 
 3. [飘带样式菜单](https://whjin.github.io/full-stack-development/instance/css/ribbonMenu/index.html)
 4. [二级下拉菜单](https://whjin.github.io/full-stack-development/instance/css/dropdownMenu/index.html)
 
-## Canvas实例 ##
-
-1. [时钟](https://whjin.github.io/full-stack-development/instance/canvas/clock/index.html)
-2. [图像缩放和裁剪](https://whjin.github.io/full-stack-development/instance/canvas/imageCut/index.html)
-
-## Bootstrap实例 ##
-
-1. [图书列表](https://whjin.github.io/full-stack-development/instance/bootstrap/book-list/index.html)
-2. [标签页](https://whjin.github.io/full-stack-development/instance/bootstrap/tabPage/index.html)
 
 ## JS/JQ ##
 
