@@ -598,7 +598,112 @@ vertical-align:1px;
 <p>1、<code>map+area</code>或者<code>SVG</code><br>2、<code>border-radius</code><br>3、纯JS实现，需要求一个点在不在圆上简单算法、获取鼠标坐标等</p>
 </blockquote>
 <ul>
-<li>实现不适用<code>border</code>画出<code>1px</code>高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。</li></ul>
+<li><p>实现不适用<code>border</code>画出<code>1px</code>高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。</p>
+  <div style="height: 1px;overflow: hidden;background: red;"></div>
+
+</li></ul>
+<h2 id="css">CSS</h2>
+<ul>
+<li>介绍一下标准CSS的盒子模型？低版本IE的盒子模型有什么不同？</li></ul>
+<blockquote>
+<p>1、有两种，IE盒子模型、W3C盒子模型<br>2、盒模型：内容（<code>content</code>）、填充（<code>padding</code>）、边界（<code>margin</code>）、边框（<code>border</code>）<br>3、区别：IE的<code>content</code>部分把<code>border</code>和<code>padding</code>计算进去</p>
+</blockquote>
+<ul>
+<li>CSS选择符有哪些？哪些属性可以继承？</li></ul>
+<blockquote>
+<p>1、ID选择器<br>2、类选择器<br>3、标签选择器<br>4、相邻选择器（<code>h1+p</code>）<br>5、子选择器（<code>ul&gt;li</code>）<br>6、后代选择器（<code>li a</code>）<br>7、通配符选择器（<code>*</code>）<br>8、属性选择器（<code>a[rel=&quot;external&quot;]</code>）<br>9、伪类选择器（<code>a:hover,li:nth-child</code>）</p>
+<p>可继承的样式：<code>font-size</code>、<code>font-family</code>、<code>color</code>、<code>ul</code>、<code>li</code>、<code>dl</code>、<code>dd</code>、<code>dt</code><br>不可继承的样式：<code>border</code>、<code>padding</code>、<code>margin</code>、<code>width</code>、<code>height</code></p>
+</blockquote>
+<ul>
+<li>CSS优先级如何计算？</li></ul>
+<blockquote>
+<p>优先级就近原则，同权重情况下样式定义最近者为准<br>载入样式以最后载入的定位为准</p>
+<p>优先级为：<br>同权重：内联样式表（标签内部）&gt;嵌入样式表（当前文件）&gt;外部样式表（外部文件）<br><code>!important &gt; id &gt; class &gt; tag</code><br><code>!important</code>比内联优先级高</p>
+</blockquote>
+<ul>
+<li>CSS3新增伪类有哪些？</li></ul>
+<blockquote>
+<p><code>p:first-of-type</code> 选择属于其父元素的首个<code>&lt;p&gt;</code>元素<br><code>p:last-of-type</code> 选择属于其父元素的最后<code>&lt;p&gt;</code>元素<br><code>p:only-of-type</code> 选择属于其父元素唯一的<code>&lt;p&gt;</code>元素<br><code>p:nth-child(2)</code> 选择属于其父元素的第二个子元素的每个<code>&lt;p&gt;</code>元素<br><code>::after</code>在元素之前添加内容，也可以用来做清除浮动<br><code>::before</code>在元素之后添加内容<br><code>::enabled ::disabled</code>控制表单控件的禁用状态<br><code>:checked</code>单选框或复选框被选中</p>
+</blockquote>
+<ul>
+<li>水平居中：给<code>div</code>设置一个宽度，然后添加<code>margin: 0 auto</code>属性</li></ul>
+<pre><code>div {
+  width: 200px;
+  margin: 0 auto;
+}
+</code></pre><ul>
+<li>让绝对定位的<code>div</code>居中</li></ul>
+<pre><code>div {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #ccc;
+}
+</code></pre><ul>
+<li>水平垂直居中一</li></ul>
+<blockquote>
+<p>确定容器的宽高<br>设置层的外边距 </p>
+</blockquote>
+<pre><code>div {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  left: 50%;
+  top: 50%;
+  margin: -100px 0 0 -100px;
+  background: #ccc;
+}
+</code></pre><ul>
+<li>水平垂直居中二</li></ul>
+<blockquote>
+<p>未知容器的宽高，利用<code>transform</code>属性</p>
+</blockquote>
+<pre><code>div {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #bbb;
+}
+</code></pre><ul>
+<li>水平垂直居中三</li></ul>
+<blockquote>
+<p>利用<code>flex</code>布局<br>实际使用时应考虑兼容性</p>
+</blockquote>
+<pre><code>body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 300px;
+    background: green;
+}
+
+span {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+}
+</code></pre><ul>
+<li><code>display</code>有哪些值？说明它们的作用？</li></ul>
+<blockquote>
+<p><code>block</code>块类型。默认宽度为父元素宽度，可设置宽高，换行显示。<br><code>none</code>缺省值。像行内元素类型一样显示。<br><code>inline</code>行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。<br><code>inline-block</code>默认宽高为内容宽度，可以设置宽高，同行显示。<br><code>list-item</code>像块类型元素一样显示，并添加样式列表标记。<br><code>table</code>此元素会作为块级表格显示。<br><code>inherit</code>规定应该从父元素继承<code>display</code>属性的值。</p>
+</blockquote>
+<ul>
+<li><code>position</code>的值<code>relative</code>和<code>absolute</code>定位原点？</li></ul>
 <blockquote>
 </blockquote>
 
