@@ -176,7 +176,7 @@
 
 1. [性能优化](https://whjin.github.io/full-stack-development/posts/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html)
 2. [全栈开发技能](https://whjin.github.io/full-stack-development/posts/%E5%85%A8%E6%A0%88%E5%BC%80%E5%8F%91%E6%8A%80%E8%83%BD.html)
-3. 前端工程化
+3. [前端工程化](https://whjin.github.io/full-stack-development/posts/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96.html)
 
 ## 简历 ##
 
