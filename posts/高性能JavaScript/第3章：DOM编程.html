@@ -599,7 +599,24 @@ document.getElementById(&quot;myList&quot;).appendChild(fragment);
 var clone = old.cloneNode(true);
 appendDataToElement(clone, data);
 old.parentNode.replaceChild(clone, old);
-</code></pre><p><strong>推荐尽可能使用文档片段（第二个方案），因为它们所产生的DOM遍历和重排次数最少。</strong>    </p>
+</code></pre><p><strong>推荐尽可能使用文档片段（第二个方案），因为它们所产生的DOM遍历和重排次数最少。</strong></p>
+<h2 id="-">缓存布局信息</h2>
+<p>浏览器尝试通过队列化修改和批量执行的方式最小化重排次数，当查询布局信息时，例如获取偏移量<code>offset</code>、滚动位置或计算出样式值时，浏览器为了返回最新值会刷新队列并应用所有变更。<strong>最好的做法是尽量减少布局信息的获取次数，获取后把它赋值给布局变量，然后再操作布局变量。</strong></p>
+<pre><code>var current = myElement.offsetLeft;
+current++;
+myElement.style.left = current + &#39;px&#39;;
+myElement.style.top = current + &#39;px&#39;;
+if (current &gt;= 500) {
+    stopAnimation();
+}
+</code></pre><p>获取一次起始位置的值，然后将其赋值给一个变量，然后在动画循环中直接使用<code>current</code>变量而不再查询偏移量。</p>
+<h2 id="-">让元素脱离动画流</h2>
+<p>使用以下步骤可以避免页面中大部分重排：</p>
+<ol>
+<li>使用绝对定位页面上的动画元素，将其脱离文档流</li><li>让元素动起来。当它扩大时会临时覆盖部分页面，但这只是页面一个小区域的重绘，不会产生重排并重绘页面的大部分内容</li><li>当动画结束时恢复定位，从而只会下移一次文档的其他元素</li></ol>
+<p><strong>IE和<code>:hover</code></strong></p>
+<p>从IE7开始，IE允许在任何元素（严格模式）上使用<code>:hover</code>，然而，如果有大量元素使用了<code>:hover</code>，就会降低响应速度，此问题在IE8中尤为明显。</p>
+<h2 id="-">事件委托</h2>
 
 </body>
 </html>
