@@ -484,6 +484,41 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-4-">第4章：算法与流程控制</h1>
+<h2 id="-">循环的类型</h2>
+<p><code>for</code>循环是JS中最常用的循环结构。它由四部分组成：初始化、前测条件、后执行体、循环体。</p>
+<blockquote>
+<p>在<code>for</code>循环初始化中的<code>var</code>语句创建一个函数级的变量，JS只有函数级作用域，因此在<code>for</code>循环中定义一个变量相当于在循环体外定义一个新变量。</p>
+</blockquote>
+<h2 id="-">循环性能</h2>
+<p>在JS提供的四种循环类型中，只有<code>for-in</code>循环比其他明显要慢。</p>
+<p>由于每次迭代操作同时搜索实例或原型属性，<code>for-in</code>循环的每次迭代都会产生更多开销，所以比其他循环类型要慢。</p>
+<blockquote>
+<p>不要使用<code>for-in</code>来遍历数组成员。</p>
+</blockquote>
+<p>如果循环类型与性能无关，有两个可选因素：</p>
+<ol>
+<li>每次迭代处理的事物</li><li>迭代的次数</li></ol>
+<p><strong>减少迭代的工作量</strong></p>
+<blockquote>
+<p>一个提升循环整体速度的好方法是限制循环中耗时操作的数量。</p>
+</blockquote>
+<p>优化循环的第一步是要减少对象成员及数组项的查找次数。</p>
+<p><strong>基于函数的迭代</strong></p>
+<p>原生数组方法：<code>forEach()</code>，此方法遍历一个数组的所有成员，并在每个成员上执行一个函数。要运行的函数作为参数传给<code>forEach()</code>，并在调用时接收三个参数，分别是：当前数组项的值、索引以及数组本身。</p>
+<pre><code>items.forEach(function (value, index, array) {
+    process(value);
+});
+</code></pre><p>尽管基于函数的迭代提供了一个更为便利的迭代方法，但它仍然比基于循环的迭代要慢一些。对每个数组项调用外部方法所带来的开销是速度慢的主要原因。在所有情况下，基于循环的迭代比基于函数的迭代快<strong>8</strong>倍。</p>
+<h2 id="-">条件语句</h2>
+<p><strong><code>if-else</code>对比<code>switch</code></strong></p>
+<p>使用<code>if-else</code>还是<code>switch</code>，最流行的方法是基于测试条件的数量来选择：条件数量越大，越倾向于使用<code>switch</code>。</p>
+<p>事实证明，大多数情况下<code>switch</code>比<code>if-else</code>运行的更快，但只有当条件数量很大时才快得明显。这两个语句主要性能区别是：当条件增加时，<code>if-else</code>性能负担增加的程度比<code>switch</code>要多。</p>
+<h3 id="-if-else-">优化<code>if-else</code></h3>
+<p>优化<code>if-else</code>的目标是：最小化到达正确分支前所需判断的条件数量。最简单的优化方法是确保最可能出现的条件放在首位。</p>
+<p><code>if-else</code>中的条件语句应该总是按照从最大概率到最小概率的顺序排列，以确保运行速度最快。</p>
+<p>另一种减少条件判断次数的方法是把<code>if-else</code>组织成一系列嵌套的<code>if-else</code>语句。使用单个庞大的<code>if-else</code>通常会导致运行缓慢，因为每个条件都需要判断。</p>
+<h2 id="-">查找表</h2>
+<p>有时候优化条件语句的最佳方案是避免使用<code>if-else</code>和<code>switch</code>。当有大量离散值需要测试时，<code>if-else</code>和<code>switch</code>比使用查找表慢很多。JS中可以使用数组和普通对象来构建查找表，通过查找表访问数据会快很多。</p>
 
 </body>
 </html>
