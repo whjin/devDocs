@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>第5章：字符串和正则表达式</title>
+<title>第6章：快速响应的用户界面</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -483,51 +483,7 @@ vertical-align:1px;
 <base target=_blank>
 </head>
 <body>
-<h1 id="-5-">第5章：字符串和正则表达式</h1>
-<h2 id="-">字符串连接</h2>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>示例</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>array.join()</code></td>
-<td><code>str = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].join(&quot;&quot;);</code></td>
-</tr>
-<tr>
-<td><code>string.concat()</code></td>
-<td><code>str = &quot;a&quot;;str = str.concat(&quot;b&quot;, &quot;c&quot;);</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="-">加<code>+</code>和加等<code>+=</code>操作符</h2>
-<h2 id="firefox-">Firefox和编译器合并</h2>
-<p>当字符串通过这种方式合并在一起时，由于运行期没有中间字符串，所以花在连接过程的时间和内存可以减少到零。</p>
-<h2 id="-">数组项合并</h2>
-<p>Array.prototype.join方法将数组的所有元素合并成一个字符串，它接收一个字符串参数作为分隔符插入每个元素的中间。如果传入的是空字符，可以简单地将数组所有元素连接起来。</p>
-<h2 id="-string-prototype-concat-"><code>String.prototype.concat</code></h2>
-<p>字符串的原生方法<code>concat</code>能接收任意数量的参数，并将每一个参数附加到所调用的字符串上。</p>
-<pre><code>str = String.prototype.concat.apply(str, array);
-</code></pre><h2 id="-">正则表达式工作原理</h2>
-<p>正则表达式处理的基本步骤：</p>
-<p><strong>第一步：编译</strong></p>
-<p>当创建一个正则表达式（<code>正则直接量</code>或<code>RegExp</code>构造函数），浏览器验证表达式，然后转化为一个原生代码程序，用于执行匹配工作。</p>
-<p><strong>第二步：设置起始位置</strong></p>
-<p>当正则进入使用状态，首先要确定目标字符串的起始搜索位置。</p>
-<p><strong>第三步：匹配每个正则表达式字元</strong></p>
-<p>正则表达式知道起始位置，它会逐个检查文本和正则表达式模式。当一个特定的字元匹配失败时，正则表达式会尝试回溯到之前尝试匹配的位置上，然后尝试其他可能的路径。</p>
-<p><strong>第四步：匹配成功或失败</strong></p>
-<h2 id="-">理解回溯</h2>
-<p>正则表达式匹配目标字符串时，它从左到右逐个测试表达式的组成部分，确认是否能找到匹配项。如果遇到量词<code>*</code>，<code>+?</code>，<code>{2,}</code>，正则表达式需决定何时尝试匹配更多字符；如果遇到分支<code>|</code>，必须从可选项中选择一个尝试匹配。</p>
-<h3 id="-p89">分支与回溯P89</h3>
-<h3 id="-p90">重复与回溯P90</h3>
-<h3 id="-p91">回溯失控P91</h3>
-<h3 id="-p92">解决方案：具体化P92</h3>
-<h3 id="-">使用预查和反向引用的模拟原子组</h3>
-<p>未完待续…</p>
+<h1 id="-6-">第6章：快速响应的用户界面</h1>
 
 </body>
 </html>
