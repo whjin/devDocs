@@ -484,6 +484,72 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-6-">第6章：快速响应的用户界面</h1>
+<h2 id="-ui-p107">浏览器UI线程P107</h2>
+<h3 id="-">浏览器限制</h3>
+<p>浏览器限制了JS任务的运行时间，此类限制分两种：调用栈大小限制和长时间运行脚本限制。长时间运行脚本被称为长时间运行脚本定时器或失控脚本定时器。第一种方法是记录自脚本开始以来执行的语句的数量；第二种是记录脚本执行的总时长。</p>
+<blockquote>
+<p>如果界面在100ms内响应用户输入，用户会认为自己在直接操作界面中的对象。超过100ms意味着用户会感觉到自己与界面失去联系。</p>
+</blockquote>
+<h2 id="-">使用定时器让出时间片段</h2>
+<h3 id="-">定时器基础</h3>
+<p>在JS中使用<code>setTimeout()</code>和<code>setInterval()</code>创建定时器，它们接收相同的参数：要执行的函数和执行前的等待时间（<code>ms</code>）。<code>setTimeout()</code>函数创建了一个只执行一次的定时器，而<code>setInterval()</code>创建了一个周期性重复运行的定时器。</p>
+<blockquote>
+<p>定时器代码只有在创建它的函数执行完成之后，才有可能被执行。定时器代码会重置所有相关的浏览器限制，包括长时间运行脚本定时器。<strong>此外，调用栈也在定时器的代码中重置为<code>0</code>。</strong>这一特性使得定时器成为长时间运行JS代码理想的跨浏览器解决方案。</p>
+</blockquote>
+<h3 id="-">定时器精度</h3>
+<p>JS定时器延迟通常不太精准，相差大约几毫秒。定时器延时的最小值有助于避免在其他浏览器和其他操作系统中的定时器出现分辨率问题。</p>
+<h3 id="-">使用定时器处理数组</h3>
+<p>使用定时器取代循环的两个决定性因素：</p>
+<ul>
+<li>处理过程不需要同步？</li><li>数据不需要按顺序处理？</li></ul>
+<p>基本的异步代码模式：</p>
+<pre><code>items = [&quot;a&quot;, &quot;b&quot;];
+var todo = items.concat();//克隆原数组
+setTimeout(function () {
+    //取得数组的下个元素并进行处理
+    process(todo.shift());
+
+    //如果还有需要处理的元素，创建另一个定时器
+    if (todo.length &gt; 0) {
+        setTimeout(arguments.callee, 25);
+    } else {
+        callback(items)
+    }
+});
+</code></pre><h3 id="-p116">分割任务P116</h3>
+<h3 id="-">记录代码运行时间</h3>
+<p>通过原生的<code>Date</code>对象来跟踪代码的运行时间。每个新创建的<code>Date</code>对象以当前系统时间初始化，可以定时创建<code>Date</code>对象并比较它们的值来记录代码运行时间。</p>
+<h3 id="-">定时器与性能</h3>
+<p>在Web应用中限制高频率重复定时器的数量，创建一个独立的重复定时器，每次执行多个操作。</p>
+<h2 id="web-workers">Web Workers</h2>
+<p>Web Workers API引入了一个接口，能使代码运行且不占用浏览器UI线程的时间。</p>
+<h3 id="worder-">Worder运行环境</h3>
+<p>Web Workers没有绑定UI线程，它们不能访问浏览器的许多资源。Web Workers从外部线程修改DOM会导致用户界面出现错误，每个Web Workers都有自己的全局运行环境，其功能只是JS特性的一个子集。</p>
+<p>Web Workers运行环境：</p>
+<ul>
+<li>一个<code>navigator</code>对象，只包含四个属性：<code>appName</code>、<code>appVersion</code>、<code>user Agent</code>和<code>platform</code>。</li><li>一个<code>location</code>对象</li><li>一个<code>self</code>对象，指向全局worker对象</li><li>一个<code>importScripts()</code>方法，用来加载Worker所用到的外部JS文件</li><li>所有的ES6对象，比如：<code>Object</code>、<code>Array</code>、<code>Date</code></li><li><code>XMLHTTPRequest</code>构造器</li><li><code>setTimeout()</code>和<code>setInterval()</code>方法</li><li>一个<code>close()</code>方法，它能立刻停止Worker运行</li></ul>
+<p>Web Workers有着不同的全局运行环境，因此无法从JS代码中创建，需要创建一个完全独立的JS文件，其中包含了需要在Worker中运行的代码。</p>
+<p>要创建人工线程，必须传入JS文件的URL：</p>
+<pre><code>var worker = new Worker(&#39;code.js&#39;);
+</code></pre><p>一旦代码执行，将为这个文件创建一个新的线程和一个新的运行环境。该文件会被异步下载，直到文件下载并执行完成后才会启动此Worker。</p>
+<h3 id="-worker-">与Worker通信</h3>
+<p>Worker与网页代码通过事件接口进行通信。网页代码可以通过<code>postMessage()</code>方法给Worker传递数据，它接收一个参数，即需要传递Worker的数据。此外，Worker还有一个用来接收信息的<code>onmessage</code>事件处理器。</p>
+<pre><code>var worker = new Worker(&#39;code.js&#39;);
+worker.onmessage = function (event) {
+    console.log(event.data);
+};
+worker.postMessage(&quot;Andy&quot;);
+</code></pre><h3 id="-">加载外部文件</h3>
+<p>Worker通过<code>importScript()</code>方法加载外部JS文件，该方法接收一个或多个JS文件URL作为参数。<code>importScript()</code>的调用过程是阻塞式的，直到所有文件加载并执行完成后，脚本才会继续运行。由于Worker在UI线程之外运行，所以这种阻塞不会影响UI响应。</p>
+<h3 id="-">实际应用</h3>
+<p>Web Workers适用于处理纯数据，或者与浏览器UI无关的长时间运行脚本。</p>
+<p>解析一个大字符串只是许多受益于Web Workers的任务之一。其他受益的任务：</p>
+<ul>
+<li>编码/解码大字符串</li><li>复杂数学运算（包括图像或视频处理）</li><li>大数组排序</li></ul>
+<h2 id="-">小结</h2>
+<p>高效管理UI线程就是要确保JS不能运行太长时间。</p>
+<ul>
+<li>任何JS任务都不应当执行超过100Ms。过长的运行时间会导致UI更新出现明显的延迟，从而对用户体验产生负面影响。</li><li>JS运行期间，浏览器响应用户交互的行为存在差异</li><li>定时器可用来安排代码延迟执行，可以把长时间运行的脚本分解成一系列的小任务</li><li>Web Workers允许在UI线程外部执行JS代码，从而避免锁定UI</li></ul>
 
 </body>
 </html>
