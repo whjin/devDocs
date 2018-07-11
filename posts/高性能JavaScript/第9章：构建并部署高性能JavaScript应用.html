@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>第8章：编程实践</title>
+<title>第9章：构建并部署高性能JavaScript应用</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -483,95 +483,7 @@ vertical-align:1px;
 <base target=_blank>
 </head>
 <body>
-<h1 id="-8-">第8章：编程实践</h1>
-<h2 id="-">避免双重求值</h2>
-<p>JS运行在程序中提取一个包含代码的字符串，然后动态执行它。有四种标准法可以实现：<code>eval()</code>、<code>Function()</code>构造函数、<code>setTimeout()</code>和<code>setInterval()</code>。其中每个方法都允许传入一个JS代码字符串并执行它。</p>
-<p>当在JS代码中执行另一段JS代码时，都会导致双重求值的性能消耗。在实际项目中，避免使用<code>eval()</code>和<code>Function()</code>，而对于<code>setTimeout()</code>和<code>setInterval()</code>，建议传入函数而不是字符串来作为第一个参数。</p>
-<p><strong>避免双重求值是实现JS运行期性能最优化的关键所在。</strong></p>
-<h2 id="-object-array-">使用<code>Object/Array</code>直接量</h2>
-<p>JS创建对象和数组的方法中，对象和数组直接量是最快的方式。</p>
-<pre><code>//创建一个对象
-var obj = {
-    name: &#39;Andy&#39;,
-    count: 5,
-    flag: true,
-    pointer: null
-};
-
-//创建一个数组
-var arr = [&#39;Andy&#39;, 50, true, null];
-</code></pre><h2 id="-">避免重复工作</h2>
-<p>最常见的重复工作就是浏览器探测。典型的跨浏览器代码写法：</p>
-<pre><code>function addHandler(target, eventType, handler) {
-    if (target.addEventListener) {
-        target.addEventListener(eventType, handler, false);
-    } else {
-        target.attachEvent(&quot;on&quot; + eventType, handler);
-    }
-}
-
-function removeHandler(target, eventType, handler) {
-}
-</code></pre><h3 id="-">延迟加载</h3>
-<p>第一种消除函数中的重复工作的方法时<strong>延迟加载</strong>。采用延迟加载的函数版本：</p>
-<pre><code>function addHandler(target, eventType, handler) {
-    if (target.addEventListener) {
-        addHandler = function (target, eventType, handler) {
-            target.addEventListener(eventType, handler, false);
-        }
-    } else {
-        addHandler = function (target, eventType, handler) {
-            target.attachEvent(&quot;on&quot; + eventType, handler);
-        }
-    }
-    //调用新函数
-    addHandler(target, eventType, handler);
-}
-
-function removeHandler(target, eventType, handler) {
-}
-</code></pre><p>当一个函数在页面中不会立刻调用时，延迟加载是最好的选择。</p>
-<h3 id="-">条件预加载</h3>
-<p><strong>条件预加载</strong>会在脚本加载期间提前检测，而不会等到函数被调用。</p>
-<pre><code>var addHandler = document.body.addEventListener ?
-    function (target, eventType, handler) {
-        target.addEventListener(eventType, handler, false);
-    } : function (target, eventType, handler) {
-        target.attachEvent(&quot;on&quot; + eventType, handler);
-    };
-</code></pre><p>条件预加载适用于一个函数马上就要被用到，并且在整个页面的生命周期中频繁出现的场合。</p>
-<h2 id="-">使用速度快的部分</h2>
-<h3 id="-">位操作</h3>
-<p>JS中的数字都以64位格式存储。在位操作中，数字被转换为有符号的32位格式。每次运算符都会直接操作该32位数以得到结果。</p>
-<p><strong><code>AND</code>按位与</strong></p>
-<p>两个操作数的对应位都是1时，该位返回1。</p>
-<p><strong><code>OR</code>按位或</strong></p>
-<p>两个操作数的对应位只要有一个是1时，该位返回1。</p>
-<p><strong><code>XOR</code>按位异或</strong></p>
-<p>两个操作数的对应位只有一个时1时，该位返回1。</p>
-<p><strong><code>NOT</code>按位取反</strong></p>
-<p>遇到0则返回1，反之亦然。</p>
-<p>采用对2取模运算实现表格行颜色交替。通过让给定数字与数字1进行按位与运算进行判断。</p>
-<pre><code>for (var i = o, len = rows.length; i &lt; len; i++) {
-    if (i &amp; 1) {//对2取模运算 if (i % 2) {}
-        className = &quot;even&quot;;
-    } else {
-        className = &quot;odd&quot;;
-    }
-    //增加class
-}
-</code></pre><p>改进后的按位与操作比对2取模操作快了50%</p>
-<p>第二种使用位运算的技术称为<strong>位掩码</strong>。其思路是使用单个数字的每一位来判断是否选项成立，从而有效地把数字转换为布尔值标记组成的数组。掩码中的每个选项的值都等于2的幂。</p>
-<blockquote>
-<p>JS也支持按位左移<code>&lt;&lt;</code>，按位右移<code>&gt;&gt;</code>和无符号右移等位运算符。</p>
-</blockquote>
-<h3 id="-">原生方法</h3>
-<p>原生的<code>querySelector()</code>和<code>querySelectorAll()</code>方法完成任务平均所需时间是基于JS的CSS查询的10%。</p>
-<p>当原生方法可用时，尽量使用它们。特别是数学运算和DOM操作。</p>
-<h2 id="-">小结</h2>
-<p>为了编写更高效的代码，使用以下编程实践：</p>
-<ul>
-<li>通过避免使用<code>eval()</code>和<code>Function()</code>构造器来避免双重求值带来的性能消耗。给<code>setTimeout()</code>和<code>setInterval()</code>传递函数而不是字符串作为参数。</li><li>尽量使用直接量创建对象和数组。</li><li>避免做重复的工作。当需要检测浏览器时，可使用延迟加载或条件预加载。</li><li>在进行数学运算时，考虑使用直接操作数字的二进制形式的位运算。</li><li>尽量使用JS的原生方法。</li></ul>
+<h1 id="-9-javascript-">第9章：构建并部署高性能JavaScript应用</h1>
 
 </body>
 </html>
