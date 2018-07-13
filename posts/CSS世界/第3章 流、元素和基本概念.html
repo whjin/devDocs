@@ -484,6 +484,55 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-3-">第3章 流、元素和基本概念</h1>
+<h2 id="-">块级元素</h2>
+<p><code>li</code>元素默认的<code>display</code>值是<code>list-item</code>，和<code>table</code>都是块级元素，在一个水平流上只能单独显示一个元素，多个则换行显示。可以配合<code>clear</code>属性来清除浮动带来的影响。</p>
+<pre><code>.clear:after {
+    content: &#39;&#39;;
+    display: table; /*也可以是block，或是list-item*/
+    clear: both;
+}
+</code></pre><p>实际开发中，不推荐使用<code>list-item</code>，一是会出现项目符号，而是IE不支持伪元素<code>:after</code>。</p>
+<h3 id="-list-item-">为什么<code>list-item</code>元素会出现项目符号</h3>
+<p>list-item元素出现项目符号是因为生成了一个附加盒子（<strong>标记盒子</strong>），专门用来放圆点、数字这些项目符号。IE下伪元素不支持<code>list-item</code>或许就是无法创建<strong>标记盒子</strong>导致的。</p>
+<h3 id="-display-inline-table-"><code>display: inline-table;</code>的盒子是怎样组成的</h3>
+<p>外面内联，里面<code>table</code>，元素和文字在一行显示。</p>
+<h3 id="-width-height-"><code>width/height</code>作用在哪个盒子上</h3>
+<p><code>width/height</code>作用在<strong>里面的盒子</strong>，也就是<strong>容器盒子</strong>。</p>
+<h2 id="-width-height-"><code>width/height</code>作用的具体细节</h2>
+<p>块级元素的流体特性主要体现在水平方向上。</p>
+<h3 id="-width-auto-">深藏不漏的<code>width:auto</code></h3>
+<p><code>width</code>的默认值是<code>auto</code>，它至少包含4中不同的宽度表现：</p>
+<ol>
+<li><strong>充分利用可用空间</strong>。元素默认宽度是100%父级容器。</li><li><strong>收缩与包裹</strong>。典型代表是浮动、绝对定位和<code>inline-block</code>元素或<code>table</code>元素。</li><li><strong>收缩到最小</strong>。这个最容易出现在<code>table-layout</code>为<code>auto</code>表格中。</li><li><strong>超出容器限制</strong>。除非有明确的<code>width</code>设置，否则表格<code>min-content</code>的尺寸都不会主动超出父容器的宽度。特殊情况：内容很长的英文和数字，或者内联元素设置为<code>white-space:nowrap;</code>。这种情况称为<code>max-content</code>。</li></ol>
+<p><strong>1. 外部尺寸与流体特性</strong></p>
+<ol>
+<li>正常流宽度。<strong>无宽度，无图片，无浮动。</strong>充分利用浏览器自身的行为特性来完成页面布局。表现为“外部尺寸”的块级元素一旦设置了宽度就会丢失流动性。</li><li>格式化宽度。仅出现在“绝对定位模型”中，在默认情况下，绝对定位元素的宽度表现为“包裹性”，宽度由内部尺寸决定。对于<strong>非替代元素</strong>，当<code>left/top</code>或<code>top/bottom</code>对立方位的属性值同时存在的时候，元素的宽度表现为<strong>格式化宽度</strong>，其宽度大小相对于最近的具有定位特性的祖先元素计算。格式化宽度具有完全的流体性，也就是<code>margin/padding/border/content</code>区域会自动分配水平（垂直）空间。</li></ol>
+<p><strong>2. 内部尺寸与流体特性</strong></p>
+<p>内部尺寸有3种表现特性：</p>
+<ol>
+<li>包裹性。对于一个元素，如果其<code>display:inline-block;</code>，那么里面的内容宽度不会超过容器。<ul>
+<li>按钮是CSS中最具有代表性的<code>inline-block</code>元素，也是包裹性最好的实例。具体表现为：<strong>按钮文字越多则宽度越宽（内部尺寸特性），如果文字太多则会在容器的宽度处自动换行（自适应特性）。</strong></li><li><code>input</code>标签按钮，默认<code>white-space:pre;</code>不会换行；需要将<code>pre</code>值重置为默认的<code>normal</code>。</li></ul>
+</li></ol>
+<p><strong>包裹性在实际开发中的作用</strong></p>
+<blockquote>
+<p>需求：页面某个模块的文字内容是动态的，可长可短。文字少的时候居中显示，文字超过一行的时候居左显示。该如何实现？</p>
+</blockquote>
+<pre><code>.box {
+    text-align: center;
+}
+
+.content {
+    display: inline-block;
+    text-align: left;
+}
+</code></pre><p>除了<code>inline-block</code>元素，绝对定位和浮动元素都具有包裹性，均有类似的智能宽度行为。</p>
+<ol>
+<li><p>首选最小宽度。元素最适合的最小宽度。具体表现规则：</p>
+<ul>
+<li>东亚文字最小宽度为每个汉字的宽度。</li><li>西方文字最小宽度由特定的连续的英文字符单元决定。英文字符一般会终止于空格、短横线、问好以及其他非英文字符。</li><li>要让英文字符的每个字符都用最小宽度单元，可以使用<code>word-break:break-all;</code></li><li>图片的替代元素的最小宽度是该元素内容本身的宽度。</li></ul>
+</li><li><p>最大宽度。最大连续内联盒子的宽度。</p>
+</li></ol>
+<h3 id="-width-"><code>width</code>值作用的细节</h3>
 
 </body>
 </html>
