@@ -609,9 +609,59 @@ vertical-align:1px;
 }
 </code></pre><p><code>height:auto;</code>是必须的，否则如果原始图片有设定<code>height</code>，<code>max-width</code>生效时图片就会被水平压缩。强制<code>height</code>为<code>auto</code>可以确保宽度不超出的同时使图片保持原来的比例。    </p>
 <h3 id="-">与众不同的初始值</h3>
-<p><code>max-width/max-height</code>的初始值是<code>none</code>，<code>min-width/min-height</code>的初始值是<code>......</code>。</p>
+<p><code>max-width/max-height</code>的初始值是<code>none</code>，<code>min-width/min-height</code>的初始值是<code>auto</code>。</p>
 <ol>
-<li><code>min-height/width</code>的值为<code>auto</code>合法。</li><li>数值变化无动画。</li></ol>
+<li><code>min-height/width</code>的值为<code>auto</code>合法。</li><li>数值变化无动画。<code>min-height</code>的初始值是<code>auto</code>。</li></ol>
+<h3 id="-important-">超越<code>!important</code>，超越最大</h3>
+<p><strong>1. 超越<code>!important</code></strong></p>
+<p>超越<code>!important</code>指的是<code>max-width</code>会覆盖<code>width</code>。</p>
+<pre><code>&lt;img src=&quot;1.jpg&quot; style=&quot;width: 480px !important;&quot; alt=&quot;&quot;&gt;
+img {
+    max-width: 256px;
+}
+</code></pre><p>最终图片显示宽度<code>256px</code>。</p>
+<p><strong>2. 超越最大</strong></p>
+<p><strong>超越最大</strong>指的是<code>min-width</code>覆盖<code>max-width</code>，此规则发生在<code>min-width</code>和<code>max-width</code>冲突的时候。</p>
+<pre><code>.container {
+    min-width: 1400px;
+    max-width: 1200px;
+}
+</code></pre><p>最小宽度设置比最大宽度还大，这个时候，<code>min-width</code>显示，<code>max-width</code>被忽略。<code>.container</code>元素表现为至少<code>1400px</code>宽度。</p>
+<h3 id="-">任意高度元素的展开收起动画技术</h3>
+<p><strong>元素展开收起时有明显的高度滑动效果</strong></p>
+<pre><code>.element {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .25s;
+}
+
+.element.active {
+    max-height: 666px;
+}
+</code></pre><p><code>max-height</code>使用足够安全的最小值，避免出现延迟。</p>
+<h2 id="-">内联元素</h2>
+<p>在CSS世界中，内联元素是最为重要的。这些CSS属性往往具有继承特性。</p>
+<h3 id="-">哪些元素是内联元素</h3>
+<p><strong>1. 从定义看 </strong></p>
+<p>内联元素特指“外在盒子”，和<code>display:inline;</code>的元素不是一个概念。</p>
+<p><strong>2. 从表现看</strong></p>
+<p>内联元素的典型特性是可以和文字在一行显示。</p>
+<h3 id="-">内联盒模型</h3>
+<ol>
+<li>内容区域。<ul>
+<li><strong>内容区域</strong>指一种围绕文字看不见的盒子，其大小仅受字符本身特性控制，本质上是一个<code>字符盒子</code>。</li><li>但是像图片这类替换元素，内容区域可以看成元素本身。可以把文本选中的背景色区域作为内容区域。</li><li></li></ul>
+</li><li>内联盒子。<ul>
+<li><strong>内联盒子</strong>不会让内容成块显示，而是排成一行，<strong>内联盒子</strong>指的就是“外在盒子”，用来决定元素是内联还是块级。</li><li><strong>外在盒子</strong>又可以划分为“内联盒子”和“匿名内联盒子”两类：<ul>
+<li>外部内联标签<code>span</code>、<code>a</code>、<code>em</code>等，则属于“内联盒子”；如果这是文字<code>&lt;p&gt;这是一行普通文字，这里有个&lt;em&gt;em&lt;/em&gt;标签。（这里是匿名内联盒子）&lt;/p&gt;</code>，则属于“匿名内联盒子”。</li><li>并非单独文字都是“匿名内联盒子”，关键要看前后的标签是内联还是块级。</li></ul>
+</li></ul>
+</li><li>行框盒子。<ul>
+<li>每一行就是一个“行框盒子”，每个“行框盒子”又是由一个个“内联盒子”组成。</li></ul>
+</li><li>包含盒子。<ul>
+<li><code>p</code>标签就是一个<strong>包含盒子</strong>，此盒子由一行一行的“行框盒子”组成。</li></ul>
+</li></ol>
+<h3 id="-">幽灵空白节点</h3>
+<p><strong>幽灵空白节点</strong>具体指的是：在HTML5文档声明中，内联元素的所有解析和渲染表现就如同每个行框盒子的前面有一个“空白节点”一样。这个“空白节点”永远透明，不占据任何宽度，看不见也无法通过脚本获取，但又确实存在，表现如同文本节点一样。</p>
+<p><strong>幽灵空白节点</strong>是一个存在于每个“行框盒子”前面，同时具有该元素的字体和行高属性的<code>0</code>宽度的内联盒。</p>
 
 </body>
 </html>
