@@ -533,6 +533,85 @@ vertical-align:1px;
 </li><li><p>最大宽度。最大连续内联盒子的宽度。</p>
 </li></ol>
 <h3 id="-width-"><code>width</code>值作用的细节</h3>
+<ol>
+<li>流动性丢失<ul>
+<li>块级元素设定<code>width</code>具体数值，则元素的流动性就会被阻断。</li></ul>
+</li><li>与实际表现不一致<ul>
+<li><code>padding</code>、<code>border</code>属性发生改变会影响<code>content</code>内容的尺寸，出现页面布局错位。</li></ul>
+</li></ol>
+<h3 id="css-">CSS流体布局下的宽度分离原则</h3>
+<p><strong>宽度分离原则</strong>，就是CSS中的<code>width</code>属性不与影响宽度的<code>padding/border</code>属性共存。</p>
+<pre><code>.box {
+    width: 100px;
+    border: 1px solid #ccc;
+}
+</code></pre><p><code>width</code>独占一层标签，而<code>padding/border/margin</code>利用流动性在内部自适应呈现。</p>
+<pre><code>.father {
+    width: 100px;
+}
+
+.son {
+    margin: 0 20px;
+    border: 1px solid #ccc;
+}
+</code></pre><h3 id="-width-height-box-sizing-">改变<code>width/height</code>作用细节的<code>box-sizing</code></h3>
+<p><strong><code>box-sizing</code>的作用</strong></p>
+<p>默认情况下，<code>width</code>是作用在<code>content box</code>上，<code>box-sizing</code>的作用就是可以把<code>width</code>作用的盒子变成其他几个。</p>
+<p><code>box-sizing: border-box;</code>就是让100像素的宽度直接作用在<code>border box</code>上，从默认的<code>content box</code>变成<code>border box</code>。此时，<code>content box</code>从宽度值中释放，形成了局部的流动性，和<code>padding</code>一起自动分配<code>width</code>值。</p>
+<p>box-sizing不支持<code>margin-box</code>，只有当元素没有水平<code>margin</code>时，<code>box-sizing</code>才能真正计算，<strong>宽度分离</strong>等策略可以彻底解决所有的宽度计算问题。</p>
+<blockquote>
+<p>在CSS世界中，唯一离不开<code>box-sizing:border-box;</code>的就是原生普通文本框<code>input</code>和<code>textarea</code>的100%自适应父容器宽度。<br>替换元素的特性之一是尺寸由内部元素决定，且无论其<code>display</code>属性值是<code>inline</code>还是<code>block</code>。对于非替换元素，如果<code>display</code>值是<code>block</code>，就会具有流动性，宽度由外部尺寸决定，但是替换元素的宽度不受<code>display</code>水平影响，因此，通过修改<code>textarea</code>的<code>display</code>水平是无法让尺寸100%自适应父容器。</p>
+</blockquote>
+<h3 id="-height-auto-">相对简单的<code>height:auto</code></h3>
+<h3 id="-height-100-">关于<code>height:100%</code></h3>
+<p>对于<code>width</code>属性，父元素<code>width</code>设为<code>auto</code>，其百分比也支持；但是对于<code>height</code>属性，如果父元素<code>height</code>设为<code>auto</code>，只要子元素在文档流中，其百分比完全被忽略。</p>
+<blockquote>
+<p>对于普通文档流中的元素，百分比高度值要想起作用，其父级必须有一个可以生效的高度值。</p>
+</blockquote>
+<p><strong>1. 父级没有具体高度值，<code>height:100%;</code>会无效</strong></p>
+<blockquote>
+<p>浏览器渲染的基本原理：首先，先下载文档内容，加载头部的样式资源，然后按照从上而下、自外而内的顺序渲染DOM内容。</p>
+</blockquote>
+<p>如果包含块的高度没有显式指定（即高度由内容决定），并且该元素不是绝对定位，则计算值为<code>auto</code>。</p>
+<p><strong>2. 让元素支持<code>height:100%</code>效果</strong></p>
+<ol>
+<li><p>设定显式的高度值。</p>
+<p> html, body {</p>
+<pre><code> height: 100%;
+</code></pre><p> }</p>
+</li><li><p>使用绝对定位。</p>
+<p> div {</p>
+<pre><code> height: 100%;
+ position: absolute;
+</code></pre><p> }</p>
+</li></ol>
+<blockquote>
+<p>绝对定位的宽高百分比计算是相对于<code>padding box</code>，也就是会把<code>padding</code>大小值计算在内。非绝对定位元素则是相对于<code>content box</code>计算。</p>
+</blockquote>
+<p><strong>图片左右半区点击分别上一张图下一张图效果</strong></p>
+<p>在图片外面包一层具有“包裹性”同时具有定位特性的标签。</p>
+<pre><code>.box {
+    display: inline-block;
+    position: relative;
+}
+</code></pre><p>在图片上覆盖两个绝对定位，同时设<code>height:100%;</code>，则无论图片多高，左右半区都能自动和图片高度一模一样，无需任何使用JS的计算。</p>
+<h2 id="-min-width-max-width-min-height-max-height-"><code>min-width/max-width</code>和<code>min-height/max-height</code></h2>
+<h3 id="-min-width-max-width-">为流体而生的<code>min-width/max-width</code></h3>
+<p><code>min-width/max-width</code>出现的场景一定是自适应布局或流体布局中。</p>
+<pre><code>.container {
+    min-width: 1200px;
+    max-width: 1400px;
+}
+</code></pre><p>为了避免图片在移动端展示过大影响体验，经常会有下面的<code>max-width</code>限制：</p>
+<pre><code>img {
+    max-width: 100%;
+    height: auto !important;
+}
+</code></pre><p><code>height:auto;</code>是必须的，否则如果原始图片有设定<code>height</code>，<code>max-width</code>生效时图片就会被水平压缩。强制<code>height</code>为<code>auto</code>可以确保宽度不超出的同时使图片保持原来的比例。    </p>
+<h3 id="-">与众不同的初始值</h3>
+<p><code>max-width/max-height</code>的初始值是<code>none</code>，<code>min-width/min-height</code>的初始值是<code>......</code>。</p>
+<ol>
+<li><code>min-height/width</code>的值为<code>auto</code>合法。</li><li>数值变化无动画。</li></ol>
 
 </body>
 </html>
