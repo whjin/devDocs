@@ -113,8 +113,8 @@ a {
 }
 
 a:hover {
-  text-decoration: underline;
   color: #bd4147;
+  text-decoration: underline;
 }
 
 /* LISTS
@@ -575,17 +575,17 @@ vertical-align:1px;
 <p>如果包含块的高度没有显式指定（即高度由内容决定），并且该元素不是绝对定位，则计算值为<code>auto</code>。</p>
 <p><strong>2. 让元素支持<code>height:100%</code>效果</strong></p>
 <ol>
-<li><p>设定显式的高度值。</p>
-<p> html, body {</p>
-<pre><code> height: 100%;
-</code></pre><p> }</p>
-</li><li><p>使用绝对定位。</p>
-<p> div {</p>
-<pre><code> height: 100%;
- position: absolute;
-</code></pre><p> }</p>
-</li></ol>
-<blockquote>
+<li>设定显式的高度值。</li></ol>
+<pre><code>html, body {
+    height: 100%;
+}
+</code></pre><ol>
+<li>使用绝对定位。</li></ol>
+<pre><code>div {
+    height: 100%;
+    position: absolute;
+}
+</code></pre><blockquote>
 <p>绝对定位的宽高百分比计算是相对于<code>padding box</code>，也就是会把<code>padding</code>大小值计算在内。非绝对定位元素则是相对于<code>content box</code>计算。</p>
 </blockquote>
 <p><strong>图片左右半区点击分别上一张图下一张图效果</strong></p>
