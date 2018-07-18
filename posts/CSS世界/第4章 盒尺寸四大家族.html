@@ -113,8 +113,12 @@ a {
 }
 
 a:hover {
-  color: #bd4147;
+  color: #d0782a;
   text-decoration: underline;
+}
+
+a:active {
+  color: #bd4147;
 }
 
 /* LISTS
@@ -486,12 +490,12 @@ vertical-align:1px;
 <h1 id="-4-">第4章 盒尺寸四大家族</h1>
 <h1 id="-content-">深入理解<code>content</code></h1>
 <h2 id="-content-"><code>content</code>与替换元素</h2>
-<p><strong>1. 什么是替换元素</strong></p>
+<h3 id="1-">1. 什么是替换元素</h3>
 <p>通过修改某个属性值呈现的内容就可以被替换的元素称为<strong>替换元素</strong>。因此，<code>img</code>、<code>object</code>、<code>video</code>、<code>iframe</code>或者表单元素<code>textarea</code>和<code>input</code>都是典型的替换元素。</p>
 <p>替换元素除了内容可替换这一特性外，还有一些特性：</p>
 <ol>
 <li><strong>内容的外观不受页面上的CSS的影响</strong>。样式表现在CSS作用域之外。更改替换元素自身的外观需要浏览器自身暴露的一些样式接口。</li><li><strong>有自己的尺寸</strong>。替换元素在没有明确尺寸设定的情况下，其默认的尺寸（不包括边框）是<code>300px*150px</code>。</li><li><strong>在很多CSS属性上有自己的一套表现规则。</strong>比较具有代表性的就是<code>vertical-align</code>属性。对于非替换元素，<code>vertical-align</code>的默认值是<code>baseline</code>，被定义为字符<code>x</code>的下边缘；对于替换元素的内容没有字符<code>x</code>，替换元素的基线就被定义为元素的下边缘。</li></ol>
-<p><strong>2. 替换元素的默认<code>display</code>值</strong></p>
+<h3 id="2-display-">2. 替换元素的默认<code>display</code>值</h3>
 <p>所有的替换元素都是内联元素，也就是替换元素和替换元素、替换元素和文字都是可以在一行显示的。</p>
 <blockquote>
 <p>各个替换元素的默认<code>display</code>属性值（P46）</p>
@@ -500,7 +504,7 @@ vertical-align:1px;
 <blockquote>
 <p>替换元素的<code>display</code>是<code>inline</code>、<code>block</code>和<code>inline-block</code>中的任意一个，其尺寸计算规则都是一样的。</p>
 </blockquote>
-<p><strong>3. 替换元素的尺寸计算规则</strong></p>
+<h3 id="3-">3. 替换元素的尺寸计算规则</h3>
 <p>替换元素的尺寸从内到外分为3类：固有尺寸、HTML尺寸和CSS尺寸。</p>
 <ol>
 <li>固有尺寸指的是替换内容原本的尺寸。</li><li>HTML尺寸<code>img</code>、<code>input</code>只能通过HTML原生属性改变。</li><li>CSS尺寸指的是可以通过CSS的<code>width</code>和<code>height</code>或者<code>max-width/min-width</code>和<code>max-height/min-width</code>设置的尺寸，对应盒尺寸的<code>content box</code>。</li></ol>
@@ -548,7 +552,35 @@ img[src] {
 <blockquote>
 <p>在CSS中，图片的固有尺寸是无法改变的，显示的仅仅是设定的<code>content box</code>尺寸，图片中的<code>content</code>替换内容默认的适配方式是填充<code>fill</code>。<br>尺寸变化的本质并不是改变固有尺寸，而是采用了填充作为适配HTML尺寸和CSS尺寸的方式。<br>在CSS3中，<code>img</code>以及其它替换元素的适配方式可以通过<code>object-fit</code>属性进行修改。</p>
 </blockquote>
-<p><strong>4. </strong></p>
+<h3 id="4-">4. 替换元素和非替换元素的距离</h3>
+<p><strong>观点1：替换元素和非替换元素之间只隔了一个<code>src</code>属性</strong></p>
+<p>如果把<code>img</code>的<code>src</code>属性去掉，<code>img</code>就是一个和<code>span</code>类似的普通的内联标签，也就变成了一个非替换元素。</p>
+<pre><code>img {
+    display: block;
+    outline: 1px solid;
+}
+&lt;img&gt;
+</code></pre><p>在Firefox下，最终的宽度是100%自适应父容器的可用宽度。<strong><code>span</code>标签设置<code>width</code>和<code>height</code>是无效的。如果设置<code>&lt;img alt=&quot;图片&quot;&gt;</code>不为空的<code>alt</code>值，Chrome下也会有同样的表现。</strong></p>
+<blockquote>
+<p>在IE中有个默认的占位替换内容，当<code>src</code>属性缺失时，会使用这个默认的占位内容，这也是IE浏览器下默认<code>img</code>尺寸是<code>28*30</code>，而不是Chrome下的<code>0*0</code>的原因。</p>
+</blockquote>
+<p>另一个证明<strong>替换元素和非替换元素的区别在于<code>src</code>属性</strong>的实例就是<strong>基于伪元素的图片内容生成技术。</strong></p>
+<p>可以对<code>img</code>元素使用<code>::before</code>和<code>::after</code>伪元素进行内容生成以及样式构建，为了解决兼容性问题，需要注意一些技术点：</p>
+<ol>
+<li>不能有<code>src</code>属性（关键所在）</li><li>不能使用<code>content</code>属性生成图片（针对Chrome）</li><li>需要有<code>alt</code>属性并且有值（针对Chrome）</li><li>Firefox下<code>::before</code>伪元素的<code>content</code>值会被无视，<code>::after</code>无此问题，应该与Firefox自己占用了<code>::before</code>伪元素的<code>content</code>有关。</li></ol>
+<blockquote>
+<p><strong>基于伪元素的图片内容生成技术</strong>，在图片还没有加载时把<code>alt</code>信息呈现出来。</p>
+<p>实例Demo：<a href="http://demo.cssworld.cn/4/1-2.php">src缺省时img元素的alt信息展示</a></p>
+</blockquote>
+<p><p data-height="365" data-theme-id="0" data-slug-hash="ejzPKV" data-default-tab="css" data-user="whjin" data-embed-version="2" data-pen-title="替换元素src" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/ejzPKV/">替换元素src</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+
+
+
+
+
+
 
 </body>
 </html>
