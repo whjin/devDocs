@@ -113,8 +113,8 @@ a {
 }
 
 a:hover {
-  text-decoration: underline;
   color: #bd4147;
+  text-decoration: underline;
 }
 
 /* LISTS
@@ -484,6 +484,71 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-4-">第4章 盒尺寸四大家族</h1>
+<h1 id="-content-">深入理解<code>content</code></h1>
+<h2 id="-content-"><code>content</code>与替换元素</h2>
+<p><strong>1. 什么是替换元素</strong></p>
+<p>通过修改某个属性值呈现的内容就可以被替换的元素称为<strong>替换元素</strong>。因此，<code>img</code>、<code>object</code>、<code>video</code>、<code>iframe</code>或者表单元素<code>textarea</code>和<code>input</code>都是典型的替换元素。</p>
+<p>替换元素除了内容可替换这一特性外，还有一些特性：</p>
+<ol>
+<li><strong>内容的外观不受页面上的CSS的影响</strong>。样式表现在CSS作用域之外。更改替换元素自身的外观需要浏览器自身暴露的一些样式接口。</li><li><strong>有自己的尺寸</strong>。替换元素在没有明确尺寸设定的情况下，其默认的尺寸（不包括边框）是<code>300px*150px</code>。</li><li><strong>在很多CSS属性上有自己的一套表现规则。</strong>比较具有代表性的就是<code>vertical-align</code>属性。对于非替换元素，<code>vertical-align</code>的默认值是<code>baseline</code>，被定义为字符<code>x</code>的下边缘；对于替换元素的内容没有字符<code>x</code>，替换元素的基线就被定义为元素的下边缘。</li></ol>
+<p><strong>2. 替换元素的默认<code>display</code>值</strong></p>
+<p>所有的替换元素都是内联元素，也就是替换元素和替换元素、替换元素和文字都是可以在一行显示的。</p>
+<blockquote>
+<p>各个替换元素的默认<code>display</code>属性值（P46）</p>
+</blockquote>
+<p><strong><code>input</code>和<code>button</code>按钮的区别在什么地方？</strong>区别在于两种按钮默认的<code>white-space</code>值不一样，前者是<code>pre</code>，后者是<code>normal</code>，所表现出来的差异是：<strong>当按钮文字足够多时，<code>input</code>按钮不会自动换行，<code>button</code>按钮则会。</strong></p>
+<blockquote>
+<p>替换元素的<code>display</code>是<code>inline</code>、<code>block</code>和<code>inline-block</code>中的任意一个，其尺寸计算规则都是一样的。</p>
+</blockquote>
+<p><strong>3. 替换元素的尺寸计算规则</strong></p>
+<p>替换元素的尺寸从内到外分为3类：固有尺寸、HTML尺寸和CSS尺寸。</p>
+<ol>
+<li>固有尺寸指的是替换内容原本的尺寸。</li><li>HTML尺寸<code>img</code>、<code>input</code>只能通过HTML原生属性改变。</li><li>CSS尺寸指的是可以通过CSS的<code>width</code>和<code>height</code>或者<code>max-width/min-width</code>和<code>max-height/min-width</code>设置的尺寸，对应盒尺寸的<code>content box</code>。</li></ol>
+<blockquote>
+<p>可以影响替换元素的3层结构（由里到外）：固有尺寸-&gt;HTML尺寸-&gt;CSS尺寸</p>
+</blockquote>
+<p>这3层结构的计算规则：</p>
+<ul>
+<li>如果没有CSS尺寸和HTML尺寸，使用固有尺寸作为最终的宽高。</li></ul>
+<pre><code>&lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+</code></pre><p>页面显示宽高就是图片自身的尺寸<code>256px*192px</code>。</p>
+<ul>
+<li>如果没有CSS尺寸，则使用HTML尺寸作为最终的宽高。</li></ul>
+<pre><code>&lt;img src=&quot;1.jpg&quot; width=&quot;128&quot; height=&quot;128&quot; alt=&quot;&quot;&gt;
+</code></pre><p>通过HTML属性<code>width</code>和<code>height</code>限定了图片的HTML尺寸，因此最终图片所呈现的宽高就是<code>128px*128px</code>。</p>
+<ul>
+<li>如果有CSS尺寸，则最终尺寸由CSS属性决定。</li></ul>
+<pre><code>img {
+    width: 200px;
+    height: 150px;
+}
+&lt;img src=&quot;1.jpg&quot; width=&quot;128&quot; height=&quot;128&quot; alt=&quot;&quot;&gt;
+</code></pre><p>此时，固有尺寸、CSS尺寸和HTML尺寸同时存在，起作用的是CSS属性限定的尺寸，因此，最终图片所呈现的宽高就是<code>200px*150px</code>。</p>
+<ul>
+<li>如果固有尺寸含有固有的宽高比例，同时仅设置了宽度或高度，则元素依然按照固有的宽高比例显示。</li></ul>
+<pre><code>img {
+    width: 200px;
+}
+&lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+</code></pre><p>设置的宽度，因为图片自身有着固定的宽高比例，所以最终图片呈现的宽高就是<code>200px*150px</code>（<code>150=200+192/256</code>）    </p>
+<ul>
+<li>如果条件不符合，在所有现代浏览器下的尺寸表现都是<code>300px*150px</code>。</li><li>内联替换元素和块级替换元素使用上面同一套尺寸计算规则。</li></ul>
+<blockquote>
+<p>实际开发中，为了提高加载性能和节约带宽费用，首屏图片采用滚屏的方式异步加载，并且使用一张透明的图片占位。一般直接使用<code>&lt;img&gt;</code>。</p>
+</blockquote>
+<pre><code>img {
+    visibility: hidden;
+}
+
+img[src] {
+    visibility: visible;
+}
+</code></pre><p>当<code>img</code>标签中有<code>src</code>属性时，即使为空，浏览器依然会发起请求，而且请求的是当前页面数据。当图片的<code>src</code>缺省时，图片不会有任何请求，是最高效的实现方式。</p>
+<p>Firefox下<code>img</code>的表现是一个内联元素，而非替换元素，因此很多设置都它下面无效。要修复这个问题非常简单，就是直接设置<code>img {display:inline-block;}</code></p>
+<blockquote>
+<p>在CSS中，图片的固有尺寸是无法改变的，显示的仅仅是设定的<code>content box</code>尺寸，图片中的<code>content</code>替换内容默认的适配方式是填充<code>fill</code>。<br>尺寸变化的本质并不是改变固有尺寸，而是采用了填充作为适配HTML尺寸和CSS尺寸的方式。<br>在CSS3中，<code>img</code>以及其它替换元素的适配方式可以通过<code>object-fit</code>属性进行修改。</p>
+</blockquote>
+<p><strong>4. </strong></p>
 
 </body>
 </html>
