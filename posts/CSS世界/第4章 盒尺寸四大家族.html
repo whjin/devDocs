@@ -575,12 +575,51 @@ img[src] {
 <p><p data-height="365" data-theme-id="0" data-slug-hash="ejzPKV" data-default-tab="css" data-user="whjin" data-embed-version="2" data-pen-title="替换元素src" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/ejzPKV/">替换元素src</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
+<p><strong>观点2：替换元素和非替换元素之间只隔了一个CSS<code>content</code>属性</strong></p>
+<p><code>content</code>属性决定了是替换元素还是非替换元素。</p>
+<p>以下两个实例是等效的：</p>
+<pre><code>//组一
+img {
+    content: url(&quot;https://www.baidu.com/img/bd_logo1.png&quot;);
+}
+&lt;img&gt;
 
+&lt;img src=&quot;https://www.baidu.com/img/bd_logo1.png&quot;&gt;
 
+//组二
+&lt;img src=&quot;https://www.baidu.com/img/bd_logo1.png&quot;&gt;
 
-
-
-
+img:hover {
+    content: url(&quot;logo.jpg&quot;);
+}   
+</code></pre><p>使用<code>content</code>属性，可以让普通标签元素变成替换元素。  </p>
+<h3 id="5-content-">5. <code>content</code>与替换元素关系</h3>
+<p><code>content</code>生成的内容和普通内容有很多不同的特性表现：</p>
+<ol>
+<li>使用<code>content</code>生成的文本无法选中、无法复制，无法被屏幕阅读设备读取，也无法被搜索引擎抓取。</li><li>不能左右<code>:empty</code>伪类。<code>:empty</code>是一个CSS选择器，当元素里面无内容时进行匹配。</li><li><code>content</code>动态生成值无法获取。<code>content</code>可以实现计算器效果，可以自动累加数值。</li></ol>
+<h2 id="-content-"><code>content</code>内容生成技术</h2>
+<h3 id="1-content-">1. <code>content</code>辅助元素生成</h3>
+<pre><code>.element:before {
+    content: &#39;&#39;;
+}
+</code></pre><p>辅助元素最常见的应用就是<strong>清除浮动</strong>带来的影响：</p>
+<pre><code>.clear:after {
+    content: &#39;&#39;;
+    display: table; /*也可以是block*/
+    clear: both;
+}
+</code></pre><p>另一个很具有代表性的应用就是<strong>辅助实现“两端对齐”以及“垂直居中/上边缘/下边缘对齐”效果</strong></p>
+<p><code>:before</code>伪元素用于辅助实现底对齐，<code>:after</code>伪元素用于辅助实现两端对齐。</p>
+<h3 id="2-content-">2. <code>content</code>字符内容生成</h3>
+<p>直接写入字符内容，常见应用是配合<code>@font-face</code>规则实现图标字体效果。</p>
+<p>插入Unicode字符，典型应用是插入换行符来实现某些布局或效果。</p>
+<pre><code>:after {
+    content: &#39;\A&#39;;
+    white-space: pre;
+}
+</code></pre><p><code>\A</code>是换行符中的LF字符，其Unicode编码是<code>000A</code>，在CSS的<code>content</code>属性中则直接写成<code>\A</code>;换行符中的CR字符，其Unicode编码是<code>000D</code>，在CSS的<code>content</code>属性中则直接写成<code>\D</code>。分别指回车<code>CR</code>和换行<code>LF</code>。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="jpMYoO" data-default-tab="css,result" data-user="whjin" data-embed-version="2" data-pen-title="content字符内容生成" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/jpMYoO/">content字符内容生成</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
 </body>
 </html>
