@@ -621,6 +621,34 @@ img:hover {
 <p><p data-height="265" data-theme-id="0" data-slug-hash="jpMYoO" data-default-tab="css,result" data-user="whjin" data-embed-version="2" data-pen-title="content字符内容生成" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/jpMYoO/">content字符内容生成</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
+<h3 id="3-content-">3. <code>content</code>图片生成</h3>
+<p><code>base64</code>图片由于内联在CSS文件中，直接出现没有尺寸为<code>0</code>的状态，同时无须额外设置<code>display:block/inline-block;</code>，CSS代码更省。</p>
+<h3 id="4-content-p63">4. <code>content</code>开启闭合符号生成P63</h3>
+<h3 id="5-content-attr-">5. <code>content attr</code>属性值内容生成</h3>
+<pre><code>.icon:before {
+    content: attr(data-title);
+}
+</code></pre><h3 id="6-content-">6. 深入理解<code>content</code>计数器</h3>
+<ol>
+<li>属性<code>counter-reset</code>，计数器重置，还可以设置为<code>none</code>和<code>inherit</code>。取消重置以及继承重置。</li><li><p>属性<code>counter-increment</code>，计数器递增，计数器数值变化遵循HTML渲染顺序，遇到一个<code>increment</code>计数器就变化，<code>counter</code>输出的时候就是此时的计数值。</p>
+<p> <code>counter-increment</code>的其他特性：</p>
+<ul>
+<li><code>counter-reset</code>可以一次命名两个计数器名称，<code>counter-increment</code>相对应的设定。</li><li>变化的值可以灵活设定。</li><li>值可以是<code>none</code>或<code>inherit</code></li></ul>
+</li><li><p>方法<code>counter()/counters()</code>。</p>
+<ul>
+<li><code>counter(name)</code></li><li><code>counter(name,style)</code>，<code>style</code>参数支持关键字值是<code>list-style-type</code>所支持的值。它的作用是：除了递增递减数字，还可以是英文字母或罗马字符等。</li><li><code>counter</code>还支持级联。一个<code>counter</code>属性值可有多个<code>coutner()</code>方法。</li></ul>
+</li></ol>
+<p><code>coutners()</code>方法就是<strong>嵌套计数</strong>，基本用法是<code>counters(name,string);</code>，其中，<code>string</code>参数为字符串（需要引号，是必需参数），表示子序号的连接字符串。</p>
+<p>实现嵌套，<strong>必须让每个列表容器拥有一个唯一的计数源</strong>，通过子辈对父辈的<code>counter-reset</code>重置、配合<code>counters()</code>方法才能实现计数嵌套效果。</p>
+<blockquote>
+<p>一个容器的<code>counter-reset</code>是唯一的，一旦子元素出现<code>counter-reset</code>。就会改变整个容器的嵌套关系。</p>
+</blockquote>
+<p><code>counters()</code>支持<code>style</code>自定义递增形式：</p>
+<pre><code>counters(name, string, style);
+</code></pre><h3 id="7-content-">7. <code>content</code>内容生成的混合特性</h3>
+<p><code>content</code>内容生成的混合特性指的是各种<code>content</code>内容生成语法可以混合在一起使用。</p>
+<h1 id="-padding-">温和的<code>padding</code>属性</h1>
+
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
