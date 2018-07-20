@@ -648,6 +648,9 @@ img:hover {
 </code></pre><h3 id="7-content-">7. <code>content</code>内容生成的混合特性</h3>
 <p><code>content</code>内容生成的混合特性指的是各种<code>content</code>内容生成语法可以混合在一起使用。</p>
 <h1 id="-padding-">温和的<code>padding</code>属性</h1>
+<h2 id="-padding-"><code>padding</code>与元素的尺寸</h2>
+<p>CSS中默认的<code>box-sizing</code>是<code>content-box</code>，使用<code>padding</code>会增加元素的尺寸。</p>
+<p>内联元素的<code>padding</code>在垂直方向会影响布局，影响视觉表现。内联元素没有可视宽度/高度（<code>clientWidth/clientHeight</code>永远为<code>0</code>），垂直方向的行为表现完全受<code>line-height</code>和<code>vertical-align</code>的影响。</p>
 
 </body>
 </html>
