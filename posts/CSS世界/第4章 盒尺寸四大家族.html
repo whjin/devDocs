@@ -734,6 +734,118 @@ label {
 }
 </code></pre><h1 id="-margin-">激进的<code>margin</code>属性</h1>
 <h2 id="-margin-"><code>margin</code>与元素尺寸以及相关布局</h2>
+<p><strong>1. 元素尺寸</strong></p>
+<ul>
+<li><strong>元素尺寸</strong>：对应jQuery中的<code>$().width/$().height()</code>方法，包括<code>padding/border</code>，也就是元素的<code>border box</code>的尺寸。在原生的<strong>DOM API</strong>中写成<code>offsetWidth/offsetHeight</code>，也称为<strong>元素偏移尺寸</strong>。</li><li><strong>元素内部尺寸</strong>：对应jQuery中的<code>$().innerWidth()/$().innerHeight()</code>方法，表示元素的内部尺寸，包括<code>padding</code>但不包括<code>border</code>，也就是元素的<code>padding box</code>的尺寸。在原生的<strong>DOM API</strong>中写成<code>clientWidth/clientHeight</code>，也称为<strong>元素可视尺寸</strong>。</li><li><strong>元素外部尺寸</strong>：对应jQuery中的<code>$().outerWidth(true)/$().outerHeight(true)</code>方法，表示元素的外部尺寸，包括<code>padding/border/margin</code>，也就是元素的<code>margin box</code>的尺寸。没有对应的原生的<strong>DOM API</strong>。</li></ul>
+<p><strong>2. <code>margin</code>与元素的内部尺寸</strong></p>
+<blockquote>
+<p><strong>一侧定宽的两栏自适应布局效果</strong></p>
+</blockquote>
+<ol>
+<li>如果图片左侧定位：</li></ol>
+<pre><code>&lt;div class=&quot;box&quot;&gt;
+    &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+    &lt;p&gt;文字内容...&lt;/p&gt;
+&lt;/div&gt;
+.box {
+    overflow: hidden;
+}
+
+.box &gt; img {
+    float: left;
+}
+
+.box &gt; p {
+    margin-left: 140px;
+}
+</code></pre><p>文字内容根据<code>.box</code>盒子的宽度变化而自动排列，形成自适应布局效果。</p>
+<ol>
+<li>如果图片右侧定位：改变浮动和<code>margin</code>方向。借助<code>margin</code>负值定位实现。</li><li>如果图片右侧定位，同时顺序一致： </li></ol>
+<pre><code>&lt;div class=&quot;box&quot;&gt;
+    &lt;div class=&quot;full&quot;&gt;
+        &lt;p&gt;文字内容...&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+&lt;/div&gt;
+.box {
+    overflow: hidden;
+}
+
+.full {
+    width: 100%;
+    float: left;
+}
+
+.box &gt; img {
+    float: left;
+    margin-left: -128px;
+}
+
+.full &gt; p {
+    margin-right: 140px;
+}
+</code></pre><ol>
+<li>如果图片右侧定位，同时顺序一致。</li></ol>
+<blockquote>
+<p>需求：列表块两端对齐，一行显示3个，中间有2个<code>20px</code>的间隙。</p>
+</blockquote>
+<pre><code>ul {
+    list-style-type: none;
+    margin-right: -20px;
+}
+
+ul &gt; li {
+    float: left;
+    width: 100px;
+    margin-right: 20px;
+    background-color: #a0b3d6;
+}
+</code></pre><p><strong>3. <code>margin</code>与元素的外部尺寸</strong></p>
+<blockquote>
+<p>借助<code>margin</code>的外部尺寸特性来实现底部留白。只能使用子元素的<code>margin-bottom</code>来实现滚动容器的底部留白。</p>
+</blockquote>
+<pre><code>&lt;div style=&quot;height: 200px;&quot;&gt;
+    &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot; style=&quot;margin: 50px 0;&quot;&gt;
+&lt;/div&gt;
+</code></pre><blockquote>
+<p>利用<code>margin</code>外部尺寸实现等高布局。此布局多出现在分栏有背景色或中间有分割线的布局中。<code>height:100%</code>需要在父级设定具体高度值时才有效。</p>
+</blockquote>
+<pre><code>&lt;div class=&quot;column-box&quot;&gt;
+    &lt;div class=&quot;column-left&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;column-right&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+.column-box {
+    overflow: hidden;
+}
+
+.column-left, .column-right {
+    margin-bottom: -9999px;
+    padding-bottom: 9999px;
+}
+</code></pre><blockquote>
+<p><strong>等高布局实现原理</strong></p>
+</blockquote>
+<p>垂直方向<code>margin</code>无法改变元素的内部尺寸，但却能改变外部尺寸。默认情况下，垂直方向块级元素上下距离是<code>0</code>，一旦设置<code>margin-bottom:-9999px;</code>后面所有元素和上面元素的空间距离变成<code>-9999px</code>，就是后面元素都往上移动<code>9999px</code>。<code>padding-bottom:9999px;</code>增加元素高度，正负一抵消，对布局层并无影响，但视觉层多了<code>9999px</code>高度的可使用的背景色。配合<code>overflow:hidden;</code>把多余的色块背景隐藏，实现视觉上的等高布局效果。</p>
+<h2 id="-margin-"><code>margin</code>的百分比值</h2>
+<p>元素设置<code>margin</code>在垂直方向上无法改变元素自身的内部尺寸，往往需要父元素作为载体，此外，由于<code>margin</code>合并的存在，垂直方向往往需要双倍尺寸才能和<code>padding</code>表现一致。</p>
+<h3 id="-margin-"><code>margin</code>合并</h3>
+<p>块级元素的上边距<code>margin-top</code>与下边距<code>margin-bottom</code>有时会合并为单个外边距。</p>
+<ol>
+<li><strong>块级元素</strong>，但不包括浮动和绝对定位元素。</li><li><strong>只发生在垂直方向</strong>，默认文档流是水平的，因此发生<code>margin</code>合并就是垂直方向。</li></ol>
+<p><strong><code>margin</code>合并的3种场景</strong></p>
+<ol>
+<li>相邻兄弟元素<code>margin</code>合并。</li><li>父级和第一个/最后一个子元素。</li></ol>
+<p><strong>阻止<code>margin</code>合并</strong></p>
+<p>对于<code>margin-top</code>合并，可以进行如下操作（满足一个条件即可）：</p>
+<ul>
+<li>父元素设置为块状格式化上下文元素</li><li>父元素设置<code>border-top</code>值；</li><li>父元素设置<code>padding-top</code>值；</li><li>父元素和第一个子元素之间添加内联元素进行分隔。</li></ul>
+<p>对于<code>margin-bottom</code>合并，可以进行如下操作（满足一个条件即可）：</p>
+<ul>
+<li>父元素设置为块状格式化上下文元素</li><li>父元素设置<code>border-bottom</code>值；</li><li>父元素设置<code>padding-bottom</code>值；</li><li>父元素和第一个子元素之间添加内联元素进行分隔。</li><li>父元素设置<code>height</code>、<code>min-height</code>、<code>max-height</code></li></ul>
+<p><code>margin</code>合并导致头图掉下来可以添加<code>.container{overlfow:hidden;}</code>进行修复。</p>
+<p>其原理是通过设置<code>overflow</code>属性让父级元素块状格式化上下文。</p>
+<ol>
+<li>空块级元素的<code>margin</code>合并。</li></ol>
 
 </body>
 </html>
