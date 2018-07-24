@@ -845,7 +845,50 @@ ul &gt; li {
 <p><code>margin</code>合并导致头图掉下来可以添加<code>.container{overlfow:hidden;}</code>进行修复。</p>
 <p>其原理是通过设置<code>overflow</code>属性让父级元素块状格式化上下文。</p>
 <ol>
-<li>空块级元素的<code>margin</code>合并。</li></ol>
+<li>空块级元素的<code>margin</code>合并。<code>border</code>阻断<code>margin</code>合并。</li></ol>
+<blockquote>
+<p>不希望空<code>div</code>元素有<code>margin</code>合并，可以进行如下操作：</p>
+</blockquote>
+<ul>
+<li>设置垂直方向的<code>border</code></li><li>设置垂直方向的<code>padding</code></li><li>里面添加内联元素（直接Space空格键无效）</li><li>设置<code>height</code>或<code>min-height</code></li></ul>
+<p><strong>3. <code>margin</code>合并的计算规则</strong></p>
+<blockquote>
+<p><code>margin</code>合并的计算规则总结为<strong>正正取大值</strong>，<strong>正负值相加</strong>，<strong>负负最负值</strong></p>
+</blockquote>
+<p><strong>4. <code>margin</code>合并的意义</strong></p>
+<p>合并机制可以保证元素上下间距一致。</p>
+<p>父子<code>margin</code>合并的意义在于：在页面上任何地方嵌套或直接放入任何空<code>div</code>，都不会影响原来的块布局。</p>
+<p>遇到列表或模块，全部保留上下<code>margin</code>设置：</p>
+<pre><code>.list {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+</code></pre><h2 id="-margin-auto-"><code>margin:auto</code></h2>
+<ol>
+<li>元素没有设置<code>width/height</code>，也会自动填满容器。</li><li>元素没有设置<code>width/height</code>，也会自动填满包含块容器。</li></ol>
+<p><code>margin:auto</code>的填充规则：</p>
+<ol>
+<li>如果一侧定值，一侧<code>auto</code>，则<code>auto</code>为剩余空间大小。</li><li>如果两侧均是<code>auto</code>，则平分剩余空间。</li></ol>
+<p><code>auto</code>用于计算对应方向所获得的剩余空间大小。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="VBbENM" data-default-tab="css,result" data-user="whjin" data-pen-title="margin:auto-1" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/VBbENM/">margin:auto-1</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><strong>实现右对齐效果，<code>margin</code>属性的<code>auto</code>计算就是为块级元素左中右对齐而设计的，和内联元素使用<code>text-align</code>控制左中右对齐相对应。</strong></p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="bjWyLK" data-default-tab="css,result" data-user="whjin" data-pen-title="margin-auto左中右居中" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/bjWyLK/">margin-auto左中右居中</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><strong>居中对齐左右同时<code>auto</code>计算即可</strong>    </p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="yqbWRW" data-default-tab="css,result" data-user="whjin" data-pen-title="margin-auto-3" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/yqbWRW/">margin-auto-3</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script> 
+
+<p><strong>绝对定位垂直水平居中</strong></p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="BPZBvP" data-default-tab="css,result" data-user="whjin" data-pen-title="margin-auto垂直水平居中" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/BPZBvP/">margin-auto垂直水平居中</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="-margin-"><code>margin</code>无效情形解析</h2>
+<ol>
+<li><code>display</code>计算值<code>inline</code>的非替换元素的垂直<code>margin</code>无效。</li><li>表格中<code>tr</code>和<code>td</code>元素或设置<code>display</code>计算值是<code>table-cell</code>或<code>table-row</code>的元素的<code>margin</code>都是无效。</li><li><code>margin</code>合并的时候，更改<code>margin</code>值可能没有效果。</li><li>绝对定位元素非定位方位的<code>margin</code>值无效。绝对定位元素的渲染是独立的，所以设置了<code>top</code>、<code>left</code>方位，再设置<code>margin-right</code>无效。</li><li>定高容器的子元素的<code>margin-bottom</code>或定宽容器的子元素的<code>margin-right</code>的定位失效。<strong>使用<code>margin</code>属性改变自身的位置，必须是和当前元素定位方向一样的<code>margin</code>属性，否则<code>margin</code>只能影响后面的元素或父元素。</strong></li><li>鞭长莫及导致的<code>margin</code>无效。</li><li>内联特性导致的<code>margin</code>无效。</li></ol>
+<h1 id="-border-">功勋卓著的<code>border</code>属性</h1>
 
 </body>
 </html>
