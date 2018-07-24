@@ -651,6 +651,89 @@ img:hover {
 <h2 id="-padding-"><code>padding</code>与元素的尺寸</h2>
 <p>CSS中默认的<code>box-sizing</code>是<code>content-box</code>，使用<code>padding</code>会增加元素的尺寸。</p>
 <p>内联元素的<code>padding</code>在垂直方向会影响布局，影响视觉表现。内联元素没有可视宽度/高度（<code>clientWidth/clientHeight</code>永远为<code>0</code>），垂直方向的行为表现完全受<code>line-height</code>和<code>vertical-align</code>的影响。</p>
+<p><strong>利用内联元素的<code>padding</code>实现高度可控的分割线。</strong></p>
+<p>网页通过地址栏的<code>hash</code>值和页面HTML的<code>id</code>值一样发生锚点定位。</p>
+<blockquote>
+<p><strong>内联元素设置<code>padding</code>不会影响布局，但是块级元素就会。</strong></p>
+</blockquote>
+<pre><code>&lt;h3&gt;&lt;span id=&quot;hash&quot;&gt;标题&lt;/span&gt;&lt;/h3&gt;
+h3 {
+    line-height: 30px;
+    font-size: 14px;
+}
+
+h3 &gt; span {
+    padding-top: 58px;
+}
+</code></pre><p><strong>对于非替换元素的内联元素，不仅<code>padding</code>不会加入行盒高度的计算，<code>margin/border</code>也都是如此，都是不计算高度，但实际上在内联盒周围发生了渲染。</strong></p>
+<h2 id="-padding-"><code>padding</code>的百分比值</h2>
+<p><code>padding</code>属性值不支持负值，支持百分比值，<code>padding</code>百分比值无论是水平方向还是垂直方向均是相对于宽度计算。</p>
+<p><strong>实现一个固定比例（宽高比）的头图效果。</strong></p>
+<pre><code>.box {
+    padding: 10% 50%;
+    position: relative;
+}
+
+.box &gt; img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+</code></pre><p>内联元素和块状元素应用百分比值的表现：</p>
+<ul>
+<li>同样相对于宽度计算；</li><li>默认的高度和宽度细节有差异；</li><li><code>padding</code>会断行。</li></ul>
+<p><strong>内联元素的垂直<code>padding</code>会让“幽灵空白节点”出现。</strong></p>
+<p>内联元素默认的高度完全受<code>font-size</code>大小控制。通过以下方法使得“幽灵空白节点”高度变为<code>0</code>。</p>
+<pre><code>span{
+    padding: 50%;
+    font-size: 0;
+    background-color: gray;
+}
+</code></pre><h2 id="-padding-">标签元素内置的<code>padding</code></h2>
+<ol>
+<li><code>ol/ul</code>列表内置<code>padding-left</code>，单位是<code>px</code>，如果列表中的<code>font-size</code>值很小，则<code>li</code>元素的项目符号就会在<code>ol/ul</code>元素的左边缘距离很开。</li><li>表单元素大都内置<code>padding</code>。<ul>
+<li>所有浏览器<code>input/textarea</code>输入框内置<code>padding</code></li><li>所有浏览器<code>button</code>按钮内置<code>padding</code></li><li>部分浏览器<code>select</code>下拉内置<code>padding</code></li><li>所有浏览器<code>radio/checkbox</code>单复选框无内置<code>padding</code></li><li><code>button</code>按钮元素的<code>padding</code>最难控制</li></ul>
+</li></ol>
+<p><strong>使用<code>label</code>元素解决<code>button</code>按钮在不同浏览器下<code>padding</code>表现不一致的问题</strong></p>
+<pre><code>button {
+    position: absolute;
+    clip: rect(0 0 0 0);
+}
+
+label {
+    display: inline-block;
+    line-height: 20px;
+    padding: 10px;
+}
+</code></pre><h2 id="-padding-"><code>padding</code>与图形绘制</h2>
+<p><strong>“三道杠”小图标</strong></p>
+<pre><code>&lt;div class=&quot;icon-menu&quot;&gt;&lt;/div&gt;
+.icon-menu {
+    display: inline-block;
+    width: 100px;
+    height: 8px;
+    padding: 20px 0;
+    border-top: 8px solid;
+    border-bottom: 8px solid;
+    background-color: currentColor;
+    background-clip: content-box;
+}
+</code></pre><p><strong>“双层圆点”图</strong></p>
+<pre><code>&lt;div class=&quot;icon-dot&quot;&gt;&lt;/div&gt;
+.icon-dot {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    border: 10px solid;
+    border-radius: 50%;
+    background-color: currentColor;
+    background-clip: content-box;
+}
+</code></pre><h1 id="-margin-">激进的<code>margin</code>属性</h1>
+<h2 id="-margin-"><code>margin</code>与元素尺寸以及相关布局</h2>
 
 </body>
 </html>
