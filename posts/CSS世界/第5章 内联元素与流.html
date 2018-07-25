@@ -488,6 +488,47 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-5-">第5章 内联元素与流</h1>
+<h2 id="-x-">字母<code>x</code></h2>
+<h3 id="-x-css-">字母<code>x</code>与CSS世界的基线</h3>
+<p>字母<code>x</code>的下边缘（线）就是<strong>基线</strong>。</p>
+<h3 id="-x-css-x-height-">字母<code>x</code>与CSS中的<code>x-height</code></h3>
+<p><code>x-height</code>指的是字母<code>x</code>的高度。</p>
+<p><code>vertical-align:middle;</code>的<code>middle</code>指的是基线网上<code>1/2 x-height</code>高度。</p>
+<h3 id="-x-css-ex-">字母<code>x</code>与CSS中的<code>ex</code></h3>
+<p><code>ex</code>是CSS中的一个相对单位，指的是小写字母<code>x</code>的高度，即<code>x-height</code>。</p>
+<p><code>ex</code>的作用是<strong>不受字体和字号影响的内联元素的垂直居中对齐效果</strong>。</p>
+<p>内联元素默认是基线对齐，而基线就是<code>x</code>的底部，而<code>1ex</code>就是一个<code>x</code>的高度。</p>
+<p><strong>文字与小三角图标</strong></p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="xJLGab" data-default-tab="css,result" data-user="whjin" data-pen-title="文字与小三角图标" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/xJLGab/">文字与小三角图标</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h1 id="-line-height-">内联元素的基石<code>line-height</code></h1>
+<h2 id="-line-height-">内联元素的高度之本——<code>line-height</code></h2>
+<p><strong><code>div</code>高度是行高<code>line-height</code>决定的，而非文字。</strong>对于非替换元素的纯内联元素，其可视高度完全由<code>line-height</code>决定。</p>
+<p>行距=<code>line-height</code>-<code>font-size</code>。<code>em</code>是一个相对<code>font-size</code>大小的CSS单位，因此<code>1em</code>等于当前一个<code>font-size</code>大小。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="OwjMwy" data-default-tab="css,result" data-user="whjin" data-pen-title="半行间距" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/OwjMwy/">半行间距</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>line-height</code>不会影响替换元素。图片为内联元素，会构成一个“行框盒子”，而在HTML5下，每一个“行框盒子”的前面都是一个宽度为<code>0</code>的“幽灵空白节点”，其内联特性表现和普通字符完全一样。</p>
+<p>对于块级元素，<code>line-height</code>对其本身没有任何作用，改变<code>line-height</code>，块级元素的高度跟着变化实际上是<strong>通过改变块级元素里面内联元素占据的高度实现。</strong></p>
+<h2 id="-line-height-">为什么<code>line-height</code>可以让内联元素“垂直居中”</h2>
+<p><strong>行高实现多行文本或图片等替换元素的垂直居中效果</strong></p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="pZrgMd" data-default-tab="css,result" data-user="whjin" data-pen-title="行高与多行文字垂直居中" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/pZrgMd/">行高与多行文字垂直居中</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="-line-height-">深入<code>line-height</code>的各类属性值</h2>
+<p><code>line-height</code>的默认值是<code>normal</code>，还支持数值、百分比值以及长度值。</p>
+<p>在实际开发中，需要对<code>line-height</code>的默认值进行重置： </p>
+<ol>
+<li><strong>数值</strong>。计算方法<code>line-height</code>=1.5*<code>font-size</code></li><li><strong>百分比值</strong>。<code>line-height</code>=150%*<code>font-size</code></li><li><strong>长度值</strong>。<code>line-height</code>=1.5*<code>font-size</code></li></ol>
+<ul>
+<li>制作一个图文内容比较多的网站，使用<strong>数值</strong>作为单位，<code>line-height</code>值可以设置在<code>1.6~1.8</code>。</li><li>偏重布局结构的网站，使用<strong>长度值</strong>或<strong>数值</strong>都可以，<code>line-height</code>值可以设置在<code>20px</code>。</li></ul>
+<h2 id="-line-height-">内联元素<code>line-height</code>的“大值特性”</h2>
+<p><strong>无论内联元素<code>line-height</code>如何设置，最终父级元素的高度都是由数值大的那个<code>line-height</code>决定，称之为内联元素<code>line-height</code>的“大值特性”</strong></p>
+<p>每个内联盒子外层都有一个看不见的<strong>行框盒子</strong>，在每个<strong>行框盒子</strong>前面都有一个<strong>宽度为<code>0</code></strong>的具有该元素的字体和行高属性的看不见的<strong>幽灵空白节点</strong>。</p>
+<h1 id="-line-height-vertical-align-"><code>line-height</code>的好朋友<code>vertical-align</code></h1>
+<p>凡是<code>line-height</code>起作用的地方<code>vertical-align</code>也一定起作用。</p>
+<h2 id="-vertical-align-"><code>vertical-align</code>家族基本认识</h2>
 
 </body>
 </html>
