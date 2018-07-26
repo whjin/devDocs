@@ -556,6 +556,10 @@ vertical-align:1px;
 
 <p>没有内联元素，基线就是容器的<code>margin</code>下边缘，即下边框下面的位置；有内联元素，基线就是字符的下边缘。</p>
 <p>字符实际占据的高度是由<code>line-height</code>决定，当<code>line-height</code>变为<code>0</code>时，字符占据的高度也是<code>0</code>，此时高度的起始位置就变成字符内容区域的垂直中心位置。</p>
+<p><strong>解决间隙问题的方法</strong></p>
+<ol>
+<li>改变占位<code>&lt;i&gt;</code>元素的基线；</li><li>改造<strong>幽灵空白节点</strong>的基线位置；</li><li>使用其他<code>vertical-align</code>对齐方式。</li></ol>
+<p><strong>改造幽灵空白节点的基线位置可以使用<code>font-size</code>，当字体足够小时（设为<code>0</code>），基线和中线会重合在一起。</strong></p>
 
 </body>
 </html>
