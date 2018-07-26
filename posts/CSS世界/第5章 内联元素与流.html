@@ -529,6 +529,33 @@ vertical-align:1px;
 <h1 id="-line-height-vertical-align-"><code>line-height</code>的好朋友<code>vertical-align</code></h1>
 <p>凡是<code>line-height</code>起作用的地方<code>vertical-align</code>也一定起作用。</p>
 <h2 id="-vertical-align-"><code>vertical-align</code>家族基本认识</h2>
+<p><code>vertical-align</code>属性值分为以下4类：</p>
+<ol>
+<li><strong>线类</strong>。<code>baseline</code>默认值、<code>top</code>、<code>middle</code>、<code>bottom</code></li><li><strong>文本类</strong>。<code>text-top</code>、<code>text-bottom</code></li><li><strong>上标下标类</strong>。<code>sub</code>、<code>super</code></li><li><strong>数值百分比类</strong>。<code>20px</code>、<code>2em</code>、<code>20%</code>等，正值往上偏移，负值往下偏移。</li></ol>
+<p><code>vertical-align</code>的默认值是<code>baseline</code>，即基线对齐，而基线的定义是字母<code>x</code>的下边缘。因此，内联元素默认都是沿着字母<code>x</code>的下边缘对齐。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="ajyNrO" data-default-tab="css,result" data-user="whjin" data-pen-title="vertical-align数值-文字与图标垂直居中" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/ajyNrO/">vertical-align数值-文字与图标垂直居中</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><code>margin/padding</code>是相对于宽度计算，<code>line-height</code>是相对于<code>font-size</code>计算，<code>vertical-align</code>属性的百分比值是相对于<code>line-height</code>计算。</p>
+<h2 id="-vertical-align-"><code>vertical-align</code>作用前提</h2>
+<p><code>vertical-align</code>作用前提条件：<strong>只能应用于内联元素以及<code>display</code>值为<code>table-cell</code>的元素</strong>。也就是只能作用在<code>display</code>计算值为<code>inline</code>、<code>inline-block</code>、<code>inline-table</code>、<code>inline-cell</code>的元素上。</p>
+<p><strong>块级元素不支持。浮动元素和绝对定位会让元素块状化，从而导致<code>vertical-align</code>不起作用。</strong></p>
+<h2 id="-vertical-align-line-height-"><code>vertical-align</code>和<code>line-height</code>之间的关系</h2>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="yqoJzB" data-default-tab="css,result" data-user="whjin" data-pen-title="解决内联元素“幽灵空白节点”" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/yqoJzB/">解决内联元素“幽灵空白节点”</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><strong>解决图片底部留有间隙的问题</strong></p>
+<p>消除间隙的方法，从<strong>幽灵空白节点</strong>、<code>line-height</code>和<code>vertical-align</code>入手：</p>
+<ol>
+<li><strong>图片块状化</strong>。</li><li><strong>容器<code>line-height</code>足够小。</strong>比如容器设置<code>line-height:0;</code></li><li><strong>容器<code>font-size</code>足够小</strong>。</li><li><strong>图片设置其他<code>vertical-align</code>属性值</strong>。间隙产生的原因之一就是<strong>基线对齐</strong>，所以设置<code>vertical-align</code>的值为<code>top/bottom/middle</code>其中一个。</li></ol>
+<h2 id="-vertical-align-">深入理解<code>vertical-align</code>线性类属性值</h2>
+<h3 id="1-inline-block-baseline-">1. <code>inline-block</code>与<code>baseline</code></h3>
+<p><strong>一个<code>inline-block</code>元素，如果里面没有内联元素，或者<code>overflow:visible</code>，则该元素的基线就是其<code>margin</code>底边缘；否则其基线就是元素里面最后一行内联元素的基线。</strong></p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="gjxMNq" data-default-tab="css,result" data-user="whjin" data-pen-title="inline-block与baseline" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/gjxMNq/">inline-block与baseline</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>没有内联元素，基线就是容器的<code>margin</code>下边缘，即下边框下面的位置；有内联元素，基线就是字符的下边缘。</p>
+<p>字符实际占据的高度是由<code>line-height</code>决定，当<code>line-height</code>变为<code>0</code>时，字符占据的高度也是<code>0</code>，此时高度的起始位置就变成字符内容区域的垂直中心位置。</p>
 
 </body>
 </html>
