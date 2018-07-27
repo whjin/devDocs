@@ -296,6 +296,11 @@ table tr:nth-child(2n) {
   background-color: #dff0d8;
 }
 
+table + p {
+    text-align: center;
+    font-weight: bold;
+}
+
 /* IMAGES
 =============================================================================*/
 img {
@@ -488,6 +493,85 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-6-">第6章 流的破坏与保护</h1>
+<h2 id="-float-">魔鬼属性<code>float</code></h2>
+<h3 id="-float-"><code>float</code>的本质与特性</h3>
+<p><strong><code>float</code>浮动属性让父元素高度坍塌的原因就是为了实现文字环绕效果</strong>。</p>
+<p><code>float</code>自身特性：</p>
+<ul>
+<li>包裹性；</li><li>块状化并格式化上下文；</li><li>破坏文档流；</li><li>没有任何<code>margin</code>合并。</li></ul>
+<p>包裹性，由<strong>包裹</strong>和<strong>自适应性</strong>两部分组成。</p>
+<ol>
+<li><strong>包裹</strong>。浮动元素父元素宽度<code>200px</code>，子元素是一个宽度<code>128px</code>宽度的图片，则此时浮动元素宽度表现为<strong>包裹</strong>，就是里面图片的宽度<code>128px</code>。</li></ol>
+<p><img src="https://i.imgur.com/QCNBDxs.jpg" alt=""></p>
+<ol>
+<li><strong>自适应性</strong>。</li></ol>
+<p><strong>块状化</strong>，元素一旦<code>float</code>的属性值不为<code>none</code>，则其<code>display</code>计算值为<code>block</code>或<code>table</code>。<strong><code>text-align</code>对浮动元素无效。</strong></p>
+<table>
+<thead>
+<tr>
+<th>设定值</th>
+<th>计算值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>inline</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>inline-block</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>inline-table</code></td>
+<td><code>table</code></td>
+</tr>
+<tr>
+<td><code>table-row</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>table-row-group</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>table-column</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>table-columngroup</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>table-cell</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>table-caption</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>table-header-group</code></td>
+<td><code>block</code></td>
+</tr>
+<tr>
+<td><code>table-footer-group</code></td>
+<td><code>block</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>float</code>属性与<code>display</code>属性值转换关系</p>
+<h2 id="-float-"><code>float</code>的作用机制</h2>
+<p><strong>文字环绕效果</strong>是由两个特性（<strong>父级高度坍塌</strong>和<strong>行框盒子区域限制</strong>）共同作用的结果，定高只能解决<strong>父级元素高度坍塌</strong>带来的影响，但是对<strong>行框盒子区域限制</strong>没有任何效果，结果导致的问题是浮动元素垂直区域一旦超出高度范围，或下面元素<code>margin-top</code>负值上偏移，就很容易使后面的元素发生“环绕效果”。</p>
+<h2 id="-float-"><code>float</code>更深入的作用机制</h2>
+<p><strong>浮动元素和内联元素在一行显示。</strong></p>
+<ul>
+<li><strong>浮动锚点</strong>是<code>float</code>元素所在的<strong>流</strong>中的一个点，这个点本身并不浮动。其作用是产生<strong>行框盒子</strong>，因为<strong>浮动锚点</strong>表现如同一个空的内联元素，有内联元自然就有<strong>行框盒子</strong>。</li><li><strong>浮动参考</strong>指的是浮动元素对齐参考的实体。</li></ul>
+<p><code>float</code>元素的<strong>浮动参考</strong>是<strong>行框盒子</strong>，也就是<code>float</code>元素在当前<strong>行框盒子</strong>内定位。</p>
+<h2 id="-float-"><code>float</code>与流体布局</h2>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="YjrGyL" data-default-tab="css,result" data-user="whjin" data-pen-title="中间内容居中的左中右布局" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/YjrGyL/">中间内容居中的左中右布局</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
 
 </body>
 </html>
