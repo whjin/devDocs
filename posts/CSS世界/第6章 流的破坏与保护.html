@@ -638,6 +638,61 @@ vertical-align:1px;
     word-break: break-all;
 }
 </code></pre><h1 id="-overflow-">最佳结界<code>overflow</code></h1>
+<blockquote>
+<p>要彻底清除浮动的影响，最适合的属性是<code>overflow</code>。<code>overflow:hidden;</code>声明不会影响元素原先的流体特性或宽度表现。</p>
+</blockquote>
+<h2 id="-overflow-border-box-"><code>overflow</code>裁剪界线<code>border box</code></h2>
+<p>当子元素内容超出容器宽度高度限制的时候，剪裁的边界是<code>border box</code>的内边缘，而非<code>padding box</code>的内边缘。</p>
+<p>在实际项目开发时，要尽量避免滚动条容器设置<code>padding-bottom</code>值。</p>
+<h2 id="-overflow-x-overflow-y-">了解<code>overflow-x</code>和<code>overflow-y</code></h2>
+<p>IE8以上浏览器，<code>overflow</code>增加了两个属性，<code>overflow-x</code>和<code>overflow-y</code>，分别表示单独控制水平或垂直方向上的剪裁规则。</p>
+<p>支持的属性值和<code>overflow</code>属性一模一样：</p>
+<ul>
+<li><code>visible</code>：默认值</li><li><code>hidden</code>：剪裁</li><li><code>scroll</code>：滚动条</li><li><code>auto</code></li></ul>
+<p><strong>不会出现一个方向溢出剪裁或滚动，另一个方向内容溢出显示的效果。</strong></p>
+<h2 id="-overflow-"><code>overflow</code>与滚动条</h2>
+<p>浏览器的滚动条：</p>
+<ol>
+<li>默认滚动条来自<code>html</code>，而不是<code>body</code>标签。去除页面默认滚动条：<pre><code>html {
+ overflow: hidden;
+}
+</code></pre>在PC端，滚动条高度可以使用<code>document.documentElement.scrollTop</code>获取，但是在移动端，需要使用<code>document.body.scrollTop</code>获取。</li><li>滚动条会占用容器的可用高度或宽度。</li></ol>
+<p><strong>让页面滚动条不发生晃动的技巧</strong></p>
+<pre><code>html {
+    overflow-y: scroll;
+}
+
+:root {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+:root body {
+    position: absolute;
+}
+
+body {
+    width: 100%;
+    overflow: hidden;
+}
+</code></pre><p>滚动条自定义效果：</p>
+<ul>
+<li>整体部分：<code>::-webkit-scrollbar</code></li><li>两端按钮：<code>::-webkit-scrollbar-button</code></li><li>外层轨道：<code>::-webkit-scrollbar-track</code></li><li>内层轨道：<code>::-webkit-scrollbar-track-piece</code></li><li>滚动滑块：<code>::-webkit-scrollbar-thumb</code></li><li>边角：<code>::-webkit-scrollbar-corner</code></li></ul>
+<pre><code>::-webkit-scrollbar { /*血槽宽度*/
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb { /*拖动条*/
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-track { /*背景槽*/
+    background-color: #ddd;
+    border-radius: 6px;
+}
+</code></pre><h2 id="-overflow-">依赖<code>overflow</code>的样式表现</h2>
 
 </body>
 </html>
