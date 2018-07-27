@@ -572,6 +572,72 @@ vertical-align:1px;
 <p><p data-height="265" data-theme-id="0" data-slug-hash="YjrGyL" data-default-tab="css,result" data-user="whjin" data-pen-title="中间内容居中的左中右布局" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/YjrGyL/">中间内容居中的左中右布局</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
+<h1 id="-float-clear-"><code>float</code>的天然克星<code>clear</code></h1>
+<h2 id="-clear-">什么是<code>clear</code>属性</h2>
+<p><code>clear</code>专门用来处理<code>float</code>属性带来的高度坍塌等问题。</p>
+<pre><code>clear: none | left | right | both
+</code></pre><ul>
+<li><code>none</code>：默认值，左右浮动</li><li><code>left</code>：左侧抗浮动</li><li><code>right</code>：右侧抗浮动</li><li><code>both</code>：两侧抗浮动</li></ul>
+<p>实际应用中只使用<code>clear:both;</code>即可。</p>
+<h2 id="-clear-">成事不足败事有余的<code>clear</code></h2>
+<p><code>clear</code>属性只有块级元素才有效，而<code>:after</code>等伪元素默认都是内联水平，这就是伪元素清除浮动影响时需要设置<code>display</code>属性值的原因。</p>
+<p><code>clear:both</code>的作用本质是让自身不与<code>float</code>元素在一行显示，并不是真正意义上的清除浮动。</p>
+<ol>
+<li>如果<code>clear:both;</code>元素前面的元素就是<code>float</code>元素，则<code>margin-top</code>负值即使设成<code>-9999px</code>，也没有效果。</li><li><code>clear:both;</code>后面的元素依旧可能发生文字环绕的现象。</li></ol>
+<h1 id="css-bfc-">CSS世界的结界——<strong>BFC</strong></h1>
+<h2 id="-bfc-"><strong>BFC</strong>的定义</h2>
+<p><strong>BFC</strong>称为<strong>块级格式化上下文</strong>。<strong>BFC</strong>元素不可能发生<code>margin</code>重叠，<code>margin</code>重叠会影响外面的元素；<strong>BFC</strong>元素也可以用来清除浮动的影响，如果不清楚，子元素浮动则会父元素高度坍塌，必然会影响后面元素布局和定位。</p>
+<p>何时会触发<strong>BFC</strong>，常见情况如下：</p>
+<ul>
+<li><code>html</code>根元素；</li><li><code>overflow</code>的值为<code>auto</code>、<code>scroll</code>或<code>hidden</code>；</li><li><code>display</code>的值为<code>table-cell</code>、<code>table-caption</code>和<code>inline-block</code>中的任何一个；</li><li><code>float</code>的值不为<code>none</code>；</li><li><code>position</code>的值不为<code>relative</code>和<code>static</code>。</li></ul>
+<p>只要元素符合上面任意一个条件，就无须使用<code>clear:both;</code>属性去清除浮动的影响。</p>
+<h2 id="-bfc-"><strong>BFC</strong>与流体布局</h2>
+<p><strong>BFC</strong>的表现原则：具有<strong>BFC</strong>特性的元素的子元素不会受到外部元素的影响，也不会影响外部元素。普通流体元素在设置了<code>overflow:hidden;</code>后，会自动填满容器中除了浮动元素以外的剩余空间，形成自适应布局效果。</p>
+<pre><code>img {
+    float: left;
+    margin-right: 10px;
+}
+
+.content {
+    overflow: hidden;
+}
+</code></pre><p>基于<strong>BFC</strong>特性的自适应布局有如下优点：</p>
+<ol>
+<li>自适应内容由于封闭更加健壮，容错性更强。内部设置<code>clear:both;</code>不会与<code>float</code>元素相互干扰而导致错位。</li><li>自适应内容自动填充浮动以外区域，无需关心浮动元素宽度，可以整站大规模应用。</li></ol>
+<pre><code>.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.bfc {
+    overflow: hidden;
+}
+</code></pre><ol>
+<li><code>float:left;</code>。浮动元素本身<strong>BFC</strong>化，然而浮动元素具有破坏性和包裹性，失去了元素本身的流体自适应性，因此无法用来实现自动填满容器的自适应布局。</li><li><code>position:absolute;</code>。脱离文档流，不容易操作。</li><li><strong><code>overflow:hidden;</code>块状元素的流体特性保存得很好，加上</strong>BFC<strong>的独立区域特性，而且从IE7开始就支持，兼容性很好。唯一的问题是容器盒子外的元素可能会被隐藏掉。</strong></li><li><code>display:inline-block;</code></li><li><code>display:table-cell</code></li><li><code>display:table-row</code></li><li><code>display:table-caption</code></li></ol>
+<p>总结上面的自适应布局设置，最佳实践如下：</p>
+<ol>
+<li><code>overflow: auto/hidden;</code>，适用于IE7及以上版本浏览器；</li><li><code>display: inline-block;</code>，适应于IE6和IE7;</li><li><code>display: table-cell;</code>，适用于IE8及以上版本浏览器。</li></ol>
+<p>IE7及以上版本浏览器适配的自适应解决方案：</p>
+<ol>
+<li>借助<code>overflow</code>属性，如下:<pre><code>.lbf-content {
+ overflow: hidden;
+}
+</code></pre></li><li>融合<code>display: table-cell;</code>和<code>display: inline-block;</code>，如下：<pre><code>.lbf-content {
+ display: table-cell;
+ width: 9999px;
+}
+</code></pre></li></ol>
+<p><code>display: table-cell;</code>元素内连续英文字符无法换行的问题：</p>
+<pre><code>.word-break {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    word-break: break-all;
+}
+</code></pre><h1 id="-overflow-">最佳结界<code>overflow</code></h1>
 
 </body>
 </html>
