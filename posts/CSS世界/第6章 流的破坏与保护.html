@@ -693,6 +693,66 @@ body {
     border-radius: 6px;
 }
 </code></pre><h2 id="-overflow-">依赖<code>overflow</code>的样式表现</h2>
+<p>单行文字溢出<code>...</code>效果，需要使用到<code>overflow:hidden;</code>、<code>text-overflow:hidden;</code>，效果实现必需的3个声明如下：</p>
+<pre><code>.ell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+</code></pre><p>最多显示2行内容，再多就打点的核心CSS代码：</p>
+<pre><code>.ell-rows-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+</code></pre><h2 id="-overflow-"><code>overflow</code>与锚点定位</h2>
+<p>基于URL地址的锚链<code>location.hash</code>实现锚点跳转的方法有两种：</p>
+<ol>
+<li><code>a</code>标签以及<code>name</code>属性</li><li>使用标签的<code>id</code>属性</li></ol>
+<pre><code>&lt;a href=&quot;#1&quot;&gt;发展历程&lt;/a&gt;
+&lt;a name=&quot;1&quot;&gt;&lt;/a&gt;
+</code></pre><p><strong>1. 锚点定位行为的触发条件</strong></p>
+<ol>
+<li>URL地址中的锚链与锚点元素对应并有交互行为；</li><li>可<code>focus</code>的锚点元素处于<code>focus</code>状态。</li></ol>
+<p><strong><code>focus</code>锚点定位</strong>指的是类似链接或按钮、输入框等可以被<code>focus</code>的元素在被<code>focus</code>时发生的页面重定位现象。</p>
+<p><strong>URL地址锚点定位</strong>是让元素定位在浏览器窗体的上边缘，而<code>`focus</code>锚点定位`是让元素在浏览器窗体范围内显示即可。</p>
+<p><strong>2. 锚点定位作用的本质</strong></p>
+<p>锚点定位行为的发生，本质上是通过改变容器滚动高度或宽度来实现。改变了<code>scrollTop</code>或<code>scrollLeft</code>的值。</p>
+<p><p data-height="300" data-theme-id="0" data-slug-hash="bjYKPW" data-default-tab="css,result" data-user="whjin" data-pen-title="窗体无跳动选项卡" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/bjYKPW/">窗体无跳动选项卡</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p>处理列表部分区域正在浏览器外面依然会跳动的问题：</p>
+<pre><code>$(&#39;label.click&#39;).removeAttribute(&#39;for&#39;).on(&#39;click&#39;, function () {
+    $(&#39;.box&#39;).scrollTop(xxx);//滚动数值
+});
+</code></pre><p>基于父容器自身的<code>scrollTop</code>值改变来实现自定义滚动条效果。</p>
+<ol>
+<li>实现简单，无须做边界判断。<code>container.scrollTop=99999;</code>，列表滚动就是<code>scrollTop</code>值，实时获取。</li><li>可与原生的<code>scroll</code>事件天然继承，无缝对接。</li><li>无须改变子元素的结构。</li></ol>
+<h1 id="-float-position-absolute-"><code>float</code>的兄弟<code>position:absolute</code></h1>
+<p>绝对定位<code>absolute</code>具有块状化，块状格式化上下文、包裹性和自适应性。自适应性的最大宽度由“包含块”决定。</p>
+<h2 id="-absolute-"><code>absolute</code>的包含块</h2>
+<p>普通元素的百分比宽度是相对于父元素的<code>content box</code>宽度计算，而绝对定位元素的宽度是相对于第一个<code>position</code>不为<code>static</code>的祖先元素计算的。</p>
+<ol>
+<li>根元素<code>html</code>被称为“初始包含块”，其尺寸等同于浏览器可视窗口的大小。</li><li>对于其他元素，如果该元素的<code>position</code>是<code>relative</code>或<code>static</code>，则“包含块”由其最近的块容器祖先盒子的<code>content box</code>边界组成。</li><li>如果元素<code>position:fixed;</code>，则“包含块”是“初始包含块”。</li><li>如果元素<code>position:absolute;</code>，则“包含块”由最近的<code>position</code>不为<code>static</code>的祖先元素建立，具体方式如下：<br> <strong>如果该祖先元素是纯<code>inline</code>元素，则规则略复杂：</strong> <ul>
+<li>给内联元素的前后各生成一个宽度为<code>0</code>的内联盒子，则这两个内联盒子的<code>padding box</code>外面的包围盒子就是内联元素的“包含块”。</li><li>如果该内联元素被跨行分割，则<strong>包含块</strong>是未定义的。<br><strong>否则，“包含块”由该祖先的<code>padding box</code>边界组成。</strong></li></ul>
+</li></ol>
+<p>和常规元素相比，绝对定位元素的<strong>包含块</strong>有3个明显的差异：</p>
+<ol>
+<li>内联元素也可以作为<strong>包含块</strong>所在的元素；</li><li><strong>包含块</strong>所在的元素不是父级块元素，而是最近的<code>position</code>不为<code>static</code>的祖先元素或根元素；</li><li>边界是<code>padding box</code>而不是<code>content box</code>。</li></ol>
+<p><strong>内联元素的“包含块”是由“生成的”前后内联盒子决定，与里面的内联盒子细节没有任何关系。</strong></p>
+<blockquote>
+<p><code>height:100%;</code>是第一个具有定位属性值得祖先元素的高度，而<code>height:inherit;</code>则是单纯的父元素的高度继承。</p>
+</blockquote>
+<h2 id="-absolute-">具有相对特性的无依赖<code>absolute</code>绝对定位</h2>
+<ol>
+<li>各类图标定位<pre><code>.icon-hot {
+ position: absolute;
+ margin: -6px 0 0 2px;
+ width: 28px;
+ height: 11px;
+ background: url(&quot;hot.gif&quot;);
+}
+</code></pre></li><li></li></ol>
 
 </body>
 </html>
