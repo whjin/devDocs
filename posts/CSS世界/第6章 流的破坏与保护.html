@@ -296,11 +296,6 @@ table tr:nth-child(2n) {
   background-color: #dff0d8;
 }
 
-table + p {
-    text-align: center;
-    font-weight: bold;
-}
-
 /* IMAGES
 =============================================================================*/
 img {
@@ -560,7 +555,6 @@ vertical-align:1px;
 </tr>
 </tbody>
 </table>
-<p><code>float</code>属性与<code>display</code>属性值转换关系</p>
 <h2 id="-float-"><code>float</code>的作用机制</h2>
 <p><strong>文字环绕效果</strong>是由两个特性（<strong>父级高度坍塌</strong>和<strong>行框盒子区域限制</strong>）共同作用的结果，定高只能解决<strong>父级元素高度坍塌</strong>带来的影响，但是对<strong>行框盒子区域限制</strong>没有任何效果，结果导致的问题是浮动元素垂直区域一旦超出高度范围，或下面元素<code>margin-top</code>负值上偏移，就很容易使后面的元素发生“环绕效果”。</p>
 <h2 id="-float-"><code>float</code>更深入的作用机制</h2>
@@ -777,6 +771,78 @@ body {
 <h1 id="-absolute-clip-"><code>absolute</code>与<code>clip</code></h1>
 <p><code>clip</code>属性要起作用，元素必须是绝对定位<code>absolute</code>或固定定位<code>fixed</code>。</p>
 <p><code>clip</code>属性语法：<code>clip: rect(top right bottom left)</code></p>
+<h2 id="-clip-">重新认识的<code>clip</code>属性</h2>
+<p><strong>1. <code>fixed</code>固定定位的剪裁</strong></p>
+<pre><code>.fixed-clip {
+    position: fixed;
+    clip: rect(30px 200px 200px 20px);
+}
+</code></pre><p><strong>2. 最佳可访问性隐藏</strong></p>
+<p>最佳可访问性隐藏指的是视觉上看不见，但是辅助设备能够进行识别和访问。</p>
+<pre><code>.logo h1 {
+    position: absolute;
+    clip: rect(0 0 0 0);
+}
+&lt;a href=&quot;/&quot; class=&quot;logo&quot;&gt;
+    &lt;h1&gt;我是标题&lt;/h1&gt;
+&lt;/a&gt;
+</code></pre><h2 id="-clip-">深入了解<code>clip</code>的渲染</h2>
+<p>clip隐藏仅仅是决定了哪部分是可见的，非可见部分无法响应点击事件，虽然视觉上隐藏，但是元素的尺寸依旧是原来的尺寸。</p>
+<h1 id="-absolute-"><code>absolute</code>的流体特性</h1>
+<h2 id="-absolute-left-top-right-bottom-">当<code>absolute</code>遇到<code>left/top/right/bottom</code>属性</h2>
+<p>当<code>absolute</code>遇到<code>left/top/right/bottom</code>属性时，<code>absolute</code>元素才真正变成绝对定位元素。</p>
+<h2 id="-absolute-"><code>absolute</code>的流体特性</h2>
+<p>当一个绝对定位元素，其对立定位方向属性同时具有定位数值时，就会发生流体特性。</p>
+<p><strong>普通元素流体特性只有水平方向（默认），但是绝对定位元素可以让垂直方向和水平方向同时保持流动性。</strong></p>
+<h2 id="-absolute-margin-auto-"><code>absolute</code>的<code>margin:auto</code>居中</h2>
+<pre><code>.box {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+</code></pre><h1 id="-position-relative-"><code>position:relative</code>才是大哥</h1>
+<h2 id="-relative-absolute-"><code>relative</code>对<code>absolute</code>的限制</h2>
+<h2 id="-relative-"><code>relative</code>与定位</h2>
+<p><code>relative</code>与定位特性：一是相对自身，二是无侵入（当<code>relative</code>进行定位偏移时，不会影响周围元素的布局）。</p>
+<p><code>relative</code>定位：相对定位元素的<code>left/top/right/bottom</code>百分比值是相对于 包含块计算，而非自身。</p>
+<p><code>top/bottom</code>垂直方向的百分比值计算和<code>height</code>百分比值一样，都是相对于高度计算。</p>
+<p>当相对定位元素同时应用对立方向定位值，<code>top/bottom</code>和<code>left/right</code>同时使用时，其表现和绝对定位差异很大，只有一个方向的定位属性起作用。</p>
+<h2 id="-relative-"><code>relative</code>的最小化影响原则</h2>
+<ol>
+<li>尽量不适用<code>relative</code>，定位某元素，可以使用<strong>无依赖的绝对定位</strong>；</li><li>如果需要使用<code>relative</code>，则该<code>relative</code>需要最小化。  <pre><code>&lt;div&gt;
+ &lt;div style=&quot;position:relative;&quot;&gt;
+     &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot; style=&quot;position: absolute;top: 0;right: 0;&quot;&gt;
+ &lt;/div&gt;
+ &lt;p&gt;内容1&lt;/p&gt;
+ &lt;p&gt;内容2&lt;/p&gt;
+&lt;/div&gt;
+</code></pre></li></ol>
+<h1 id="-position-fixed-">强悍的<code>position:fixed</code>固定定位</h1>
+<h2 id="-position-fixed-"><code>position:fixed</code>不一样的“包含块”</h2>
+<p><code>position:fixed</code>固定定位元素的<strong>包含块</strong>是根元素。唯一可以限制固定定位元素的是<code>&lt;html&gt;</code>根元素。<code>relative</code>对<code>fixed</code>定位没有任何限制作用。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="EpQepP" data-default-tab="css,result" data-user="whjin" data-pen-title="无依赖固定定位" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/EpQepP/">无依赖固定定位</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="-position-fixed-absolute-"><code>position:fixed</code>的<code>absolute</code>模拟</h2>
+<pre><code>&lt;div class=&quot;page&quot;&gt;固定定位元素&lt;/div&gt;
+&lt;div class=&quot;fixed&quot;&gt;&lt;/div&gt;
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+.page {
+    height: 100%;
+    overflow: auto;
+}
+.fixed {
+    position: absolute;
+}
+</code></pre><h2 id="-position-fixed-"><code>position:fixed</code>与背景锁定</h2>
 
 </body>
 </html>
