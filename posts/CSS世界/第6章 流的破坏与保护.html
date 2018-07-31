@@ -744,15 +744,39 @@ body {
 <p><code>height:100%;</code>是第一个具有定位属性值得祖先元素的高度，而<code>height:inherit;</code>则是单纯的父元素的高度继承。</p>
 </blockquote>
 <h2 id="-absolute-">具有相对特性的无依赖<code>absolute</code>绝对定位</h2>
+<p><strong>1. 各类图标定位</strong></p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="jpYJJp" data-default-tab="css,result" data-user="whjin" data-pen-title="无依赖绝对定位”与导航图标定位" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/jpYJJp/">无依赖绝对定位”与导航图标定位</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><p data-height="265" data-theme-id="0" data-slug-hash="vapMWW" data-default-tab="css,result" data-user="whjin" data-pen-title="文字和图片水平对齐" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/vapMWW/">文字和图片水平对齐</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><strong>2. 超越常规布局的排版</strong></p>
+<p><p data-height="365" data-theme-id="0" data-slug-hash="bjayad" data-default-tab="css,result" data-user="whjin" data-pen-title="“无依赖绝对定位”与超越常规布局的排版" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/bjayad/">“无依赖绝对定位”与超越常规布局的排版</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><strong>3. 下拉列表的定位</strong></p>
+<p><p data-height="300" data-theme-id="0" data-slug-hash="NBXVVR" data-default-tab="css,result" data-user="whjin" data-pen-title="“无依赖绝对定位”与下拉列表定位" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/NBXVVR/">“无依赖绝对定位”与下拉列表定位</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+
+<p><strong>4. 占位符效果模拟</strong></p>
+<p><strong>5. 进一步深入“无依赖绝对定位”</strong></p>
+<h2 id="-absolute-text-align-"><code>absolute</code>与<code>text-align</code></h2>
+<p><code>absolute</code>元素的<code>display</code>计算值是块状的，<code>text-align</code>不会起作用。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="XBZmdB" data-default-tab="css,result" data-user="whjin" data-pen-title="absolute与text-align互相作用" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/XBZmdB/">absolute与text-align互相作用</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<p><p data-height="265" data-theme-id="0" data-slug-hash="NByxwE" data-default-tab="css,result" data-user="whjin" data-pen-title="主结构右外侧固定定位" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/NByxwE/">主结构右外侧固定定位</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h1 id="-absolute-overflow-"><code>absolute</code>与<code>overflow</code></h1>
+<p>如果<code>overflow</code>不是定位元素，同时绝对定位元素和<code>overflow</code>容器之间也没有定位元素，则<code>overflow</code>无法对<code>absolute</code>元素进行裁剪。<strong><code>overflow</code>元素父级是定位元素也不会裁剪。</strong></p>
 <ol>
-<li>各类图标定位<pre><code>.icon-hot {
- position: absolute;
- margin: -6px 0 0 2px;
- width: 28px;
- height: 11px;
- background: url(&quot;hot.gif&quot;);
-}
-</code></pre></li><li></li></ol>
+<li><code>overflow</code>属性所在的元素同时也是定位元素，里面的绝对定位元素会被裁剪；</li><li><code>overflow</code>元素和绝对定位元素之间有定位元素，也会被裁剪。</li><li><code>overflow</code>属性值不是<code>hidden</code>，而是<code>auto</code>或<code>scroll</code>，即使绝对定位元素高度比<code>overflow</code>元素高度大，也不会出现滚动条。</li></ol>
+<h1 id="-absolute-clip-"><code>absolute</code>与<code>clip</code></h1>
+<p><code>clip</code>属性要起作用，元素必须是绝对定位<code>absolute</code>或固定定位<code>fixed</code>。</p>
+<p><code>clip</code>属性语法：<code>clip: rect(top right bottom left)</code></p>
 
 </body>
 </html>
