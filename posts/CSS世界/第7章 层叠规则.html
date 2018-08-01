@@ -488,6 +488,37 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-7-">第7章 层叠规则</h1>
+<h1 id="-z-index-"><code>z-index</code></h1>
+<p><code>z-index</code>属性只有和定位元素在一起时才会起作用，可以是正数或负数。</p>
+<h1 id="-">层叠上下文和层叠水平</h1>
+<h2 id="-">理解元素的层叠顺序（从上至下）</h2>
+<ol>
+<li>（<strong>装饰</strong>）正<code>z-index</code>，位置在最下面，特指层叠上下文元素的边框和背景色</li><li><code>z-index:auto</code>或看成<code>z-index:0</code>，层叠水平一样</li><li>（<strong>内容</strong>）<code>inline</code>水平盒子，指的是包括<code>inline/inline-block/inline-table</code>元素的层叠顺序，都是同等级别</li><li>（<strong>布局</strong>）<code>float</code>浮动盒子</li><li>（<strong>布局</strong>）<code>block</code>块状水平盒子</li><li>负<code>z-index</code></li><li>层叠上下文<code>background/border</code></li></ol>
+<h1 id="-">牢记层叠准则</h1>
+<p>层叠领域的黄金准则。当元素发生层叠时，其覆盖关系遵循下面两条准则：</p>
+<ol>
+<li><strong>谁大谁上</strong>：层叠水平值大的在上面；</li><li><strong>后来居上</strong>：当元素的层叠水平一致、层叠顺序相同时，处于后面的元素会覆盖前面的元素。</li></ol>
+<h1 id="-">深入了解层叠上下文</h1>
+<h2 id="-">特性</h2>
+<p>层叠上下文元素有如下特性：</p>
+<ul>
+<li>层叠水平要比普通元素高</li><li>可以阻断元素的混合模式</li><li>可以嵌套，内部层叠上下文及其子元素均受制于外部的“层叠上下文”</li><li>每个层叠上下文和兄弟元素独立，当进行层叠变化或渲染时，只需要考虑后代元素</li><li>当发生层叠时，整个元素被认为是在父层叠上下文的层叠顺序中</li></ul>
+<h2 id="-">创建</h2>
+<p><strong>1. 根层叠上下文</strong></p>
+<p>根层叠上下文指的是页面根元素<code>html</code>。</p>
+<p><strong>2. 定位元素和传统层叠上下文</strong></p>
+<p>对于<code>position</code>值为<code>relative/absolute</code>以及Firefox/IE浏览器下含有<code>position:fixed</code>声明的定位元素，当其<code>z-index</code>值不是<code>auto</code>时，会创建层叠上下文。</p>
+<blockquote>
+<p>当<code>z-index:auto</code>时，遵循黄金准则的第一条<strong>谁大谁上</strong>；当<code>z-index</code>为具体数值时，按照父级的大小进行层叠排列；当<code>z-index</code>为具体数值，且父级层叠水平/顺序一致，遵循<strong>后来居上</strong>。</p>
+</blockquote>
+<p><strong>3. CSS3层叠上下文</strong></p>
+<ol>
+<li>元素为<code>flex</code>布局元素（父元素<code>display:flex|inline-flex</code>），同时<code>z-index</code>值不是<code>auto</code>。</li><li>元素的<code>opacity</code>值不是<code>1</code>。</li><li>元素的<code>transform</code>值不是<code>none</code>。</li><li>元素的<code>filter</code>值不是<code>none</code>。</li></ol>
+<h2 id="-">层叠上下文与层叠顺序</h2>
+<ol>
+<li>如果层叠上下文不依赖<code>z-index</code>数值，则其层叠顺序是<code>z-index:auto</code>，可以看成<code>z-index:0</code>级别；</li><li>如果层叠上下文元素依赖<code>z-index</code>数值，则其层叠顺序由<code>z-index</code>值决定。</li></ol>
+<p>元素成为定位元素，其<code>z-index</code>就会自动生效，此时其<code>z-index</code>默认是<code>auto</code>，也就是<code>0</code>级别，根据层叠顺序表，就会覆盖<code>inline/block/float</code>元素。不支持<code>z-index</code>的层叠上下文元素天然是<code>z-index:auto</code>级别，层叠上下文元素和定位元素是一个层叠顺序，当发生层叠时遵循<strong>后来居上</strong>准则。</p>
+<h1 id="-z-index-"><code>z-index</code>负值深入理解</h1>
 
 </body>
 </html>
