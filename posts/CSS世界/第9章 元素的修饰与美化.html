@@ -488,7 +488,73 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-9-">第9章 元素的修饰与美化</h1>
+<h1 id="-color-"><code>color</code></h1>
+<h2 id="-">颜色关键字</h2>
+<h2 id="-transparent-">不支持的<code>transparent</code>关键字</h2>
+<p><code>color:transparent</code>从IE9才开始支持。</p>
+<h2 id="-currentcolor-">不支持的<code>currentColor</code>变量</h2>
+<p><code>currentColor</code>变量可以使用<code>color</code>计算值。</p>
+<h2 id="-rgba-hsla-">不支持的<code>rgba</code>颜色和<code>hsla</code>颜色</h2>
+<p><code>color</code>属性支持十六进制颜色、<code>rgb</code>颜色。<code>rgb</code>除了支持数值颜色，还支持百分比<code>rgb</code>颜色，数值格式只能是整数，不能是小数。</p>
+<p><code>color</code>属性不支持<code>hsl</code>颜色、<code>rgba</code>颜色和<code>hsla</code>颜色。</p>
+<p><strong><code>hsl</code>颜色：</strong></p>
+<ul>
+<li><code>h</code>表示色调<code>hue</code>，取值<code>0~360</code>；</li><li><code>s</code>表示饱和度，取值<code>0~100%</code>，饱和度越高颜色越亮；</li><li><code>l</code>表示亮度，取值<code>0~100%</code>，<code>100%</code>是白色，<code>50%</code>是正常亮度，<code>0%</code>是黑色。</li></ul>
+<h2 id="-">支持却鸡肋的系统颜色</h2>
+<h1 id="-background-"><code>background</code></h1>
+<ul>
+<li><code>background-image:none</code></li><li><code>background-position:0% 0%</code></li><li><code>background-repeat:repeat</code></li><li><code>background-attachment:scroll</code></li><li><code>background-color:transparent</code></li></ul>
+<p>IE9+浏览器：</p>
+<ul>
+<li><code>background-size:auto auto</code></li><li><code>background-origin:padding-box</code></li><li><code>background-clip:border-box</code></li></ul>
+<h2 id="-background-image-">隐藏元素的<code>background-image</code>到底加不加载</h2>
+<p>IE8浏览器支持<code>base64</code>图片，包括在<code>background-image</code>属性中使用，可以节约网络请求。<code>base64</code>图片的渲染性能不高，大尺寸图片慎用。</p>
+<h2 id="-background-position-">与众不同的<code>background-position</code>百分比计算方式</h2>
+<p>如果缺省关键字，则会认为是<code>center</code>，<code>background-position:top center</code>=<code>background-position:top</code>。</p>
+<p><code>background-position:right 40px bottom 20px</code>表示距离右边缘<code>40px</code>，距离下边缘<code>20px</code>。</p>
+<p><code>position</code>百分比值计算公式：</p>
+<p><code>positionX</code>=（容器宽度 - 图片宽度）<em><code>precentX</code><br><code>positionY</code>=（容器高度 - 图片高度）</em><code>precentY</code></p>
+<ul>
+<li>（容器宽度 - 图片宽度）×（<code>-50%</code>）的结果是一个<strong>正值</strong>。</li><li>（容器高度 - 图片高度）×（<code>-50%</code>）的结果是一个<strong>正值</strong>。</li></ul>
+<p>最终表现图片定位在容器内。</p>
+<h2 id="-background-repeat-"><code>background-repeat</code>与渲染性能</h2>
+<h2 id="-background-attachment-fixed-">外强中干的<code>background-attachment:fixed</code></h2>
+<p><code>background-attachment:fixed</code>只能局限在窗体背景图使用上。</p>
+<h2 id="-background-color-"><code>background-color</code>背景色永远是最低的</h2>
+<h2 id="-hack-">利用多背景的属性<strong>hack</strong>小技巧</h2>
+<pre><code>.bg {
+    background: url(&quot;icon.png&quot;);
+    background: url(&quot;icon.svg&quot;), none;
+}
+</code></pre><h2 id="-rgba-">渐变背景和<code>rgba</code>背景色的兼容处理</h2>
+<p><strong>背景渐变，使用IE私有的渐变滤镜实现兼容</strong></p>
+<pre><code>filter: progid:DXImageTransform.Microsoft.
+gradient(startcolorstr=red, endcolorstr=blue, gradientType=1);
+</code></pre><ul>
+<li><code>gradientType=1</code>代表横向渐变</li><li><code>gradientType=0</code>代表纵向渐变</li><li><code>startcolorstr</code>代表渐变起始颜色</li></ul>
+<p>除了使用颜色关键色，还可以使用十六进制颜色值。</p>
+<blockquote>
+<p>将<code>0~1</code>的CSS3标准透明度值转换成十六进制。</p>
+</blockquote>
+<pre><code>Math.round(256 * opacity).toString(16);
+</code></pre><blockquote>
+<p>实现一个<code>100%</code>红色到<code>50%</code>透明度蓝色垂直渐变。</p>
+</blockquote>
+<pre><code>.gradient {
+    filter: progid:DXImageTransform.Microsoft.
+    gradient(startcolorstr=#FFFF0000, endcolorstr=#7F0000FF, gradientType=0);
+    background: linear-gradient(to bottom, red, rgba(0, 0, 255, .5));
+}
+</code></pre><pre><code>.bgcolor {
+    background: rgba(0, 0, 0, .5);
+    filter: progid:DXImageTransform.Microsoft.
+    gradient(startcolorstr=#7F000000, endcolorstr=#7F000000);
+}
 
+:root .bgcolor {
+    filter: none;
+}
+</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
