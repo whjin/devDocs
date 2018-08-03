@@ -579,6 +579,205 @@ vertical-align:1px;
 <li><code>caption</code>：活动窗口标题栏使用的字体</li><li><code>icon</code>：包含图标内容所使用的字体，如所有文件夹名称、文件名称、磁盘名称，浏览器窗口标题所使用的字体</li><li><code>menu</code>：菜单使用的字体，如文件夹字体</li><li><code>message-box</code>：消息盒里面使用的字体</li><li><code>small-caption</code>：调色板标题所使用的字体</li><li><code>status-bar</code>：窗体状态栏使用的字体</li></ul>
 <p>使用关键字作为属性值必须是独立的，不能添加<code>font-family</code>或<code>font-size</code>等。</p>
 <h2 id="-font-"><code>font</code>关键字属性值的应用价值</h2>
+<pre><code>//推荐使用
+html {font: menu;}
+body {font-size: 16px;}
+
+html {font: small-caption;}
+body {font-size: 16px;}
+
+html {font: status-bar;}
+body {font-size: 16px;}
+</code></pre><h1 id="-font-face-"><code>@font face</code>规则</h1>
+<h2 id="-font-face-"><code>@font face</code>的本质是变量</h2>
+<p><code>@font face</code>的本质上就是一个定义字体或字体集的变量，包括字体重命名、默认字体样式设置等。</p>
+<p><code>@font face</code>规则支持的CSS属性有<code>font-family</code>、<code>src</code>、<code>font-style</code>、<code>font-weight</code>、<code>unicode-range</code>、<code>font-variant</code>、<code>font-stretch</code>和<code>font-feature-settings</code>。</p>
+<pre><code>@font-face {
+    font-family: &#39;example&#39;;
+    src: url(&quot;example.ttf&quot;);
+    font-style: normal;
+    font-weight: normal;
+    unicode-range: U+0025-00FF;
+    font-variant: small-caps;//忽略
+    font-stretch: expanded;//忽略
+    font-feature-settings: &quot;ligal&quot; on;//忽略
+}
+</code></pre><p><strong>1. <code>font-family</code></strong></p>
+<pre><code>@font-face {
+    font-family: &#39;$&#39;;
+    src: url(&quot;example.ttf&quot;);
+}
+</code></pre><p><strong>2. <code>src</code></strong></p>
+<p>如果是使用系统字体，则使用<code>local()</code>功能符；如果使用外链字体，则使用<code>url()</code>功能符。</p>
+<pre><code>@font-face {
+    font-family: ICON;
+    src: url(&quot;icon.eot&quot;) format(&#39;eot&#39;);
+    src: url(&quot;icon.eot?#iefix&quot;) format(&quot;embedded-opentype&quot;),
+    url(&quot;icon.woff2&quot;) format(&quot;woff2&quot;),
+    url(&quot;icon.woff&quot;) format(&quot;woff&quot;),
+    url(&quot;icon.ttf&quot;) format(&quot;truetype&quot;),
+    url(&quot;icon.svg#icon&quot;) format(&quot;svg&quot;);
+    font-style: normal;
+    font-weight: normal;
+}
+</code></pre><ul>
+<li><code>eot</code>格式是IE私有的。（<strong>舍弃</strong>）</li><li><code>woff</code>是专门为Web开发而设计的字体格式。（<strong>次优先使用</strong>）</li><li><code>woff2</code>是比<code>woff</code>尺寸更小的字体，是Web开发首选字体。（<strong>优先使用</strong>）</li><li><code>ttf</code>格式作为系统安装字体比较多。（<strong>舍弃</strong>）    </li></ul>
+<p><strong>推荐使用方法</strong>：</p>
+<pre><code>@font-face {
+    font-family: ICON;
+    src: url(&quot;icon.eot&quot;) format(&#39;eot&#39;);
+    src: local(&#39;☺&#39;),
+    url(&quot;icon.woff2&quot;) format(&quot;woff2&quot;),
+    url(&quot;icon.woff&quot;) format(&quot;woff&quot;),
+    url(&quot;icon.ttf&quot;) format(&quot;truetype&quot;);
+}
+</code></pre><p><strong>3. <code>font-style</code></strong></p>
+<p><strong>4. <code>font-weight</code></strong></p>
+<p><strong>5. <code>unicode-range</code></strong></p>
+<p><code>unicode-range</code>的作用是可以让特定的字符或特定范围的字符使用指定的字体。</p>
+<h2 id="-font-face-"><code>@font face</code>与字体图标技术</h2>
+<pre><code>.icon {
+    font-family: ICON;
+}
+
+.icon-microphone:before {
+    content: &#39;\1f3a4&#39;;
+}
+</code></pre><h1 id="-">文本的控制</h1>
+<h2 id="-text-indent-"><code>text-indent</code>与内联元素缩进</h2>
+<p><code>text-indent</code>负值隐藏文本内容。</p>
+<p><p data-height="265" data-theme-id="0" data-slug-hash="pZVrba" data-default-tab="html,result" data-user="whjin" data-pen-title="text-indent与纯文本对齐布局" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/pZVrba/">text-indent与纯文本对齐布局</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<ol>
+<li><code>text-indent</code>仅对第一行内联盒子内容有效；</li><li>非替换元素以外的<code>display</code>计算值为<code>inline</code>的内联元素设置<code>text-indent</code>值无效，如果计算值是<code>inline-block/inline-table</code>则会生效。因此，如果父级块状元素设置了<code>text-indent</code>属性值，子<code>inline-block/inline-table</code>需要设置<code>text-indent:0</code>重置。</li><li><code>input</code>标签按钮<code>text-indent</code>值无效。</li><li><code>button</code>标签按钮<code>text-indent</code>值有效，但存在兼容性问题。</li><li><code>input</code>和<code>textarea</code>输入框的<code>text-indent</code>在低版本IE下有兼容性问题。</li></ol>
+<h2 id="-letter-spacing-"><code>letter-spacing</code>与字符间距</h2>
+<p><code>letter-spacing</code>特性：</p>
+<ol>
+<li>继承性；</li><li>默认值是<code>normal</code>不是<code>0</code>。</li><li>支持负值，且值足够大时会让字符形成重叠，甚至反向排列。</li><li>第一行都会保留至少一个字符。</li><li>支持小数值。</li><li>暂时不支持百分比值。</li></ol>
+<h2 id="-word-spacing-"><code>word-spacing</code>与单词间距</h2>
+<p><code>word-spacing</code>和<code>letter-spacing</code>共同特性：</p>
+<ol>
+<li>具有继承性；</li><li>默认值都是<code>normal</code>。</li><li>都支持负值，都可以让字符重叠，不适合使用<code>word-spacing</code>来清除空白间隙。</li><li>都支持小数值。</li><li>间隔算法都会受到<code>text-align:jusitify</code>两端对齐的影响。</li></ol>
+<p>两者差异：</p>
+<p><code>letter-spacing</code>作用域所有字符，<code>word-spacing</code>仅作用于空格字符（增加空格的间隙宽度）。</p>
+<h2 id="-word-break-word-wrap-">了解<code>word-break</code>和<code>word-wrap</code>的区别</h2>
+<p><code>word-break</code>属性语法：</p>
+<ul>
+<li><code>word-break:normal</code>：</li><li><code>word-break:break-all</code>：允许任意非CJK（Chinese/Japanese/Korean）文本间的单词断行</li><li><code>word-break:keep-all</code>：不允许CJK文本中的单词换行，只能在半角空格或连字符处换行。实际上和<code>normal</code>一致。移动端不适合使用这个属性值。</li></ul>
+<p><code>word-wrap</code>语法：</p>
+<ul>
+<li><code>word-wrap:normal</code>：正常的换行规则</li><li><code>word-wrap:break-word</code>：一行单词中没有换行点时换行，CSS3中名称<code>overflow-wrap</code></li></ul>
+<p><code>word-break:break-all</code>的作用是所有的都换行，而<code>word-wrap:break-word</code>则是如果这一行文字有了可换行的点（如空格或CJK等），就在这些换行点换行。</p>
+<p><p data-height="300" data-theme-id="0" data-slug-hash="ejrPJq" data-default-tab="css,result" data-user="whjin" data-pen-title="word-break:break-all和word-wrap:break-word的区别" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/ejrPJq/">word-break:break-all和word-wrap:break-word的区别</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="-white-space-"><code>white-space</code>与换行和空格的控制</h2>
+<p><strong>1. <code>white-space</code>的处理模型</strong></p>
+<p><code>white-space</code>属性声明了如何处理元素内的空白字符，包括<strong>空格键</strong><code>Space</code>、<strong>回车键</strong><code>Enter</code>、<strong>制表符</strong><code>Tab</code>产生的空白。<code>white-space</code>可以决定图文内容是否在一行显示（回车键是否生效），是否显示大段连续空白（空格是否生效）等。</p>
+<p>其属性值包括：</p>
+<ul>
+<li><code>normal</code>：合并空白字符和换行符。</li><li><code>pre</code>：空白字符不合并，并且内容只在有换行符的地方换行。</li><li><code>nowrap</code>：和<code>normal</code>一样会合并空白字符，但不允许文本环绕。</li><li><code>pre-wrap</code>：和<code>pre</code>一样，但允许文本环绕。</li><li><code>pre-line</code>：合并空白字符，但只在有换行符的地方换行允许文本环绕。</li></ul>
+<p><code>white-space</code>的功能有3个维度，分别是：<strong>是否合并空白字符</strong>、<strong>是否合并换行符</strong>、<strong>文本是否自动换行</strong>。</p>
+<h4 style="text-align:center;"><strong><code>white-space</code>不同属性值功能示意</strong></h4>
+
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>换行</th>
+<th>空格和制表</th>
+<th>文本环绕</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>normal</code></td>
+<td>合并</td>
+<td>合并</td>
+<td>环绕</td>
+</tr>
+<tr>
+<td><code>nowrap</code></td>
+<td>合并</td>
+<td>合并</td>
+<td>不环绕</td>
+</tr>
+<tr>
+<td><code>pre</code></td>
+<td>保留</td>
+<td>保留</td>
+<td>不环绕</td>
+</tr>
+<tr>
+<td><code>pre-wrap</code></td>
+<td>保留</td>
+<td>保留</td>
+<td>环绕</td>
+</tr>
+<tr>
+<td><code>pre-line</code></td>
+<td>保留</td>
+<td>合并</td>
+<td>环绕</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2. <code>white-space</code>与最大可用宽度</strong></p>
+<p>当<code>white-space</code>设置为<code>nowrap</code>时，元素的宽度表现为<strong>最大可用宽度</strong>，换行符和一些空格全部合并，文本一行显示。</p>
+<ol>
+<li><strong>包含块尺寸大小处理</strong>。绝对定位和<code>inline-block</code>元素都具有包裹性，当文本内容宽度超过包含块宽度时，就会发生文本环绕现象。</li><li><strong>单行文字溢出<code>...</code>效果</strong>。<code>text-overflow:ellipsis;</code>文字内容超出打点效果离不开<code>white-space:nowrap;</code>声明。</li><li><strong>水平列表切换效果</strong>。如果列表的数目是不固定的，使用<code>white-space:nowrap;</code>使列表一行显示。</li></ol>
+<h2 id="-text-align-"><code>text-align</code>与元素对齐</h2>
+<p><code>text-align:justify</code>想要实现两端对齐布局效果，需要满足两点：一是<strong>有分隔点</strong>，如空格；二是<strong>要超过一行</strong>，此时不是最后一行内容会两端对齐。</p>
+<p><code>text-align-last</code>属性，可以规定最后一行内联内容的排列方式。</p>
+<pre><code>.justify {
+    text-align-last: justify;
+}
+</code></pre><p>这个方法存在兼容性问题。</p>
+<h2 id="-text-decoration-">如何解决<code>text-decoration</code>下划线和文本重叠的问题</h2>
+<p>对于纯内联元素，垂直方向的<code>padding</code>属性和<code>border</code>属性对原来的布局定位等没有任何影响。</p>
+<blockquote>
+<p>使用<code>border-bottom</code>模拟<code>text-decoration</code>下划线解决文本重叠的问题</p>
+</blockquote>
+<h2 id="-text-transform-"><code>text-transform</code>字符大小写</h2>
+<p><code>text-transform</code>是为英文字符设计，<strong>全大写<code>text-transform:uppercase</code></strong>，<strong>全小写<code>text-transform:lowercase</code></strong></p>
+<p><strong>1. 场景一：身份证输入</strong></p>
+<p><strong>2. 场景二：验证码输入</strong></p>
+<h1 id="-first-letter-first-line-">了解<code>:first-letter/:first-line</code>伪元素</h1>
+<h2 id="-first-letter-">深入<code>:first-letter</code>伪元素及其实例</h2>
+<p><strong>1. <code>::first-letter</code>伪元素生效的前提</strong></p>
+<ul>
+<li>元素的<code>display</code>计算值必须是<code>block</code>、<code>inline-block</code>、<code>list-item</code>、<code>table-cell/table-caption</code>，其他值没有用。</li><li>可以直接作为伪元素的字符是数字、英文字母、中文、<code>$</code>、一些运算符，以及一些“空格”。</li><li>字符前面不能有图片或<code>inline-block/inline-table</code>之类的元素存在。</li></ul>
+<p><strong>2. <code>::first-letter</code>伪元素可以生效的CSS属性</strong></p>
+<p>字符被选做<code>::first-letter</code>伪元素，只有一部分有效：</p>
+<ul>
+<li>所有字体相关属性：<code>font</code>、<code>font-style</code>、<code>font-variant</code>、<code>font-weight</code>、<code>font-size</code>、<code>line-height</code>和<code>font-family</code>。</li><li>所有背景相关属性：<code>background-color</code>、<code>background-image</code>、<code>background-position</code>、<code>background-repeat</code>、<code>background-size</code>和<code>background-attachment</code>。</li><li>所有<code>margin</code>相关属性：<code>margin</code>、<code>margin-top/right/bottom/left</code>。</li><li>所有<code>padding</code>相关属性：<code>padding</code>、<code>padding-top/right/bottom/left</code>。</li><li>所有<code>border</code>相关属性：<code>border</code>、<code>border-style</code>、<code>border-color</code>、<code>border-width</code>。</li><li><code>color</code>属性。</li><li><code>text-decoration</code>、<code>text-transform</code>、<code>letter-spacing</code>、<code>word-spacing</code>、<code>line-height</code>、<code>float</code>和<code>vertical-align</code>（只有当<code>float:none</code>时）等属性。</li></ul>
+<p><strong>3. <code>::first-letter</code>伪元素特点</strong></p>
+<ol>
+<li>支持部分<code>display</code>属性值标签嵌套。<code>::first-letter</code>伪元素获取可以跨标签，不仅能选择匿名内联盒子，还能透过层层标签进行选择。<ul>
+<li><code>display</code>值是<code>inline</code>、<code>block</code>、<code>table</code>、<code>table-row</code>、<code>table-caption</code>、<code>table-cell</code>、<code>list-item</code>有效。</li><li><code>inline-block/inline-table</code>无效。</li><li><code>display:flex</code>直接选择下一行的字符内容。</li></ul>
+</li><li><p>颜色等权重总是多了一层。<code>::first-letter</code>伪元素作为子元素存在，对于<code>color</code>继承属性，子元素的CSS设置一定比父元素的级别要高，即使使用了<code>!important</code>，<strong>子元素会先继承，然后再应用自身设置</strong>。</p>
+<pre><code> p:first-letter {
+     color: #cd0000; /*第一个字符的颜色是red*/
+ }
+
+ p &gt; span {
+     color: blue !important;
+ }
+ &lt;p&gt;&lt;span&gt;第一个&lt;/span&gt;字符会不会变成红色？&lt;/p&gt;
+</code></pre><p><strong>4. <code>::first-letter</code>伪元素实际应用</strong></p>
+<pre><code> &lt;p class=&quot;price&quot;&gt;￥399&lt;/p&gt;
+ .price:first-letter {
+     margin-right: 5px;
+     font-size: xx-large;
+     vertical-align: -2px;
+ }
+</code></pre></li></ol>
+<h2 id="-first-line-"><code>:first-line</code>伪元素</h2>
+<ul>
+<li>只能作用在块级元素上<code>block/inline-block/list-item/table-cell/table-caption</code></li><li>仅支持部分CSS属性<ul>
+<li>所有字体相关属性</li><li><code>color</code>属性</li><li>所有背景相关属性</li><li><code>text-decoration</code>、<code>text-transfor</code>、<code>letter-spacing</code>、<code>word-spacing</code>、<code>line-height</code>和<code>vertical-align</code></li><li>支持标签嵌套。不支持<code>table</code>属性</li></ul>
+</li></ul>
 
 </body>
 </html>
