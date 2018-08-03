@@ -488,6 +488,62 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="-10-">第10章 元素的显示与隐藏</h1>
+<p>使用CSS让元素不可见的方法，<strong>剪裁</strong>、<strong>定位到屏幕外</strong>、<strong>明度变化</strong>等。</p>
+<ul>
+<li><p>元素不可见，同时不占据空间，辅助设备无法访问，同时不渲染，可以使用<code>script</code>标签隐藏。</p>
+<pre><code>  &lt;script type=&quot;text/html&quot;&gt;
+      &lt;img src=&quot;1.jpg&quot;&gt;
+      &lt;textarea style=&quot;display: none;&quot;&gt;
+          &lt;img src=&quot;2.jpg&quot;&gt;
+      &lt;/textarea&gt;
+  &lt;/script&gt;
+</code></pre><p><code>script</code>标签隐藏内容获取使用<code>script.innerHTML</code>，<code>textarea</code>使用<code>textarea.value</code>。</p>
+</li><li><p>元素不可见，同时不占据空间，辅助设备无法访问，但资源有加载，DOM可访问，则可以直接使用<code>display:none</code>隐藏。</p>
+</li><li><p>元素不可见，同时不占据空间，辅助设备无法访问，但显示隐藏时可以有<code>transition</code>淡入淡出效果。</p>
+<pre><code>  .hidden {
+      position: absolute;
+      visibility: hidden;
+  }
+</code></pre></li><li><p>元素不可见，不能点击，辅助设备无法访问，但占据空间保留，可以使用<code>visibility:hidden</code>隐藏。</p>
+</li><li><p>元素不可见，不能点击，不占据空间，但键盘可访问，可以使用<code>clip</code>剪裁隐藏。</p>
+<pre><code>  .clip {
+      position: absolute;
+      clip: rect(0 0 0 0);
+  }
+
+  .out {
+      position: relative;
+      left: -999em;
+  }
+</code></pre></li><li><p>元素不可见，不能点击，但占据空间，且键盘可访问，可以使用<code>relative</code>隐藏。如果和层叠上下文之间存在设置了背景色的父元素，也可以使用更友好的<code>z-index</code>负值隐藏。    </p>
+<pre><code>  .lower {
+      position: relative;
+      z-index: -1;
+  }
+</code></pre></li><li><p>元素不可见，但可以点击，而且不占据空间，可以使用透明度。</p>
+<pre><code>  .opacity {
+      position: absolute;
+      opacity: 0;
+      filter: Alpha(opacity=0);
+  }
+</code></pre></li><li><p>元素不可见，但位置保留，可以点击，则直接让透明度为<code>0</code>。</p>
+<pre><code>  .opacity {
+      opacity: 0;
+      filter: Alpha(opacity=0);
+  }
+</code></pre></li></ul>
+<h1 id="-display-"><code>display</code>与元素的显示/隐藏</h1>
+<h1 id="-visibility-"><code>visibility</code>与元素的显示/隐藏</h1>
+<h2 id="-">不仅仅是保留空间</h2>
+<p><strong>1. <code>visibility</code>的继承性</strong></p>
+<p>父元素设置<code>visibility:hidden</code>，子元素也会不可见，继承了父元素属性值，但是，如果子元素设置了<code>visibility:visible</code>，则子元素又会显示出来。</p>
+<p><strong>2. <code>visibility</code>与CSS计数器</strong></p>
+<p><code>visibility:hidden</code>不会影响计数器的计数，但<code>display:none</code>就会。</p>
+<p><strong>3. <code>visibility</code>与<code>transition</code></strong></p>
+<p><code>transition</code>可以延时执行，和<code>visibility</code>配合可以使用CSS实现<code>hover</code>延时显示效果。</p>
+<ol>
+<li>普通元素的<code>title</code>属性不会被朗读，除非辅以按钮等空间元素，设置了<code>role=&quot;button&quot;</code>才可以朗读。</li><li><code>visibility:hidden</code>元素不会被朗读。</li></ol>
+<h2 id="-visibility-collapse-">了解<code>visibility:collapse</code></h2>
 
 </body>
 </html>
