@@ -26,6 +26,20 @@ ol {
     margin-left: -25px;
 }
 
+li.fold-panel > ul {
+    display: none;
+}
+
+li.fold-panel:hover > ul {
+    display: block;
+}
+
+sup {
+    margin-left: 3px;
+    cursor: pointer;
+    color: #bd4147;
+}
+
 .app-footer {
     font-family: 'microsoft yahei', 'kaiti', sans-serif;
     padding: 1em 0;
