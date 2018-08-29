@@ -33,6 +33,10 @@ li.fold-panel:hover > ul {
     display: block;
 }
 
+.opacity {
+    opacity: 0;
+}
+
 sup {
     margin-left: 3px;
     cursor: pointer;
@@ -51,7 +55,7 @@ sup {
     cursor: pointer;
     position: fixed;
     right: 20px;
-    bottom: 70px;
+    bottom: 60px;
     width: 40px;
     height: 40px;
     padding: 5px;
@@ -72,14 +76,20 @@ sup {
     .row .col-md-2, .row .col-md-3 {
         border-right: none;
     }
-    .scroll-top{
+
+    .scroll-top {
         right: 20px;
-        bottom: 70px;
+        bottom: 60px;
     }
 }
 
 @media screen and (min-width: 768px) {
     .col-md-3:not(:last-child), .col-md-2:not(:last-child) {
         border-right: 1px dashed #bd4147;
+    }
+
+    .scroll-top {
+        right: 20px;
+        bottom: 60px;
     }
 }
