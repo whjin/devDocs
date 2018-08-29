@@ -1,7 +1,6 @@
 body {
     font-family: "微软雅黑", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
-    height: 100%;
     width: 100%;
 }
 
@@ -18,7 +17,7 @@ h5 {
 }
 
 .jumbotron {
-    padding: 5px;
+    padding: 5px 0;
     border-radius: 0;
 }
 
@@ -40,17 +39,42 @@ sup {
     color: #bd4147;
 }
 
+.arrow-icon {
+    background-image: url(../images/top.png);
+    width: 30px;
+    height: 30px;
+    display: block;
+    background-size: contain;
+}
+
+.scroll-top {
+    cursor: pointer;
+    position: fixed;
+    right: 20px;
+    bottom: 70px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    background-color: #42b983;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.12), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+}
+
 .app-footer {
-    font-family: 'microsoft yahei', 'kaiti', sans-serif;
     padding: 1em 0;
-    margin: 10px 10px 0;
+    margin: 1em 0 0 0;
     text-align: center;
-    font-size: 1em;
+    background: #E9ECEF;
 }
 
 @media screen and (max-width: 768px) {
     .row .col-md-2, .row .col-md-3 {
         border-right: none;
+    }
+    .scroll-top{
+        right: 20px;
+        bottom: 70px;
     }
 }
 
