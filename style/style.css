@@ -84,7 +84,7 @@ div object {
     .scroll-top {
         right: 20px;
         bottom: 60px;
-        z-index: 1;
+        z-index: 9;
     }
 }
 
@@ -96,6 +96,6 @@ div object {
     .scroll-top {
         right: 20px;
         bottom: 60px;
-        z-index: 1;
+        z-index: 9;
     }
 }
