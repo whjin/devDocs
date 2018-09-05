@@ -72,6 +72,10 @@ sup {
     background: #E9ECEF;
 }
 
+div object {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
     .row .col-md-2, .row .col-md-3 {
         border-right: none;
