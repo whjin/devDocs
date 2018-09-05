@@ -32,6 +32,12 @@ body {
   margin: 0 auto;
 }
 
+@media screen and (max-width: 768px) {
+  body {
+  	font-size: 20px !important;
+  }
+}
+
 body>*:first-child {
   margin-top: 0 !important;
 }
@@ -65,7 +71,7 @@ h1 {
   font-size: 28px;
 }
 
-h1:first-child {
+h1:first-of-type {
   font-size: 32px;
   text-align: center;
 }
@@ -113,7 +119,12 @@ a {
 }
 
 a:hover {
+  color: #d0782a;
   text-decoration: underline;
+}
+
+a:active {
+  color: #bd4147;
 }
 
 /* LISTS
@@ -233,12 +244,11 @@ kbd {
 
 /* QUOTES
 =============================================================================*/
-
 blockquote {
   border-left: 4px solid #42b983;
   padding: 0 15px;
-  color: #777;
-  background: #f8f8f8;
+  color: #d1d9e1;
+  background: #474949;
 }
 
 blockquote>:first-child {
@@ -270,6 +280,8 @@ table {
 	border-collapse: collapse;
 	width: 100%;
 	box-sizing: border-box;
+	margin-bottom: 30px;
+	
 }
 
 table th, table td {
@@ -294,7 +306,6 @@ table tr:nth-child(2n) {
 
 /* IMAGES
 =============================================================================*/
-
 img {
   max-width: 100%;
 }

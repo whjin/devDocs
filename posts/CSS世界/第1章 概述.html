@@ -32,6 +32,12 @@ body {
   margin: 0 auto;
 }
 
+@media screen and (max-width: 768px) {
+  body {
+  	font-size: 20px !important;
+  }
+}
+
 body>*:first-child {
   margin-top: 0 !important;
 }
@@ -113,7 +119,11 @@ a {
 }
 
 a:hover {
+  color: #d0782a;
   text-decoration: underline;
+}
+
+a:active {
   color: #bd4147;
 }
 
@@ -270,6 +280,8 @@ table {
 	border-collapse: collapse;
 	width: 100%;
 	box-sizing: border-box;
+	margin-bottom: 30px;
+	
 }
 
 table th, table td {

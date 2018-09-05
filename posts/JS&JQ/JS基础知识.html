@@ -32,6 +32,12 @@ body {
   margin: 0 auto;
 }
 
+@media screen and (max-width: 768px) {
+  body {
+  	font-size: 20px !important;
+  }
+}
+
 body>*:first-child {
   margin-top: 0 !important;
 }
@@ -44,7 +50,7 @@ body>*:last-child {
 =============================================================================*/
 
 p, blockquote, ul, ol, dl, table, pre {
-  margin: 15px 0;
+  margin: 16px 0;
 }
 
 /* HEADERS
@@ -63,32 +69,30 @@ h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, 
 
 h1 {
   font-size: 28px;
-  color: #00b7e9;
+}
+
+h1:first-of-type {
+  font-size: 32px;
+  text-align: center;
 }
 
 h2 {
-  font-size: 24px;
-  border-bottom: 1px solid #ccc;
-  color: #00b7e9;
+  font-size: 26px;
 }
 
 h3 {
-  color: #00b7e9;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 h4 {
-  color: #00b7e9;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 h5 {
-  color: #00b7e9;	
-  font-size: 14px;
+  font-size: 16px;
 }
 
 h6 {
-  color: #00b7e9;
   font-size: 14px;
 }
 
@@ -115,7 +119,12 @@ a {
 }
 
 a:hover {
+  color: #d0782a;
   text-decoration: underline;
+}
+
+a:active {
+  color: #bd4147;
 }
 
 /* LISTS
@@ -180,7 +189,6 @@ dl dd>:last-child {
 =============================================================================*/
 
 pre, code, tt {
-  font-size: 16px;
   font-family: Consolas, "Liberation Mono", Courier, monospace;
 }
 
@@ -205,7 +213,6 @@ pre>code {
 pre {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
-  font-size: 16px;
   line-height: 19px;
   overflow: auto;
   padding: 6px 10px;
@@ -237,12 +244,11 @@ kbd {
 
 /* QUOTES
 =============================================================================*/
-
 blockquote {
   border-left: 4px solid #42b983;
   padding: 0 15px;
-  color: #777;
-  background: #f8f8f8;
+  color: #d1d9e1;
+  background: #474949;
 }
 
 blockquote>:first-child {
@@ -269,14 +275,24 @@ hr {
 
 /* TABLES
 =============================================================================*/
-
-table th {
-  font-weight: bold;
+table {
+	margin: 0 auto;
+	border-collapse: collapse;
+	width: 100%;
+	box-sizing: border-box;
+	margin-bottom: 30px;
+	
 }
 
 table th, table td {
   border: 1px solid #ccc;
-  padding: 6px 13px;
+  padding: 6px 13px; 
+}
+
+table th {
+  font-weight: bold;
+  text-align: center !important;
+  background-color: #9ec68e;
 }
 
 table tr {
@@ -285,21 +301,19 @@ table tr {
 }
 
 table tr:nth-child(2n) {
-  background-color: #f8f8f8;
+  background-color: #dff0d8;
 }
 
 /* IMAGES
 =============================================================================*/
-
 img {
   max-width: 100%;
 }
 
 p > img {
-    display: table;
-    margin: 0 auto;
+  display: table;
+  margin: 0 auto;
 }
-
 </style>
 <style type="text/css">
 .highlight  { background: #ffffff; }
@@ -478,6 +492,7 @@ margin-right:3px;
 vertical-align:1px;
 }
 </style>
+<base target=_blank>
 </head>
 <body>
 <h1 id="js-">JS基础知识</h1>
@@ -493,7 +508,13 @@ vertical-align:1px;
 <li><code>info</code> 信息</li><li><code>init</code> 初始化</li><li><code>add/insert/create</code> 增加创建插入</li><li><code>remove/rm/clear/del/delete</code> 删除</li><li><code>update</code> 修改</li><li><code>get/query/select</code> 查询获取</li></ul>
 <p><strong>前端技能</strong></p>
 <ul>
-<li><code>HTML+CSS</code>完成静态页面的搭建</li><li><code>H5+CSS3</code>完成响应式布局开发</li><li><code>JS</code>实现交互效果</li><li>掌握<code>JS</code>中常用的设计模式和类库</li><li><code>ES6</code></li><li><code>Ajax/Json</code>和服务器的数据交互</li><li>常用的框架：<code>React</code>、<code>Vue</code></li><li>了解<code>Node.js</code>，可以搭建一个简单的后台服务</li><li>自动化平台：<code>webpack</code></li><li>团队协作开发工具：<code>Git</code></li></ul>
+<li><code>HTML+CSS</code>完成静态页面的搭建</li><li><code>H5+CSS3</code>完成响应式布局开发</li><li><code>JS</code>实现交互效果</li><li>掌握<code>JS</code>中常用的设计模式和类库</li><li><code>ES6</code></li><li><code>Ajax/Json</code>和服务器的数据交互</li><li>常用的框架：<code>React</code>、<code>Vue</code></li><li>了解<code>Node.js</code>，可以搭建一个简单的后台服务</li><li>自动化平台：<code>webpack</code></li><li><p>团队协作开发工具：<code>Git</code></p>
+</li><li><p><code>forEach()</code> 不支持<code>return</code></p>
+</li><li><code>for(let key in arr){}</code> <ul>
+<li><code>key</code>会变成字符串类型，包括数组的私有属性也会输出</li></ul>
+</li><li><code>for(let val of arr){}</code> <ul>
+<li>支持<code>return</code>，不能遍历对象</li></ul>
+</li></ul>
 
 </body>
 </html>
