@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>高性能JavaScript</title>
+<title>目录结构</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -113,7 +113,11 @@ a {
 }
 
 a:hover {
+  color: #d0782a;
   text-decoration: underline;
+}
+
+a:active {
   color: #bd4147;
 }
 
@@ -241,11 +245,6 @@ blockquote {
   background: #474949;
 }
 
-blockquote:first-of-type {
-  color: #777;
-  background: #f8f8f8;
-}
-
 blockquote>:first-child {
   margin-top: 0px;
 }
@@ -275,6 +274,8 @@ table {
 	border-collapse: collapse;
 	width: 100%;
 	box-sizing: border-box;
+	margin-bottom: 30px;
+	
 }
 
 table th, table td {
@@ -306,6 +307,10 @@ img {
 p > img {
   display: table;
   margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+  font-size: 2em;
 }
 </style>
 <style type="text/css">
@@ -486,6 +491,8 @@ vertical-align:1px;
 }
 </style>
 <base target=_blank>
+<meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 </head>
 <body>
 <h1 id="-javascript">高性能JavaScript</h1>
