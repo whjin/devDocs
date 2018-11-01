@@ -1,3 +1,52 @@
+/**
+ * Created by 华锦 on 2016/10/27.
+ */
+/* ***** BEGIN LICENSE BLOCK *****
+ * Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ * The contents of this file are subject to the Mozilla Public License Version
+ * 1.1 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * The Original Code is mozilla.org code.
+ *
+ * The Initial Developer of the Original Code is
+ * Netscape Communications Corporation.
+ * Portions created by the Initial Developer are Copyright (C) 1998
+ * the Initial Developer. All Rights Reserved.
+ *
+ * Contributor(s):
+ *   emk <VYV03354@nifty.ne.jp>
+ *   Daniel Glazman <glazman@netscape.com>
+ *   L. David Baron <dbaron@dbaron.org>
+ *   Boris Zbarsky <bzbarsky@mit.edu>
+ *   Mats Palmgren <mats.palmgren@bredband.net>
+ *   Christian Biesinger <cbiesinger@web.de>
+ *   Jeff Walden <jwalden+code@mit.edu>
+ *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>, Collabora Ltd.
+ *   Siraj Razick <siraj.razick@collabora.co.uk>, Collabora Ltd.
+ *   Daniel Glazman <daniel.glazman@disruptive-innovations.com>
+ *
+ * Alternatively, the contents of this file may be used under the terms of
+ * either of the GNU General Public License Version 2 or later (the "GPL"),
+ * or the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * in which case the provisions of the GPL or the LGPL are applicable instead
+ * of those above. If you wish to allow use of your version of this file only
+ * under the terms of either the GPL or the LGPL, and not to allow others to
+ * use your version of this file under the terms of the MPL, indicate your
+ * decision by deleting the provisions above and replace them with the notice
+ * and other provisions required by the GPL or the LGPL. If you do not delete
+ * the provisions above, a recipient may use your version of this file under
+ * the terms of any one of the MPL, the GPL or the LGPL.
+ *
+ * ***** END LICENSE BLOCK ***** */
+
 ;
 var kCHARSET_RULE_MISSING_SEMICOLON = "Missing semicolon at the end of @charset rule";
 var kCHARSET_RULE_CHARSET_IS_STRING = "The charset in the @charset rule should be a string";
@@ -11,6 +60,7 @@ var kNAMESPACE_RULE_POSITION = "@namespace rule invalid at this position in the 
 var kCHARSET_RULE_CHARSET_SOF = "@charset rule invalid at this position in the stylesheet";
 var kUNKNOWN_AT_RULE = "Unknow @-rule";
 
+/* FROM http://peter.sh/data/vendor-prefixed-css.php?js=1 */
 
 var kENGINES = [
     "webkit",
@@ -772,8 +822,8 @@ var CssInspector = {
                 if (p.gecko && (p.webkit || p.presto || p.trident)) {
                     var o = {};
                     if (this.kEXPORTS_FOR_GECKO) o[p.gecko] = true;
-                    if (this.kEXPORTS_FOR_WEBKIT && p.webkit) o[p.webkit] = true;
-                    if (this.kEXPORTS_FOR_PRESTO && p.presto) o[p.presto] = true;
+                    if (this.kEXPORTS_FOR_WEBKIT && p.webkit)  o[p.webkit] = true;
+                    if (this.kEXPORTS_FOR_PRESTO && p.presto)  o[p.presto] = true;
                     if (this.kEXPORTS_FOR_TRIDENT && p.trident) o[p.trident] = true;
                     this.mVENDOR_PREFIXES[p.gecko] = [];
                     for (var j in o)
@@ -862,14 +912,14 @@ var CssInspector = {
 
                     else if (token.isLength()
                         || (foundHorizPosition && (token.isIdent("top")
-                            || token.isIdent("center")
-                            || token.isIdent("bottom")))
+                        || token.isIdent("center")
+                        || token.isIdent("bottom")))
                         || (!foundHorizPosition && (token.isLength()
-                            || token.isIdent("top")
-                            || token.isIdent("center")
-                            || token.isIdent("bottom")
-                            || token.isIdent("left")
-                            || token.isIdent("right")))) {
+                        || token.isIdent("top")
+                        || token.isIdent("center")
+                        || token.isIdent("bottom")
+                        || token.isIdent("left")
+                        || token.isIdent("right")))) {
                         gradient.position = ("position" in gradient) ? gradient.position + " " : "";
                         gradient.position += token.value;
                         token = parser.getToken(true, true);
@@ -905,7 +955,7 @@ var CssInspector = {
                     }
                     if (!("shape" in gradient) &&
                         (token.isIdent("circle") ||
-                            token.isIdent("ellipse"))) {
+                        token.isIdent("ellipse"))) {
                         // we can still have the second value...
                         gradient.shape = token.value;
                         token = parser.getToken(true, true);
@@ -1158,11 +1208,11 @@ var CssInspector = {
                 }
                 if (!color &&
                     (token.isFunction("rgb(") ||
-                        token.isFunction("rgba(") ||
-                        token.isFunction("hsl(") ||
-                        token.isFunction("hsla(") ||
-                        token.isSymbol("#") ||
-                        token.isIdent())) {
+                    token.isFunction("rgba(") ||
+                    token.isFunction("hsl(") ||
+                    token.isFunction("hsla(") ||
+                    token.isSymbol("#") ||
+                    token.isIdent())) {
                     var color = parser.parseColor(token);
                     token = parser.getToken(true, true);
                 }
@@ -2259,7 +2309,7 @@ CSSParser.prototype = {
         this.mToken = this.mScanner.nextToken();
         while (this.mToken &&
         ((aSkipWS && this.mToken.isWhiteSpace()) ||
-            (aSkipComment && this.mToken.isComment())))
+        (aSkipComment && this.mToken.isComment())))
             this.mToken = this.mScanner.nextToken();
         return this.mToken;
     },
@@ -2650,8 +2700,8 @@ CSSParser.prototype = {
         while (token.isNotNull()) {
 
             if ((token.isSymbol(";")
-                    || token.isSymbol("}")
-                    || token.isSymbol("!"))
+                || token.isSymbol("}")
+                || token.isSymbol("!"))
                 && !blocks.length) {
                 if (token.isSymbol("}"))
                     this.ungetToken();
@@ -3179,8 +3229,8 @@ CSSParser.prototype = {
 
             else if (!bWidth &&
                 (token.isDimension()
-                    || (token.isIdent() && token.value in this.kBORDER_WIDTH_NAMES)
-                    || token.isNumber("0"))) {
+                || (token.isIdent() && token.value in this.kBORDER_WIDTH_NAMES)
+                || token.isNumber("0"))) {
                 bWidth = token.value;
             }
 
@@ -3260,15 +3310,15 @@ CSSParser.prototype = {
             else {
                 if (!bgAttachment &&
                     (token.isIdent("scroll")
-                        || token.isIdent("fixed"))) {
+                    || token.isIdent("fixed"))) {
                     bgAttachment = token.value;
                 }
 
                 else if (!bgPosition &&
                     ((token.isIdent() && token.value in kPos)
-                        || token.isDimension()
-                        || token.isNumber("0")
-                        || token.isPercentage())) {
+                    || token.isDimension()
+                    || token.isNumber("0")
+                    || token.isPercentage())) {
                     bgPosition = token.value;
                     token = this.getToken(true, true);
                     if (token.isDimension() || token.isNumber("0") || token.isPercentage()) {
@@ -3288,15 +3338,15 @@ CSSParser.prototype = {
 
                 else if (!bgRepeat &&
                     (token.isIdent("repeat")
-                        || token.isIdent("repeat-x")
-                        || token.isIdent("repeat-y")
-                        || token.isIdent("no-repeat"))) {
+                    || token.isIdent("repeat-x")
+                    || token.isIdent("repeat-y")
+                    || token.isIdent("no-repeat"))) {
                     bgRepeat = token.value;
                 }
 
                 else if (!bgImage &&
                     (token.isFunction("url(")
-                        || token.isIdent("none"))) {
+                    || token.isIdent("none"))) {
                     bgImage = token.value;
                     if (token.isFunction("url(")) {
                         token = this.getToken(true, true);
@@ -3310,9 +3360,9 @@ CSSParser.prototype = {
 
                 else if (!bgImage &&
                     (token.isFunction("-moz-linear-gradient(")
-                        || token.isFunction("-moz-radial-gradient(")
-                        || token.isFunction("-moz-repeating-linear-gradient(")
-                        || token.isFunction("-moz-repeating-radial-gradient("))) {
+                    || token.isFunction("-moz-radial-gradient(")
+                    || token.isFunction("-moz-repeating-linear-gradient(")
+                    || token.isFunction("-moz-repeating-radial-gradient("))) {
                     var gradient = CssInspector.parseGradient(this, token);
                     if (gradient)
                         bgImage = CssInspector.serializeGradient(gradient);
@@ -3500,8 +3550,8 @@ CSSParser.prototype = {
 
                     else if (!fSize
                         && ((token.isIdent() && (token.value in kSize))
-                            || token.isDimension()
-                            || token.isPercentage())) {
+                        || token.isDimension()
+                        || token.isPercentage())) {
                         fSize = token.value;
                         var token = this.getToken(false, false);
                         if (token.isSymbol("/")) {
@@ -3525,7 +3575,7 @@ CSSParser.prototype = {
 
                     else if (!fFamily && // *MUST* be last to be tested here
                         (token.isString()
-                            || token.isIdent())) {
+                        || token.isIdent())) {
                         var lastWasComma = false;
                         while (true) {
                             if (!token.isNotNull())
@@ -4234,9 +4284,9 @@ CSSParser.prototype = {
             // now combinators and grouping...
             else if (!combinatorFound
                 && (token.isWhiteSpace()
-                    || token.isSymbol(">")
-                    || token.isSymbol("+")
-                    || token.isSymbol("~"))) {
+                || token.isSymbol(">")
+                || token.isSymbol("+")
+                || token.isSymbol("~"))) {
                 if (token.isWhiteSpace()) {
                     s += " ";
                     var nextToken = this.lookAhead(true, true);
@@ -4710,20 +4760,20 @@ jscsspToken.prototype = {
 
     isLength: function () {
         return (this.isPercentage() ||
-            this.isDimensionOfUnit("cm") ||
-            this.isDimensionOfUnit("mm") ||
-            this.isDimensionOfUnit("in") ||
-            this.isDimensionOfUnit("pc") ||
-            this.isDimensionOfUnit("px") ||
-            this.isDimensionOfUnit("em") ||
-            this.isDimensionOfUnit("ex") ||
-            this.isDimensionOfUnit("pt"));
+        this.isDimensionOfUnit("cm") ||
+        this.isDimensionOfUnit("mm") ||
+        this.isDimensionOfUnit("in") ||
+        this.isDimensionOfUnit("pc") ||
+        this.isDimensionOfUnit("px") ||
+        this.isDimensionOfUnit("em") ||
+        this.isDimensionOfUnit("ex") ||
+        this.isDimensionOfUnit("pt"));
     },
 
     isAngle: function () {
         return (this.isDimensionOfUnit("deg") ||
-            this.isDimensionOfUnit("rad") ||
-            this.isDimensionOfUnit("grad"));
+        this.isDimensionOfUnit("rad") ||
+        this.isDimensionOfUnit("grad"));
     }
 }
 

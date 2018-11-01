@@ -1,3 +1,10 @@
+/* General styles for the modal */
+
+/*
+Styles for the html/body for special modal where we want 3d effects
+Note that we need a container wrapping all content on the page for the
+perspective effects (not including the modals and the overlay).
+*/
 .md-perspective,
 .md-perspective body {
     height: 100%;
