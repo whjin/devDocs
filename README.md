@@ -1,3 +1,3 @@
-﻿# 现代WEB开发 #
+# 前端开发文档 #
 
-> 站点地址：[现代WEB开发](https://whjin.github.io/full-stack-development/)
+> 站点地址：[前端开发文档](https://whjin.github.io/full-stack-development/)
