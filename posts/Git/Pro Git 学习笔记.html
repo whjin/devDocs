@@ -235,9 +235,9 @@ kbd {
 =============================================================================*/
 blockquote {
   border-left: 4px solid #42b983;
-  padding: 0 15px;
-  color: #d1d9e1;
-  background: #474949;
+  padding: 12px 20px;
+  background: #f8f8f8;
+  border-bottom-right-radius: 2px;
 }
 
 blockquote>:first-child {
@@ -494,6 +494,10 @@ vertical-align:1px;
 }
 </style>
 <base target=_blank>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="whjin">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 </head>
 <body>
 <h1 id="pro-git-">Pro Git 学习笔记</h1>
@@ -786,6 +790,16 @@ git tag -v v1.4.2.1
 <pre><code>git config --global alias.ci commit
 git config --global alias.st status
 </code></pre><h1 id="git-">Git 分支</h1>
+<p><strong>新建testing分支</strong></p>
+<pre><code>git branch testing
+</code></pre><p><strong>切换到testing分支</strong></p>
+<pre><code>git checkout testing
+</code></pre><h2 id="-">分支的新建与合并</h2>
+<p><strong>以上两个命令进行合并</strong></p>
+<pre><code>git checkout -b testing
+</code></pre><blockquote>
+<p>Git会把</p>
+</blockquote>
 
 </body>
 </html>
