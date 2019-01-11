@@ -8,8 +8,8 @@
 
 ### 用户信息 ###
 
-    git config --global user.name "your user name"
-    git config --global user.email "your email address"
+	git config --global user.name "your user name"
+	git config --global user.email "your email address"
 
 ### 文本编辑器 ###
 
@@ -317,7 +317,7 @@
     git checkout -b testing
 
 
-> 此时工作目录中的内容和你在解决问题 #53 之前一模一样，你可以集中精力进行紧急修补。这一点值得牢记：Git 会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
+> 此时工作目录中的内容和你在解决问题 `#53` 之前一模一样，你可以集中精力进行紧急修补。这一点值得牢记：`Git` 会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
 
 
 
