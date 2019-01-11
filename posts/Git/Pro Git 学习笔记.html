@@ -62,27 +62,27 @@ h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, 
 }
 
 h1 {
-  font-size: 28px;
+  font-size: 1.75em;
 }
 
 h2 {
-  font-size: 26px;
+  font-size: 1.625em;
 }
 
 h3 {
-  font-size: 22px;
+  font-size: 1.375em;
 }
 
 h4 {
-  font-size: 18px;
+  font-size: 1.125em;
 }
 
 h5 {
-  font-size: 16px;
+  font-size: 1em;
 }
 
 h6 {
-  font-size: 14px;
+  font-size: 0.875em;
 }
 
 body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
@@ -142,7 +142,7 @@ dl {
 }
 
 dl dt {
-  font-size: 14px;
+  font-size: 0.875em;
   font-weight: bold;
   font-style: italic;
   padding: 0;
@@ -270,12 +270,24 @@ table {
 	width: 100%;
 	box-sizing: border-box;
 	margin-bottom: 30px;
-	
 }
 
 table th, table td {
   border: 1px solid #ccc;
   padding: 6px 13px; 
+}
+
+table td {
+  word-break: break-word;
+}
+
+table td:first-child {
+  text-align: center;
+  padding: 6px;
+}
+
+table td:first-child code {
+  white-space: no-wrap;
 }
 
 table th {
@@ -486,13 +498,295 @@ vertical-align:1px;
 <body>
 <h1 id="pro-git-">Pro Git 学习笔记</h1>
 <p>文档地址：<a href="http://iissnan.com/progit/">Pro Git</a></p>
-<h1 id="1-">1 起步</h1>
+<h1 id="1-git-">1、Git起步</h1>
 <h2 id="-git-">初次运行Git前的配置</h2>
-<p>新建<code>git</code>文件：<code>git init</code></p>
 <h3 id="-">用户信息</h3>
 <pre><code>git config --global user.name &quot;your user name&quot;
 git config --global user.email &quot;your email address&quot;
-</code></pre>
+</code></pre><h3 id="-">文本编辑器</h3>
+<p>设置默认的文本编辑器：<code>git config --global core.editor emacs</code></p>
+<h3 id="-">查看配置信息</h3>
+<pre><code>git config --list
+</code></pre><h1 id="2-git-">2、Git基础</h1>
+<h2 id="-git-">创建Git仓库</h2>
+<h3 id="-">在工作目录中初始化新仓库</h3>
+<pre><code>git init
+</code></pre><h3 id="-">克隆现有仓库</h3>
+<pre><code>git clone url
+</code></pre><p><code>url</code>分<code>ssh</code>和<code>https</code>两种，推荐使用<code>ssh</code>。</p>
+<h3 id="-">检查当前文件状态</h3>
+<pre><code>git status
+</code></pre><h3 id="-">跟踪最新文件</h3>
+<pre><code>git add 文件名或*.js/css/html...或.
+</code></pre><h3 id="-">忽略不想提交的文件</h3>
+<pre><code>cat .gitignore
+</code></pre><h3 id="-">查看已暂存和未暂存的更新</h3>
+<pre><code>git diff
+git diff --cached
+</code></pre><h3 id="-">提交更新</h3>
+<pre><code>git commit -m &quot;提交备注信息&quot;
+</code></pre><h3 id="-">跳过使用暂存区域</h3>
+<pre><code>git commit -a &quot;提交备注信息&quot;
+</code></pre><p>在提交时使用<code>git commit -a</code>就会把已跟踪的已暂存文件一起提交，跳过<code>git add</code>步骤，即两个命令进行合并。</p>
+<h3 id="-">移除文件</h3>
+<pre><code>git rm
+</code></pre><p>从已跟踪文件清单中移除并删除工作目录中的指定文件，先使用<code>git status</code>查看跟踪文件清单，再使用<code>git rm</code>进行精准移除。</p>
+<p>强制移除使用<code>git rm -f</code>，但不推荐使用。</p>
+<p>从远程仓库中删除文件，使用：</p>
+<pre><code>git rm --cached 文件名/*.文件后缀/文件夹...
+</code></pre><h3 id="-">移动文件</h3>
+<p>对文件重命名或移动文件，可以使用：</p>
+<pre><code>git mv file_from file_to
+</code></pre><h2 id="-">查看提交历史</h2>
+<pre><code>git log
+git log -p -2
+</code></pre><p><code>-p</code>选项展开显示每次提交的内容差异，用<code>-2</code>显示最近的两次更新。</p>
+<p><strong>单词层面的对比，使用：</strong></p>
+<pre><code>git log -p -U1 --word-diff
+</code></pre><p>这个命令在代码检查中较少使用，在图文编辑中出现较多。</p>
+<p><strong>显示摘要信息，使用：</strong></p>
+<pre><code>git log --stat
+</code></pre><p><strong>其他有用的命令：</strong></p>
+<p><code>--pretty</code>选项可以指定使用完全不同于默认格式的方式展示提交历史，用<code>oneline</code>将每个提交放在一行显示，这在提交数很大时非常有用：</p>
+<pre><code>git log --pretty=online
+</code></pre><p><code>format</code>可以定制要显示的记录格式：</p>
+<pre><code>git log --pretty=format:&quot;%h - %an, %ar : %s&quot;
+</code></pre><h3 id="-">常用的格式占位符写法及其代表的意义</h3>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%H</code></td>
+<td>提交对象（<code>commit</code>）的完整哈希字串</td>
+</tr>
+<tr>
+<td><code>%h</code></td>
+<td>提交对象的简短哈希字串</td>
+</tr>
+<tr>
+<td><code>%T</code></td>
+<td>树对象（<code>tree</code>）的完整哈希字串</td>
+</tr>
+<tr>
+<td><code>%t</code></td>
+<td>树对象的简短哈希字串</td>
+</tr>
+<tr>
+<td><code>%P</code></td>
+<td>父对象（<code>parent</code>）的完整哈希字串</td>
+</tr>
+<tr>
+<td><code>%p</code></td>
+<td>父对象的简短哈希字串</td>
+</tr>
+<tr>
+<td><code>%an</code></td>
+<td>作者（<code>author</code>）的名字</td>
+</tr>
+<tr>
+<td><code>%ae</code></td>
+<td>作者的电子邮件地址</td>
+</tr>
+<tr>
+<td><code>%ad</code></td>
+<td>作者修订日期（可以用<code>-date=</code>选项定制格式）</td>
+</tr>
+<tr>
+<td><code>%ar</code></td>
+<td>作者修订日期，按多久以前的方式显示</td>
+</tr>
+<tr>
+<td><code>%cn</code></td>
+<td>提交者(<code>committer</code>)的名字</td>
+</tr>
+<tr>
+<td><code>%ce</code></td>
+<td>提交者的电子邮件地址</td>
+</tr>
+<tr>
+<td><code>%cd</code></td>
+<td>提交日期</td>
+</tr>
+<tr>
+<td><code>%cr</code></td>
+<td>提交日期，按多久以前的方式显示</td>
+</tr>
+<tr>
+<td><code>%s</code></td>
+<td>提交说明</td>
+</tr>
+</tbody>
+</table>
+<p><strong>添加ASCII字符串表示的简单图形</strong></p>
+<pre><code>git log --pretty=format:&quot;%h %s&quot; --graph
+</code></pre><h3 id="git-log-">git log 命令支持的选项</h3>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-p</code></td>
+<td>按补丁格式显示每个更新之间的差异。</td>
+</tr>
+<tr>
+<td><code>--word-diff</code></td>
+<td>按 <code>word diff</code> 格式显示差异。</td>
+</tr>
+<tr>
+<td><code>--stat</code></td>
+<td>显示每次更新的文件修改统计信息。</td>
+</tr>
+<tr>
+<td><code>--shortstat</code></td>
+<td>只显示 <code>--stat</code> 中最后的行数修改添加移除统计。</td>
+</tr>
+<tr>
+<td><code>--name-only</code></td>
+<td>仅在提交信息后显示已修改的文件清单。</td>
+</tr>
+<tr>
+<td><code>--name-status</code></td>
+<td>显示新增、修改、删除的文件清单。</td>
+</tr>
+<tr>
+<td><code>--abbrev-commit</code></td>
+<td>仅显示 <code>SHA-1</code> 的前几个字符，而非所有的 <code>40</code> 个字符。</td>
+</tr>
+<tr>
+<td><code>--relative-date</code></td>
+<td>使用较短的相对时间显示（比如，“<code>2 weeks ago</code>”）。</td>
+</tr>
+<tr>
+<td><code>--graph</code></td>
+<td>显示 <code>ASCII</code> 图形表示的分支合并历史。</td>
+</tr>
+<tr>
+<td><code>--pretty</code></td>
+<td>使用其他格式显示历史提交信息。可用的选项包括 <code>oneline</code>，<code>short</code>，<code>full</code>，<code>fuller</code> 和 <code>format</code>（后跟指定格式）。</td>
+</tr>
+<tr>
+<td><code>--oneline</code></td>
+<td><code>--pretty=oneline --abbrev-commit</code> 的简化用法。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-">限制输出长度</h3>
+<p><strong>按照时间作限制的命令</strong>：<code>--since</code>和<code>--until</code></p>
+<pre><code>git log --since=2.weeks
+</code></pre><p><strong>搜索条件</strong></p>
+<ul>
+<li><code>--author</code> 显示指定作者的提交</li><li><code>--grep</code> 搜索提交说明中的关键字</li><li><code>--all-match</code> 同时满足这两个选项搜索条件的提交</li></ul>
+<h3 id="-">其他常用的类似选项</h3>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-(n)</code></td>
+<td>仅显示最近的 <code>n</code> 条提交</td>
+</tr>
+<tr>
+<td><code>--since</code>, <code>--after</code></td>
+<td>仅显示指定时间之后的提交。</td>
+</tr>
+<tr>
+<td><code>--until</code>, <code>--before</code></td>
+<td>仅显示指定时间之前的提交。</td>
+</tr>
+<tr>
+<td><code>--author</code></td>
+<td>仅显示指定作者相关的提交。</td>
+</tr>
+<tr>
+<td><code>--committer</code></td>
+<td>仅显示指定提交者相关的提交。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>具体示例：</strong></p>
+<pre><code>git log --pretty=&quot;%h - %s&quot;  --author=gitster --since=&quot;2018-10-01&quot; \ --before=&quot;2008-11-01&quot; --no-merges -- t/
+</code></pre><h2 id="-">撤消操作</h2>
+<h3 id="-">修改最后一次提交</h3>
+<pre><code>git commit --amend
+</code></pre><h3 id="-">取消已经暂存的文件</h3>
+<pre><code>git reset HEAD 文件名
+</code></pre><h3 id="-">取消对文件的修改</h3>
+<p><strong><img src="https://assets-cdn.github.com/images/icons/emoji/exclamation.png" alt=":exclamation:" title=":exclamation:" class="emoji" align="absmiddle" height="20" width="20">这条命令谨慎使用</strong></p>
+<pre><code>git checkout -- 文件名
+</code></pre><h2 id="-">远程仓库的使用</h2>
+<h3 id="-">查看当前的远程库</h3>
+<pre><code>git remote
+</code></pre><p><strong>显示对应的克隆地址</strong></p>
+<pre><code>git remote -v
+</code></pre><h3 id="-">添加远程仓库</h3>
+<pre><code>git remote add [shortname] url
+</code></pre><p><strong>抓取仓库信息</strong></p>
+<pre><code>git fetch [shortname]
+</code></pre><h3 id="-">从远程仓库抓取数据</h3>
+<p>此命令会从远程仓库抓取数据到本地</p>
+<pre><code>git fetch [remote-name]
+</code></pre><p><strong>抓取克隆的远程仓库的更新数据</strong></p>
+<pre><code>git fetch origin
+</code></pre><p><strong><img src="https://assets-cdn.github.com/images/icons/emoji/exclamation.png" alt=":exclamation:" title=":exclamation:" class="emoji" align="absmiddle" height="20" width="20"></strong><code>fetch</code>命令只是把远程仓库的数据抓取到本地，并不会自动合并到当前工作分支</p>
+<p><strong>推荐使用的拉取远程仓库数据，并进行数据合并操作的命令</strong></p>
+<pre><code>git pull
+</code></pre><h3 id="-">推送数据到远程仓库</h3>
+<pre><code>git push origin master
+</code></pre><h3 id="-">查看远程仓库信息</h3>
+<pre><code>git remote show [remote-name]
+</code></pre><h3 id="-">远程仓库的删除和重命名</h3>
+<p><strong>重命名远程仓库</strong></p>
+<pre><code>git remote rename
+git remote rename vue react
+</code></pre><p><strong>移除远程仓库</strong></p>
+<pre><code>git remote rm vue
+</code></pre><h2 id="-">打标签</h2>
+<h3 id="-">显示已有的标签</h3>
+<pre><code>git tag
+</code></pre><p><strong>设定条件进行搜索</strong></p>
+<pre><code>git tag -l &quot;v1.4.2.*&quot;
+</code></pre><h3 id="-">新建标签</h3>
+<h4 id="-">轻量级标签</h4>
+<pre><code>git tag
+</code></pre><h4 id="-">含附注的标签</h4>
+<pre><code>git tag -a
+git tag -a v1.4 -m &quot;my version 1.4&quot;
+</code></pre><p>查看相应标签的版本信息</p>
+<pre><code>git show v1.4
+</code></pre><h3 id="-">签署标签</h3>
+<pre><code>git tag -s
+git tag -s v1.5 -m &quot;my signed 1.5 tag&quot;
+</code></pre><h3 id="-">验证标签</h3>
+<pre><code>git tag -v [tag-name]
+git tag -v v1.4.2.1
+</code></pre><h3 id="-">后期加注标签</h3>
+<p><strong>忘记了加注标签，只要在打标签的时候跟上对应提交对象的校验和即可</strong></p>
+<pre><code>git tag -a v1.2 9fceb02
+</code></pre><h3 id="-">分享标签</h3>
+<pre><code>git push origin v1.5
+</code></pre><p><strong>一次推送所有本地新增标签</strong></p>
+<pre><code>git push origin --tags
+</code></pre><h2 id="-">技巧和窍门</h2>
+<h3 id="-">自动补全</h3>
+<p><strong><code>windows</code>系统下连续按<code>Tab</code>键</strong></p>
+<h3 id="git-">Git 命令别名</h3>
+<pre><code>git config --global alias.ci commit
+git config --global alias.st status
+</code></pre><h1 id="git-">Git 分支</h1>
+
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
