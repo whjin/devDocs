@@ -302,7 +302,21 @@
 
 # Git 分支 #
 
+**新建testing分支**
 
+    git branch testing
+
+**切换到testing分支**
+
+    git checkout testing
+
+## 分支的新建与合并 ##
+
+**以上两个命令进行合并**
+
+    git checkout -b testing
+
+> Git会把
 
 
 
