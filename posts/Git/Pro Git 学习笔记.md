@@ -383,9 +383,18 @@
     git merge
     git rebase
 
+**从一个特性分支中再分出一个特性分支的历史**
 
+    git rebase --onto master server client
+    
+    git checkout master
+    git merge server
+    
+### 衍合的风险 ###
 
+> **:exclamation:**一旦分支中的提交对象发布到公共仓库，就千万不要对该分支进行衍合操作。
 
+# 服务器上的 Git #
 
 
 
