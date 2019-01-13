@@ -396,7 +396,15 @@
 
 # 服务器上的 Git #
 
+## 协议 ##
 
+Git可以四种主要的传输协议进行数据传输：本地协议、SSH协议、Git协议和HTTP协议。
+
+### 本地协议 ###
+
+    git clone /opt/git/project.git
+    
+    
 
 
 
