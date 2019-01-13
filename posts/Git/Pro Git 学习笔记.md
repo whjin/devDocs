@@ -316,8 +316,75 @@
 
     git checkout -b testing
 
+**:exclamation:**Git会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和当时提交时完全一样。
 
-> 此时工作目录中的内容和你在解决问题 `#53` 之前一模一样，你可以集中精力进行紧急修补。这一点值得牢记：`Git` 会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。
+**合并提交内容**
+    
+    git merge
+    git checkout master
+    git merge hotfix
+    
+**删除工作分支**    
+
+    git branch -d hotfix
+    
+### 分支的合并 ###    
+
+**查看冲突** `git status`
+
+**调用可视化的合并工具解决冲突**
+
+    git mergetool
+    
+## 分支的管理 ##
+
+**查看各个分支最后一个提交对象的信息**
+
+    git branch -v
+    
+**查看哪些分支已被并入当前分支**
+
+    git branch --merged
+    
+**查看尚未合并的分支**
+
+    git branch --no-merged
+    
+## 利用分支进行开发的工作流程 ##
+
+### 长期分支 ###
+
+### 特性分支 ###
+
+## 远程分支 ##
+
+**同步远程服务器上数据到本地**
+
+    git fetch origin 
+    
+### 推送本地分支 ###
+
+    git push origin master
+    
+在远程分支上分化出新的分支：
+
+    git checkout -b serverfix origin/serverfix
+    
+### 跟踪远程分支 ###
+
+    git checkout -b sf origin/serverfix
+    
+### 删除远程分支 ###
+
+## 分支的衍合 ##
+
+**整合分支方法**
+
+    git merge
+    git rebase
+
+
+
 
 
 

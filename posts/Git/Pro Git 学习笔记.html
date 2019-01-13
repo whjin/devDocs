@@ -124,10 +124,9 @@ pre {
 code {
   color: #586e75;
   background-color: #eee8d5;
-  padding: 2px 5px;
   border-radius: 3px;
-  margin: 0 2px;
 }
+
 h1 {
   text-transform: uppercase;
   font-weight: bold;
@@ -254,6 +253,15 @@ img {
 p > img {
   display: table;
   margin: 0 auto;
+}
+
+p code,li code,td  code {
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+li>code {
+  line-height: 1.6;
 }
 </style>
 <style type="text/css">
@@ -733,10 +741,42 @@ git config --global alias.st status
 </code></pre><h2 id="-">分支的新建与合并</h2>
 <p><strong>以上两个命令进行合并</strong></p>
 <pre><code>git checkout -b testing
-</code></pre><blockquote>
-<p>此时工作目录中的内容和你在解决问题 #53 之前一模一样，你可以集中精力进行紧急修补。这一点值得牢记：Git 会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和你当时提交时完全一样。</p>
-</blockquote>
-
+</code></pre><p><strong><img src="https://assets-cdn.github.com/images/icons/emoji/exclamation.png" alt=":exclamation:" title=":exclamation:" class="emoji" align="absmiddle" height="20" width="20"></strong>Git会把工作目录的内容恢复为检出某分支时它所指向的那个提交对象的快照。它会自动添加、删除和修改文件以确保目录的内容和当时提交时完全一样。</p>
+<p><strong>合并提交内容</strong></p>
+<pre><code>git merge
+git checkout master
+git merge hotfix
+</code></pre><p><strong>删除工作分支</strong>    </p>
+<pre><code>git branch -d hotfix
+</code></pre><h3 id="-">分支的合并</h3>
+<p><strong>查看冲突</strong> <code>git status</code></p>
+<p><strong>调用可视化的合并工具解决冲突</strong></p>
+<pre><code>git mergetool
+</code></pre><h2 id="-">分支的管理</h2>
+<p><strong>查看各个分支最后一个提交对象的信息</strong></p>
+<pre><code>git branch -v
+</code></pre><p><strong>查看哪些分支已被并入当前分支</strong></p>
+<pre><code>git branch --merged
+</code></pre><p><strong>查看尚未合并的分支</strong></p>
+<pre><code>git branch --no-merged
+</code></pre><h2 id="-">利用分支进行开发的工作流程</h2>
+<h3 id="-">长期分支</h3>
+<h3 id="-">特性分支</h3>
+<h2 id="-">远程分支</h2>
+<p><strong>同步远程服务器上数据到本地</strong></p>
+<pre><code>git fetch origin 
+</code></pre><h3 id="-">推送本地分支</h3>
+<pre><code>git push origin master
+</code></pre><p>在远程分支上分化出新的分支：</p>
+<pre><code>git checkout -b serverfix origin/serverfix
+</code></pre><h3 id="-">跟踪远程分支</h3>
+<pre><code>git checkout -b sf origin/serverfix
+</code></pre><h3 id="-">删除远程分支</h3>
+<h2 id="-">分支的衍合</h2>
+<p><strong>整合分支方法</strong></p>
+<pre><code>git merge
+git rebase
+</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
