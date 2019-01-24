@@ -1,0 +1,198 @@
+.msg_slideshow {
+    width: 320px;
+    height: 320px;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    background: #101010 url("http://img.php.cn/upload/course/000/000/006/58217d61ca51f744.gif") no-repeat center center;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.msg_slideshow a {
+    outline: none;
+}
+
+.msg_slideshow a img {
+    border: none;
+}
+
+.msg_wrapper {
+    width: 320px;
+    height: 320px;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.msg_wrapper img {
+    display: inline-block !important;
+    vertical-align: middle;
+    -moz-box-shadow: 0 0 10px #000;
+    -webkit-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+}
+
+.msg_controls {
+    width: 104px;
+    height: 26px;
+    background: #000;
+    position: absolute;
+    right: -110px;
+    bottom: 15px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    opacity: .8;
+    z-index: 20;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+}
+
+.msg_controls a {
+    width: 20px;
+    height: 20px;
+    background: #000 no-repeat center center;
+    float: left;
+    margin: 3px;
+    opacity: .5;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+
+.msg_controls a:hover {
+    opacity: 1;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=99);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=99);
+}
+
+.msg_controls a.msg_grid {
+    background-image: url("http://img.php.cn/upload/course/000/000/006/58217dd1e1d07217.png");
+}
+
+.msg_controls a.msg_prev {
+    background-image: url("http://img.php.cn/upload/course/000/000/006/58217e1322f73540.png");
+}
+
+.msg_controls a.msg_next {
+    background-image: url("http://img.php.cn/upload/course/000/000/006/58217e4c9f3df621.png");
+}
+
+.msg_controls a.msg_pause {
+    background-image: url("http://img.php.cn/upload/course/000/000/006/58217e6fceab9946.png");
+}
+
+.msg_controls a.msg_play {
+    background-image: url("http://img.php.cn/upload/course/000/000/006/58217e8f030de682.png");
+}
+
+.msg_thumbs {
+    width: 250px;
+    height: 166px;
+    background: #000;
+    position: absolute;
+    top: -230px;
+    left: 50%;
+    padding: 30px;
+    margin: 0 0 0 -155px;
+    -moz-border-radius: 0 0 10px 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    -moz-box-shadow: 1px 1px 5px #000;
+    -webkit-box-shadow: 1px 1px 5px #000;
+    box-shadow: 1px 1px 5px #000;
+    opacity: .9;
+    overflow: hidden;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+}
+
+.msg_thumb_wrapper {
+    width: 250px;
+    height: 166px;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 30;
+}
+
+.msg_thumb_wrapper a {
+    display: block;
+    width: 75px;
+    height: 75px;
+    float: left;
+    margin: 4px;
+    opacity: .5;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+
+.msg_thumbs a.msg_thumb_next,
+.msg_thumbs a.msg_thumb_prev {
+    width: 18px;
+    height: 20px;
+    background: no-repeat center center;
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    opacity: .5;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+}
+
+.msg_thumbs a.msg_thumb_next:hover,
+.msg_thumbs a.msg_thumb_prev:hover {
+    opacity: 1;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=99);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=99);
+}
+
+.msg_thumbs a.msg_thumb_next {
+    background-image: url("http://img.php.cn/upload/course/000/000/006/58217ecb6c91f719.png");
+    right: 5px;
+}
+
+.msg_thumbs a.msg_thumb_prev {
+    background-image: url("http://img.php.cn/upload/course/000/000/006/58217ef19a95e568.png");
+    left: 5px;
+}
+
+.msg_thumbs a.msg_thumb_close {
+    width: 50px;
+    height: 16px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    margin: 0 0 0 -25px;
+    background: #202020 url("http://img.php.cn/upload/course/000/000/006/58217f13d5601331.png") no-repeat center center;
+    opacity: .7;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.msg_thumbs a.msg_thumb_close:hover {
+    opacity: 1;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=99);
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=99);
+}
+
+.msg_loading {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: transparent url("http://img.php.cn/upload/course/000/000/006/583b9cf7446d8316.gif") no-repeat center center;
+    margin: -25px 0 0 -25px;
+    z-index: 25;
+    display: none;
+}
