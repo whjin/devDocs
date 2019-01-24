@@ -1,0 +1,20 @@
+body {
+    font-family: "宋体", "微软雅黑 Light", Arial, sans-serif;
+    font-size: 12px;
+}
+
+#like-btn {
+    cursor: pointer;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.8em;
+}
+
+code {
+    padding: 3px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #666;
+}
