@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽象出公共组件类</title>
+    <link rel="stylesheet" href="src/index.css">
+</head>
+<body>
+<div class="wrapper"></div>
+<h1>抽象出公共组件类</h1>
+<p>为了让代码更灵活，可以写更多的组件，我们把这种模式抽象出来，放到一个 <code>Component</code> 类当中：</p>
+<p>组件父类 <code>Component</code>，所有的组件都可以继承这个父类来构建。它定义的两个方法，一个是我们已经很熟悉的 <code>setState</code>；一个是私有方法
+    <code>_renderDOM</code>。<code>_renderDOM</code> 方法会调用 <code>this.render</code> 来构建 <code>DOM</code> 元素并且监听 <code>onClick</code>
+    事件。所以，组件子类继承的时候只需要实现一个返回 <code>HTML</code> 字符串的 <code>render</code> 方法就可以了。</p>
+<p>还有一个额外的 <code>mount</code> 的方法，其实就是把组件的 <code>DOM</code> 元素插入页面，并且在 <code>setState</code> 的时候更新页面</p>
+
+<p>可以给组件类和它的子类都传入一个参数 <code>props</code>，作为组件的配置参数。继承的时候通过 <code>super(props)</code> 把 <code>props</code> 传给父类，这样就可以通过
+    <code>this.props</code> 获取到配置参数。</p>
+<p>稍微修改了一下原有的 <code>LikeButton</code> 的 <code>render</code> 方法，让它可以根据传入的参数 <code>this.props.bgColor</code> 来生成不同的 <code>style</code> 属性。这样就可以自由配置组件的颜色了。</p>
+
+<p>一个组件有自己的显示形态（上面的 <code>HTML</code> 结构和内容）行为，组件的显示形态和行为可以由数据状态（<code>state</code>）和配置参数（<code>props</code>）共同决定。数据状态和配置参数的改变都会影响到这个组件的显示形态。</p>
+<p>当数据变化的时候，组件的显示需要更新。所以如果组件化的模式能提供一种高效的方式自动化地帮助我们更新页面，那也就可以大大地降低我们代码的复杂度，带来更好的可维护性。</p>
+<script src="src/index.js"></script>
+</body>
+</html>

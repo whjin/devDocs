@@ -1,0 +1,40 @@
+body {
+    font-family: "宋体", "微软雅黑 Light", Arial, sans-serif;
+    font-size: 12px;
+    max-width: 1200px;
+}
+
+h1, h2, h3 {
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 5px;
+}
+
+button {
+    cursor: pointer;
+    margin: 3px 0;
+    border: none;
+    outline: none;
+}
+
+p, ol li, ul li {
+    font-size: 1.2em;
+    line-height: 1.8em;
+}
+
+p {
+    background: #f8f8f8;
+    border-left: 3px solid #42b983;
+    border-radius: 0 6px 6px 0;
+    padding: 5px 8px 5px 12px;
+}
+
+code {
+    padding: 3px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.colorText {
+    font-size: 1.5em;
+    cursor: pointer;
+}
