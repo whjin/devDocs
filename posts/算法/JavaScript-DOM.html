@@ -51,7 +51,6 @@ strong {
 ol,
 ul {
   margin-left: 2em;
-  margin-bottom: 20px;
 }
 ul ul,
 ol ol,
@@ -60,7 +59,7 @@ ol ul {
   margin-top: 10px;
 }
 li {
-  margin-bottom: 10px;
+  margin: 20px 0;
 }
 h1,
 h2,
@@ -259,6 +258,12 @@ p > img {
 p code,ul code,td  code {
   padding: 2px 4px;
   border-radius: 3px;
+}
+
+@media screen and (max-width: 375px) {
+    pre, code {
+        font-size: 1.2em;
+    }
 }
 </style>
 <style type="text/css">
