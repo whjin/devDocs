@@ -43,7 +43,6 @@ body {
 p {
   font-weight: lighter;
   margin-bottom: 20px;
-  line-height: 1.6em;
 }
 strong {
   font-weight: bold;
@@ -59,7 +58,7 @@ ol ul {
   margin-top: 10px;
 }
 li {
-  margin: 20px 0;
+  margin: 15px 0;
 }
 h1,
 h2,
@@ -255,15 +254,13 @@ p > img {
   margin: 0 auto;
 }
 
-p code,ul code,td  code {
+p code,li code,td  code {
   padding: 2px 4px;
   border-radius: 3px;
 }
 
-@media screen and (max-width: 375px) {
-    pre, code {
-        font-size: 1.2em;
-    }
+li>code {
+  line-height: 1.6;
 }
 </style>
 <style type="text/css">
