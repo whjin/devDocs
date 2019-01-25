@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react基础-点赞按钮</title>
+    <link rel="stylesheet" href="src/index.css">
+</head>
+<body>
+<div class="wrapper"></div>
+<p>给<code>LikeButton</code>类添加了构造函数，这个构造函数会给每一个<code>LikeButton</code>的实例添加一个对象<code>state</code>，<code>state</code>里面保存了每个按钮自己是否点赞的状态。
+</p>
+<p><strong>事件绑定函数</strong>：原来只打印 <code>click</code>，现在点击的按钮的时候会调用 <code>changeLikeText</code> 方法，这个方法会根据 <code>this.state</code>的状态改变点赞按钮的文本。
+</p>
+
+<h2>状态改变 -> 构建新的 <code>DOM</code> 元素更新页面</h2>
+<p><strong>一旦状态发生改变，就重新调用 <code>render</code> 方法，构建一个新的 <code>DOM</code> 元素。</strong>可以在 <code>render</code> 方法里面使用最新的
+    <code>this.state</code> 来构造不同 <code>HTML</code> 结构的字符串，并且通过这个字符串构造不同的 <code>DOM</code> 元素。</p>
+
+<ol>
+    <li><code>render</code> 函数里面的 <code>HTML</code> 字符串会根据 <code>this.state</code> 不同而不同。</li>
+    <li>新增一个 <code>setState</code> 函数，这个函数接受一个对象作为参数；它会设置实例的 <code>state</code>，然后重新调用一下 <code>render</code> 方法。</li>
+    <li>当用户点击按钮的时候， <code>changeLikeText</code> 会构建新的 <code>state</code> 对象，这个新的 <code>state</code> ，传入
+        <code>setState</code> 函数当中。
+    </li>
+</ol>
+
+<p>用户每次点击，<code>changeLikeText</code> 都会调用改变组件状态然后调用 <code>setState</code>；<code>setState</code> 会调用 <code>render</code> ，<code>render</code> 方法会根据 <code>state</code> 的不同重新构建不同的 <code>DOM</code> 元素。</p>
+
+<p><strong>只要调用 <code>setState</code>，组件就会重新渲染。</strong></p>
+
+<h2>重新插入新的 <code>DOM</code> 元素</h2>
+<p><strong>每当 <code>setState</code> 中构造完新的 <code>DOM</code> 元素以后，就会通过 <code>onStateChange</code> 告知外部插入新的 <code>DOM</code> 元素，然后删除旧的元素，页面就更新了。</strong></p>
+<script src="src/index.js"></script>
+</body>
+</html>
