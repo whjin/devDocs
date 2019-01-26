@@ -128,7 +128,7 @@ code {
   border-radius: 3px;
 }
 
-@media screen and (min-width: 896px) and (max-width: 1180px) {
+@media screen and (min-width: 980px) and (max-width: 980px) {
     pre > code {
         font-size: 1.6em;
         line-height: 1.2;
@@ -457,17 +457,6 @@ vertical-align:1px;
 <h4 id="-">循环调节列表</h4>
 <h4 id="-">循环调节列表</h4>
 <h4 id="-">循环调节列表</h4>
-<pre><code>&lt;ul id=&#39;list&#39;&gt;
-  &lt;li data-name=&quot;Jerry&quot; class=&quot;item&quot;&gt;&lt;span&gt;1&lt;/span&gt;&lt;/li&gt;
-  &lt;li data-name=&quot;Lucy&quot; class=&quot;item&quot;&gt;&lt;span&gt;2&lt;/span&gt;&lt;/li&gt;
-  &lt;li data-name=&quot;Tomy&quot;&gt;&lt;span&gt;3&lt;/span&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-getChildAttributes(el, &#39;data-name&#39;) // =&gt; [&#39;Jerry&#39;, &#39;Lucy&#39;, &#39;Tomy&#39;]
-getChildAttributes(el, &#39;class&#39;) // =&gt; [&#39;item&#39;, &#39;item&#39;, null]
-</code></pre><blockquote>
-<p>测试页面1</p>
-</blockquote>
 <p><strong>页面列表：</strong></p>
 <blockquote>
 <p>点击 <code>UP</code> 按钮会使得该 <code>li</code> 元素在列表中上升一个位置，点击 <code>DOWN</code> 按钮会使得该 <code>li</code> 元素下降一个位置。点击最后的元素的 <code>DOWN</code> 按钮会使得元素回到第一个位置，点击第一个元素的 <code>UP</code> 按钮会使其回到最后的位置。</p>
@@ -483,6 +472,17 @@ getChildAttributes(el, &#39;class&#39;) // =&gt; [&#39;item&#39;, &#39;item&#39;
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
 <p><strong>完成 <code>getChildAttributes</code> 函数，它接受一个 <code>DOM</code> 元素作为参数和一个属性名作为参数，你需要返回这个 <code>DOM</code> 的直接子元素的特定属性列表。</strong></p>
+<pre><code>&lt;ul id=&#39;list&#39;&gt;
+  &lt;li data-name=&quot;Jerry&quot; class=&quot;item&quot;&gt;&lt;span&gt;1&lt;/span&gt;&lt;/li&gt;
+  &lt;li data-name=&quot;Lucy&quot; class=&quot;item&quot;&gt;&lt;span&gt;2&lt;/span&gt;&lt;/li&gt;
+  &lt;li data-name=&quot;Tomy&quot;&gt;&lt;span&gt;3&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+getChildAttributes(el, &#39;data-name&#39;) // =&gt; [&#39;Jerry&#39;, &#39;Lucy&#39;, &#39;Tomy&#39;]
+getChildAttributes(el, &#39;class&#39;) // =&gt; [&#39;item&#39;, &#39;item&#39;, null]
+</code></pre><blockquote>
+<p>测试页面2</p>
+</blockquote>
 
 </body>
 </html>
