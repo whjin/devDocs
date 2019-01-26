@@ -19,7 +19,7 @@
 	getChildAttributes(el, 'data-name') // => ['Jerry', 'Lucy', 'Tomy']
 	getChildAttributes(el, 'class') // => ['item', 'item', null]
 
-> 测试页面2
+> 测试页面1
 
 **页面列表：**
 
@@ -29,6 +29,7 @@
 
 <p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js,result" data-user="whjin" data-slug-hash="gqPBMO" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="循环调节列表">
   <span>See the Pen <a href="https://codepen.io/whjin/pen/gqPBMO/">
+  
   循环调节列表</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
