@@ -114,7 +114,7 @@ pre {
 }
 pre,
 code {
-font-family: Helvetica, monospace, Consolas, "Source Code Pro", sans-serif;
+  font-family: "Source Code Pro", monospace, Consolas, sans-serif;
 }
 pre {
   white-space: pre;
@@ -127,11 +127,6 @@ code {
   color: #586e75;
   background-color: #eee8d5;
   border-radius: 3px;
-}
-
-pre>code {
-  font-size: 1.2rem !important; 
-  line-height: 1.6;
 }
 
 h1 {
@@ -270,6 +265,18 @@ li>code {
 
 .cp_embed_wrapper {
   margin: 20px 0;
+}
+
+@media screen and (max-width: 768px) {
+  pre>code {
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  pre>code {
+    font-size: 16px;
+  }
 }
 </style>
 <style type="text/css">
