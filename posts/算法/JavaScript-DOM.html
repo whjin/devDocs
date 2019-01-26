@@ -109,23 +109,22 @@ h6 img,
 p img {
   margin-bottom: 0;
 }
-pre {
-  margin-bottom: 20px;
-}
+
 pre,
 code {
-  font-family: "Source Code Pro", monospace, Consolas, sans-serif;
+  font-family:  monospace, Consolas, "Source Code Pro", sans-serif;
+  color: #586e75;
+  background-color: #eee8d5;
 }
+
 pre {
-  white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
-  padding: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 code {
-  color: #586e75;
-  background-color: #eee8d5;
   border-radius: 3px;
 }
 
@@ -163,10 +162,7 @@ html a:visited {
 html a:hover {
   background-color: #eee8d5;
 }
-html pre {
-  color: #586e75;
-  background-color: #eee8d5;
-}
+
 html a,
 html a:active,
 html a:visited,
@@ -261,6 +257,11 @@ p code,li code,td code {
 
 li>code {
   line-height: 1.6;
+}
+
+pre>code {
+font-size: x-large;
+line-height: 1.2;
 }
 
 .cp_embed_wrapper {
