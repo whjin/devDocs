@@ -128,15 +128,17 @@ code {
   border-radius: 3px;
 }
 
-pre>code {
+pre > code {
+    max-width: 414px;
+    min-width: 375px;
     font-size: 2.6em;
     line-height: 1.6;
 }
 
 @media screen and (min-width: 512px) {
     pre > code {
-        font-size: 1em;
-        line-height: 1;
+        font-size: 1.3em;
+        line-height: 1.2;
     }
 }
 
@@ -477,15 +479,13 @@ vertical-align:1px;
 
 <p><strong>完成 <code>getChildAttributes</code> 函数，它接受一个 <code>DOM</code> 元素作为参数和一个属性名作为参数，你需要返回这个 <code>DOM</code> 的直接子元素的特定属性列表。</strong></p>
 <pre><code>&lt;ul id=&#39;list&#39;&gt;
-  &lt;li data-name=&quot;Jerry&quot; class=&quot;item&quot;&gt;&lt;span&gt;1&lt;/span&gt;&lt;/li&gt;
-  &lt;li data-name=&quot;Lucy&quot; class=&quot;item&quot;&gt;&lt;span&gt;2&lt;/span&gt;&lt;/li&gt;
-  &lt;li data-name=&quot;Tomy&quot;&gt;&lt;span&gt;3&lt;/span&gt;&lt;/li&gt;
+  &lt;li data-name=&quot;Jerry&quot; class=&quot;item&quot;&gt;&lt;span&gt;1&lt;/span&gt;&lt;/li&gt;&lt;li data-name=&quot;Lucy&quot; class=&quot;item&quot;&gt;&lt;span&gt;2&lt;/span&gt;&lt;/li&gt;&lt;li data-name=&quot;Tomy&quot;&gt;&lt;span&gt;3&lt;/span&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 getChildAttributes(el, &#39;data-name&#39;) // =&gt; [&#39;Jerry&#39;, &#39;Lucy&#39;, &#39;Tomy&#39;]
 getChildAttributes(el, &#39;class&#39;) // =&gt; [&#39;item&#39;, &#39;item&#39;, null]
 </code></pre><blockquote>
-<p>测试页面1</p>
+<p>测试页面2</p>
 </blockquote>
 
 </body>
