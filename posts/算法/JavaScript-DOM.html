@@ -42,7 +42,8 @@ body {
 }
 p {
   font-weight: lighter;
-  margin-bottom: 20px;
+  margin: 10px 0;
+  line-height: 1.6;
 }
 strong {
   font-weight: bold;
@@ -58,7 +59,7 @@ ol ul {
   margin-top: 10px;
 }
 li {
-  margin: 15px 0;
+  margin: 10px 0;
 }
 h1,
 h2,
@@ -71,27 +72,27 @@ h6 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-h1 {
+h1, h1>code {
   font-size: 24.624px;
   line-height: 29.548799999999996px;
 }
-h2 {
+h2, h2>code {
   font-size: 24.624px;
   line-height: 29.548799999999996px;
 }
-h3 {
+h3,h3>code {
   font-size: 23.44px;
   line-height: 28.128px;
 }
-h4 {
+h4, h4>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
-h5 {
+h5, h5>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
-h6 {
+h6, h6>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
@@ -261,6 +262,10 @@ p code,li code,td  code {
 
 li>code {
   line-height: 1.6;
+}
+
+.cp_embed_wrapper {
+  margin: 20px 0;
 }
 </style>
 <style type="text/css">
@@ -447,26 +452,14 @@ vertical-align:1px;
 <h1 id="javascript-dom">JavaScript-DOM</h1>
 <h2 id="-">循环调节列表</h2>
 <p><strong>页面列表：</strong></p>
-<pre><code>&lt;ul id=&#39;adjustable-list&#39;&gt;
-  &lt;li&gt;
-    &lt;span&gt;1&lt;/span&gt;
-    &lt;button class=&#39;up&#39;&gt;UP&lt;/button&gt;
-    &lt;button class=&#39;down&#39;&gt;DOWN&lt;/button&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;span&gt;2&lt;/span&gt;
-    &lt;button class=&#39;up&#39;&gt;UP&lt;/button&gt;
-    &lt;button class=&#39;down&#39;&gt;DOWN&lt;/button&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;span&gt;3&lt;/span&gt;
-    &lt;button class=&#39;up&#39;&gt;UP&lt;/button&gt;
-    &lt;button class=&#39;down&#39;&gt;DOWN&lt;/button&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-</code></pre><p>点击 <code>UP</code> 按钮会使得该 <code>li</code> 元素在列表中上升一个位置，点击 <code>DOWN</code> 按钮会使得该 <code>li</code> 元素下降一个位置。点击最后的元素的 <code>DOWN</code> 按钮会使得元素回到第一个位置，点击第一个元素的 <code>UP</code> 按钮会使其回到最后的位置。</p>
+<p>点击 <code>UP</code> 按钮会使得该 <code>li</code> 元素在列表中上升一个位置，点击 <code>DOWN</code> 按钮会使得该 <code>li</code> 元素下降一个位置。点击最后的元素的 <code>DOWN</code> 按钮会使得元素回到第一个位置，点击第一个元素的 <code>UP</code> 按钮会使其回到最后的位置。</p>
 <p>页面上已经存在该列表，你只需要完成 <code>initAdjustableList()</code> 函数，给元素添加事件。    </p>
+<p><p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js,result" data-user="whjin" data-slug-hash="gqPBMO" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="循环调节列表"><br>  <span>See the Pen <a href="https://codepen.io/whjin/pen/gqPBMO/"><br>  循环调节列表</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)<br>  on <a href="https://codepen.io">CodePen</a>.</span><br></p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
+<p><strong>完成 <code>getPageTags</code> 函数，判断你的代码所执行的页面用到了哪些标签。</strong></p>
+<p><p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="KJVGWm" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="DOM标签统计"><br>  <span>See the Pen <a href="https://codepen.io/whjin/pen/KJVGWm/"><br>  DOM标签统计</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)<br>  on <a href="https://codepen.io">CodePen</a>.</span><br></p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
