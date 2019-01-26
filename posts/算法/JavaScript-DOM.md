@@ -45,4 +45,4 @@
 	getChildAttributes(el, 'data-name') // => ['Jerry', 'Lucy', 'Tomy']
 	getChildAttributes(el, 'class') // => ['item', 'item', null]
 
-> 测试页面3
+> 测试页面2
