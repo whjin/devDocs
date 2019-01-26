@@ -37,12 +37,13 @@ html * {
 }
 body {
   min-width: 32em;
-  max-width: 52em;
+  max-width: 56em;
   margin: 10px auto;
 }
 p {
   font-weight: lighter;
-  margin-bottom: 20px;
+  margin: 10px 0;
+  line-height: 1.6;
 }
 strong {
   font-weight: bold;
@@ -50,7 +51,6 @@ strong {
 ol,
 ul {
   margin-left: 2em;
-  margin-bottom: 20px;
 }
 ul ul,
 ol ol,
@@ -59,7 +59,7 @@ ol ul {
   margin-top: 10px;
 }
 li {
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 h1,
 h2,
@@ -68,31 +68,32 @@ h4,
 h5,
 h6 {
   font-weight: lighter;
-  text-transform: capitalize;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  text-transform: capitalize; 
+  margin: 20px 0;
+  border-bottom: 1px solid; 
+  padding-bottom: 6px;    
 }
-h1 {
+h1, h1>code {
   font-size: 24.624px;
   line-height: 29.548799999999996px;
 }
-h2 {
+h2, h2>code {
   font-size: 24.624px;
   line-height: 29.548799999999996px;
 }
-h3 {
+h3,h3>code {
   font-size: 23.44px;
   line-height: 28.128px;
 }
-h4 {
+h4, h4>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
-h5 {
+h5, h5>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
-h6 {
+h6, h6>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
@@ -108,33 +109,37 @@ h6 img,
 p img {
   margin-bottom: 0;
 }
-pre {
-  margin-bottom: 20px;
-}
+
 pre,
 code {
-  font-family: monospace;
-}
-pre {
-  white-space: pre;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  padding: 15px;
-}
-code {
+font-family: monospace, Consolas, "Source Code Pro", Arial, sans-serif;
   color: #586e75;
   background-color: #eee8d5;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+code {
   border-radius: 3px;
+}
+
+@media screen and (min-width: 980px) and (max-width: 980px) {
+    pre > code {
+        font-size: 1.6em;
+        line-height: 1.2;
+    }
 }
 
 h1 {
   text-transform: uppercase;
   font-weight: bold;
-  border-bottom: 1px solid;
 }
-h2 {
-  border-bottom: 1px solid;
-}
+
 h3,
 h4,
 h5,
@@ -164,10 +169,7 @@ html a:visited {
 html a:hover {
   background-color: #eee8d5;
 }
-html pre {
-  color: #586e75;
-  background-color: #eee8d5;
-}
+
 html a,
 html a:active,
 html a:visited,
@@ -255,9 +257,17 @@ p > img {
   margin: 0 auto;
 }
 
-p code,li code,td  code {
-  padding: 2px 4px;
+p code,li code,td code {
+  padding: 1px 3px;
   border-radius: 3px;
+}
+
+li>code {
+  line-height: 1.6;
+}
+
+.cp_embed_wrapper {
+  margin: 20px 0;
 }
 </style>
 <style type="text/css">
@@ -438,6 +448,7 @@ vertical-align:1px;
 }
 </style>
 <base target=_blank>
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
 <h1 id="-8-">第8章 文本处理能力</h1>

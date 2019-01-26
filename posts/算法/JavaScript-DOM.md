@@ -2,23 +2,14 @@
 
 ## 循环调节列表 ##
 
-### 循环调节列表 ###
-
-#### 循环调节列表 ####
-
-#### 循环调节列表 ####
-
-#### 循环调节列表 ####
-
 **页面列表：**
 
-> 点击 `UP` 按钮会使得该 `li` 元素在列表中上升一个位置，点击 `DOWN` 按钮会使得该 `li` 元素下降一个位置。点击最后的元素的 `DOWN` 按钮会使得元素回到第一个位置，点击第一个元素的 `UP` 按钮会使其回到最后的位置。
+点击 `UP` 按钮会使得该 `li` 元素在列表中上升一个位置，点击 `DOWN` 按钮会使得该 `li` 元素下降一个位置。点击最后的元素的 `DOWN` 按钮会使得元素回到第一个位置，点击第一个元素的 `UP` 按钮会使其回到最后的位置。
 
 页面上已经存在该列表，你只需要完成 `initAdjustableList()` 函数，给元素添加事件。    
 
 <p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js,result" data-user="whjin" data-slug-hash="gqPBMO" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="循环调节列表">
-  <span>See the Pen <a href="https://codepen.io/whjin/pen/gqPBMO/">
-  
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/gqPBMO/">  
   循环调节列表</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
@@ -46,4 +37,3 @@
 	getChildAttributes(el, 'data-name') // => ['Jerry', 'Lucy', 'Tomy']
 	getChildAttributes(el, 'class') // => ['item', 'item', null]
 
-> 测试页面2
