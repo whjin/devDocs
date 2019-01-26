@@ -42,7 +42,8 @@ body {
 }
 p {
   font-weight: lighter;
-  margin-bottom: 20px;
+  margin: 10px 0;
+  line-height: 1.6;
 }
 strong {
   font-weight: bold;
@@ -50,7 +51,6 @@ strong {
 ol,
 ul {
   margin-left: 2em;
-  margin-bottom: 20px;
 }
 ul ul,
 ol ol,
@@ -59,7 +59,7 @@ ol ul {
   margin-top: 10px;
 }
 li {
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 h1,
 h2,
@@ -72,27 +72,27 @@ h6 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-h1 {
+h1, h1>code {
   font-size: 24.624px;
   line-height: 29.548799999999996px;
 }
-h2 {
+h2, h2>code {
   font-size: 24.624px;
   line-height: 29.548799999999996px;
 }
-h3 {
+h3,h3>code {
   font-size: 23.44px;
   line-height: 28.128px;
 }
-h4 {
+h4, h4>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
-h5 {
+h5, h5>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
-h6 {
+h6, h6>code {
   font-size: 22.16px;
   line-height: 26.592px;
 }
@@ -258,6 +258,14 @@ p > img {
 p code,li code,td  code {
   padding: 2px 4px;
   border-radius: 3px;
+}
+
+li>code {
+  line-height: 1.6;
+}
+
+.cp_embed_wrapper {
+  margin: 20px 0;
 }
 </style>
 <style type="text/css">
@@ -438,6 +446,7 @@ vertical-align:1px;
 }
 </style>
 <base target=_blank>
+
 </head>
 <body>
 <h1 id="-4-">第4章 盒尺寸四大家族</h1>
