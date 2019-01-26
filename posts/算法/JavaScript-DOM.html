@@ -259,9 +259,10 @@ li>code {
   line-height: 1.6;
 }
 
-pre>code {
-font-size: x-large;
-line-height: 1.2;
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    pre > code {
+        font-size: 1.2rem;
+    }
 }
 
 .cp_embed_wrapper {
@@ -446,6 +447,7 @@ vertical-align:1px;
 }
 </style>
 <base target=_blank>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 </head>
 <body>
