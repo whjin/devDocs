@@ -26,14 +26,14 @@
 </p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
+## 获取子元素属性 ##
+
 **完成 `getChildAttributes` 函数，它接受一个 `DOM` 元素作为参数和一个属性名作为参数，你需要返回这个 `DOM` 的直接子元素的特定属性列表。**
 
-	<ul id='list'>
-	  <li data-name="Jerry" class="item"><span>1</span></li>
-	  <li data-name="Lucy" class="item"><span>2</span></li>
-	  <li data-name="Tomy"><span>3</span></li>
-	</ul>
-
-	getChildAttributes(el, 'data-name') // => ['Jerry', 'Lucy', 'Tomy']
-	getChildAttributes(el, 'class') // => ['item', 'item', null]
+<p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="JxXPWa" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="获取子元素属性">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/JxXPWa/">
+  获取子元素属性</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
