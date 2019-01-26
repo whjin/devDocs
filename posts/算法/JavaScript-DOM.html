@@ -114,7 +114,7 @@ pre {
 }
 pre,
 code {
-  font-family: monospace, Consolas, "Source Code Pro", sans-serif;
+font-family: Helvetica, monospace, Consolas, "Source Code Pro", sans-serif;
 }
 pre {
   white-space: pre;
@@ -122,10 +122,16 @@ pre {
   word-wrap: break-word;
   padding: 15px;
 }
+
 code {
   color: #586e75;
   background-color: #eee8d5;
   border-radius: 3px;
+}
+
+pre>code {
+  font-size: 1.2rem; 
+  line-height: 1.6;
 }
 
 h1 {
@@ -254,7 +260,7 @@ p > img {
 }
 
 p code,li code,td  code {
-  padding: 2px 4px;
+  padding: 1px 3px;
   border-radius: 3px;
 }
 
@@ -454,7 +460,9 @@ vertical-align:1px;
 <h4 id="-">循环调节列表</h4>
 <h4 id="-">循环调节列表</h4>
 <p><strong>页面列表：</strong></p>
+<blockquote>
 <p>点击 <code>UP</code> 按钮会使得该 <code>li</code> 元素在列表中上升一个位置，点击 <code>DOWN</code> 按钮会使得该 <code>li</code> 元素下降一个位置。点击最后的元素的 <code>DOWN</code> 按钮会使得元素回到第一个位置，点击第一个元素的 <code>UP</code> 按钮会使其回到最后的位置。</p>
+</blockquote>
 <p>页面上已经存在该列表，你只需要完成 <code>initAdjustableList()</code> 函数，给元素添加事件。    </p>
 <p><p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js,result" data-user="whjin" data-slug-hash="gqPBMO" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="循环调节列表"><br>  <span>See the Pen <a href="https://codepen.io/whjin/pen/gqPBMO/"><br>  循环调节列表</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)<br>  on <a href="https://codepen.io">CodePen</a>.</span><br></p></p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
