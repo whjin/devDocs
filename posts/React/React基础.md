@@ -15,3 +15,8 @@
 3. `JSX` 在编译的时候会变成相应的 `JavaScript` 对象描述；
 4. `react-dom` 负责把这个用来描述 `UI` 信息的 `JavaScript` 对象变成 `DOM` 元素，并且渲染到页面上。
 
+## 组件的 `render` 方法 ##
+
+一个组件类必须要实现一个 `render` 方法，这个 `render` 方法必须要返回一个 `JSX` 元素。
+
+

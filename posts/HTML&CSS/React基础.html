@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>HTML元素</title>
+<title>React基础</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* Solarized (Light) */
@@ -451,26 +451,16 @@ vertical-align:1px;
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 </head>
 <body>
-<h1 id="html-">HTML元素</h1>
-<h2 id="-">元素分类</h2>
-<ul>
-<li><strong>块级元素</strong>： <code>div</code>、<code>h1-h6</code>、<code>hr</code>、<code>menu</code>、<code>ol</code>、<code>ul</code>、<code>li</code>、<code>dl</code>、<code>dt</code>、<code>dd</code>、<code>table</code>、<code>p</code>、<code>form</code><ul>
-<li>自身属性为<code>display: block;</code>的元素，通常使用块级元素进行布局（结构）的搭建。</li></ul>
-</li><li>块级元素的特点<ul>
-<li>独占一行</li><li>从上到下依次排列</li><li>直接控制宽度、高度以及盒子模型的相关CSS属性</li><li>不设置宽度，块级元素的宽度是它的父元素内容的宽度，高度是自身内容的高度</li><li>可以嵌套行内元素</li><li><code>ul/ol</code>下面只能是<code>li</code>，<code>dl</code>下面只能是<code>dt dd</code>；<code>p</code>不能包含其他块级元素包括自身</li></ul>
-</li></ul>
-<ul>
-<li><strong>行内元素</strong>：<code>span</code>、<code>a</code>、<code>strong</code>、<code>i</code>、<code>em</code>，<code>s</code>、<code>u</code>，<code>textarea</code>、<code>input</code>、<code>select</code>，<code>label</code>、<code>img</code>、<code>sup</code>，<code>sub</code><ul>
-<li>自身属性为<code>display: inline;</code>的元素，通常使用行内元素进行文字、小图标（小结构）的搭建。</li></ul>
-</li><li>块级元素的特点<ul>
-<li>不独占一行，和其他内联元素从左到右在一行显示</li><li>不能直接控制宽度、高度以及盒子模型的相关CSS属性，可以直接设置内外边距的左右值</li><li>宽高由自身内容的大小决定（文字、图片等）</li><li>只能容纳文本或其他内联元素（不能在内联元素中嵌套块级元素）</li></ul>
-</li></ul>
-<p><strong>CSS外链引入方式</strong></p>
-<ul>
-<li><code>link</code>是<code>html</code>标签，<code>@import</code>是<code>css</code>提供的方式，写在<code>css</code>文件或<code>style</code>标签中。</li><li>加载顺序有区别，当一个页面被加载时，<code>link</code>引用的<code>css</code>文件会被同时加载，而<code>@import</code>引入的<code>css</code>文件会等页面全部下载完成后再加载。</li><li>使用<code>js</code>控制DOM改变CSS样式，只能使用<code>link</code>标签，因为<code>import</code>不能被DOM控制。</li></ul>
-<p><strong>CSS命名规范</strong></p>
-<ul>
-<li>头部：<code>header</code></li><li>内容：<code>content/container</code></li><li>尾部：<code>footer</code></li><li>导航：<code>nav</code></li><li>侧栏：<code>sidebar</code></li><li>栏目：<code>column</code></li><li>页面外围控制整体布局宽度：<code>wrapper</code></li><li>左右中：<code>left right center</code></li><li>登陆条：<code>loginbar</code></li><li>标志：<code>logo</code></li><li>广告：<code>banner</code></li><li>页面主体：<code>main</code></li><li>热点：<code>hot</code></li><li>新闻：<code>news</code></li><li>下载：<code>download</code></li><li>子导航：<code>subnav</code></li><li>菜单：<code>menu</code></li><li>子菜单：<code>submenu</code></li><li>搜索：<code>search</code></li><li>友情链接：<code>friendlink</code></li><li>页脚：<code>footer</code></li><li>版权：<code>copyright</code></li><li>投票：<code>vote</code></li><li>合作伙伴：<code>partner</code></li><li>滚动：<code>scroll</code></li><li>内容：<code>content</code></li><li>标签页：<code>tab</code></li><li>文章列表：<code>list</code></li><li>提示信息：<code>msg</code></li><li>小技巧：<code>tips</code></li><li>栏目标题：<code>title</code></li><li>加入：<code>joinus</code></li><li>指南：<code>guild</code></li><li>服务：<code>service</code></li><li>注册：<code>register</code></li><li>状态：<code>status</code></li></ul>
+<h1 id="react-">React基础</h1>
+<h2 id="react-jsx">React-JSX</h2>
+<p><strong>所谓的 <code>JSX</code> 其实就是 <code>JavaScript</code> 对象。</strong></p>
+<p>从<code>JSX</code>到页面经历的过程：</p>
+<p><img src="https://i.imgur.com/dBOd580.png" alt=""></p>
+<p><strong>总结：</strong></p>
+<ol>
+<li><code>JSX</code> 是 <code>JavaScript</code> 语言的一种语法扩展；</li><li><code>React.js</code> 可以用 <code>JSX</code> 来描述你的组件；</li><li><code>JSX</code> 在编译的时候会变成相应的 <code>JavaScript</code> 对象描述；</li><li><code>react-dom</code> 负责把这个用来描述 <code>UI</code> 信息的 <code>JavaScript</code> 对象变成 <code>DOM</code> 元素，并且渲染到页面上。</li></ol>
+<h2 id="-render-">组件的 <code>render</code> 方法</h2>
+<p>一个组件类必须要实现一个 <code>render</code> 方法，这个 <code>render</code> 方法必须要返回一个 <code>JSX</code> 元素。</p>
 
 </body>
 </html>
