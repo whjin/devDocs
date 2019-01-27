@@ -1,4 +1,4 @@
-﻿# webpack实战 #
+# webpack实战 #
 
 本章教你如何用 Webpack 去解决实际项目中常见的场景。
 
@@ -44,6 +44,12 @@
 ## 使用 Angular2 框架 ##
 
 Angular2不在我的技术栈范围，所以这一章不加入，有兴趣的查看原文：[使用 Angular2 框架](http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-8%E4%BD%BF%E7%94%A8Angular2%E6%A1%86%E6%9E%B6.html)
+
+> Angular2不在我的技术栈范围，所以这一章不加入，有兴趣的查看原文：[使用 Angular2 框架](http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-8%E4%BD%BF%E7%94%A8Angular2%E6%A1%86%E6%9E%B6.html)
+
+- Angular2不在我的技术栈范围，所以这一章不加入，有兴趣的查看原文：[使用 Angular2 框架](http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-8%E4%BD%BF%E7%94%A8Angular2%E6%A1%86%E6%9E%B6.html)
+- Angular2不在我的技术栈范围，所以这一章不加入，有兴趣的查看原文：[使用 Angular2 框架](http://webpack.wuhaolin.cn/3%E5%AE%9E%E6%88%98/3-8%E4%BD%BF%E7%94%A8Angular2%E6%A1%86%E6%9E%B6.html)
+
 
 
 
