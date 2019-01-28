@@ -46,7 +46,7 @@ p, blockquote p {
 }
 
 ul li, ol li {
-  line-height: 1.5;
+  line-height: 1.3;
   margin: 10px 0;  
 }
 
@@ -127,7 +127,7 @@ font-family: monospace, Consolas, "Source Code Pro", Arial, sans-serif;
 pre {
   white-space: pre-wrap;
   word-wrap: break-word;
-  padding: 20px;
+  padding: 16px 20px;
   margin-bottom: 20px;
 }
 
@@ -532,16 +532,16 @@ vertical-align:1px;
 <p>从 <code>render</code> 函数可以看出来，组件内部是通过 <code>this.props</code> 的方式获取到组件的参数的，如果 <code>this.props</code> 里面有需要的属性我们就采用相应的属性，没有的话就用默认的属性。</p>
 <p><strong>在使用一个组件的时候，可以把参数放在标签的属性当中，所有的属性都会作为 <code>props</code> 对象的键值：</strong></p>
 <p><strong>默认配置 <code>defaultProps</code></strong></p>
-<p>上面的组件默认配置我们是通过 <code>||</code> 操作符来实现。这种需要默认配置的情况在 <code>React.js</code> 中非常常见，所以 <code>React.js</code> 也提供了一种方式 <code>defaultProps</code>，可以方便的做到默认配置。</p>
-<pre><code>static defaultProps = {
-    unlikedText: &#39;取消&#39;,
-    likedText: &#39;点赞&#39;
-};
-&lt;button onClick={this.handleClickOnButton.bind(this)}&gt;
-{this.state.isLiked ? this.props.likedText : this.props.unlikedText}
-👍
-&lt;/button&gt;    
-</code></pre><p><code>defaultProps</code> 作为点赞按钮组件的类属性，里面是对 <code>props</code> 中各个属性的默认配置。这样我们就不需要判断配置属性是否传进来了：如果没有传进来，会直接使用 defaultProps 中的默认属性。 所以可以看到，在 render 函数中，我们会直接使用 this.props 而不需要再做判断。</p>
+<p>上面的组件默认配置我们是通过 <code>||</code> 操作符来实现。这种需要默认配置的情况在 <code>React.js</code> 中非常常见，所以 <code>React.js</code> 也提供了一种方式 <code>defaultProps</code>，可以方便的做到默认配置。 </p>
+<p><code>defaultProps</code> 作为点赞按钮组件的类属性，里面是对 <code>props</code> 中各个属性的默认配置。这样我们就不需要判断配置属性是否传进来了：如果没有传进来，会直接使用 <code>defaultProps</code> 中的默认属性。 所以可以看到，在 <code>render</code> 函数中，我们会直接使用 <code>this.props</code> 而不需要再做判断。</p>
+<p><strong><code>props</code> 不可变</strong></p>
+<p><code>props</code> 一旦传入进来就不能改变。</p>
+<p>组件的使用者可以主动地通过重新渲染的方式把新的 <code>props</code> 传入组件当中，这样这个组件中由 <code>props</code> 决定的显示形态也会得到相应的改变。</p>
+<p>我们把 <code>Index</code> 的 <code>state</code> 中的 <code>likedText</code> 和 <code>unlikedText</code> 传给 <code>LikeButton</code> 。<code>Index</code> 还有另外一个按钮，点击这个按钮会通过 <code>setState</code> 修改 <code>Index</code> 的 <code>state</code> 中的两个属性。</p>
+<p>由于 <code>setState</code> 会导致 <code>Index</code> 重新渲染，所以 <code>LikedButton</code> 会接收到新的 <code>props</code>，并且重新渲染，于是它的显示形态也会得到更新。这就是通过重新渲染的方式来传入新的 <code>props</code> 从而达到修改 <code>LikedButton</code> 显示形态的效果。</p>
+<p><strong>总结</strong></p>
+<ol>
+<li>为了使得组件的可定制性更强，在使用组件的时候，可以在标签上加属性来传入配置参数。</li><li>组件可以在内部通过 <code>this.props</code> 获取到配置参数，组件可以根据 <code>props</code> 的不同来确定自己的显示形态，达到可配置的效果。</li><li>可以通过给组件添加类属性 <code>defaultProps</code> 来配置默认参数。</li></ol>
 
 </body>
 </html>
