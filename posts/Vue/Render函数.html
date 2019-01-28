@@ -272,8 +272,7 @@ p code,li code,td code {
 
 @media screen and (min-width: 980px) and (max-width: 980px) {
 	pre > code, 
-	table th > code,
-	table th > strong,
+	table td,	
 	table td > code, 
 	table td > strong {
       font-size: 1.2em;
@@ -285,8 +284,9 @@ p code,li code,td code {
     p > strong, 
     p > strong > code, 
     blockquote > p,
-	table th, 
-	table td {
+	table th,
+	table th > code,
+	table th > strong {
       font-size: 1.3em;
     }   
 }
@@ -563,7 +563,7 @@ vertical-align:1px;
 </tr>
 <tr>
 <td><code>.ctrl</code>、<code>.alt</code>、<code>.shift</code>、<code>.meta</code></td>
-<td><code>if(!event.ctrlKey) return</code>根据需要替换<strong>ctrlKey</strong>位<strong>altKey</strong>、<strong>shiftKey</strong>或<strong>metaKey</strong></td>
+<td><code>if(!event.ctrlKey) return</code>根据需要替换<strong><code>ctrlKey</code></strong>位<strong><code>altKey</code></strong>、<strong><code>shiftKey</code></strong>或<strong><code>metaKey</code></strong></td>
 </tr>
 </tbody>
 </table>
