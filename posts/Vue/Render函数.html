@@ -275,20 +275,17 @@ p code,li code,td code {
     p,
     p > code,
     p > strong,
-    p > strong > code,
-    blockquote > p {
+    p strong > code,
+    blockquote > p,
+    table thead th,
+    table thead th > code {
         font-size: 1.3em;
     }
 
-    table th,
-    table th > code,
+    pre > code,
     table td,
-    table td > code,
-    table td > strong {
-        font-size: 1.3em;
-    }
-
-    pre > code {
+    table tbody td > strong,
+    table tbody td > code {
         font-size: 1.2em;
         line-height: 1.2;
     }
