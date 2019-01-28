@@ -40,10 +40,19 @@ body {
   max-width: 56em;
   margin: 10px auto;
 }
-p {
-  font-weight: lighter;
-  margin: 10px 0;
+
+p, blockquote p, li > code {
   line-height: 1.6;
+}
+
+ul li, ol li {
+  line-height: 1.5;
+  margin: 10px 0;  
+}
+
+p {
+  font-weight: lighter;  
+  margin: 10px 0;
 }
 strong {
   font-weight: bold;
@@ -58,9 +67,7 @@ ul ol,
 ol ul {
   margin-top: 10px;
 }
-li {
-  margin: 10px 0;
-}
+
 h1,
 h2,
 h3,
@@ -158,9 +165,17 @@ html a,
 html a:active,
 html a:visited {
   color: #586e75;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+  padding-bottom: 2px;
+  border-radius: 2px;
 }
 html a:hover {
   background-color: #eee8d5;
+}
+
+blockquote a:hover {
+ background-color: #fdf6e3;
 }
 
 html a,
@@ -187,10 +202,6 @@ blockquote {
   padding: 12px 20px;
   background: #eee8d5;
   border-bottom-right-radius: 2px;
-}
-
-blockquote p {
-  line-height: 1.6;
 }
 
 blockquote code {
@@ -255,20 +266,20 @@ p code,li code,td code {
   border-radius: 3px;
 }
 
-li>code {
-  line-height: 1.6;
-}
-
 .cp_embed_wrapper {
   margin: 20px 0;
 }
 
 @media screen and (min-width: 980px) and (max-width: 980px) {
-	pre > code, 
-	blockquote > p, 
+	pre > code, 	
 	p > strong > code {
       font-size: 1.2em;
     }
+       
+    p, blockquote > p {
+      font-size: 1.5em;
+    } 
+    
     pre > code {
       line-height: 1.2;
     }
@@ -1192,7 +1203,6 @@ console.log(result);
 </code></pre><p><strong>修饰符</strong></p>
 <ul>
 <li><code>g</code> 全局匹配，即找到所有匹配的，单词是<code>global</code></li><li><code>i</code> 忽略字母大小写，单词<code>ingoreCase</code></li><li><code>m</code> 多行匹配，只影响<code>^</code>和<code>$</code>，二者变成行的概念，即行开头和行结尾。单词是<code>multiline</code></li></ul>
-<p><img src="https://i.imgur.com/vJ2LGVU.png" alt=""></p>
 
 </body>
 </html>
