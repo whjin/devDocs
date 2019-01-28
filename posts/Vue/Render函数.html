@@ -41,7 +41,7 @@ body {
   margin: 10px auto;
 }
 
-p, blockquote p, li > code {
+p, blockquote p {
   line-height: 1.6;
 }
 
@@ -478,7 +478,15 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="render-">Render函数</h1>
-<p>Vue2与Vue1最大的区别就在于Vue2使用了虚拟DOM来更新DOM节点，提升渲染性能。</p>
+<p><code>Vue2</code>与<code>Vue1</code>最大的区别就在于<code>Vue2</code>使用了虚拟<code>DOM</code>来更新<code>DOM</code>节点，提升渲染性能。</p>
+<blockquote>
+<p><code>Vue2</code>与<code>Vue1</code>最大的区别就在于<code>Vue2</code>使用了虚拟<code>DOM</code>来更新<code>DOM</code>节点，提升渲染性能。</p>
+</blockquote>
+<ul>
+<li><code>Vue2</code>与<code>Vue1</code>最大的区别就在于<code>Vue2</code>使用了虚拟<code>DOM</code>来更新<code>DOM</code>节点，提升渲染性能。</li></ul>
+<blockquote>
+<p><code>Vue2</code>与<code>Vue1</code>最大的区别就在于<code>Vue2</code>使用了虚拟<code>DOM</code>来更新<code>DOM</code>节点，提升渲染性能。</p>
+</blockquote>
 <h2 id="-dom">虚拟DOM</h2>
 <p>React和Vue2都使用了虚拟DOM技术，虚拟DOM并不是真正意义上的DOM，而是一个轻量级的JavaScript对象，在状态发生变化时，虚拟DOM会进行Different运算，来更新只需要被替换的DOM，而不是全部重绘。</p>
 <p>与DOM操作相比，虚拟DOM是基于JavaScript计算的，所以开销会小很多。</p>
