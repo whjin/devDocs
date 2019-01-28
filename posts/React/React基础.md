@@ -139,3 +139,10 @@
 `React.js` 非常鼓励无状态组件，在 `0.14` 版本引入了函数式组件——一种定义不能使用 `state` 组件。
 
 以前一个组件是通过继承 `Component` 来构建，一个子类就是一个组件。而用函数式的组件编写方式是一个函数就是一个组件，你可以和以前一样通过 `<HellWorld />` 使用该组件。不同的是，函数式组件只能接受 `props` 而无法像跟类组件一样可以在 `constructor` 里面初始化 `state`。你可以理解函数式组件就是一种只能接受 `props` 和提供 `render` 方法的类组件。
+
+    const users = [
+      { username: 'Jerry', age: 21, gender: 'male' },
+      { username: 'Tomy', age: 22, gender: 'male' },
+      { username: 'Lily', age: 19, gender: 'female' },
+      { username: 'Lucy', age: 20, gender: 'female' }
+    ]
