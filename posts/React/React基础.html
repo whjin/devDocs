@@ -519,6 +519,14 @@ vertical-align:1px;
 <p>一个组件的显示形态是可以由它数据状态和配置参数决定的。</p>
 <p><strong><code>setState</code> 接受对象参数</strong></p>
 <p><code>setState</code> 方法由父类 <code>Component</code> 所提供。<strong>当我们调用这个函数的时候，<code>React.js</code> 会更新组件的状态 <code>state</code> ，并且重新调用 <code>render</code> 方法，然后再把 <code>render</code> 方法所渲染的最新的内容显示到页面上</strong>。</p>
+<p>当我们要改变组件的状态的时候，不能直接用 <code>this.state = xxx</code> 这种方式来修改，如果这样做 <code>React.js</code> 就没办法知道你修改了组件的状态，它也就没有办法更新页面。所以，一定要使用 <code>React.js</code> 提供的 <code>setState</code> 方法，它接受一个对象或者函数作为参数。</p>
+<p><strong><code>setState</code> 接受函数参数</strong></p>
+<p>当你调用 <code>setState</code> 的时候，<strong><code>React.js</code> 并不会马上修改 <code>state</code></strong>。而是把这个对象放到一个更新队列里面，稍后才会从队列当中把新的状态提取出来合并到 <code>state</code> 当中，然后再触发组件更新。</p>
+<p><code>setState</code> 的第二种使用方式，可以接受一个函数作为参数。<code>React.js</code> 会把上一个 <code>setState</code> 的结果传入这个函数，你就可以使用该结果进行运算、操作，然后返回一个对象作为更新 <code>state</code> 的对象：</p>
+<p><strong><code>setState</code> 合并</strong></p>
+<p>上面我们进行了三次 <code>setState</code>，但是实际上组件只会重新渲染一次，而不是三次；这是因为在 <code>React.js</code> 内部会把 <code>JavaScript</code> 事件循环中的消息队列的同一个消息中的 <code>setState</code> 都进行合并以后再重新渲染组件。</p>
+<p>在使用 <code>React.js</code> 的时候，并不需要担心多次进行 <code>setState</code> 会带来性能问题。</p>
+<h2 id="-props-">配置组件的 <code>props</code></h2>
 
 </body>
 </html>
