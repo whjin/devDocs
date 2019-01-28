@@ -40,10 +40,19 @@ body {
   max-width: 56em;
   margin: 10px auto;
 }
-p {
-  font-weight: lighter;
-  margin: 10px 0;
+
+p, blockquote p, li > code {
   line-height: 1.6;
+}
+
+ul li, ol li {
+  line-height: 1.5;
+  margin: 10px 0;  
+}
+
+p {
+  font-weight: lighter;  
+  margin: 10px 0;
 }
 strong {
   font-weight: bold;
@@ -58,9 +67,7 @@ ul ol,
 ol ul {
   margin-top: 10px;
 }
-li {
-  margin: 10px 0;
-}
+
 h1,
 h2,
 h3,
@@ -128,13 +135,6 @@ code {
   border-radius: 3px;
 }
 
-@media screen and (min-width: 980px) and (max-width: 980px) {
-    pre > code {
-        font-size: 1.6em;
-        line-height: 1.2;
-    }
-}
-
 h1 {
   text-transform: uppercase;
   font-weight: bold;
@@ -165,9 +165,17 @@ html a,
 html a:active,
 html a:visited {
   color: #586e75;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+  padding-bottom: 2px;
+  border-radius: 2px;
 }
 html a:hover {
   background-color: #eee8d5;
+}
+
+blockquote a:hover {
+ background-color: #fdf6e3;
 }
 
 html a,
@@ -194,10 +202,6 @@ blockquote {
   padding: 12px 20px;
   background: #eee8d5;
   border-bottom-right-radius: 2px;
-}
-
-blockquote p {
-  line-height: 1.6;
 }
 
 blockquote code {
@@ -262,12 +266,19 @@ p code,li code,td code {
   border-radius: 3px;
 }
 
-li>code {
-  line-height: 1.6;
-}
-
 .cp_embed_wrapper {
   margin: 20px 0;
+}
+
+@media screen and (min-width: 980px) and (max-width: 980px) {
+	pre > code, 
+	blockquote > p, 
+	p > strong > code {
+      font-size: 1.2em;
+    }
+    pre > code {
+      line-height: 1.2;
+    }
 }
 </style>
 <style type="text/css">
@@ -448,7 +459,12 @@ vertical-align:1px;
 }
 </style>
 <base target=_blank>
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="keywords" content="whjin,前端开发文档,html,css,javascript,canvas,jquery,vue.js,http,ajax,git,webpack">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="前端开发文档">
+<meta name="author" content="whjin">
+<link rel="shortcut icon" href="https://i.imgur.com/vJ2LGVU.png">
 </head>
 <body>
 <h1 id="react-">React基础</h1>
@@ -459,6 +475,38 @@ vertical-align:1px;
 <p><strong>总结：</strong></p>
 <ol>
 <li><code>JSX</code> 是 <code>JavaScript</code> 语言的一种语法扩展；</li><li><code>React.js</code> 可以用 <code>JSX</code> 来描述你的组件；</li><li><code>JSX</code> 在编译的时候会变成相应的 <code>JavaScript</code> 对象描述；</li><li><code>react-dom</code> 负责把这个用来描述 <code>UI</code> 信息的 <code>JavaScript</code> 对象变成 <code>DOM</code> 元素，并且渲染到页面上。</li></ol>
+<h2 id="-render-">组件的 <code>render</code> 方法</h2>
+<p>一个组件类必须要实现一个 <code>render</code> 方法，这个 <code>render</code> 方法必须要返回一个 <code>JSX</code> 元素。必须要用一个外层的 <code>JSX</code> 元素把所有内容包裹起来，返回并列多个 <code>JSX</code> 元素是不合法的。</p>
+<p><strong>表达式插入</strong></p>
+<p>在 <code>JSX</code> 当中你可以插入 <code>JavaScript</code> 的表达式，表达式返回的结果会相应地渲染到页面上。表达式用 <code>{}</code> 包裹。</p>
+<p><code>{}</code> 内可以放任何 <code>JavaScript</code> 的代码，包括<strong>变量</strong>、<strong>表达式计算</strong>、<strong>函数执行</strong>等。</p>
+<p>表达式插入不仅仅可以用在标签内部，也可以用在标签的属性上。</p>
+<p><strong>条件返回</strong></p>
+<p>可以在 <code>render</code> 函数内部根据不同条件返回不同的 <code>JSX</code>。</p>
+<p><strong><code>JSX</code> 元素变量</strong></p>
+<h2 id="-">组件的组合、嵌套和组件树</h2>
+<p><strong>自定义的组件都必须要用大写字母开头，普通的 <code>HTML</code> 标签都用小写字母开头。</strong></p>
+<h2 id="-">事件监听</h2>
+<p>在 <code>React.js</code> 不需要手动调用浏览器原生的 <code>addEventListener</code> 进行事件监听。<code>React.js</code> 帮我们封装好了一系列的 <code>on*</code> 的属性，当你需要为某个元素监听某个事件的时候，只需要简单地给它加上 <code>on*</code> 就可以了。而且你不需要考虑不同浏览器兼容性的问题，<code>React.js</code> 都帮我们封装好这些细节了。</p>
+<p>这些事件属性名都必须要用驼峰命名法。</p>
+<p>没有经过特殊处理的话，<strong>这些 <code>on*</code> 的事件监听只能用在普通的 <code>HTML</code> 的标签上，而不能用在组件标签上</strong>。</p>
+<p><strong><code>event</code> 对象</strong></p>
+<p><code>React.js</code> 中的 <code>event</code> 对象并不是浏览器提供的，而是它自己内部所构建的。<code>React.js</code> 将浏览器原生的 <code>event</code> 对象封装了一下，对外提供统一的 <code>API</code> 和属性，这样你就不用考虑不同浏览器的兼容性问题。</p>
+<p><strong>关于事件中的 <code>this</code></strong></p>
+<pre><code>handleClickOnTitle (e) {
+    console.log(this) // =&gt; null or undefined
+}
+</code></pre><p>上面的 <code>handleClickOnTitle</code> 中把 <code>this</code> 打印出来，你会看到 <code>this</code> 是 <code>null</code> 或者 <code>undefined</code>。</p>
+<p>这是因为 <code>React.js</code> 调用你所传给它的方法的时候，并不是通过对象方法的方式调用（<code>this.handleClickOnTitle</code>），而是直接通过函数调用 （<code>handleClickOnTitle</code>），所以事件监听函数内并不能通过 <code>this</code> 获取到实例。    </p>
+<p>如果你想在事件函数当中使用当前的实例，你需要手动地将实例方法 <code>bind</code> 到当前实例上再传入给 <code>React.js</code>。</p>
+<p><code>bind</code> 会把实例方法绑定到当前实例上，然后我们再把绑定后的函数传给 <code>React.js</code> 的 <code>onClick</code> 事件监听。</p>
+<p>你也可以在 <code>bind</code> 的时候给事件监听函数传入一些参数。</p>
+<p>这种 <code>bind</code> 模式在 <code>React.js</code> 的事件监听当中非常常见，<code>bind</code> 不仅可以帮我们把事件监听方法中的 <code>this</code> 绑定到当前组件实例上；还可以帮助我们在在渲染列表元素的时候，把列表元素传入事件监听函数当中。</p>
+<h2 id="-state-setstate-">组件的 <code>state</code> 和 <code>setState</code></h2>
+<p><strong>state</strong></p>
+<p>一个组件的显示形态是可以由它数据状态和配置参数决定的。</p>
+<p><strong><code>setState</code> 接受对象参数</strong></p>
+<p><code>setState</code> 方法由父类 <code>Component</code> 所提供。当我们调用这个函数的时候，<code>React.js</code> 会更新组件的状态 <code>state</code> ，并且重新调用 <code>render</code> 方法，然后再把 <code>render</code> 方法所渲染的最新的内容显示到页面上。</p>
 
 </body>
 </html>
