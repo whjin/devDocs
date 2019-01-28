@@ -236,10 +236,6 @@ table td {
   line-height: 1.3;
 }
 
-table td:first-child {
-  text-align: center;
-}
-
 table th {
   font-weight: bold;
   text-align: center !important;
@@ -278,15 +274,14 @@ p code,li code,td code {
     p strong > code,
     blockquote > p,
     table thead tr th,
-    table thead tr th code {
+    table thead tr th > code {
         font-size: 1.3em;
     }
 
     pre > code,
     table td,
     table tbody tr td > strong,
-    table tbody tr td > code,
-    table tbody tr td:first-child code {
+    table tbody tr td > code {
         font-size: 1.2em;
         line-height: 1.2;
     }
