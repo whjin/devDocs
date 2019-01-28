@@ -272,22 +272,22 @@ p code,li code,td code {
 }
 
 @media screen and (min-width: 980px) and (max-width: 980px) {
-	p, 
-	p code, 
-    p strong, 
-    p strong code, 
-    blockquote p,
-	table th, 
-	table th code {
-      font-size: 1.3em;
-    } 
-    
-    pre code,
-	table td, 
-	table td code, 
-	table td strong {
-      font-size: 1.2em;
-      line-height: 1.2;      
+    p,
+    p > code,
+    p > strong,
+    p > strong > code,
+    blockquote > p {
+        font-size: 1.3em;
+    }
+
+    pre > code,
+    table th,
+    table th > code,
+    table td,
+    table td > code,
+    table td > strong {
+        font-size: 1.2em;
+        line-height: 1.2;
     }
 }
 </style>
