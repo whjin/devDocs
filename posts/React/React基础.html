@@ -4,11 +4,6 @@
 <title>React基础</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
-/* Solarized (Light) */
-/* Authors: Ethan Schoonover: http://ethanschoonover.com/solarized, CodeCatalyst: http://codecatalyst.com/ */
-/* Version: d9a83f4e7a47432baff86e1e7946d9e066cf3d1b (modified) */
-/* https://github.com/CodeCatalyst/mou-theme-solarized */
-
 html,
 body,
 h1,
@@ -541,7 +536,7 @@ vertical-align:1px;
 <p>由于 <code>setState</code> 会导致 <code>Index</code> 重新渲染，所以 <code>LikedButton</code> 会接收到新的 <code>props</code>，并且重新渲染，于是它的显示形态也会得到更新。这就是通过重新渲染的方式来传入新的 <code>props</code> 从而达到修改 <code>LikedButton</code> 显示形态的效果。</p>
 <p><strong>总结</strong></p>
 <ol>
-<li>为了使得组件的可定制性更强，在使用组件的时候，可以在标签上加属性来传入配置参数。</li><li>组件可以在内部通过 <code>this.props</code> 获取到配置参数，组件可以根据 <code>props</code> 的不同来确定自己的显示形态，达到可配置的效果。</li><li>可以通过给组件添加类属性 <code>defaultProps</code> 来配置默认参数。</li></ol>
+<li>为了使得组件的可定制性更强，在使用组件的时候，可以在标签上加属性来传入配置参数。</li><li>组件可以在内部通过 <code>this.props</code> 获取到配置参数，组件可以根据 <code>props</code> 的不同来确定自己的显示形态，达到可配置的效果。</li><li>可以通过给组件添加类属性 <code>defaultProps</code> 来配置默认参数。</li><li><code>props</code> 一旦传入，你就不可以在组件内部对它进行修改。但是你可以通过父组件主动重新渲染的方式来传入新的 <code>props</code>，从而达到更新的效果。</li></ol>
 
 </body>
 </html>
