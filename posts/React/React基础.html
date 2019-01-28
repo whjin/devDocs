@@ -263,19 +263,25 @@ p code,li code,td code {
 }
 
 @media screen and (min-width: 980px) and (max-width: 980px) {
-    blockquote > p,
+    blockquote p,
     table thead tr th,
     table thead tr th > code,
     table tbody tr td,
     table tbody tr td > code,
     table tbody tr td > strong {
         font-size: 1.3em;
+        line-height: 1.3;
+    }
+
+    blockquote p {
+        line-height: 1.6;
     }
 
     p,
     p > code,
     p strong,
-    p strong > code {
+    p strong > code,
+    pre > code {
         font-size: 1.2em;
     }
 
@@ -283,14 +289,8 @@ p code,li code,td code {
         line-height: 1.2;
     }
 
-    table tbody tr td,
-    table tbody tr td > strong,
-    table tbody tr td > code {
-        line-height: 1.3;
-    }
-
     ol, ul {
-        margin-left: 4em;
+        margin-left: 3em;
     }
 }
 </style>
