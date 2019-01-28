@@ -272,8 +272,10 @@ p code,li code,td code {
 
 @media screen and (min-width: 980px) and (max-width: 980px) {
 	pre > code, 
-	td > code, 
-	td > strong {
+	table th > code,
+	table th > strong,
+	table td > code, 
+	table td > strong {
       font-size: 1.2em;
       line-height: 1.2;      
     }
@@ -282,7 +284,9 @@ p code,li code,td code {
     p > code, 
     p > strong, 
     p > strong > code, 
-    blockquote > p {
+    blockquote > p,
+	table th, 
+	table td {
       font-size: 1.3em;
     }   
 }
