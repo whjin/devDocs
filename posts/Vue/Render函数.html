@@ -271,18 +271,15 @@ p code,li code,td code {
 }
 
 @media screen and (min-width: 980px) and (max-width: 980px) {
-	pre>code, 
-    td>code,
-    td>strong,
-	p>strong>code {
+	pre>code, td>code, td>strong, p>strong>code {
       font-size: 1.2em;
     }
        
-    p, p > code, blockquote > p {
+    p, p>code, p>strong, blockquote>p {
       font-size: 1.3em;
     } 
     
-    pre > code {
+    pre>code {
       line-height: 1.2;
     }
 }
