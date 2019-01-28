@@ -102,12 +102,12 @@ Render函数里没有与`v-model`对应的API，需要自己来实现逻辑。
 对于事件修饰符和按键修饰符，基本需要自己实现：
 
 | 修饰符 | 对应的句柄
-| -------| --------
-| `.stop` | `event.stopPropagation()`
-| `.prevent` | `event.preventDefault()`
-| `.self` | `if(event.target!==event.currentTarget) return`
-| `.ente`、`.13` | `if(event.keyCode!==13) return`替换**13**位需要的keyCode
-| `.ctrl`、`.alt`、`.shift`、`.meta` | `if(!event.ctrlKey) return`根据需要替换**`ctrlKey`**位**`altKey`**、**`shiftKey`**或**`metaKey`**
+| -------| --------|
+| `.stop` | `event.stopPropagation()`|
+| `.prevent` | `event.preventDefault()`|
+| `.self` | `if(event.target!==event.currentTarget) return`|
+| `.ente`、`.13` | `if(event.keyCode!==13) return`替换**13**位需要的`keyCode`|
+| `.ctrl`、`.alt`、`.shift`、`.meta` | `if(!event.ctrlKey) return`根据需要替换**`ctrlKey`**位**`altKey`**、**`shiftKey`**或**`metaKey`**|
 
 对于事件修饰符`.capture`和`.once`，Vue提供了特殊的前缀，可以直接写在`on`的配置里。
 
