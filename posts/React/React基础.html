@@ -530,6 +530,18 @@ vertical-align:1px;
 <p>如何让组件能适应不同场景下的需求，我们就要让组件具有一定的“<strong>可配置</strong>”性。</p>
 <p><code>React.js</code> 的 <code>props</code> 就可以帮助我们达到这个效果。每个组件都可以接受一个 <code>props</code> 参数，它是一个对象，包含了所有你对这个组件的配置。</p>
 <p>从 <code>render</code> 函数可以看出来，组件内部是通过 <code>this.props</code> 的方式获取到组件的参数的，如果 <code>this.props</code> 里面有需要的属性我们就采用相应的属性，没有的话就用默认的属性。</p>
+<p><strong>在使用一个组件的时候，可以把参数放在标签的属性当中，所有的属性都会作为 <code>props</code> 对象的键值：</strong></p>
+<p><strong>默认配置 <code>defaultProps</code></strong></p>
+<p>上面的组件默认配置我们是通过 <code>||</code> 操作符来实现。这种需要默认配置的情况在 <code>React.js</code> 中非常常见，所以 <code>React.js</code> 也提供了一种方式 <code>defaultProps</code>，可以方便的做到默认配置。</p>
+<pre><code>static defaultProps = {
+    unlikedText: &#39;取消&#39;,
+    likedText: &#39;点赞&#39;
+};
+&lt;button onClick={this.handleClickOnButton.bind(this)}&gt;
+{this.state.isLiked ? this.props.likedText : this.props.unlikedText}
+👍
+&lt;/button&gt;    
+</code></pre><p><code>defaultProps</code> 作为点赞按钮组件的类属性，里面是对 <code>props</code> 中各个属性的默认配置。这样我们就不需要判断配置属性是否传进来了：如果没有传进来，会直接使用 defaultProps 中的默认属性。 所以可以看到，在 render 函数中，我们会直接使用 this.props 而不需要再做判断。</p>
 
 </body>
 </html>

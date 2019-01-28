@@ -98,3 +98,20 @@
 `React.js` 的 `props` 就可以帮助我们达到这个效果。每个组件都可以接受一个 `props` 参数，它是一个对象，包含了所有你对这个组件的配置。
 
 从 `render` 函数可以看出来，组件内部是通过 `this.props` 的方式获取到组件的参数的，如果 `this.props` 里面有需要的属性我们就采用相应的属性，没有的话就用默认的属性。
+
+**在使用一个组件的时候，可以把参数放在标签的属性当中，所有的属性都会作为 `props` 对象的键值：**
+
+**默认配置 `defaultProps`**
+
+上面的组件默认配置我们是通过 `||` 操作符来实现。这种需要默认配置的情况在 `React.js` 中非常常见，所以 `React.js` 也提供了一种方式 `defaultProps`，可以方便的做到默认配置。
+
+    static defaultProps = {
+        unlikedText: '取消',
+        likedText: '点赞'
+    };
+    <button onClick={this.handleClickOnButton.bind(this)}>
+    {this.state.isLiked ? this.props.likedText : this.props.unlikedText}
+    👍
+    </button>    
+
+`defaultProps` 作为点赞按钮组件的类属性，里面是对 `props` 中各个属性的默认配置。这样我们就不需要判断配置属性是否传进来了：如果没有传进来，会直接使用 defaultProps 中的默认属性。 所以可以看到，在 render 函数中，我们会直接使用 this.props 而不需要再做判断。
