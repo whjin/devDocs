@@ -529,33 +529,54 @@ vertical-align:1px;
 <ol>
 <li><strong>可访问性隐藏</strong>。<code>z-index</code>负值可以隐藏元素，只需要层叠上下文内的某一个父元素加背景色即可。<strong>优势如下</strong>：<ul>
 <li>它与<code>clip</code>隐藏相比，元素无须绝对定位，设置<code>position:relative</code>也可以隐藏；</li><li>它对原来的布局以及元素的行为没有任何影响，而<code>clip</code>隐藏会导致控件<code>focus</code>的焦点发生细微的变化。</li></ul>
-</li><li><p><strong>IE8下的多背景模拟</strong>。</p>
-<pre><code> .box {
-     background-image: url(&quot;1.jpg&quot;);
-     position: relative;
-     z-index: 0;
- }
+</li><li><strong>IE8下的多背景模拟</strong>。</li></ol>
+<pre><code>.box {
+background-image: url(&quot;1.jpg&quot;);
+position: relative;
+z-index: 0;
+}
 
- .box:before,
- .box:after {
-     content: &#39;&#39;;
-     position: absolute;
-     z-index: -1;
- }
+.box:before,
+.box:after {
+content: &#39;&#39;;
+position: absolute;
+z-index: -1;
+}
 
- .box:before {
-     background-image: url(&quot;2.jpg&quot;);
- }
+.box:before {
+background-image: url(&quot;2.jpg&quot;);
+}
 
- .box:after {
-     background-image: url(&quot;3.jpg&quot;);
- }
-</code></pre></li><li><strong>定位在元素的后面</strong>。</li></ol>
+.box:after {
+background-image: url(&quot;3.jpg&quot;);
+}
+</code></pre><ol>
+<li><strong>定位在元素的后面</strong>。</li></ol>
 <h1 id="-z-index-"><code>z-index</code>准则</h1>
 <blockquote>
 <p>对于非浮层元素，避免设置<code>z-index</code>值，<code>z-index</code>值不需要超过<code>2</code>。</p>
 </blockquote>
+<pre><code>.box {
+background-image: url(&quot;1.jpg&quot;);
+position: relative;
+z-index: 0;
+}
 
+.box:before,
+.box:after {
+content: &#39;&#39;;
+position: absolute;
+z-index: -1;
+}
+
+.box:before {
+background-image: url(&quot;2.jpg&quot;);
+}
+
+.box:after {
+background-image: url(&quot;3.jpg&quot;);
+}
+</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
