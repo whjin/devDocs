@@ -224,11 +224,11 @@ blockquote code {
 }
 
 blockquote > :first-child {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 blockquote > :last-child {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 /* TABLES
@@ -289,19 +289,13 @@ p code, li code, td code {
     table tbody tr td > code,
     table tbody tr td > strong {
         font-size: 1.3em;
-    }
-
-    table thead tr th,
-    table tbody tr td {
         line-height: 1.3;
     }
 
     p, p code,
+    p strong, p strong > code,
     blockquote p {
         font-size: 1.2em;
-    }
-
-    p, blockquote p {
         line-height: 1.6;
     }
 
