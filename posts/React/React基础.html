@@ -295,13 +295,19 @@ p code, li code, td code {
         line-height: 1.6;
     }
 
-    pre > code {
+    pre > code,
+    ul li pre > code,
+    ol li pre > code {
         font-size: 1.2em;
         line-height: 1.2;
     }
 
-    ol, ul {
-        margin-left: 3em;
+    ul {
+        margin-left: 3.4em;
+    }
+
+    ol {
+        margin-left: 3.6em;
     }
 }
 </style>
@@ -561,16 +567,27 @@ vertical-align:1px;
 <p><strong>尽量少地用 <code>state</code>，尽量多地用 <code>props</code>。</strong></p>
 <p>没有 <code>state</code> 的组件叫无状态组件，设置了 <code>state</code> 的叫做有状态组件。因为状态会带来管理的复杂性，我们尽量多地写无状态组件，尽量少地写有状态的组件。这样会降低代码维护的难度，也会在一定程度上增强组件的可复用性。</p>
 <p><code>React.js</code> 非常鼓励无状态组件，在 <code>0.14</code> 版本引入了函数式组件——一种定义不能使用 <code>state</code> 组件。</p>
-<blockquote>
 <p>以前一个组件是通过继承 <code>Component</code> 来构建，一个子类就是一个组件。而用函数式的组件编写方式是一个函数就是一个组件，你可以和以前一样通过 <code>&lt;HellWorld /&gt;</code> 使用该组件。不同的是，函数式组件只能接受 <code>props</code> 而无法像跟类组件一样可以在 <code>constructor</code> 里面初始化 <code>state</code>。你可以理解函数式组件就是一种只能接受 <code>props</code> 和提供 <code>render</code> 方法的类组件。</p>
-</blockquote>
-<pre><code>const users = [
-  { username: &#39;Jerry&#39;, age: 21, gender: &#39;male&#39; },
-  { username: &#39;Tomy&#39;, age: 22, gender: &#39;male&#39; },
-  { username: &#39;Lily&#39;, age: 19, gender: &#39;female&#39; },
-  { username: &#39;Lucy&#39;, age: 20, gender: &#39;female&#39; }
-]
-</code></pre>
+<h2 id="-">渲染列表数据</h2>
+<h3 id="-jsx-">渲染存放 <code>JSX</code> 元素的数组</h3>
+<p><strong>如果你往 <code>{}</code> 放一个数组，<code>React.js</code> 会帮你把数组里面一个个元素罗列并且渲染出来。</strong></p>
+<h3 id="-map-">使用 <code>map</code> 渲染列表数据</h3>
+<p>这里把负责展示用户数据的 <code>JSX</code> 结构抽离成一个组件 <code>User</code> ，并且通过 <code>props</code> 把 <code>user</code> 数据作为组件的配置参数传进去；这样改写 <code>Index</code> 就非常清晰了，看一眼就知道负责渲染 <code>users</code> 列表，而用的组件是 <code>User</code>。</p>
+<p><p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="KJgzKP" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="渲染列表数据"><br>  <span>See the Pen <a href="https://codepen.io/whjin/pen/KJgzKP/"><br>  渲染列表数据</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)<br>  on <a href="https://codepen.io">CodePen</a>.</span><br></p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h3 id="-key-"><code>key</code></h3>
+<p><code>React.js</code> 的是非常高效的，它高效依赖于所谓的 <code>Virtual-DOM</code> 策略。简单来说，能复用的话 <code>React.js</code> 就会尽量复用，没有必要的话绝对不碰 <code>DOM</code>。对于列表元素来说也是这样，但是处理列表元素的复用性会有一个问题：元素可能会在一个列表中改变位置。</p>
+<p>现在只需要记住一个简单的规则：<strong>对于用表达式套数组罗列到页面上的元素，都要为每个元素加上 <code>key</code> 属性，这个 <code>key</code> 必须是每个元素唯一的标识。</strong>一般来说，<code>key</code> 的值可以直接后台数据返回的 <code>id</code>，因为后台的 <code>id</code> 都是唯一的。</p>
+<pre><code>return (
+    &lt;div&gt;
+        {users.map((user, index) =&gt;
+            &lt;User user={user} key={index}/&gt;
+        )}
+    &lt;/div&gt;
+)
+</code></pre><p>记住一点：在实际项目当中，如果你的数据顺序可能发生变化，标准做法是最好是后台数据返回的 <code>id</code> 作为列表元素的 <code>key</code>。</p>
+
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

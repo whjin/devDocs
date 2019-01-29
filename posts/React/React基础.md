@@ -138,11 +138,39 @@
 
 `React.js` 非常鼓励无状态组件，在 `0.14` 版本引入了函数式组件——一种定义不能使用 `state` 组件。
 
-> 以前一个组件是通过继承 `Component` 来构建，一个子类就是一个组件。而用函数式的组件编写方式是一个函数就是一个组件，你可以和以前一样通过 `<HellWorld />` 使用该组件。不同的是，函数式组件只能接受 `props` 而无法像跟类组件一样可以在 `constructor` 里面初始化 `state`。你可以理解函数式组件就是一种只能接受 `props` 和提供 `render` 方法的类组件。
+以前一个组件是通过继承 `Component` 来构建，一个子类就是一个组件。而用函数式的组件编写方式是一个函数就是一个组件，你可以和以前一样通过 `<HellWorld />` 使用该组件。不同的是，函数式组件只能接受 `props` 而无法像跟类组件一样可以在 `constructor` 里面初始化 `state`。你可以理解函数式组件就是一种只能接受 `props` 和提供 `render` 方法的类组件。
 
-    const users = [
-      { username: 'Jerry', age: 21, gender: 'male' },
-      { username: 'Tomy', age: 22, gender: 'male' },
-      { username: 'Lily', age: 19, gender: 'female' },
-      { username: 'Lucy', age: 20, gender: 'female' }
-    ]
+## 渲染列表数据 ##
+
+### 渲染存放 `JSX` 元素的数组 ###
+
+**如果你往 `{}` 放一个数组，`React.js` 会帮你把数组里面一个个元素罗列并且渲染出来。**
+
+### 使用 `map` 渲染列表数据 ###
+
+这里把负责展示用户数据的 `JSX` 结构抽离成一个组件 `User` ，并且通过 `props` 把 `user` 数据作为组件的配置参数传进去；这样改写 `Index` 就非常清晰了，看一眼就知道负责渲染 `users` 列表，而用的组件是 `User`。
+
+<p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="KJgzKP" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="渲染列表数据">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/KJgzKP/">
+  渲染列表数据</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+### `key` ###
+
+`React.js` 的是非常高效的，它高效依赖于所谓的 `Virtual-DOM` 策略。简单来说，能复用的话 `React.js` 就会尽量复用，没有必要的话绝对不碰 `DOM`。对于列表元素来说也是这样，但是处理列表元素的复用性会有一个问题：元素可能会在一个列表中改变位置。
+
+现在只需要记住一个简单的规则：**对于用表达式套数组罗列到页面上的元素，都要为每个元素加上 `key` 属性，这个 `key` 必须是每个元素唯一的标识。**一般来说，`key` 的值可以直接后台数据返回的 `id`，因为后台的 `id` 都是唯一的。
+
+    return (
+        <div>
+            {users.map((user, index) =>
+                <User user={user} key={index}/>
+            )}
+        </div>
+    )
+
+记住一点：在实际项目当中，如果你的数据顺序可能发生变化，标准做法是最好是后台数据返回的 `id` 作为列表元素的 `key`。
+
+
