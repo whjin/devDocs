@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>实战-评论功能</title>
+<title>状态管理——状态提升</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -302,10 +302,6 @@ p code, li code, td code {
         line-height: 1.2;
     }
 
-    ul li, ol li {
-        font-size: 1.2em;
-    }
-
     ul {
         margin-left: 3.4em;
     }
@@ -501,36 +497,7 @@ vertical-align:1px;
 <link rel="shortcut icon" href="https://i.imgur.com/vJ2LGVU.png">
 </head>
 <body>
-<h1 id="-">实战-评论功能</h1>
-<p><strong>组件划分</strong></p>
-<p><code>React.js</code> 中一切都是组件，用 <code>React.js</code> 构建的功能其实也就是由各种组件组合而成。所以拿到一个需求以后，我们要做的第一件事情就是理解需求、分析需求、划分这个需求由哪些组件构成。</p>
-<p>组件的划分没有特别明确的标准。划分组件的目的性是为了代码可复用性、可维护性。只要某个部分有可能复用到别的地方，你都可以把它抽离出来当成一个组件；或者把某一部分抽离出来对代码的组织和管理会带来帮助，你也可以毫不犹豫地把它抽离出来。</p>
-<p><img src="https://i.imgur.com/BpfAmwi.png" alt=""></p>
-<ul>
-<li><code>CommentApp</code>：评论功能的整体用一个叫 <code>CommentApp</code> 的组件包含起来。<code>CommentApp</code> 包含上部和下部两部分。</li><li><code>CommentInput</code>：上面部分是负责用户输入可操作的输入区域，包括输入评论的用户名、评论内容和发布按钮，这一部分功能划分到一个单独的组件 <code>CommentInput</code> 中。</li><li><code>CommentList</code>：下面部分是评论列表，用一个叫 <code>CommentList</code> 的组件负责列表的展示。</li><li><code>Comment</code>：每个评论列表项由独立的组件 <code>Comment</code> 负责显示，这个组件被 <code>CommentList</code> 所使用。</li></ul>
-<p><strong>组件实现</strong></p>
-<p>在写代码之前，我们先用 <code>create-react-app</code> 构建一个新的工程目录。所有的评论功能在这个工程内完成：</p>
-<pre><code>create-react-app comment-app
-</code></pre><p>然后在工程目录下的 <code>src/</code> 目录下新建四个文件，每个文件对应的是上述的四个组件。</p>
-<pre><code>src/
-  CommentApp.js
-  CommentInput.js
-  CommentList.js
-  Comment.js
-</code></pre><p><strong>添加样式</strong></p>
-<p><strong>处理用户输入</strong></p>
-<p>在 <code>React.js</code> 当中必须要用 <code>setState</code> 才能更新组件的内容，所以我们需要做的就是：监听输入框的 <code>onChange</code> 事件，然后获取到用户输入的内容，再通过 <code>setState</code> 的方式更新 <code>state</code> 中的 <code>username</code>，这样 <code>input</code> 的内容才会更新。</p>
-<p>在这个方法中，我们通过 <code>event.target.value</code> 获取 <code>&lt;input /&gt;</code> 中用户输入的内容，然后通过 <code>setState</code> 把它设置到 <code>state.username</code> 当中，这时候组件的内容就会更新，<code>input</code> 的 <code>value</code> 值就会得到更新并显示到输入框内。这时候输入已经没有问题了。</p>
-<p>类似于 <code>&lt;input /&gt;</code>、<code>&lt;select /&gt;</code>、<code>&lt;textarea&gt;</code> 这些元素的 <code>value</code> 值被 <code>React.js</code> 所控制、渲染的组件，在 <code>React.js</code> 当中被称为受控组件。对于用户可输入的控件，一般都可以让它们成为受控组件，这是 <code>React.js</code> 所推崇的做法。</p>
-<p><strong>向父组件传递数据</strong></p>
-<p>当用户在 <code>CommentInput</code> 里面输入完内容以后，点击发布，内容其实是需要显示到 <code>CommentList</code> 组件当中的。但这两个组件明显是单独的、分离的组件。</p>
-<p><code>CommentApp</code> 组件将 <code>CommentInput</code> 和 <code>CommentList</code> 组合起来，它是它们俩的父组件，可以充当桥接两个子组件的桥梁。所以当用户点击发布按钮的时候，我们就将 <code>CommentInput</code> 的 <code>state</code> 当中最新的评论数据传递给父组件 <code>CommentApp</code> ，然后让父组件把这个数据传递给 <code>CommentList</code> 进行渲染。</p>
-<p><code>CommentInput</code> 如何向 <code>CommentApp</code> 传递的数据？父组件 <code>CommentApp</code> 只需要通过 <code>props</code> 给子组件 <code>CommentInput</code> 传入一个回调函数。当用户点击发布按钮的时候，<code>CommentInput</code> 调用 <code>props</code> 中的回调函数并且将 <code>state</code> 传入该函数即可。</p>
-<p><code>handleSubmit</code> 方法会判断 <code>props</code> 中是否传入了 <code>onSubmit</code> 属性。有的话就调用该函数，并且把用户输入的用户名和评论数据传入该函数。然后再通过 <code>setState</code> 清空用户输入的评论内容。</p>
-<p>我们在 <code>CommentApp</code> 的 <code>state</code> 中初始化一个数组，来保存所有的评论数据，并且通过 <code>props</code> 把它传递给 <code>CommentList</code>。</p>
-<p><strong>总结</strong></p>
-<ol>
-<li>实现功能之前先理解、分析需求，划分组件。并且掌握划分组件的基本原则——可复用性、可维护性。</li><li>受控组件的概念，<code>React.js</code> 中的 <code>&lt;input /&gt;</code> 、<code>&lt;textarea /&gt;</code>、<code>&lt;select /&gt;</code> 等元素的 <code>value</code> 值如果是受到 <code>React.js</code> 的控制，那么就是受控组件。</li><li>组件之间使用 <code>props</code> 通过父元素传递数据的技巧。</li></ol>
+<h1 id="-">状态管理——状态提升</h1>
 
 </body>
 </html>
