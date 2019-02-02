@@ -522,6 +522,11 @@ vertical-align:1px;
 <p>当用户在 <code>CommentInput</code> 里面输入完内容以后，点击发布，内容其实是需要显示到 <code>CommentList</code> 组件当中的。但这两个组件明显是单独的、分离的组件。</p>
 <p><code>CommentApp</code> 组件将 <code>CommentInput</code> 和 <code>CommentList</code> 组合起来，它是它们俩的父组件，可以充当桥接两个子组件的桥梁。所以当用户点击发布按钮的时候，我们就将 <code>CommentInput</code> 的 <code>state</code> 当中最新的评论数据传递给父组件 <code>CommentApp</code> ，然后让父组件把这个数据传递给 <code>CommentList</code> 进行渲染。</p>
 <p><code>CommentInput</code> 如何向 <code>CommentApp</code> 传递的数据？父组件 <code>CommentApp</code> 只需要通过 <code>props</code> 给子组件 <code>CommentInput</code> 传入一个回调函数。当用户点击发布按钮的时候，<code>CommentInput</code> 调用 <code>props</code> 中的回调函数并且将 <code>state</code> 传入该函数即可。</p>
+<p><code>handleSubmit</code> 方法会判断 <code>props</code> 中是否传入了 <code>onSubmit</code> 属性。有的话就调用该函数，并且把用户输入的用户名和评论数据传入该函数。然后再通过 <code>setState</code> 清空用户输入的评论内容。</p>
+<p>我们在 <code>CommentApp</code> 的 <code>state</code> 中初始化一个数组，来保存所有的评论数据，并且通过 <code>props</code> 把它传递给 <code>CommentList</code>。</p>
+<p><strong>总结</strong></p>
+<ol>
+<li>实现功能之前先理解、分析需求，划分组件。并且掌握划分组件的基本原则——可复用性、可维护性。</li><li>受控组件的概念，<code>React.js</code> 中的 <code>&lt;input /&gt;</code> 、<code>&lt;textarea /&gt;</code>、<code>&lt;select /&gt;</code> 等元素的 <code>value</code> 值如果是受到 <code>React.js</code> 的控制，那么就是受控组件。</li><li>组件之间使用 <code>props</code> 通过父元素传递数据的技巧。</li></ol>
 
 </body>
 </html>
