@@ -504,6 +504,12 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="props-children-">props.children和容器类组件</h1>
+<p>如果组件标签也能像普通的 <code>HTML</code> 标签那样编写内嵌的结构，那么就方便很多了。实际上，<code>React.js</code> 默认就支持这种写法，所有嵌套在组件中的 <code>JSX</code> 结构都可以在组件内部通过 <code>props.children</code> 获取到。</p>
+<p><code>React.js</code> 就是把我们嵌套的 <code>JSX</code> 元素一个个都放到数组当中，然后通过 <code>props.children</code> 传给了 <code>Card</code>。</p>
+<p><strong>总结</strong></p>
+<p>使用自定义组件的时候，可以在其中嵌套 <code>JSX</code> 结构。嵌套的结构在组件内部都可以通过 <code>props.children</code> 获取到，这种组件编写方式在编写容器类型的组件当中非常有用。而在实际的 <code>React.js</code> 项目当中，我们几乎每天都需要用这种方式来编写组件。</p>
+<h2 id="-dangerouslysethtml-style-"><code>dangerouslySetHTML</code> 和 <code>style</code> 属性</h2>
+<h3 id="-dangerouslysethtml-"><code>dangerouslySetHTML</code></h3>
 
 </body>
 </html>
