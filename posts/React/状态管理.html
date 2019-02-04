@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>状态管理—状态提升</title>
+<title>状态管理</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -503,7 +503,7 @@ vertical-align:1px;
 <link rel="shortcut icon" href="https://i.imgur.com/vJ2LGVU.png">
 </head>
 <body>
-<h1 id="-">状态管理—状态提升</h1>
+<h1 id="-">状态管理</h1>
 <p>我们<strong>将这种组件之间共享的状态交给组件最近的公共父节点保管</strong>，然后通过 <code>props</code> 把状态传递给子组件，这样就可以在组件之间共享数据了。</p>
 <p>如果把 <code>comments</code> 交给父组件 <code>CommentApp</code> ，那么 <code>CommentList</code> 和 <code>CommentList2</code> 都可以通过 <code>props</code> 获取到 <code>comments</code>，<code>React.js</code> 把这种行为叫做“<strong>状态提升</strong>”。</p>
 <p>当某个状态被多个组件<strong>依赖</strong>或者<strong>影响</strong>的时候，就把该状态提升到这些组件的最近公共父组件中去管理，用 <code>props</code> 传递<strong>数据或者函数</strong>来管理这种<strong>依赖</strong>或者<strong>影响</strong>的行为。</p>
