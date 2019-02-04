@@ -514,6 +514,13 @@ vertical-align:1px;
 <p>这时候 <code>componentWillUnmount</code> 就可以派上用场了，它的作用就是在组件销毁的时候，做这种清场的工作。例如清除该组件的定时器和其他的数据清理工作。我们给 <code>Clock</code> 添加 <code>componentWillUnmount</code>，在组件销毁的时候清除该组件的定时器。</p>
 <p><strong>总结</strong></p>
 <p>我们一般会把组件的 <code>state</code> 的初始化工作放在 <code>constructor</code> 里面去做；在 <code>componentWillMount</code> 进行组件的启动工作，例如 <code>Ajax</code> 数据拉取、定时器的启动；组件从页面上销毁的时候，有时候需要一些数据的清理，例如定时器的清理，就会放在 <code>componentWillUnmount</code> 里面去做。</p>
+<h2 id="-">更新阶段的组件生命周期</h2>
+<p>组件的挂载指的是将组件渲染并且构造 <code>DOM</code> 元素然后插入页面的过程。</p>
+<p>除了<strong>挂载阶段</strong>，还有一种“<strong>更新阶段</strong>”。说白了就是 <code>setState</code> 导致 <code>React.js</code> 重新渲染组件并且把组件的变化应用到 <code>DOM</code> 元素上的过程，这是一个组件的变化过程。而 <code>React.js</code> 也提供了一系列的生命周期函数可以让我们在这个组件更新的过程执行一些操作。</p>
+<p><strong>更新阶段的组件生命周期：</strong></p>
+<ol>
+<li><code>shouldComponentUpdate(nextProps, nextState)</code>：你可以通过这个方法控制组件是否重新渲染。如果返回 <code>false</code> 组件就不会重新渲染。这个生命周期在 <code>React.js</code> 性能优化上非常有用。</li><li><code>componentWillReceiveProps(nextProps)</code>：组件从父组件接收到新的 <code>props</code> 之前调用。</li><li><code>componentWillUpdate()</code>：组件开始重新渲染之前调用。</li><li><code>componentDidUpdate()</code>：组件重新渲染并且把改变更到真实的 <code>DOM</code> 以后调用。</li></ol>
+<p><strong><code>React.js</code> 组件是有更新阶段的，并且有这么几个更新阶段的生命周期即可。</strong></p>
 
 </body>
 </html>
