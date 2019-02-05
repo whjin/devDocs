@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>props.children和容器类组件</title>
+<title>容器类组件</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -508,8 +508,39 @@ vertical-align:1px;
 <p><code>React.js</code> 就是把我们嵌套的 <code>JSX</code> 元素一个个都放到数组当中，然后通过 <code>props.children</code> 传给了 <code>Card</code>。</p>
 <p><strong>总结</strong></p>
 <p>使用自定义组件的时候，可以在其中嵌套 <code>JSX</code> 结构。嵌套的结构在组件内部都可以通过 <code>props.children</code> 获取到，这种组件编写方式在编写容器类型的组件当中非常有用。而在实际的 <code>React.js</code> 项目当中，我们几乎每天都需要用这种方式来编写组件。</p>
-<h2 id="-dangerouslysethtml-style-"><code>dangerouslySetHTML</code> 和 <code>style</code> 属性</h2>
-<h3 id="-dangerouslysethtml-"><code>dangerouslySetHTML</code></h3>
+<h2 id="dangerouslysethtml-style-">dangerouslySetHTML 和 style 属性</h2>
+<h3 id="dangerouslysethtml">dangerouslySetHTML</h3>
+<p>出于安全考虑的原因（<strong><code>XSS</code> 攻击</strong>），在 <code>React.js</code> 当中所有的表达式插入的内容都会被自动转义，就相当于 <code>jQuery</code> 里面的 <code>text(…)</code> 函数一样，任何的 <code>HTML</code> 格式都会被转义掉。</p>
+<p>表达式插入并不会把一个 <code>&lt;h1&gt;</code> 渲染到页面，而是把它的文本形式渲染了。那要怎么才能做到设置动态 <code>HTML</code> 结构的效果呢？<code>React.js</code> 提供了一个属性 <code>dangerouslySetInnerHTML</code>，可以让我们设置动态设置元素的 <code>innerHTML</code>。</p>
+<pre><code>&lt;div className=&quot;editor-wrapper&quot; dangerouslySetInnerHTML={{__html: this.state.content}}&gt;&lt;/div&gt;
+</code></pre><p>需要给 <code>dangerouslySetInnerHTML</code> 传入一个对象，这个对象的 <code>__html</code> 属性值就相当于元素的 <code>innerHTML</code>，这样我们就可以动态渲染元素的 <code>innerHTML</code> 结构了。</p>
+<h3 id="style">style</h3>
+<p>在 <code>React.js</code> 中你需要把 <code>CSS</code> 属性变成一个对象再传给元素。</p>
+<p><code>style</code> 接受一个对象，这个对象里面是这个元素的 <code>CSS</code> 属性键值对，原来 <code>CSS</code> 属性中带 <code>-</code> 的元素都必须要去掉 <code>-</code> 换成驼峰命名，如 <code>font-size</code> 换成 <code>fontSize</code>，<code>text-align</code> 换成 <code>textAlign</code>。</p>
+<p>用对象作为 <code>style</code> 方便我们动态设置元素的样式。我们可以用 <code>props</code> 或者 <code>state</code> 中的数据生成样式对象再传给元素，然后用 <code>setState</code> 就可以修改样式，非常灵活。</p>
+<pre><code>&lt;h1 style={{fontSize: &#39;12px&#39;, color: this.state.color}}&gt;React.js&lt;/h1&gt;
+</code></pre><p>只要简单地 <code>setState({color: &#39;blue&#39;})</code> 就可以修改元素的颜色成蓝色。</p>
+<h2 id="proptypes-">PropTypes 和组件参数验证</h2>
+<p>于是 <code>React.js</code> 就提供了一种机制，让你可以<strong>给组件的配置参数加上类型验证</strong>。</p>
+<pre><code>npm install --save prop-types
+</code></pre><p>它可以帮助我们验证 <code>props</code> 的参数类型。</p>
+<p>虽然 <code>propTypes</code> 帮我们指定了参数类型，但是并没有说这个参数一定要传入，事实上，这些参数默认都是可选的。可选参数我们可以通过配置 <code>defaultProps</code>，让它在不传入的时候有默认值。但是我们这里并没有配置 <code>defaultProps</code>，所以如果直接用 <code>&lt;Comment /&gt;</code> 而不传入任何参数的话，<code>comment</code> 就会是 <code>undefined</code>，<code>comment.username</code> 会导致程序报错。</p>
+<p><code>React.js</code> 提供的 <code>PropTypes</code> 提供了一系列的数据类型可以用来配置组件的参数：</p>
+<pre><code>PropTypes.array
+PropTypes.bool
+PropTypes.func
+PropTypes.number
+PropTypes.object
+PropTypes.string
+PropTypes.node
+PropTypes.element
+</code></pre><p><p class="codepen" data-height="265" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="Vgzrva" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="PropTypes和组件参数验证"><br>  <span>See the Pen <a href="https://codepen.io/whjin/pen/Vgzrva/"><br>  PropTypes和组件参数验证</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)<br>  on <a href="https://codepen.io">CodePen</a>.</span><br></p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+
+
+
+
 
 </body>
 </html>
