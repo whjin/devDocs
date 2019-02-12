@@ -521,6 +521,33 @@ vertical-align:1px;
 <ol>
 <li><code>shouldComponentUpdate(nextProps, nextState)</code>：你可以通过这个方法控制组件是否重新渲染。如果返回 <code>false</code> 组件就不会重新渲染。这个生命周期在 <code>React.js</code> 性能优化上非常有用。</li><li><code>componentWillReceiveProps(nextProps)</code>：组件从父组件接收到新的 <code>props</code> 之前调用。</li><li><code>componentWillUpdate()</code>：组件开始重新渲染之前调用。</li><li><code>componentDidUpdate()</code>：组件重新渲染并且把改变更到真实的 <code>DOM</code> 以后调用。</li></ol>
 <p><strong><code>React.js</code> 组件是有更新阶段的，并且有这么几个更新阶段的生命周期即可。</strong></p>
+<p><strong>组件加载: <code>componentWillMount</code></strong></p>
+<p><code>componentWillMount</code>会在组件<code>render</code>之前执行，并且永远都只执行一次。</p>
+<p>由于这个方法始终只执行一次，所以如果在这里定义了<code>setState</code>方法之后，页面永远都只会在加载前更新一次。</p>
+<p><strong>组件加载: <code>componentDidMount</code></strong></p>
+<p>这个方法会在组件加载完毕之后立即执行。在这个时候之后组件已经生成了对应的<code>DOM</code>结构，可以通过<code>this.getDOMNode()</code>来进行访问。</p>
+<blockquote>
+<p>如果你想和其他<code>JavaScript</code>框架一起使用，可以在这个方法中执行<code>setTimeout</code>, <code>setInterval</code>或者发送<code>AJAX</code>请求等操作(防止异部操作阻塞<code>UI</code>)。</p>
+</blockquote>
+<p><strong>组件更新: <code>componentWillReceiveProps</code></strong></p>
+<pre><code>componentWillReceiveProps(object nextProps)
+</code></pre><p>在组件接收到一个新的<code>prop</code>时被执行。这个方法在初始化<code>render</code>时不会被调用。</p>
+<p>旧的<code>props</code>可以通过<code>this.props</code>来获取。在这个函数内调用<code>this.setState()</code>方法不会增加一次新的<code>render</code>。</p>
+<p><strong>组件更新: <code>shouldComponentUpdate</code></strong></p>
+<pre><code>boolean shouldComponentUpdate(object nextProps, object nextState)
+</code></pre><p>返回一个布尔值。在组件接收到新的<code>props</code>或者<code>state</code>时被执行。在初始化时或者使用<code>forceUpdate</code>时不被执行。</p>
+<p>如果<code>shouldComponentUpdate</code>返回<code>false</code>, <code>render()</code>则会在下一个<code>state change</code>之前被完全跳过。(另外<code>componentWillUpdate</code>和<code>componentDidUpdate</code>也不会被执行)。</p>
+<p>默认情况下<code>shouldComponentUpdate</code>会返回<code>true</code>。</p>
+<p><strong>组件更新: <code>componentWillUpdate</code></strong></p>
+<pre><code>componentWillUpdate(object nextProps, object nextState)
+</code></pre><p>在组件接收到新的<code>props</code>或者<code>state</code>但还没有<code>render</code>时被执行。在初始化时不会被执行。</p>
+<p>一般用在组件发生更新之前。</p>
+<p><strong>组件更新: <code>componentDidUpdate</code></strong></p>
+<pre><code>componentDidUpdate(object prevProps, object prevState)
+</code></pre><p>在组件完成更新后立即执行。在初始化时不会被执行。一般会在组件完成更新后被使用。例如清除<code>notification</code>文字等操作。</p>
+<p><strong>组件卸载: componentWillUnmount</strong></p>
+<p>主要用来执行一些必要的清理任务。例如清除<code>setTimeout</code>等函数，或者任意的在<code>componentDidMount</code>创建的<code>DOM</code>元素。</p>
+<p>参考文章：<a href="https://fraserxu.me/intro-to-react/react-component-lifecycle/">组件生命周期</a></p>
 
 </body>
 </html>
