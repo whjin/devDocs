@@ -55,3 +55,28 @@
 
 和 `mapStateToProps` 一样，它返回一个对象，这个对象内容会同样被 `connect` 当作是 `props` 参数传给被包装的组件。不一样的是，这个函数不是接受 `state` 作为参数，而是 `dispatch`，你可以在返回的对象内部定义一些函数，这些函数会用到 `dispatch` 来触发特定的 `action`。
 
+在 `_updateProps` 内部，我们把 `store.dispatch` 作为参数传给 `mapDispatchToProps` ，它会返回一个对象 `dispatchProps`。接着把 `stateProps`、`dispatchProps`、`this.props` 三者合并到 `this.state.allProps` 里面去，这三者的内容都会在 `render` 函数内全部传给被包装的组件。
+
+## Provider ##
+
+其实它要用 `context` 就是因为要把 `store` 存放到里面，好让子组件 `connect` 的时候能够取到 `store`。我们可以额外构建一个组件来做这种脏活，然后让这个组件成为组件树的根节点，那么它的子组件都可以获取到 `context` 了。
+
+我们把这个组件叫 `Provider`，因为它提供（`provide`）了 `store`。
+
+`Provider` 做的事情也很简单，它就是一个容器组件，会把嵌套的内容原封不动作为自己的子组件渲染出来。它还会把外界传给它的 `props.store` 放到 `context`，这样子组件 `connect` 的时候都可以获取到。
+
+## React-redux 总结 ##
+
+`React.js` 除了状态提升以外并没有更好的办法帮我们解决组件之间共享状态的问题，而使用 `context` 全局变量让程序不可预测。我们知道 `store` 里面的内容是不可以随意修改的，而是通过 `dispatch` 才能变更里面的 `state`。所以我们尝试把 `store` 和 `context` 结合起来使用，可以兼顾组件之间共享状态问题和共享状态可能被任意修改的问题。
+
+我们尝试通过构建一个高阶组件 `connect` 函数的方式，把所有的重复逻辑和对 `context` 的依赖放在里面 `connect` 函数里面，而其他组件保持 `Pure（Dumb）` 的状态，让 `connect` 跟 `context` 打交道，然后通过 `props` 把参数传给普通的组件。
+
+而每个组件需要的数据和需要触发的 `action` 都不一样，所以调整 `connect`，让它可以接受两个参数 `mapStateToProps` 和 `mapDispatchToProps`，分别用于告诉 `connect` 这个组件需要什么数据和需要触发什么 `action`。
+
+`Provider` 作为所有组件树的根节点，外界可以通过 `props` 给它提供 `store`，它会把 `store` 放到自己的 `context` 里面，好让子组件 `connect` 的时候都能够获取到。
+
+## 使用真正的 Redux 和 React-redux ##
+
+
+
+> 原文链接：[React.js 小书](http://huziketang.mangojuice.top/books/react/)

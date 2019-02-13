@@ -531,6 +531,19 @@ vertical-align:1px;
 <p>在重构 <code>ThemeSwitch</code> 的时候我们发现，<code>ThemeSwitch</code> 除了需要 <code>store</code> 里面的数据以外，还需要 <code>store</code> 来 <code>dispatch</code>。</p>
 <p>既然可以通过给 <code>connect</code> 函数传入 <code>mapStateToProps</code> 来告诉它如何获取、整合状态，我们也可以想到，可以给它传入另外一个参数来告诉它我们的组件需要如何触发 <code>dispatch</code>。</p>
 <p>和 <code>mapStateToProps</code> 一样，它返回一个对象，这个对象内容会同样被 <code>connect</code> 当作是 <code>props</code> 参数传给被包装的组件。不一样的是，这个函数不是接受 <code>state</code> 作为参数，而是 <code>dispatch</code>，你可以在返回的对象内部定义一些函数，这些函数会用到 <code>dispatch</code> 来触发特定的 <code>action</code>。</p>
+<p>在 <code>_updateProps</code> 内部，我们把 <code>store.dispatch</code> 作为参数传给 <code>mapDispatchToProps</code> ，它会返回一个对象 <code>dispatchProps</code>。接着把 <code>stateProps</code>、<code>dispatchProps</code>、<code>this.props</code> 三者合并到 <code>this.state.allProps</code> 里面去，这三者的内容都会在 <code>render</code> 函数内全部传给被包装的组件。</p>
+<h2 id="provider">Provider</h2>
+<p>其实它要用 <code>context</code> 就是因为要把 <code>store</code> 存放到里面，好让子组件 <code>connect</code> 的时候能够取到 <code>store</code>。我们可以额外构建一个组件来做这种脏活，然后让这个组件成为组件树的根节点，那么它的子组件都可以获取到 <code>context</code> 了。</p>
+<p>我们把这个组件叫 <code>Provider</code>，因为它提供（<code>provide</code>）了 <code>store</code>。</p>
+<p><code>Provider</code> 做的事情也很简单，它就是一个容器组件，会把嵌套的内容原封不动作为自己的子组件渲染出来。它还会把外界传给它的 <code>props.store</code> 放到 <code>context</code>，这样子组件 <code>connect</code> 的时候都可以获取到。</p>
+<h2 id="react-redux-">React-redux 总结</h2>
+<p><code>React.js</code> 除了状态提升以外并没有更好的办法帮我们解决组件之间共享状态的问题，而使用 <code>context</code> 全局变量让程序不可预测。我们知道 <code>store</code> 里面的内容是不可以随意修改的，而是通过 <code>dispatch</code> 才能变更里面的 <code>state</code>。所以我们尝试把 <code>store</code> 和 <code>context</code> 结合起来使用，可以兼顾组件之间共享状态问题和共享状态可能被任意修改的问题。</p>
+<p>我们尝试通过构建一个高阶组件 <code>connect</code> 函数的方式，把所有的重复逻辑和对 <code>context</code> 的依赖放在里面 <code>connect</code> 函数里面，而其他组件保持 <code>Pure（Dumb）</code> 的状态，让 <code>connect</code> 跟 <code>context</code> 打交道，然后通过 <code>props</code> 把参数传给普通的组件。</p>
+<p>而每个组件需要的数据和需要触发的 <code>action</code> 都不一样，所以调整 <code>connect</code>，让它可以接受两个参数 <code>mapStateToProps</code> 和 <code>mapDispatchToProps</code>，分别用于告诉 <code>connect</code> 这个组件需要什么数据和需要触发什么 <code>action</code>。</p>
+<p><code>Provider</code> 作为所有组件树的根节点，外界可以通过 <code>props</code> 给它提供 <code>store</code>，它会把 <code>store</code> 放到自己的 <code>context</code> 里面，好让子组件 <code>connect</code> 的时候都能够获取到。</p>
+<blockquote>
+<p>原文链接：<a href="http://huziketang.mangojuice.top/books/react/">React.js 小书</a></p>
+</blockquote>
 
 </body>
 </html>

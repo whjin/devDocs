@@ -129,3 +129,5 @@
 后来发现每次修改数据都需要手动重新渲染非常麻烦，我们希望**自动重新渲染视图**。所以后来加入了**订阅者模式**，可以通过 `store.subscribe` 订阅数据修改事件，每次数据更新的时候自动重新渲染视图。
 
 我们优化了 `stateChanger` 为 `reducer`，定义了 `reducer` 只能是纯函数，功能就是负责初始化 `state`，和根据 `state` 和 `action` 计算具有共享结构的新的 `state`。
+
+> 原文链接：[React.js 小书](http://huziketang.mangojuice.top/books/react/)
