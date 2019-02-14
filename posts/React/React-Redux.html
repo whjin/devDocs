@@ -541,6 +541,53 @@ vertical-align:1px;
 <p>我们尝试通过构建一个高阶组件 <code>connect</code> 函数的方式，把所有的重复逻辑和对 <code>context</code> 的依赖放在里面 <code>connect</code> 函数里面，而其他组件保持 <code>Pure（Dumb）</code> 的状态，让 <code>connect</code> 跟 <code>context</code> 打交道，然后通过 <code>props</code> 把参数传给普通的组件。</p>
 <p>而每个组件需要的数据和需要触发的 <code>action</code> 都不一样，所以调整 <code>connect</code>，让它可以接受两个参数 <code>mapStateToProps</code> 和 <code>mapDispatchToProps</code>，分别用于告诉 <code>connect</code> 这个组件需要什么数据和需要触发什么 <code>action</code>。</p>
 <p><code>Provider</code> 作为所有组件树的根节点，外界可以通过 <code>props</code> 给它提供 <code>store</code>，它会把 <code>store</code> 放到自己的 <code>context</code> 里面，好让子组件 <code>connect</code> 的时候都能够获取到。</p>
+<h2 id="-redux-react-redux">使用真正的 Redux 和 React-redux</h2>
+<p>在工程目录下使用 <code>npm</code> 安装 <code>Redux</code> 和 <code>React-redux</code> 模块：</p>
+<pre><code>npm install redux react-redux --save
+</code></pre><p>把前面部分的代码调整为：</p>
+<pre><code>import React, { Component } from &#39;react&#39;
+import ReactDOM from &#39;react-dom&#39;
+import { createStore } from &#39;redux&#39;
+import { Provider } from &#39;react-redux&#39;
+import Header from &#39;./Header&#39;
+import Content from &#39;./Content&#39;
+import &#39;./index.css&#39;
+</code></pre><p>我们删除了自己写的 <code>createStore</code>，改成使用第三方模块 <code>redux</code> 的 <code>createStore</code>；<code>Provider</code> 本来从本地的 <code>./react-redux</code> 引入，改成从第三方 <code>react-redux</code> 模块中引入。其余代码保持不变。</p>
+<p><p class="codepen" data-height="365" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="YBjeWz" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="React-redux-usersReducer"><br>  <span>See the Pen <a href="https://codepen.io/whjin/pen/YBjeWz/"><br>  React-redux-usersReducer</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)<br>  on <a href="https://codepen.io">CodePen</a>.</span><br></p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="smart-vs-dumb-">Smart 组件 vs Dumb 组件</h2>
+<p>当我们拿到一个需求开始划分组件的时候，要认真考虑每个被划分成组件的单元到底会不会被复用。如果这个组件可能会在多处被使用到，那么我们就把它做成 <code>Dumb</code> 组件。</p>
+<p><code>Smart</code> 组件不用考虑太多复用性问题，它们就是用来执行特定应用逻辑的。<code>Smart</code> 组件可能组合了 <code>Smart</code> 组件和 <code>Dumb</code> 组件；但是 <code>Dumb</code> 组件尽量不要依赖 <code>Smart</code> 组件。一旦一个可复用的 <code>Dumb</code> 组件之下引用了一个 <code>Smart</code> 组件，就相当于污染了这个 <code>Dumb</code> 组件树。如果一个组件是 <code>Dumb</code> 的，那么它的子组件们都应该是 <code>Dumb</code> 的才对。</p>
+<h3 id="-smart-dumb-">划分 Smart 和 Dumb 组件</h3>
+<p>我们规定：<strong>所有的 <code>Dumb</code> 组件都放在 <code>components/</code> 目录下，所有的 <code>Smart</code> 的组件都放在 <code>containers/</code> 目录下</strong>，这是一种约定俗成的规则。</p>
+<h3 id="-">组件划分原则</h3>
+<p><strong><code>Content</code> 不复用</strong></p>
+<p>如果产品场景并没有要求说 <code>Content</code> 需要复用，它只是在特定业务需要而已。那么没有必要把 <code>Content</code> 做成 <code>Dumb</code> 组件了，就让它成为一个 <code>Smart</code> 组件。因为 <code>Smart</code> 组件是可以使用 <code>Smart</code> 组件的，所以 <code>Content</code> 可以使用 <code>Dumb</code> 的 <code>ThemeSwitch</code> 组件 <code>connect</code> 的结果。</p>
+<pre><code>src
+├── components
+│   ├── Header.js
+│   └── ThemeSwitch.js
+├── containers
+│   ├── Content.js
+│   ├── Header.js
+│   └── ThemeSwitch.js
+└── index.js
+</code></pre><p><strong><code>Content</code> 可复用</strong></p>
+<p>如果产品场景要求 <code>Content</code> 可能会被复用，那么 <code>Content</code> 就要是 <code>Dumb</code> 的。那么 <code>Content</code> 的之下的子组件 <code>ThemeSwitch</code> 就一定要是 <code>Dumb</code>，否则 <code>Content</code> 就没法复用了。这就意味着 <code>ThemeSwitch</code> 不能 <code>connect</code>，即使你 <code>connect</code> 了，<code>Content</code> 也不能使用你 <code>connect</code> 的结果，因为 <code>connect</code> 的结果是个 <code>Smart</code> 组件。</p>
+<p>这时候 <code>ThemeSwitch</code> 的数据、<code>onSwitchColor</code> 函数只能通过它的父组件传进来，而不是通过 <code>connect</code> 获得。所以只能让 <code>Content</code> 组件去 <code>connect</code>，然后让它把数据、函数传给 <code>ThemeSwitch</code>。</p>
+<pre><code>src
+├── components
+│   ├── Header.js
+│   ├── Content.js
+│   └── ThemeSwitch.js
+├── containers
+│   ├── Header.js
+│   └── Content.js
+└── index.js
+</code></pre><p><strong>总结</strong></p>
+<ul>
+<li>根据是否需要高度的复用性，把组件划分为 <code>Dumb</code> 和 <code>Smart</code> 组件，约定俗成地把它们分别放到 <code>components</code> 和 <code>containers</code> 目录下。</li><li><code>Dumb</code> 基本只做一件事情 —— 根据 <code>props</code> 进行渲染。而 <code>Smart</code> 则是负责应用的逻辑、数据，把所有相关的 <code>Dumb（Smart）</code> 组件组合起来，通过 <code>props</code> 控制它们。</li><li><code>Smart</code> 组件可以使用 <code>Smart</code>、<code>Dumb</code> 组件；而 <code>Dumb</code> 组件最好只使用 <code>Dumb</code> 组件，否则它的复用性就会丧失。</li><li>要根据应用场景不同划分组件，如果一个组件并不需要太强的复用性，直接让它成为 <code>Smart</code> 即可；否则就让它成为 <code>Dumb</code> 组件。</li><li>还有一点要注意，<code>Smart</code> 组件并不意味着完全不能复用，<code>Smart</code> 组件的复用性是依赖场景的，在特定的应用场景下是当然是可以复用 <code>Smart</code> 的。而 <code>Dumb</code> 则是可以跨应用场景复用，<code>Smart</code> 和 <code>Dumb</code> 都可以复用，只是程度、场景不一样。</li></ul>
 <blockquote>
 <p>原文链接：<a href="http://huziketang.mangojuice.top/books/react/">React.js 小书</a></p>
 </blockquote>

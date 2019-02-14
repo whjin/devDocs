@@ -77,6 +77,77 @@
 
 ## 使用真正的 Redux 和 React-redux ##
 
+在工程目录下使用 `npm` 安装 `Redux` 和 `React-redux` 模块：
 
+    npm install redux react-redux --save
+
+把前面部分的代码调整为：
+
+    import React, { Component } from 'react'
+    import ReactDOM from 'react-dom'
+    import { createStore } from 'redux'
+    import { Provider } from 'react-redux'
+    import Header from './Header'
+    import Content from './Content'
+    import './index.css'
+
+我们删除了自己写的 `createStore`，改成使用第三方模块 `redux` 的 `createStore`；`Provider` 本来从本地的 `./react-redux` 引入，改成从第三方 `react-redux` 模块中引入。其余代码保持不变。
+
+<p class="codepen" data-height="365" data-theme-id="0" data-default-tab="js" data-user="whjin" data-slug-hash="YBjeWz" style="height: 265px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid black; margin: 1em 0; padding: 1em;" data-pen-title="React-redux-usersReducer">
+  <span>See the Pen <a href="https://codepen.io/whjin/pen/YBjeWz/">
+  React-redux-usersReducer</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+## Smart 组件 vs Dumb 组件 ##
+
+当我们拿到一个需求开始划分组件的时候，要认真考虑每个被划分成组件的单元到底会不会被复用。如果这个组件可能会在多处被使用到，那么我们就把它做成 `Dumb` 组件。
+
+`Smart` 组件不用考虑太多复用性问题，它们就是用来执行特定应用逻辑的。`Smart` 组件可能组合了 `Smart` 组件和 `Dumb` 组件；但是 `Dumb` 组件尽量不要依赖 `Smart` 组件。一旦一个可复用的 `Dumb` 组件之下引用了一个 `Smart` 组件，就相当于污染了这个 `Dumb` 组件树。如果一个组件是 `Dumb` 的，那么它的子组件们都应该是 `Dumb` 的才对。
+
+### 划分 Smart 和 Dumb 组件 ###
+
+我们规定：**所有的 `Dumb` 组件都放在 `components/` 目录下，所有的 `Smart` 的组件都放在 `containers/` 目录下**，这是一种约定俗成的规则。
+
+### 组件划分原则 ###
+
+**`Content` 不复用**
+
+如果产品场景并没有要求说 `Content` 需要复用，它只是在特定业务需要而已。那么没有必要把 `Content` 做成 `Dumb` 组件了，就让它成为一个 `Smart` 组件。因为 `Smart` 组件是可以使用 `Smart` 组件的，所以 `Content` 可以使用 `Dumb` 的 `ThemeSwitch` 组件 `connect` 的结果。
+
+    src
+    ├── components
+    │   ├── Header.js
+    │   └── ThemeSwitch.js
+    ├── containers
+    │   ├── Content.js
+    │   ├── Header.js
+    │   └── ThemeSwitch.js
+    └── index.js
+
+**`Content` 可复用**
+
+如果产品场景要求 `Content` 可能会被复用，那么 `Content` 就要是 `Dumb` 的。那么 `Content` 的之下的子组件 `ThemeSwitch` 就一定要是 `Dumb`，否则 `Content` 就没法复用了。这就意味着 `ThemeSwitch` 不能 `connect`，即使你 `connect` 了，`Content` 也不能使用你 `connect` 的结果，因为 `connect` 的结果是个 `Smart` 组件。
+
+这时候 `ThemeSwitch` 的数据、`onSwitchColor` 函数只能通过它的父组件传进来，而不是通过 `connect` 获得。所以只能让 `Content` 组件去 `connect`，然后让它把数据、函数传给 `ThemeSwitch`。
+
+    src
+    ├── components
+    │   ├── Header.js
+    │   ├── Content.js
+    │   └── ThemeSwitch.js
+    ├── containers
+    │   ├── Header.js
+    │   └── Content.js
+    └── index.js
+
+**总结**
+
+- 根据是否需要高度的复用性，把组件划分为 `Dumb` 和 `Smart` 组件，约定俗成地把它们分别放到 `components` 和 `containers` 目录下。
+- `Dumb` 基本只做一件事情 —— 根据 `props` 进行渲染。而 `Smart` 则是负责应用的逻辑、数据，把所有相关的 `Dumb（Smart）` 组件组合起来，通过 `props` 控制它们。
+- `Smart` 组件可以使用 `Smart`、`Dumb` 组件；而 `Dumb` 组件最好只使用 `Dumb` 组件，否则它的复用性就会丧失。
+- 要根据应用场景不同划分组件，如果一个组件并不需要太强的复用性，直接让它成为 `Smart` 即可；否则就让它成为 `Dumb` 组件。
+- 还有一点要注意，`Smart` 组件并不意味着完全不能复用，`Smart` 组件的复用性是依赖场景的，在特定的应用场景下是当然是可以复用 `Smart` 的。而 `Dumb` 则是可以跨应用场景复用，`Smart` 和 `Dumb` 都可以复用，只是程度、场景不一样。
 
 > 原文链接：[React.js 小书](http://huziketang.mangojuice.top/books/react/)
