@@ -175,7 +175,6 @@ html a:visited {
     color: #586e75;
     text-decoration: none;
     border-bottom: 1px dashed;
-    padding-bottom: 2px;
     border-radius: 2px;
 }
 
@@ -278,7 +277,7 @@ p code, li code, td code {
     margin: 20px 0;
 }
 
-@media screen and (min-width: 980px) and (max-width: 980px) {
+@media screen and (min-width: 980px) and (max-width: 980px) {	
     table thead tr th,
     table thead tr th > code,
     table tbody tr td,
@@ -291,17 +290,31 @@ p code, li code, td code {
     p, p code,
     p strong, p strong > code,
     blockquote p {
-        font-size: 1.2em;
+        font-size: 1.3em;
         line-height: 1.6;
     }
 
-    pre > code {
-        font-size: 1.2em;
-        line-height: 1.2;
+    pre > code,
+    ul li pre > code,
+    ol li pre > code{
+		font-size: 1.3em;
+        line-height: 1.3;    	
+    }	
+	
+
+    ul li, ol li,
+    ul li > code,
+    ol li > code {
+        font-size: 1.3em;
+		line-height: 1.3;          
     }
 
-    ol, ul {
-        margin-left: 3em;
+    ul {
+        margin-left: 3.4em;
+    }
+
+    ol {
+        margin-left: 3.6em;
     }
 }
 </style>
@@ -488,7 +501,7 @@ vertical-align:1px;
 <meta name="format-detection" content="telephone=no">
 <meta name="description" content="前端开发文档">
 <meta name="author" content="whjin">
-<link rel="shortcut icon" href="https://i.imgur.com/vJ2LGVU.png">
+<link rel="shortcut icon" href="https://whjin.github.io/frontend-dev-doc/images/logo.png">
 </head>
 <body>
 <h1 id="render-">Render函数</h1>
