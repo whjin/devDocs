@@ -1,4 +1,4 @@
-﻿# CSS盒子模型 #
+# CSS盒子模型 #
 
 **`border`边框**
 
@@ -18,15 +18,3 @@
         2. `overflow: hidden;`
         3. `padding-top: 0/1px;`
         4. `border-top: 1px solid transparent;` 
-
-
-
-
-
-
-
-
-
-
-
-
