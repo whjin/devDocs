@@ -1,33 +1,33 @@
-﻿# 学习Javascript的8张思维导图 #
+# 学习Javascript的8张思维导图 #
 
 ## javascript变量 ##
 
-![](https://i.imgur.com/dugEV6r.gif)
+![](http://i1.bvimg.com/681050/de0fa61911774e7b.gif)
 
 ## javascript运算符 ##
 
-![](https://i.imgur.com/dGsDj2l.gif)
+![](http://i1.bvimg.com/681050/7d6170c401f227fe.gif)
 
 ## javascript数组 ##
 
-![](https://i.imgur.com/duLncOP.gif)
+![](http://i1.bvimg.com/681050/c6643d7dabaaac75.gif)
 
 ## javascript流程语句 ##
 
-![](https://i.imgur.com/EXT8J10.gif)
+![](http://i1.bvimg.com/681050/a8f16618c6faf08b.gif)
 
 ## javascript字符串函数 ##
 
-![](https://i.imgur.com/slNFlpH.gif)
+![](http://i1.bvimg.com/681050/4b295e03e5ecdbb0.gif)
 
 ## javascript函数基础 ##
 
-![](https://i.imgur.com/lXF8ay7.gif)
+![](http://i1.bvimg.com/681050/49dfa6f0adbb931c.gif)
 
 ## javascript基础DOM操作 ##
 
-![](https://i.imgur.com/JpLIepC.gif)
+![](http://i1.bvimg.com/681050/2fe01bd6752591bb.gif)
 
 ## javascript正则表达式 ##
 
-![](https://i.imgur.com/Hl9Bpi0.gif)
+![](http://i1.bvimg.com/681050/8a073086b26a4a94.gif)
