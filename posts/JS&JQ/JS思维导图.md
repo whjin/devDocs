@@ -1,4 +1,4 @@
-﻿>站点:[全栈开发](https://whjin.github.io/full-stack-development/)
+>站点:[前端开发文档](https://whjin.github.io/frontend-dev-doc/)
 
 # JS思维导图 #
 
