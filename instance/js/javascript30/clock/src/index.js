@@ -1,24 +1,24 @@
-var i = 0;
-
 function setClock() {
-    const now = new Date();
-    const second = now.getSeconds();
-    const minute = now.getMinutes();
-    const hour = now.getHours();
+    let i = 0;
 
-    const secondHand = document.querySelector('.second-hand');
-    const minuteHand = document.querySelector('.min-hand');
-    const hourHand = document.querySelector('.hour-hand');
+    let now = new Date();
+    let second = now.getSeconds();
+    let minute = now.getMinutes();
+    let hour = now.getHours();
 
-    const sec = second * 6;
+    let secondHand = document.querySelector('.second-hand');
+    let minuteHand = document.querySelector('.min-hand');
+    let hourHand = document.querySelector('.hour-hand');
+
+    let sec = second * 6;
 
     if (sec === 0) {
         i++;
     }
 
-    const secondDeg = i * 360 + sec + 90;
-    const minuteDeg = minute * 6 + second * 0.1 + 90;
-    const hourDeg = hour * 30 + minute * 0.1 + 90;
+    let secondDeg = i * 360 + sec + 90;
+    let minuteDeg = minute * 6 + second * 0.1 + 90;
+    let hourDeg = hour * 30 + minute * 0.1 + 90;
 
     secondHand.style.transform = `rotate(${secondDeg}deg)`;
     minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
