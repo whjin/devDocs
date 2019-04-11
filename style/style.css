@@ -1,120 +1,120 @@
 html, body {
-    font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
-    font-size: 14px;
-    width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+  font-size: 14px;
+  width: 100%;
 }
 
 ol, ul {
-    margin-left: -25px;
+  margin-left: -25px;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .container > h1 > sup > a {
-    margin-left: -5px;
+  margin-left: -5px;
 }
 
 h5 {
-    margin-left: -5px;
-    background-color: #e9ecef;
-    display: inline-block;
-    padding: 3px;
-    border-radius: 3px;
+  margin-left: -5px;
+  background-color: #e9ecef;
+  display: inline-block;
+  padding: 3px;
+  border-radius: 3px;
 }
 
 .jumbotron {
-    padding: 5px 0;
-    border-radius: 0;
+  padding: 5px 0;
+  border-radius: 0;
 }
 
 li {
-    margin: 6px 0;
+  margin: 6px 0;
 }
 
 li.fold-panel > ul {
-    display: none;
+  display: none;
 }
 
 li.fold-panel:hover > ul {
-    display: block;
+  display: block;
 }
 
 a:link {
-    text-decoration: none;
-    padding: 3px;
-    border-radius: 3px;
+  text-decoration: none;
+  padding: 3px;
+  border-radius: 3px;
 }
 
 a:hover {
-    background-color: #e9ecef;
-    color: #bd4147;
+  background-color: #e9ecef;
+  color: #bd4147;
 }
 
 .opacity {
-    opacity: 0;
+  opacity: 0;
 }
 
 sup {
-    margin-left: 3px;
-    cursor: pointer;
-    color: #bd4147;
+  margin-left: 3px;
+  cursor: pointer;
+  color: #bd4147;
 }
 
 .arrow-icon {
-    background-image: url(../images/top.png);
-    width: 30px;
-    height: 30px;
-    display: block;
-    background-size: contain;
+  background-image: url(../images/top.png);
+  width: 30px;
+  height: 30px;
+  display: block;
+  background-size: contain;
 }
 
 .scroll-top {
-    cursor: pointer;
-    position: fixed;
-    right: 20px;
-    bottom: 60px;
-    width: 40px;
-    height: 40px;
-    padding: 5px;
-    background-color: #42b983;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.12), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  position: fixed;
+  right: 20px;
+  bottom: 60px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  background-color: #007BFF;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.12), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
 }
 
 .app-footer {
-    padding: 1em 0;
-    margin: 1em 0 0 0;
-    text-align: center;
-    background: #E9ECEF;
+  padding: 1em 0;
+  margin: 1em 0 0 0;
+  text-align: center;
+  background: #E9ECEF;
 }
 
 div object {
-    display: none;
+  display: none;
 }
 
 @media screen and (max-width: 768px) {
-    .row .col-md-2, .row .col-md-3 {
-        border-right: none;
-    }
+  .row .col-md-2, .row .col-md-3 {
+    border-right: none;
+  }
 
-    .scroll-top {
-        right: 20px;
-        bottom: 60px;
-        z-index: 9;
-    }
+  .scroll-top {
+    right: 20px;
+    bottom: 60px;
+    z-index: 9;
+  }
 }
 
 @media screen and (min-width: 768px) {
-    .col-md-3:not(:last-child), .col-md-2:not(:last-child) {
-        border-right: 1px dashed #bd4147;
-    }
+  .col-md-3:not(:last-child), .col-md-2:not(:last-child) {
+    border-right: 1px dashed #bd4147;
+  }
 
-    .scroll-top {
-        right: 20px;
-        bottom: 60px;
-        z-index: 9;
-    }
+  .scroll-top {
+    right: 20px;
+    bottom: 60px;
+    z-index: 9;
+  }
 }
