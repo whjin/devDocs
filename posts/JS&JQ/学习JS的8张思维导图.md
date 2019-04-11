@@ -4,32 +4,32 @@
 
 ## javascript变量 ##
 
-![](http://i1.bvimg.com/681050/de0fa61911774e7b.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%8F%98%E9%87%8F.gif?raw=true)
 
 ## javascript运算符 ##
 
-![](http://i1.bvimg.com/681050/7d6170c401f227fe.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E8%BF%90%E7%AE%97%E7%AC%A6.gif?raw=true)
 
 ## javascript数组 ##
 
-![](http://i1.bvimg.com/681050/c6643d7dabaaac75.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E6%95%B0%E7%BB%84.gif?raw=true)
 
 ## javascript流程语句 ##
 
-![](http://i1.bvimg.com/681050/a8f16618c6faf08b.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E6%B5%81%E7%A8%8B%E8%AF%AD%E5%8F%A5.gif?raw=true)
 
 ## javascript字符串函数 ##
 
-![](http://i1.bvimg.com/681050/4b295e03e5ecdbb0.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0.gif?raw=true)
 
 ## javascript函数基础 ##
 
-![](http://i1.bvimg.com/681050/49dfa6f0adbb931c.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80.gif?raw=true)
 
 ## javascript基础DOM操作 ##
 
-![](http://i1.bvimg.com/681050/2fe01bd6752591bb.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%9F%BA%E7%A1%80DOM%E6%93%8D%E4%BD%9C.gif?raw=true)
 
 ## javascript正则表达式 ##
 
-![](http://i1.bvimg.com/681050/8a073086b26a4a94.gif)
+![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.gif?raw=true)
