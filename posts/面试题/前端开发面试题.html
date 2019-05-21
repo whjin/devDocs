@@ -730,9 +730,10 @@ span {
 <ul>
 <li>CSS3有哪些新特性？</li></ul>
 <blockquote>
-<p>新增各种CSS选择器（<code>:not(.input)</code>）：所有<code>class</code>不是<code>input</code>的节点<br>圆角<code>border-radius:8px;</code><br>多列布局<code>multi-column layout</code><br>阴影个反射<code>shadow\reflect</code><br>文字特效<code>text-shadow</code><br>文字渲染<code>text-decoration</code><br>线性渐变<code>gradient</code><br>旋转<code>transform</code><br>缩放、定位、倾斜、动画、多背景<br>例如：<code>transform:\scale(0.85,0.90)\translate(0,-30px)\skew(-9deg,0)\animation</code></p>
+<p>新增各种CSS选择器（<code>:not(.input)</code>）：所有<code>class</code>不是<code>input</code>的节点<br>圆角<code>border-radius:8px;</code><br>多列布局<code>multi-column layout</code><br>阴影个反射<code>shadow\reflect</code><br>文字特效<code>text-shadow</code><br>文字渲染<code>text-decoration</code><br>线性渐变<code>gradient</code><br>旋转<code>transform</code><br>缩放、定位、倾斜、动画、多背景<br>例如：</p>
 </blockquote>
-<ul>
+<pre><code>transform:\scale(0.85,0.90)\translate(0,-30px)\skew(-9deg,0)\animation
+</code></pre><ul>
 <li>请解释一下CSS3的<code>flexbox</code>（弹性盒布局模型），以及适用场景？</li></ul>
 <blockquote>
 <p>一个用于页面布局的全新CSS3功能，<code>flexbox</code>可以把列表放在同一个方向（从上到下，从左到右），并让列表能延伸到占用可用的空间。<br>较为复杂的布局还可以通过嵌套一个伸缩容器（<code>flex container</code>）来实现。<br>采用<code>flex</code>布局的元素，称为<code>flex</code>容器（<code>flex container</code>），简称<code>容器</code><br>它的所有子元素自动称为容器成员，称为<code>flex</code>项目（<code>flex item</code>），简称<code>项目</code><br>常规布局是基于块和内联流方向，而<code>flex</code>布局是基于<code>flex-flow</code>流，可以很方便地用来做居中，能对不同屏幕大小自适应。</p>
@@ -937,10 +938,9 @@ span {
 <pre><code>  background-color: rgb(250, 250, 189);
   background-image: none;
   color: rgb(0, 0, 0);
-</code></pre><p>  }</p>
+</code></pre><p>  }   </p>
+</li><li><p>设置元素浮动后，该元素的<code>display</code>值是多少？</p>
 </li></ul>
-<ul>
-<li>设置元素浮动后，该元素的<code>display</code>值是多少？</li></ul>
 <blockquote>
 <p>自动变成<code>display:block</code></p>
 </blockquote>
@@ -993,7 +993,10 @@ span {
 <li>JS原型，原型链？有什么特点？</li></ul>
 <blockquote>
 <p>每个对象都会在其内部初始化一个属性，就是<code>prototype</code>（原型），当访问一个对象的属性时，如果这个对象内部不存在这个属性，就会去<code>prototype</code>里找这个属性，这个<code>prototype</code>又会有自己的<code>prototype</code>，如此反复，就是原型链的概念。</p>
-<p>关系：<code>instance.constructor.prototype=instance.__proto__</code></p>
+</blockquote>
+<p><strong>关系</strong>：</p>
+<pre><code>instance.constructor.prototype=instance.__proto__
+</code></pre><blockquote>
 <p>特点：<br>JS对象通过引用来传递，创建的每个新对象实体中并没有一份属于自己的原型副本。当修改原型时，与之相关的对象也会继承这一改变。</p>
 <p>当需要一个属性时，JS引擎会先看当前对象中是否有这个属性，如果没有，就会查找它的<code>prototype</code>对象是否有这个属性，如此递推，一直检索到<code>Object</code>内建对象。</p>
 </blockquote>
