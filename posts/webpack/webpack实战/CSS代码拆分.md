@@ -22,3 +22,6 @@
         allChunks: true,
       }),
     ]
+
+**排除`jQuery`，告诉`webpack`我们会自行载入外部的`jQuery`**
+

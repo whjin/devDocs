@@ -1,318 +1,321 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <title>第9章：构建并部署高性能JavaScript应用</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
-/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
-/* Author: Nicolas Hery - http://nicolashery.com */
-/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
-/* Source: https://github.com/nicolahery/markdownpad-github */
-
-/* RESET
-=============================================================================*/
-
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+ol,
+ul,
+li,
+img {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 
-/* BODY
-=============================================================================*/
+html * {
+    font-family: "ff-din-web-pro-1", "ff-din-web-pro-2", sans-serif;
+    font-size: 16px;
+    line-height: 19.2px;
+    color-profile: sRGB;
+}
 
 body {
-  font-family: Helvetica, arial, freesans, clean, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color: #333;
-  background-color: #fff;
-  padding: 20px;
-  max-width: 960px;
-  margin: 0 auto;
+    min-width: 32em;
+    max-width: 56em;
+    margin: 10px auto;
 }
 
-@media screen and (max-width: 768px) {
-  body {
-  	font-size: 20px !important;
-  }
+p, blockquote p {
+    line-height: 1.6;
 }
-
-body>*:first-child {
-  margin-top: 0 !important;
-}
-
-body>*:last-child {
-  margin-bottom: 0 !important;
-}
-
-/* BLOCKS
-=============================================================================*/
-
-p, blockquote, ul, ol, dl, table, pre {
-  margin: 16px 0;
-}
-
-/* HEADERS
-=============================================================================*/
-
-h1, h2, h3, h4, h5, h6 {
-  margin: 20px 0 10px;
-  padding: 0;
-  font-weight: bold;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
-  font-size: inherit;
-}
-
-h1 {
-  font-size: 28px;
-}
-
-h1:first-of-type {
-  font-size: 32px;
-  text-align: center;
-}
-
-h2 {
-  font-size: 26px;
-}
-
-h3 {
-  font-size: 22px;
-}
-
-h4 {
-  font-size: 18px;
-}
-
-h5 {
-  font-size: 16px;
-}
-
-h6 {
-  font-size: 14px;
-}
-
-body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
-  margin-top: 10px;
-}
-
-/* LINKS
-=============================================================================*/
-
-a {
-  color: #4183C4;
-  text-decoration: none;
-}
-
-a:hover {
-  color: #d0782a;
-  text-decoration: underline;
-}
-
-a:active {
-  color: #bd4147;
-}
-
-/* LISTS
-=============================================================================*/
 
 ul, ol {
-  padding-left: 30px;
+    margin: 16px 0;
 }
 
-ul li > :first-child, 
-ol li > :first-child, 
-ul li ul:first-of-type, 
-ol li ol:first-of-type, 
-ul li ol:first-of-type, 
-ol li ul:first-of-type {
-  margin-top: 0px;
-  margin-bottom: 0px;
+ul li, ol li {
+    line-height: 1.6;
 }
 
-ul ul, ul ol, ol ol, ol ul {
-  margin-bottom: 0;
+p {
+    font-weight: lighter;
+    margin: 10px 0;
 }
 
-dl {
-  padding: 0;
+strong {
+    font-weight: bold;
 }
 
-dl dt {
-  font-size: 14px;
-  font-weight: bold;
-  font-style: italic;
-  padding: 0;
-  margin: 15px 0 5px;
+ol,
+ul {
+    margin-left: 2em;
 }
 
-dl dt:first-child {
-  padding: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: lighter;
+    text-transform: capitalize;
+    margin: 20px 0;
+    border-bottom: 1px solid;
+    padding-bottom: 6px;
 }
 
-dl dt>:first-child {
-  margin-top: 0px;
+h1, h1 > code {
+    font-size: 24.624px;
+    line-height: 29.548799999999996px;
 }
 
-dl dt>:last-child {
-  margin-bottom: 0px;
+h2, h2 > code {
+    font-size: 24.624px;
+    line-height: 29.548799999999996px;
 }
 
-dl dd {
-  margin: 0 0 15px;
-  padding: 0 15px;
+h3, h3 > code {
+    font-size: 23.44px;
+    line-height: 28.128px;
 }
 
-dl dd>:first-child {
-  margin-top: 0px;
+h4, h4 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
 }
 
-dl dd>:last-child {
-  margin-bottom: 0px;
+h5, h5 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
 }
 
-/* CODE
-=============================================================================*/
-
-pre, code, tt {
-  font-family: Consolas, "Liberation Mono", Courier, monospace;
+h6, h6 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
 }
 
-code, tt {
-  margin: 0 0px;
-  padding: 0px 3px;
-  white-space: nowrap;
-  border: 1px solid #eaeaea;
-  background-color: #eee;
-  color: #00d;
-  border-radius: 3px;
+img {
+    margin-bottom: 20px;
 }
 
-pre>code {
-  margin: 0;
-  padding: 0;
-  white-space: pre;
-  border: none;
-  background: transparent;
+h1 img,
+h2 img,
+h3 img,
+h4 img,
+h5 img,
+h6 img,
+p img {
+    margin-bottom: 0;
+}
+
+pre,
+code {
+    font-family: monospace, Consolas, "Source Code Pro", Arial, sans-serif;
+    color: #586e75;
+    background-color: #eee8d5;
 }
 
 pre {
-  background-color: #f8f8f8;
-  border: 1px solid #ccc;
-  line-height: 19px;
-  overflow: auto;
-  padding: 6px 10px;
-  border-radius: 3px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 12px;
+    margin-bottom: 20px;
 }
 
-pre code, pre tt {
-  background-color: transparent;
-  border: none;
+code {
+    border-radius: 3px;
 }
 
-kbd {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background-color: #DDDDDD;
-    background-image: linear-gradient(#F1F1F1, #DDDDDD);
-    background-repeat: repeat-x;
-    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
-    border-image: none;
-    border-radius: 2px 2px 2px 2px;
-    border-style: solid;
-    border-width: 1px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    line-height: 16px;
-    padding: 1px 4px;
+h1 {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    border-bottom: none;
+}
+
+html body {
+    background-color: #fdf6e3;
+}
+
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+    color: #586e75;
+    border-color: #657b83;
+}
+
+html a,
+html a:active,
+html a:visited {
+    color: #586e75;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    border-radius: 2px;
+}
+
+html a:hover {
+    background-color: #eee8d5;
+}
+
+blockquote a:hover {
+    background-color: #fdf6e3;
+}
+
+html a,
+html a:active,
+html a:visited,
+html code.url {
+    color: #b58900;
+}
+
+html h1 {
+    color: #b58900;
+}
+
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+    color: #b58900;
 }
 
 /* QUOTES
 =============================================================================*/
 blockquote {
-  border-left: 4px solid #42b983;
-  padding: 0 15px;
-  color: #d1d9e1;
-  background: #474949;
+    border-left: 4px solid #b58900;
+    padding: 12px;
+    background: #eee8d5;
+    border-bottom-right-radius: 2px;
 }
 
-blockquote>:first-child {
-  margin-top: 0px;
+blockquote code {
+    background: #fdf6e3;
 }
 
-blockquote>:last-child {
-  margin-bottom: 0px;
+blockquote > :first-child {
+    margin-top: 0;
 }
 
-/* HORIZONTAL RULES
-=============================================================================*/
-
-hr {
-  clear: both;
-  margin: 15px 0;
-  height: 0px;
-  overflow: hidden;
-  border: none;
-  background: transparent;
-  border-bottom: 4px solid #ddd;
-  padding: 0;
+blockquote > :last-child {
+    margin-bottom: 0;
 }
 
 /* TABLES
 =============================================================================*/
 table {
-	margin: 0 auto;
-	border-collapse: collapse;
-	width: 100%;
-	box-sizing: border-box;
-	margin-bottom: 30px;
-	
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30px;
 }
 
 table th, table td {
-  border: 1px solid #ccc;
-  padding: 6px 13px; 
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+}
+
+table td {
+    word-break: break-word;
+    line-height: 1.3;
 }
 
 table th {
-  font-weight: bold;
-  text-align: center !important;
-  background-color: #9ec68e;
+    font-weight: bold;
+    text-align: center !important;
+    background-color: #eee8d5;
 }
 
 table tr {
-  border-top: 1px solid #ccc;
-  background-color: #fff;
-}
-
-table tr:nth-child(2n) {
-  background-color: #dff0d8;
+    border-top: 1px solid #ccc;
+    background-color: #fdf6e3;
 }
 
 /* IMAGES
 =============================================================================*/
 img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 p > img {
-  display: table;
-  margin: 0 auto;
+    display: table;
+    margin: 0 auto;
+}
+
+p code, li code, td code {
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+.cp_embed_wrapper {
+    margin: 20px 0;
+}
+
+.hljs {
+	background: #eee8d5 !important;
+}
+
+@media screen and (min-width: 980px) and (max-width: 980px) {	
+    table thead tr th,
+    table thead tr th > code,
+    table tbody tr td,
+    table tbody tr td > code,
+    table tbody tr td > strong {
+        font-size: 1.3em;
+        line-height: 1.3;
+    }
+
+    p, p code,
+    p strong, p strong > code,
+    blockquote p {
+        font-size: 1.3em;
+        line-height: 1.6;
+    }
+
+    pre > code,
+    ul li pre > code,
+    ol li pre > code{
+		font-size: 1.3em;
+        line-height: 1.3;    	
+    }	
+	
+
+    ul li, ol li,
+    ul li > code,
+    ol li > code {
+        font-size: 1.3em;
+		line-height: 1.3;          
+    }
+
+    ul {
+        margin-left: 3.4em;
+    }
+
+    ol {
+        margin-left: 3.6em;
+    }
 }
 </style>
 <style type="text/css">
@@ -493,6 +496,16 @@ vertical-align:1px;
 }
 </style>
 <base target=_blank>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="keywords" content="whjin,前端开发文档,html,css,javascript,canvas,jquery,vue.js,http,ajax,git,webpack">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="前端开发文档">
+<meta name="author" content="whjin">
+<link rel="shortcut icon" href="https://whjin.github.io/frontend-dev-doc/images/logo.png">
+<a href="https://github.com/whjin" class="github-corner" aria-label="View source on GitHub" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: fixed; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/a11y-light.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/highlight.js/9.15.6/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
 <h1 id="-9-javascript-">第9章：构建并部署高性能JavaScript应用</h1>
