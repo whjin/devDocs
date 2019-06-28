@@ -58,38 +58,4 @@
 
 ![](http://blog.poetries.top/handbook/img/js/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.gif)
 
-# 进阶 #
-
-## JS基本概念 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/JS%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5.jpg)
-
-## JS基本语句 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/JS%E5%9F%BA%E6%9C%AC%E8%AF%AD%E5%8F%A5.jpg)
-
-## JS字符串用法 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/JS%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%94%A8%E6%B3%95.jpg)
-
-## JS操作符 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/JS%E6%93%8D%E4%BD%9C%E7%AC%A6.jpg)
-
-## JS数组用法 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/JS%E6%95%B0%E7%BB%84%E7%94%A8%E6%B3%95.jpg)
-
-## Date用法 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/Date%E7%94%A8%E6%B3%95.jpg)
-
-## 编码风格 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/JS%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC.jpg)
-
-## 编程实践 ##
-
-![](http://7xq6al.com1.z0.glb.clouddn.com/%E7%BC%96%E7%A8%8B%E5%AE%9E%E8%B7%B5.jpg)
-
 > 思维导图xmind地址：[JS思维导图](https://pan.baidu.com/s/1PsAN375-p62g8Fr4VQSrYg)
