@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+ol,
+ul,
+li,
+img {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;  
+}
+
+html * {
+    font-family: "ff-din-web-pro-1", "ff-din-web-pro-2", sans-serif;
+    font-size: 16px;
+    line-height: 19.2px;
+    color-profile: sRGB;
+}
+
+body {
+    min-width: 32em;
+    max-width: 56em;
+    margin: 10px auto;
+}
+
+p, blockquote p {
+    line-height: 1.6;
+}
+
+ul, ol {
+    margin: 16px 0;
+}
+
+ul li, ol li {
+    line-height: 1.6;
+}
+
+p {
+    font-weight: lighter;
+    margin: 10px 0;
+}
+
+strong {
+    font-weight: bold;
+}
+
+ol,
+ul {
+    margin-left: 2em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: lighter;
+    text-transform: capitalize;
+    margin: 20px 0;
+    border-bottom: 1px solid;
+    padding-bottom: 6px;
+}
+
+h1, h1 > code {
+    font-size: 24.624px;
+    line-height: 29.548799999999996px;
+}
+
+h2, h2 > code {
+    font-size: 24.624px;
+    line-height: 29.548799999999996px;
+}
+
+h3, h3 > code {
+    font-size: 23.44px;
+    line-height: 28.128px;
+}
+
+h4, h4 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
+}
+
+h5, h5 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
+}
+
+h6, h6 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
+}
+
+img {
+    margin-bottom: 20px;
+}
+
+h1 img,
+h2 img,
+h3 img,
+h4 img,
+h5 img,
+h6 img,
+p img {
+    margin-bottom: 0;
+}
+
+pre,
+code {
+    font-family: monospace, Consolas, "Source Code Pro", Arial, sans-serif;
+    color: #586e75;
+    background-color: #eee8d5;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+code {
+    border-radius: 3px;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    border-bottom: none;
+}
+
+html body {
+    background-color: #fdf6e3;
+}
+
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+    color: #586e75;
+    border-color: #657b83;
+}
+
+html a,
+html a:active,
+html a:visited {
+    color: #586e75;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    border-radius: 2px;
+}
+
+html a:hover {
+    background-color: #eee8d5;
+}
+
+blockquote a:hover {
+    background-color: #fdf6e3;
+}
+
+html a,
+html a:active,
+html a:visited,
+html code.url {
+    color: #b58900;
+}
+
+html h1 {
+    color: #b58900;
+}
+
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+    color: #b58900;
+}
+
+/* QUOTES
+=============================================================================*/
+blockquote {
+    border-left: 4px solid #b58900;
+    padding: 12px;
+    background: #eee8d5;
+    border-bottom-right-radius: 2px;
+}
+
+blockquote code {
+    background: #fdf6e3;
+}
+
+blockquote > :first-child {
+    margin-top: 0;
+}
+
+blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+/* TABLES
+=============================================================================*/
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+}
+
+table td {
+    word-break: break-word;
+    line-height: 1.3;
+}
+
+table th {
+    font-weight: bold;
+    text-align: center !important;
+    background-color: #eee8d5;
+}
+
+table tr {
+    border-top: 1px solid #ccc;
+    background-color: #fdf6e3;
+}
+
+/* IMAGES
+=============================================================================*/
+img {
+    max-width: 100%;
+}
+
+p > img {
+    display: table;
+    margin: 0 auto;
+}
+
+p code, li code, td code {
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+.cp_embed_wrapper {
+    margin: 20px 0;
+}
+
+.hljs {
+	background: #eee8d5 !important;
+}
+
+@media screen and (min-width: 980px) and (max-width: 980px) {	
+    table thead tr th,
+    table thead tr th > code,
+    table tbody tr td,
+    table tbody tr td > code,
+    table tbody tr td > strong {
+        font-size: 1.3em;
+        line-height: 1.3;
+    }
+
+    p, p code,
+    p strong, p strong > code,
+    blockquote p {
+        font-size: 1.3em;
+        line-height: 1.6;
+    }
+
+    pre > code,
+    ul li pre > code,
+    ol li pre > code{
+		font-size: 1.3em;
+        line-height: 1.3;    	
+    }	
+	
+
+    ul li, ol li,
+    ul li > code,
+    ol li > code {
+        font-size: 1.3em;
+		line-height: 1.3;          
+    }
+
+    ul {
+        margin-left: 3.4em;
+    }
+
+    ol {
+        margin-left: 3.6em;
+    }
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+<base target=_blank>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="keywords" content="whjin,前端开发文档,html,css,javascript,canvas,jquery,vue.js,http,ajax,git,webpack">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="前端开发文档">
+<meta name="author" content="whjin">
+<link rel="shortcut icon" href="https://whjin.github.io/frontend-dev-doc/images/logo.png">
+<a href="https://github.com/whjin" class="github-corner" aria-label="View source on GitHub" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: fixed; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/a11y-light.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/highlight.js/9.15.6/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script> 
+</head>
+<body>
+<h1 id="javascript">JavaScript</h1>
+<ul>
+<li>介绍JS的基本数据类型</li></ul>
+<blockquote>
+<p><code>undefined</code>、<code>null</code>、<code>Boolean</code>、<code>number</code>、<code>string</code><br>ES6新增：<code>symbol</code>（创建唯一且不可变数据类型）</p>
+</blockquote>
+<ul>
+<li>介绍JS有哪些内置对象？</li></ul>
+<blockquote>
+<p><code>Object</code>是JS中所有对象的父对象<br>数据封装类对象：<code>Object</code>、<code>Array</code>、<code>Boolean</code>、<code>Number</code>和<code>String</code><br>其他对象：<code>Function</code>、<code>arguments</code>、<code>Math</code>、<code>Date</code>、<code>RegExp</code>、<code>Error</code></p>
+</blockquote>
+<ul>
+<li>写JS的基本规范</li></ul>
+<blockquote>
+<p>1、不在同一行声明多个变量<br>2、使用<code>===/!==</code>来比较<code>true/false</code>或者数值<br>3、使用对象字面量替代<code>new Array</code><br>4、不使用全局函数<br>5、<code>switch</code>语句必须带有<code>default</code>分支<br>6、函数应该有返回值<br>7、<code>for</code>循环必须使用大括号<br>8、<code>if</code>语句必须使用大括号<br>9、<code>for-in</code>循环中的变量，应该使用<code>var</code>关键字明确限定作用域，从而避免作用域污染</p>
+</blockquote>
+<ul>
+<li>JS原型，原型链？有什么特点？</li></ul>
+<blockquote>
+<p>每个对象都会在其内部初始化一个属性，就是<code>prototype</code>（原型），当访问一个对象的属性时，如果这个对象内部不存在这个属性，就会去<code>prototype</code>里找这个属性，这个<code>prototype</code>又会有自己的<code>prototype</code>，如此反复，就是原型链的概念。</p>
+</blockquote>
+<p><strong>关系</strong>：</p>
+<pre><code>instance.constructor.prototype=instance.__proto__
+</code></pre><blockquote>
+<p>特点：<br>JS对象通过引用来传递，创建的每个新对象实体中并没有一份属于自己的原型副本。当修改原型时，与之相关的对象也会继承这一改变。</p>
+<p>当需要一个属性时，JS引擎会先看当前对象中是否有这个属性，如果没有，就会查找它的<code>prototype</code>对象是否有这个属性，如此递推，一直检索到<code>Object</code>内建对象。</p>
+</blockquote>
+<pre><code>function Func() {}
+Func.prototype.name = &quot;Sean&quot;;
+Func.prototype.getInfo = function () {
+    return this.name;
+};
+var person = new Func();//var person=Object.create(oldObject)
+console.log(person.getInfo());//Sean
+console.log(Func.prototype);//Object {name: &quot;Sean&quot;}
+</code></pre><ul>
+<li>JS有几种类型的值？画一下内存图？</li></ul>
+<blockquote>
+<p>栈：原始数据类型（<code>undefined</code>，<code>null</code>、<code>Boolean</code>、<code>number</code>、<code>string</code>）<br>堆：引用数据类型（对象、数组和函数）</p>
+<p>两种类型的区别：存储位置不同<br>原始数据类型直接存储在栈中的简单数据段，占据空间小、大小固定，属于被频繁使用数据，所以放入栈中存储；<br>引用数据类型存储在堆中的对象，占据空间大、大小不固定。如果存储在栈中，将会影响程序运行的性能；<br>引用数据类型在栈中存储了指针，该指针指向堆中该实体的起始地址。当解析器寻找引用值时，会首先检索其在栈中的地址，取得地址后从堆中获得实体。</p>
+</blockquote>
+<p><img src="https://camo.githubusercontent.com/d1947e624a0444d1032a85800013df487adc5550/687474703a2f2f7777772e77337363686f6f6c2e636f6d2e636e2f692f63745f6a735f76616c75652e676966" alt=""></p>
+<ul>
+<li>如何将字符串转化为数字，例如<code>12.3b</code>？</li></ul>
+<blockquote>
+<p><code>parseFloat(&#39;12.3b&#39;);</code></p>
+</blockquote>
+<ul>
+<li>如何将浮点数点左边的数每三位添加一个逗号，如<code>12000000.11</code>转化为<code>12,000,000.11</code>？</li></ul>
+<pre><code>function commafy(num) {
+    return num &amp;&amp; num.toString().replace(/(\d)(?=(\d{3})+\.)/g, function ($1, $2) {
+        return $2 + &#39;,&#39;;
+    })
+}
+</code></pre><ul>
+<li>如何实现数组的随机排序？</li></ul>
+<pre><code>//方法一：
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+function randSort(arr) {
+    for (var i = 0, len = arr.length; i &lt; len; i++) {
+        var rand = parseInt(Math.random() * len);
+        var temp = arr[rand];
+        arr[rand] = arr[i];
+        arr[i] = temp;
+    }
+    return arr;
+}
+</code></pre><pre><code>//方法二：
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+function randSort(arr) {
+    var mixedArray = [];
+    while (arr.length &gt; 0) {
+        var randomIndex = parseInt(Math.random() * arr.length);
+        mixedArray.push(arr[randomIndex]);
+        arr.splice(randomIndex, 1);
+    }
+    return mixedArray;
+}
+</code></pre><pre><code>//方法三：
+var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+arr.sort(function () {
+    return Math.random() - 0.5;
+});
+</code></pre><ul>
+<li>JS如何实现继承？</li></ul>
+<blockquote>
+<p>1、构造<br>2、原型<br>3、实例<br>4、拷贝</p>
+<p>原型<code>prototype</code>机制或<code>apply</code>和<code>call</code>方法去实现比较简单，建议使用构造函数与原型混合方式。</p>
+</blockquote>
+<pre><code>function Parent() {
+    this.name = name;
+}
+function Child() {
+    this.age = age;
+}
+Child.prototype = new Parent();//继承Parent，通过原型
+</code></pre><ul>
+<li>JS创建对象的方式？</li></ul>
+<blockquote>
+<p>JS创建对象，就是使用内置对象或各种自定义对象，还可以使用<code>JSON</code>；<br>1、对象字面量<code>var person={firstname:&quot;Mark&quot;,lastname:&quot;Yun&quot;}</code><br>2、用<code>function</code>模拟无参数的构造函数</p>
+</blockquote>
+<pre><code>function Person() {}
+var person = new Person();//定义一个function，如果使用new实例化，该function可以看作一个class
+person.name = &quot;Mark&quot;;
+person.age = &quot;25&quot;;
+person.word = function () {
+    return person.name + &#39;hello&#39;
+};
+</code></pre><blockquote>
+<p>3、用<code>function</code>模拟参数构造函数来实现（用<code>this</code>关键字定义构造的上下文属性）</p>
+</blockquote>
+<pre><code>function Pet(name, age, hobby) {
+    this.name = name;//this作用域，当前对象
+    this.age = age;
+    this.hobby = hobby;
+    this.eat = function () {
+        return &quot;我是&quot; + this.name + &quot;，我喜欢&quot; + this.hobby + &quot;，是个程序员。&quot;;
+    }
+}
+var maidou = new Pet(&quot;麦兜&quot;, 25, &quot;coding&quot;);//实例化、创建对象
+maidou.eat();//调用eat方法
+</code></pre><blockquote>
+<p>4、用工厂方式来创建（内置对象）</p>
+</blockquote>
+<pre><code>var mcDog = new Object();
+mcDog.name = &quot;旺财&quot;;
+mcDog.age = 3;
+mcDog.work = function () {
+    return mcDog.name + &#39;,汪汪汪......&#39;;
+};
+mcDog.work();
+</code></pre><blockquote>
+<p>5、用原型方式来创建</p>
+</blockquote>
+<pre><code>function Dog() {}
+Dog.prototype.name = &quot;旺财&quot;;
+Dog.prototype.eat = function () {
+    return this.name = &quot;是个吃货&quot;
+};
+</code></pre><blockquote>
+<p>6、用混合方式来创建</p>
+</blockquote>
+<pre><code>function Car(name, price) {
+    this.name = name;
+    this.price = price;
+}
+
+Car.prototype.sell = function () {
+    return &quot;我是&quot; + this.name + &quot;，我现在卖&quot; + this.price + &quot;万元。&quot;;
+};
+var camry = new Car(&quot;凯美瑞&quot;, 27);
+</code></pre><ul>
+<li>JS作用域链？</li></ul>
+<blockquote>
+<p>全局函数无法查看局部函数的内部细节，但局部函数可以查看其上层的函数细节，直至全局细节。<br>当需要从局部函数查找某一属性或方法时，如果当前作用域没有找到，就会上溯到上层作用域查找，直至全局函数，这种组织形式就是作用域链。</p>
+</blockquote>
+<ul>
+<li>谈谈对<code>this</code>对象的理解？</li></ul>
+<blockquote>
+<p><code>this</code>总是指向函数的直接调用者；<br>如果有<code>new</code>关键字，<code>this</code>指向<code>new</code>出来的对象；<br>在事件中，<code>this</code>指向触发这个事件的对象，特殊的是IE中的<code>attachEvent</code>中的<code>this</code>总是指向全局对象<code>window</code>。</p>
+</blockquote>
+<ul>
+<li><code>eval</code>的作用？</li></ul>
+<blockquote>
+<p>它的功能是把对应的字符串解析成JS代码并运行；<br>应该避免使用<code>eval</code>，不安全，非常耗性能（<code>2</code>次，一次解析成JS语句，一次执行）<br>由<code>JSON</code>字符串转换成<code>JSON</code>对象的时候可以用<code>eval</code>，<code>var obj=eval(&#39;(&#39;+str+&#39;)&#39;);</code></p>
+</blockquote>
+<ul>
+<li>什么是<code>window</code>对象？什么是<code>document</code>对象？</li></ul>
+<blockquote>
+<p><code>window</code>对象是指浏览器打开的窗口<br><code>document</code>对象时Document对象（HTML文档对象）的一个只读引用，<code>window</code>对象的一个属性。</p>
+</blockquote>
+<ul>
+<li><code>null</code>、<code>undefined</code>的区别？</li></ul>
+<blockquote>
+<p><code>null</code>表示一个对象的值为<strong>空</strong>；<br><code>undefined</code>表示一个变量声明了，但是没有初始化（赋值）；</p>
+<p><code>undefined</code>不是一个有效的<code>JSON</code>，而<code>null</code>是；<br><code>undefined</code>的类型（<code>typeof</code>）是<code>undefined</code><br><code>null</code>的类型<code>typeof</code>是<code>object</code></p>
+<p>JS将未赋值的变量默认设为<code>undefined</code>；<br>JS从来不会将变量设为<code>null</code>。它是用来标明某个用<code>var</code>声明的变量时没有值。</p>
+<p><code>typeof undefined;//undefined</code><br><code>undefined</code>：是一个表示<strong>无</strong>的原始值或说表示<strong>缺少值</strong>，就是此处应该有一个值，但是还没有定义。</p>
+<p><code>typeof null;//null</code><br><code>null</code>：是一个对象（空对象，没有任何属性和方法）<br>作为函数的参数，表示该函数的参数不是对象；</p>
+<p>注意：<br>在验证<code>null</code>时，一定要使用<code>===</code>，因为<code>==</code>无法区分<code>null</code>和<code>undefined</code></p>
+</blockquote>
+<pre><code>null == undefined;//true
+null === undefined;//false
+</code></pre><blockquote>
+<p>写一个通用的事件侦听器函数</p>
+</blockquote>
+<p><p data-height="565" data-theme-id="0" data-slug-hash="bKjVvM" data-default-tab="js" data-user="whjin" data-embed-version="2" data-pen-title="通用的事件侦听器函数" class="codepen">See the Pen <a href="https://codepen.io/whjin/pen/bKjVvM/">通用的事件侦听器函数</a> by whjin (<a href="https://codepen.io/whjin">@whjin</a>) on <a href="https://codepen.io">CodePen</a>.</p></p>
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+<ul>
+<li><code>[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;].map(parseInt);</code>答案是多少？</li></ul>
+<blockquote>
+<p><code>[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;].map(parseInt);//[ 1, NaN, NaN ]</code>；<br><code>parseInt()</code>函数能解析一个字符串，并返回一个整数，需要两个参数（<code>val</code>、<code>radix</code>）；<br>其中<code>radix</code>表示要解析的数字的基数。（该值介于<code>2~36</code>之间，并且字符串中的数字不能大于<code>radix</code>才能正确返回数字结果值）；<br>此处<code>map</code>穿了<code>3</code>个（<code>element,index,array</code>），重写<code>parseInt</code>函数测试是否符合上面的规则。</p>
+</blockquote>
+<pre><code>function parseInt(str, radix) {
+    return str + &#39;-&#39; + radix;
+}
+var a = [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;];
+console.log(a.map(parseInt));//[ &#39;1-0&#39;, &#39;2-1&#39;, &#39;3-2&#39; ]不能大于radix
+</code></pre><blockquote>
+<p>因为二进制里面没有数字<code>3</code>，导致出现超范围的<code>radix</code>赋值和不合法的进制解析，才会返回<code>NaN</code>。</p>
+</blockquote>
+<ul>
+<li>什么是事件？IE与火狐的事件机制有什么区别？如何组织冒泡？</li></ul>
+<blockquote>
+<p>1、在网页中的某个操作，例如点击一个按钮就会产生一个事件，可以被JS侦测到的行为。<br>2、事件处理机制：IE是事件冒泡、Firefox同时支持两种事件模型，也就是：捕获型事件和冒泡型事件；<br>3、<code>ev.stopPropation();</code>（旧IE的方法<code>ev.cancelBubble=true;</code>）</p>
+</blockquote>
+<ul>
+<li>什么是<strong>闭包（closure）</strong>，为什么要使用它？</li></ul>
+<blockquote>
+<p>闭包是指有权访问另一个函数作用域中变量的函数，创建闭包的最常见方式是一个函数内创建另一个函数，通过另一个函数访问这个函数的局部变量；<br>利用闭包可以突破作用域链，将函数内部的变量和方法传递到外部。</p>
+<p><strong>闭包的特性：</strong><br>1、函数内再嵌套函数；<br>2、内部函数可以引用外层的参数和变量；<br>3、参数和变量不会被垃圾回收机制回收</p>
+<p><code>li</code>节点的<code>onclick</code>事件都能正确的弹出当前被点击的<code>li</code>索引</p>
+</blockquote>
+<pre><code>var nodes = document.getElementsByTagName(&#39;li&#39;);
+for (var i = 0, len = nodes.length; i &lt; len; i++) {
+    nodes[i].onclick = (function (i) {
+        return function () {
+            console.log(i);
+        }
+    })(i)
+}
+</code></pre><blockquote>
+<p>执行<code>sayNum()</code>后，<code>sayNum()</code>闭包内部变量依旧存在，而闭包内部的函数的变量不会存在；<br>使得JS的垃圾回收机制GC不会收回<code>sayNum()</code>所占用的资源，因为<code>sayNum()</code>的内部函数的执行需要依赖<code>sayNum()</code>中的变量。这是对闭包作用的非常直白的描述。</p>
+</blockquote>
+<pre><code>function sayNum() {
+    var num = 666;
+    var sayLog = function () {
+        console.log(num);
+    };
+    num++;
+    return sayLog;
+}
+var sayLog = sayNum();
+sayLog();//667
+</code></pre><ul>
+<li>JS代码中的<code>use strict;</code>有什么作用？使用它区别是什么？</li></ul>
+<blockquote>
+<p><code>use strict</code>是一种ES6添加的（严格）运行模式，这种模式使得JS在更严格的条件下运行；</p>
+<p>使JS编码更佳规范化的模式，消除JS语法的一些不合理、不严谨的地方，减少一些怪异行为。<br>默认支持的槽糕特性都会被禁用，比如不能使用<code>with</code>，也不能再意外的情况下给全局变量赋值；<br>全局变量的显示声明，函数必须声明在顶层，不允许再非函数代码块内声明函数，<code>arguments.callee</code>也不允许使用；<br>消除代码运行的一些不安全之处，保证代码运行的安全，限制函数中的<code>arguments</code>修改，严格模式下的<code>eval</code>函数的行为和非严格模式的也不相同。</p>
+<p>提高编译器效率，增加运行速度；</p>
+</blockquote>
+<ul>
+<li>如何判断一个对象是否属于某个类？</li></ul>
+<blockquote>
+<p>使用<code>instanceof</code></p>
+</blockquote>
+<pre><code>if (a instanceof Person) {
+    console.log(&quot;yes&quot;);
+}
+</code></pre><ul>
+<li>解释一下<code>new</code>操作符？</li></ul>
+<blockquote>
+<p>1、创建一个空对象，并且<code>this</code>变量引用该对象，同时还继承了该函数的原型；<br>2、属性和方法被加入到<code>this</code>引用的对象中；<br>3、新创建的对象由<code>this</code>所引用，并且最后隐式的返回<code>this</code>。</p>
+</blockquote>
+<pre><code>var obj = {};
+obj.__proto__ = Base.prototype;
+Base.call(obj);
+</code></pre><ul>
+<li>JS中的<code>hasOwnProperty</code>函数，执行对象查找时不会去查找原型，详细解释一下？</li></ul>
+<blockquote>
+<p>JS中<code>hasOwnProperty</code>函数方法是返回一个布尔值，指出一个对象是否具有指定名称的属性。<br>此方法无法检查该对象的原型链中是否具有该属性；<br>该属性必须是对象本身的一个成员。</p>
+<p>使用方法：<br><code>Object.hasOwnProperty(proName)</code><br>其中参数<code>object</code>是必选项。一个对象的实例。<br><code>proName</code>是必选项。一个属性名称的字符串值。</p>
+<p>如果<code>object</code>具有指定名称的属性，JS中<code>hasOwnproperty</code>函数方法返回<code>true</code>，反之则返回<code>false</code>。</p>
+</blockquote>
+<ul>
+<li>说一下你对JSON的了解？</li></ul>
+<blockquote>
+<p><code>JSON</code>是一种轻量级的数据交换格式。<br>它是基于JS的一个子集。数据格式简单，易于读写，占用带宽小</p>
+<p><code>JSON</code>字符串转换成<code>JSON</code>对象：</p>
+</blockquote>
+<pre><code>var obj = eval(&#39;(&#39; + str + &#39;)&#39;);
+var obj = str.parseJSON();
+var obj = JSON.parse(str);
+</code></pre><blockquote>
+<p><code>JSON</code>对象转换成<code>JSON</code>字符串：</p>
+</blockquote>
+<pre><code>var last = obj.toJSONString();
+var last = JSON.stringify(obj);
+</code></pre><ul>
+<li>JS有哪些延迟加载的方式？</li></ul>
+<blockquote>
+<p><code>defer</code>和<code>async</code>、动态创建DOM方式（用得最多）、按需异步加载JS</p>
+</blockquote>
+<ul>
+<li><code>Ajax</code>是什么？如何创建一个<code>Ajax</code>？</li></ul>
+<blockquote>
+<p>异步传输+JS+XML<br>异步：向服务器发送请求时，不必等待结果，而是可以同时做其他的事情，等到有了结果会自己根据设定进行后续操作；<br>与此同时，页面不会发生整体刷新，提供了用户体验。</p>
+<p>1、创建<code>XMLHTTPRequest</code>对象，也就是创建一个异步调用对象；<br>2、创建一个新的HTTP请求，并指定该HTTP请求的方法、URL及验证信息；<br>3、设置响应HTTP请求状态变化的函数；<br>4、发送HTTP请求<br>5、获取异步调用返回的数据<br>6、使用JS和DOM实现局部刷新</p>
+</blockquote>
+<ul>
+<li><code>Ajax</code>解决浏览器缓存问题？</li></ul>
+<blockquote>
+<p>1、在<code>ajax</code>发送请求前添加</p>
+</blockquote>
+<pre><code>AjaxObj.setRequestHeader(&quot;IF-Modified-Since&quot;,&quot;0&quot;);
+</code></pre><blockquote>
+<p>2、在<code>ajax</code>发送请求前添加</p>
+</blockquote>
+<pre><code>AjaxObj.setRequestHeader(&quot;Cache-Control&quot;, &quot;no-cache&quot;);
+</code></pre><blockquote>
+<p>3、在URL后面添加一个随机数：<code>&quot;fresh=&quot; + Math.random();</code>    </p>
+<p>4、在URL后面添加时间戳：<code>&quot;nowtime=&quot; + new Date().getTime();</code></p>
+<p>5、如果使用jQuery，则<code>$.ajaxSetup({cache: false});</code>。这样页面的所有<code>ajax</code>都会执行这条语句，不需要保存缓存记录。</p>
+</blockquote>
+<ul>
+<li>同步和异步的区别？</li></ul>
+<blockquote>
+<p>同步：不同进程为协同完成某项工作，在先后次序上调整（通过<strong>阻塞</strong>，<strong>唤醒</strong>等方式）。</p>
+<p>同步：浏览器访问服务器请求，页面刷新，重新发送请求，等待请求完成，页面刷新显示新内容，如此反复。<br>异步：浏览器访问服务器请求，操作页面，浏览器后端进行请求。等待请求完成，页面不刷新显示新内容。</p>
+</blockquote>
+<ul>
+<li>如何解决跨域问题？</li></ul>
+<blockquote>
+<p><code>jsonp</code>、<code>iframe</code>、<code>window.name</code>、<code>window.postMessage</code>、服务器上设置代理页面</p>
+</blockquote>
+<ul>
+<li><code>AMD</code>、<code>CMD</code>规范的却别？</li></ul>
+<blockquote>
+<p><code>AMD</code>异步模块定义，所有的模块将被异步加载，模块加载不影响后面语句运行。<br>所有依赖某些模块的语句都放置在回调函数中。</p>
+<p>区别：<br>1、对于依赖的模块，AMD是提前执行，CMD是延迟执行。<br>2、CMD推崇依赖就近，AMD推崇依赖前置</p>
+</blockquote>
+<pre><code>//AMD
+define([&#39;./a&#39;, &#39;./b&#39;], function (a, b) {//依赖必须一开始就写好
+    a.doSomething();
+    b.doSomething();
+});
+
+//CMD
+define(function (require, exports, module) {
+    var a = require(&#39;./a&#39;);
+    a.doSomething();
+    var b = require(&#39;./b&#39;);//依赖可以就近写
+    b.doSomething();
+});
+</code></pre><ul>
+<li><code>document.write</code>和<code>innerHTML</code>的区别？</li></ul>
+<blockquote>
+<p><code>document.write</code>只能重绘整个页面<br><code>innerHTML</code>可以重绘页面的一部分</p>
+</blockquote>
+<ul>
+<li><code>DOM</code>操作——添加、移除、移动、赋值、创建和查找节点？</li></ul>
+<blockquote>
+<p>1、创建新节点</p>
+</blockquote>
+<pre><code>createDocumentFragment();//创建一个DOM片段
+createElement();//创建一个具体的元素
+createTextNode();//创建一个文本节点
+</code></pre><blockquote>
+<p>2、添加、移除、替换、插入</p>
+</blockquote>
+<pre><code>appendChild();//添加
+removeChild();//移除
+replaceChild();//替换
+insertBefore();//在已有的子节点前插入一个新的子节点
+</code></pre><blockquote>
+<p>3、查找</p>
+</blockquote>
+<pre><code>getElementsByTagName();//通过标签名
+getElementsByName();//通过元素的Name属性的值（IE容错能力较强，会得到一个数组，其中包括id等于name值）
+getElementById();//通过元素id，唯一性
+</code></pre><ul>
+<li><code>jquery.extend</code>和<code>jquery.fn.extend</code>的区别？</li></ul>
+<blockquote>
+<p><code>jquery.extend</code>为<code>jquery</code>类添加类方法，可以理解为添加静态方法<br><code>jquery.fn.extend</code>:<br>源码<code>jquery.fn=jquery.prototype</code>，对<code>jquery.fn</code>的扩展，就是为<code>jquery</code>类添加成员函数<br><strong>使用</strong>：<br><code>jquery.extend</code>扩展，需要通过<code>jquery</code>类调用，而<code>jquery.fn.extend</code>扩展，所有<code>jquery</code>实例都可以直接调用。</p>
+</blockquote>
+<ul>
+<li>针对jQuery的优化方法？</li></ul>
+<blockquote>
+<p>基于<code>class</code>的选择器的性能相对于<code>id</code>选择器开销很大，因为需要遍历所有DOM元素。</p>
+<p>频繁操作的DOM，先缓存起来再操作。用<code>jQuery</code>的链式调用更好。比如<code>var str=$(&quot;a&quot;).attr(&quot;href&quot;);</code></p>
+<p><code>for (var i = size, len = arr.length; i &lt; len; i++) {}</code></p>
+</blockquote>
+<ul>
+<li>如何判断当前脚本运行在浏览器还是Node环境中？（阿里）</li></ul>
+<blockquote>
+<p><code>this === window ? &#39;browser&#39; : &#39;node&#39;;</code><br>通过判断<code>global</code>对象是否为<code>window</code>，如果不为<code>window</code>，当前脚本没有运行在浏览器中。</p>
+</blockquote>
+<ul>
+<li>哪些操作会造成内存泄漏？</li></ul>
+<blockquote>
+<p>垃圾回收器定义扫描对象，并计算引用了每个对象的其他对象的数量。如果一个对象的引用数量为<code>0</code>（没有其他对象引用过该对象），或对该对象的唯一引用是循环的，那么该对象的内存即可回收。</p>
+<p><code>setTimeout</code>的第一个参数使用字符串而非函数，会引发内存泄漏。<br>闭包、控制台日志、循环（两个对象彼此引用，且彼此保留时，就会产生一个循环）</p>
+</blockquote>
+<ul>
+<li>用JS实现千位分隔符？</li></ul>
+<pre><code>function commafy(num) {
+    return num &amp;&amp; num
+        .toString()
+        .replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
+            return $1 + &#39;,&#39;;
+        })
+}
+</code></pre><ul>
+<li>使用JS实现获取文件扩展名？</li></ul>
+<pre><code>function getFileExtension(filename) {
+    return filename.splice((filename.lastIndexOf(&quot;.&quot;) - 1 &gt;&gt;&gt; 0) + 2);
+}
+</code></pre><blockquote>
+<p><code>String.lastIndexOf()</code>方法返回指定值，在调用该方法的字符串中最后出现的位置，如果没找到则返回<code>-1</code>。<br>对于<code>filename</code>和<code>.hiddenfile</code>，<code>lastIndexOf</code>的返回值分别为<code>0</code>和<code>-1</code>。<br><code>String.prototype.splice()</code>从计算的索引提取文件的扩展名。如果索引比文件名的长度大，结果为<code>&quot;&quot;</code>。</p>
+</blockquote>
+<ul>
+<li>webpack热更新实现原理？</li></ul>
+<blockquote>
+<p>1、<code>webpack</code>编译期，为需要热更新的<code>entry</code>注入热更新代码（<code>EventSource</code>通信）<br>2、页面首次打开后，服务端与客户端通过<code>EventSource</code>建立通信渠道，把下一次的<code>hash</code>返回前端<br>3、客户端获取到<code>hash</code>，这个<code>hash</code>将作为下一次请求服务端<code>hot-update.js</code>和<code>hot-update.json</code>的<code>hash</code><br>4、修改页面代码，<code>webpack</code>监听到文件修改后，开始编译，编译完成后发送<code>build</code>消息给客户端<br>5、客户端获取到<code>hash</code>，成功后客户端构造<code>hot-update.js</code>的<code>script</code>链接，然后插入主文档<br>6、<code>hot-update.js</code>插入成功后，执行<code>hotAPI</code>的<code>createRecord</code>和<code>reload</code>方法，获取到组件的<code>render</code>方法，重新<code>render</code>组件，从而实现UI无刷新更新。</p>
+</blockquote>
+<ul>
+<li>什么是<code>cookie</code>隔离？（请求资源的时候不要让它携带cookie）</li></ul>
+<blockquote>
+<p>如果静态文件都放在主域名下，静态文件请求的时都带有<code>cookie</code>的数据提交给<code>server</code>，非常浪费流量。</p>
+<p>因为<code>cookie</code>有域的限制，因此不能跨域提交请求，所以使用非主要域名的时候，请求头中就不会带有<code>cookie</code>数据。<br>这样可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。<br>同时这种方式不会将<code>cookie</code>传入Web Server，也减少了Web Server对<code>cookie</code>的处理分析环节。<br>提高了webserver的HTTP请求的解析速度。</p>
+</blockquote>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

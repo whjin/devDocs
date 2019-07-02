@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ES6</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+ol,
+ul,
+li,
+img {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;  
+}
+
+html * {
+    font-family: "ff-din-web-pro-1", "ff-din-web-pro-2", sans-serif;
+    font-size: 16px;
+    line-height: 19.2px;
+    color-profile: sRGB;
+}
+
+body {
+    min-width: 32em;
+    max-width: 56em;
+    margin: 10px auto;
+}
+
+p, blockquote p {
+    line-height: 1.6;
+}
+
+ul, ol {
+    margin: 16px 0;
+}
+
+ul li, ol li {
+    line-height: 1.6;
+}
+
+p {
+    font-weight: lighter;
+    margin: 10px 0;
+}
+
+strong {
+    font-weight: bold;
+}
+
+ol,
+ul {
+    margin-left: 2em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: lighter;
+    text-transform: capitalize;
+    margin: 20px 0;
+    border-bottom: 1px solid;
+    padding-bottom: 6px;
+}
+
+h1, h1 > code {
+    font-size: 24.624px;
+    line-height: 29.548799999999996px;
+}
+
+h2, h2 > code {
+    font-size: 24.624px;
+    line-height: 29.548799999999996px;
+}
+
+h3, h3 > code {
+    font-size: 23.44px;
+    line-height: 28.128px;
+}
+
+h4, h4 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
+}
+
+h5, h5 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
+}
+
+h6, h6 > code {
+    font-size: 22.16px;
+    line-height: 26.592px;
+}
+
+img {
+    margin-bottom: 20px;
+}
+
+h1 img,
+h2 img,
+h3 img,
+h4 img,
+h5 img,
+h6 img,
+p img {
+    margin-bottom: 0;
+}
+
+pre,
+code {
+    font-family: monospace, Consolas, "Source Code Pro", Arial, sans-serif;
+    color: #586e75;
+    background-color: #eee8d5;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 12px;
+    margin-bottom: 20px;
+}
+
+code {
+    border-radius: 3px;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+h3,
+h4,
+h5,
+h6 {
+    border-bottom: none;
+}
+
+html body {
+    background-color: #fdf6e3;
+}
+
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+    color: #586e75;
+    border-color: #657b83;
+}
+
+html a,
+html a:active,
+html a:visited {
+    color: #586e75;
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    border-radius: 2px;
+}
+
+html a:hover {
+    background-color: #eee8d5;
+}
+
+blockquote a:hover {
+    background-color: #fdf6e3;
+}
+
+html a,
+html a:active,
+html a:visited,
+html code.url {
+    color: #b58900;
+}
+
+html h1 {
+    color: #b58900;
+}
+
+html h2,
+html h3,
+html h4,
+html h5,
+html h6 {
+    color: #b58900;
+}
+
+/* QUOTES
+=============================================================================*/
+blockquote {
+    border-left: 4px solid #b58900;
+    padding: 12px;
+    background: #eee8d5;
+    border-bottom-right-radius: 2px;
+}
+
+blockquote code {
+    background: #fdf6e3;
+}
+
+blockquote > :first-child {
+    margin-top: 0;
+}
+
+blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+/* TABLES
+=============================================================================*/
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+}
+
+table td {
+    word-break: break-word;
+    line-height: 1.3;
+}
+
+table th {
+    font-weight: bold;
+    text-align: center !important;
+    background-color: #eee8d5;
+}
+
+table tr {
+    border-top: 1px solid #ccc;
+    background-color: #fdf6e3;
+}
+
+/* IMAGES
+=============================================================================*/
+img {
+    max-width: 100%;
+}
+
+p > img {
+    display: table;
+    margin: 0 auto;
+}
+
+p code, li code, td code {
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+.cp_embed_wrapper {
+    margin: 20px 0;
+}
+
+.hljs {
+	background: #eee8d5 !important;
+}
+
+@media screen and (min-width: 980px) and (max-width: 980px) {	
+    table thead tr th,
+    table thead tr th > code,
+    table tbody tr td,
+    table tbody tr td > code,
+    table tbody tr td > strong {
+        font-size: 1.3em;
+        line-height: 1.3;
+    }
+
+    p, p code,
+    p strong, p strong > code,
+    blockquote p {
+        font-size: 1.3em;
+        line-height: 1.6;
+    }
+
+    pre > code,
+    ul li pre > code,
+    ol li pre > code{
+		font-size: 1.3em;
+        line-height: 1.3;    	
+    }	
+	
+
+    ul li, ol li,
+    ul li > code,
+    ol li > code {
+        font-size: 1.3em;
+		line-height: 1.3;          
+    }
+
+    ul {
+        margin-left: 3.4em;
+    }
+
+    ol {
+        margin-left: 3.6em;
+    }
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+<base target=_blank>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="keywords" content="whjin,前端开发文档,html,css,javascript,canvas,jquery,vue.js,http,ajax,git,webpack">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="前端开发文档">
+<meta name="author" content="whjin">
+<link rel="shortcut icon" href="https://whjin.github.io/frontend-dev-doc/images/logo.png">
+<a href="https://github.com/whjin" class="github-corner" aria-label="View source on GitHub" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: fixed; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<link href="https://cdn.bootcss.com/highlight.js/9.15.6/styles/a11y-light.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/highlight.js/9.15.6/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script> 
+</head>
+<body>
+<h1 id="es6">ES6</h1>
+<ul>
+<li><code>Object.is()</code>与原来的比较操作符<code>===</code>、<code>==</code>的区别？</li></ul>
+<blockquote>
+<p><code>==</code>判断，会在比较时进行类型转换<br><code>===</code>判断（严格判断），比较时不进行隐式类型转换，类型不同就会返回<code>false</code></p>
+<p><code>Object.is()</code>在<code>===</code>判断的基础上特别处理了<code>NaN</code>、<code>-0</code>和<code>+0</code>，保证<code>-0</code>和<code>+0</code>不再相同，但<code>Object.is(NaN,NaN)</code>会返回<code>true</code></p>
+</blockquote>
+<ul>
+<li>如何进行页面重构？</li></ul>
+<blockquote>
+<p>网站重构：在不改变UI的情况下对网站进行优化，在扩展的同时保持一致的UI。</p>
+<p>对传统的网站来说，重构通常是：<br>1、表格<code>table</code>布局改为<code>div+css</code><br>2、使网站前端兼容于现代浏览器<br>3、对于移动平台的优化<br>4、针对SEO进行优化</p>
+<p>深层次的网站重构应该考虑：<br>1、减少代码间的耦合<br>2、让代码保持弹性<br>3、严格按照规范编写代码<br>4、设计可扩展的API<br>5、代替旧有的框架、语言<br>6、增强用户体验<br>7、对速度的优化</p>
+<p>1、压缩JS、CSS、<code>image</code>等前端资源（通常是由服务器来解决）<br>2、程序的性能优化（数据读写）<br>3、采用CDN来加速资源加载<br>4、对于JS DOM的优化<br>5、HTTP服务器的文件缓存</p>
+</blockquote>
+<ul>
+<li>列举IE与其他浏览器不同的特性？</li></ul>
+<blockquote>
+<p>事件：触发事件的元素被认为是目标（<code>target</code>）。在IE中，目标包含在<code>event</code>对象的<code>SRCElement</code>属性；</p>
+<p>获取字符代码：如果按键代表一个字符（<code>shift</code>、<code>Ctrl</code>、<code>Alt</code>除外），IE的<code>keyCode</code>会返回字符代码<code>unicode</code>，DOM中按键的代码和字符是分离的，要获取字符代码，需要使用<code>charCode</code>属性；</p>
+<p>阻止某个事件的默认行为：IE中阻止某个事件的默认行为，必须将<code>returnValue</code>属性设置为<code>false</code>，火狐浏览器中需要调用<code>preventDefault()</code>方法。</p>
+<p>停止事件冒泡，IE中阻止事件进一步冒泡，需要设置<code>cancelBubble</code>为<code>true</code>，火狐中需要调用<code>stopPropagation()</code>。</p>
+</blockquote>
+<ul>
+<li>解析一下优雅降级和渐进增强？</li></ul>
+<blockquote>
+<p>优雅降级：Web站点在所有新式浏览器中都能正常工作，如果用户使用的是旧式浏览器，则代码会针对旧版本的IE进行降级处理，使之在旧式浏览器上以某种形式降级体验而不至于完全不能使用。<br>例如：<code>border-shadow</code></p>
+<p>渐进增强：从被所有浏览器支持的基本能工开始，逐步地添加那些只有新版本浏览器才支持的功能，向页面增加不影响基础浏览器的额外样式和功能。当浏览器支持时，它们会自定地呈现出来并发挥作用。<br>例如：默认使用<code>flash</code>上传，但如果浏览器支持HTML5的文件上传功能，则使用HTML5实现更好的体验。</p>
+</blockquote>
+<ul>
+<li>Web应用从服务器主动推送Data到客户端有哪些方式？</li></ul>
+<blockquote>
+<p>HTML5提供的<code>WebSocket</code><br>不可见的<code>iframe</code><br><code>WebSocket</code>通过<code>flash</code><br><code>XHR</code>长时间连接<br><code>XHR Multipart Streaming</code><br><code>&lt;script&gt;</code>标签的长时间连接（可跨域）</p>
+</blockquote>
+<ul>
+<li>谈一下Node的优点和缺点？</li></ul>
+<blockquote>
+<p><strong>优点：</strong><br>因为Node是基于事件驱动和无阻塞的，所以非常适合处理并发请求；<br>因此构建在Node上的代理服务器相比其他技术实现（如Ruby）的服务器表现要好很多。<br>此外，与Node代理服务器交互的客户端代码是由JS语言编写，因此客户端和服务器端都用同一种语言编写。</p>
+<p><strong>缺点：</strong><br>Node是一个相对新的开源项目，所以不太稳定，总是一直在变，而且缺少足够多的第三方库支持。</p>
+</blockquote>
+<ul>
+<li>你使用过哪些前端性能优化的方法？</li></ul>
+<blockquote>
+<p>1、减少HTTP请求次数：<code>CSS Sprites</code>、<code>JS</code>、<code>CSS</code>源码压缩、控制图片大小；网页<code>Gzip</code>，CDN托管，<code>data</code>缓存，图片服务器<br>2、前端模板：JS+数据，减少由于HTML标签导致的带宽浪费，前端用变量保存AJAX请求结果，每次操作本地变量，不用请求，减少请求次数<br>3、用<code>innerHTML</code>代替DOM操作，减少DOM操作次数，优化JS性能<br>4、当需要设置的样式很多时，设置<code>className</code>而不是直接操作<code>style</code><br>5、少用全局变量、缓存DOM节点查找的结果。减少IO读取操作。<br>6、避免使用<code>CSS</code>表达式，又称动态属性<br>7、图片预加载，将样式表放在顶部，将脚本放在底部，加上时间戳<br>8、避免在页面的主题布局中使用<code>table</code>，<code>table</code>要等其中的内容完全下载之后才会显示出来，显示比<code>div+css</code>布局慢。</p>
+<p>对普通的网站有一个统一的思路，就是尽量向前端优化、减少数据库操作、减少磁盘IO读写。<br>向前端优化指的是，在不影响功能和体验的情况下，<br>能在浏览器执行的不在服务器端执行，<br>能在缓存服务器上直接返回的不要到应用服务器执行，<br>程序能直接取得的结果不要到外部取得，<br>本机内能取得的数据不要到远程取得，<br>内存能取到的不要到磁盘上取，<br>缓存中有得不要去数据库查询。</p>
+<p>减少数据库操作，指的是减少更新次数、缓存结果减少查询次数、将数据库执行的操作尽可能的让程序完成（例如<code>join</code>查询），<br>减少磁盘IO指尽量不适用文件系统作为缓存、减少读写文件次数等。</p>
+</blockquote>
+<ul>
+<li>HTTP状态码有哪些？分别代表什么？</li></ul>
+<blockquote>
+<p>简单版：<br><code>100</code>-<code>continue</code>：继续，一般在发送<code>post</code>请求时，已发送<code>http header</code>之后服务器端将返回此信息表示确认，之后发送具体参数信息。<br><code>200</code>-<code>OK</code>：正常返回信息<br><code>201</code>-<code>created</code>：请求成功并且服务器创建了新的资源<br><code>202</code>-<code>Accepted</code>：服务器已接受请求，但尚未处理</p>
+<p><code>301</code>-<code>Moved Permanently</code>：请求的网页已经永久移动到新的位置<br><code>302</code>-<code>Found</code>：临时性重定向<br><code>303</code>-<code>See Other</code>：临时性重定向，且总是使用<code>GET</code>请求新的<code>URI</code><br><code>304</code>-<code>Not Modified</code>：自从上次请求后，请求的网页未修改过<br><code>400</code>-<code>Bad Request</code>：服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求</p>
+<p><code>401</code>-<code>Unauthorized</code>：请求未授权<br><code>403</code>-<code>Forbidden</code>：禁止访问<br><code>404</code>-<code>Not Found</code>：找不到如何与<code>URI</code>相匹配的资源</p>
+<p><code>500</code>-<code>Internal Server Error</code>：最常见的服务器端错误<br><code>503</code>-<code>Server Unavailable</code>：服务器端暂时无法处理请求（可能是过载或维护）</p>
+<p>完整版：<br><code>1**</code>（信息类）：表示接收到请求并且继续处理<br><code>100</code>——客户必须继续发出请求<br><code>101</code>——客户要求服务器根据请求转换HTML协议版本</p>
+<p><code>2**</code>（响应成功）：表示动作被成功接收、理解和接受<br><code>200</code>——表明该请求被成功地完成，所请求的资源发送回客户端<br><code>201</code>——提示知道新文件的<code>URL</code><br><code>202</code>——接受和处理、但处理未完成<br><code>203</code>——返回信息不确定或不完整<br><code>204</code>——请求收到，但返回信息为空<br><code>205</code>——服务器完成了请求，用户代理必须复位当前已经浏览过的文件<br><code>206</code>——服务器已经完成了部分用户的<code>GET</code>请求</p>
+<p><code>3**</code>（重定向类）：为了完成指定的动作，必须接受进一步处理<br><code>300</code>——请求的资源可在多处得到<br><code>301</code>——本网页被永久性转移到另一个<code>URL</code><br><code>302</code>——请求的网页被转移到一个新的地址，但客户访问仍继续通过原始<code>URL</code>地址，重定向，新的<code>URL</code>会在<code>response</code>中的<code>Location</code>中返回，浏览器将会使用新的<code>URL</code>发出新的<code>request</code>。<br><code>303</code>——建议客户访问其他<code>URL</code>或访问方式<br><code>304</code>——自从上次请求后，请求的网页未修改过，服务器返回此响应时，不会返回网页内容，代表上次的文档已经被缓存，还可以继续使用。<br><code>305</code>——请求的资源必须从服务器指定的地址得到<br><code>306</code>——前一版本HTTP中使用的代码，现行版本中不再使用<br><code>307</code>——申明请求的资源临时性删除</p>
+<p><code>4**</code>（客户端错误类）：请求包含错误语法或不能正确执行<br><code>400</code>——客户端请求有语法错误，不能被服务器所理解</p>
+<p><code>401</code>——请求未经授权，这个状态码必须和<code>WWW-Authenticate</code>报头域一起使用<br>HTTP <code>401.1</code>——未授权：登录失败<br>HTTP <code>401.2</code>——未授权：服务器配置问题导致登录失败<br>HTTP <code>401.3</code>——ACL 禁止访问资源<br>HTTP <code>401.4</code>——未授权：授权被筛选器拒绝<br>HTTP <code>401.5</code>——未授权：ISAPI或CGI授权失败</p>
+<p><code>402</code>——保留有效<code>ChargeTo</code>头响应</p>
+<p><code>403</code>——禁止访问，服务器收到请求，但是拒绝提供服务<br>HTTP <code>403.1</code>——禁止访问：禁止可执行访问<br>HTTP <code>403.2</code>——禁止访问：禁止读访问<br>HTTP <code>403.3</code>——禁止访问：禁止写访问<br>HTTP <code>403.4</code>——禁止访问：要求SSL<br>HTTP <code>403.5</code>——禁止访问：要求SSL <code>128</code><br>HTTP <code>403.6</code>——禁止访问：IP地址被拒绝<br>HTTP <code>403.7</code>——禁止访问：要求客户证书<br>HTTP <code>403.8</code>——禁止访问：禁止站点访问<br>HTTP <code>403.9</code>——禁止访问：连接的用户过多<br>HTTP <code>403.10</code>——禁止访问：配置无效<br>HTTP <code>403.11</code>——禁止访问：密码更改<br>HTTP <code>403.12</code>——禁止访问：映射器拒绝访问<br>HTTP <code>403.13</code>——禁止访问：客户证书已被吊销<br>HTTP <code>403.15</code>——禁止访问：客户访问许可过多<br>HTTP <code>403.16</code>——禁止访问：客户证书不可信或者无效<br>HTTP <code>403.17</code>——禁止访问：客户证书已经到期或者尚未生效</p>
+<p><code>404</code>——一个<code>404</code>错误表明可连接服务器，但服务器无法取得所请求的网页，请求资源不存在。<br><code>405</code>——用户在<code>Request-Line</code>字段定义的方法不予许<br><code>406</code>——根据用户发送的<code>Accept</code>头，请求资源不可访问<br><code>407</code>——类似<code>401</code>，用户必须首先在代理服务器上得到授权<br><code>408</code>——客户端没有在用户指定的时间内完成请求<br><code>409</code>——对当前资源状态，请求不能完成<br><code>410</code>——服务器上不再有此资源，且无进一步的参考地址<br><code>411</code>——服务器拒绝用户定义的<code>Content-Length</code>属性请求<br><code>412</code>——一个或多个请求头字段在当前请求中错误<br><code>413</code>——请求的资源大于服务器允许的大小<br><code>414</code>——请求的资源URL长于服务器允许的长度<br><code>415</code>——请求的资源不支持请求项目格式<br><code>416</code>——请求中包含<code>Range</code>请求头字段，在当前请求资源范围内没有<code>Range</code>指示值，请求也不包含<code>If-Rane</code>请求头字段<br><code>417</code>——服务器不满足请求<code>Expect</code>头字段指定的期望值，如果是代理服务器，可能是下一级服务器不能满足请求。</p>
+<p><code>5**</code>（服务端错误类）：服务器不能正确执行一个正确的请求<br>HTTP <code>500</code>——服务器遇到错误，无法完成请求<br>HTTP <code>500.100</code>——内部服务器错误——ASP错误<br>HTTP <code>500.11</code>——服务器关闭<br>HTTP <code>500.12</code>——应用程序重新启动<br>HTTP <code>500.13</code>——服务器太忙<br>HTTP <code>500.14</code>——应用程序无效<br>HTTP <code>500.15</code>——不允许请求<code>global.asa</code></p>
+<p>Error <code>501</code>——未实现</p>
+<p>HTTP <code>502</code>——网关错误<br>HTTP <code>503</code>——由于超载或停机维护，服务器目前无法使用，一段时间后可能恢复正常</p>
+</blockquote>
+<ul>
+<li>一个页面从输入URL到页面加载显示完成，这个过程发生了什么？（流程越详细越好）</li></ul>
+<blockquote>
+<p>从URL规范、HTTP协议、DNS、CDN、数据库查询到浏览器解析、CSS规则构建、<code>layout</code>、<code>paint</code>、<code>onload/domready</code>、JS执行、JS API绑定等</p>
+<p>1、浏览器会开启一个线程来处理这个请求，对URL分析判断如果是HTTP协议就按照Web方式来处理；<br>2、调用浏览器内核中的对应方法，比如<code>webview</code> 中的<code>loadUrl</code>方法；<br>3、通过DNS解析获取网址的IP地址，设置UA等信息发出第二个GET请求；<br>4、记性HTTP协议会话，客户端发送报头（请求报头）；<br>5、进入到web服务器上的Web Server，如Accept、Tomcat、Node.js等服务器；<br>6、进入部署好的后端应用，如PHP、Java、JavaScript、python等，找到对应的请求处理；<br>7、处理结束反馈报头，此处如果浏览器访问过，缓存上有对应资源，会与服务器最后修改时间对比，一致则返回<code>304</code>；<br>8、浏览器开始下载HTML文档（响应报头，状态码<code>200</code>），同时是使用缓存；<br>9、文档树建立，根据标记请求所需要指定MIME类型的文件（比如css、js），同时设置了<code>cookie</code>；<br>10、页面开始渲染DOM，JS根据DOM API操作DOM，执行事件绑定等，页面显示完成。</p>
+<p>浏览器把请求的URL交给DNS域名解析，找到真实IP，向服务器发起请求；<br>服务器交给后台处理完成后返回数据，浏览器接收文件；<br>浏览器对加载到的资源进行语法解析，建立相应的内部数据结构；<br>载入解析好的资源文件，渲染页面显示内容。</p>
+</blockquote>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
