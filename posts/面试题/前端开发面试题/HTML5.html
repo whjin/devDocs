@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ES6</title>
+<title>HTML5</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -508,12 +508,58 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="es6">ES6</h1>
+<h1 id="html5">HTML5</h1>
 <ul>
-<li><code>Object.is()</code>与原来的比较操作符<code>===</code>、<code>==</code>的区别？</li></ul>
+<li>HTML5有哪些新特性、移除了哪些元素？如何处理HTML5新标签的浏览器兼容问题？如何区分HTML和HTML5？</li></ul>
 <blockquote>
-<p><code>==</code>判断，会在比较时进行类型转换<br><code>===</code>判断（严格判断），比较时不进行隐式类型转换，类型不同就会返回<code>false</code></p>
-<p><code>Object.is()</code>在<code>===</code>判断的基础上特别处理了<code>NaN</code>、<code>-0</code>和<code>+0</code>，保证<code>-0</code>和<code>+0</code>不再相同，但<code>Object.is(NaN,NaN)</code>会返回<code>true</code></p>
+<p>HTML5现在已经不是SGML的子集，主要是关于图像，位置，存储，多任务等功能的增加。<br>绘画<code>canvas</code><br>用于媒介回放的<code>video</code>和<code>audio</code>元素<br>本地离线存储<code>localStorage</code>长期存储数据，浏览器关闭后数据不丢失<br><code>sessionStorage</code>的数据在浏览器关闭后自动删除</p>
+<p>语义化更好的内容元素，比如<code>article</code>、<code>footer</code>、<code>header</code>、<code>nav</code>、<code>section</code><br>表单控件：<code>calendar</code>、<code>date</code>、<code>time</code>、<code>email</code>、<code>url</code>、<code>search</code><br>新技术：<code>webworker</code>、<code>websocket</code>、<code>Geolocation</code></p>
+<p>移除的元素：<br>纯表现的元素：<code>basefont</code>、<code>big</code>、<code>center</code>、<code>font</code>、<code>s</code>、<code>strike</code>、<code>tt</code>、<code>u</code><br>对可用性产生负面影响的元素：<code>frame</code>、<code>frameset</code>、<code>noframes</code></p>
+<p>支持HTML5新标签：<br><code>IE8/IE7/IE6</code>支持通过<code>document.createElement</code>方法产生的标签，可以利用这一特性让这些浏览器支持HTML5新标签，浏览器支持新标签后，还需要添加默认的样式。<br>也可以直接使用成熟的框架，如<code>html5shim</code>：</p>
+</blockquote>
+<pre><code>&lt;!--[if lt IE 9]&gt;
+    &lt;script&gt; src=&quot;http://html5shim.googlecode.com/svn/trunk/html5.js&quot;&lt;/script&gt;    
+&lt;![endif]&gt;
+</code></pre><blockquote>
+<p>区分HTML5,：DOCTYPE声明，新增的结构元素，功能元素等   </p>
+</blockquote>
+<ul>
+<li>HTML5的离线存储怎么使用，工作原理解释一下？</li></ul>
+<blockquote>
+<p>在用户没有联网时，可以正常访问站点或应用；在联网的情况下，更新用户机器上的缓存文件。<br>原理：HTML5的离线存储是基于一个新建的<code>.appchache</code>文件的缓存机制（不是存储技术），通过这个文件上的解析清单离线存储资源，这些资源就会像<code>cookie</code>一样被存储下来。之后当网络处于离线状态时，浏览器会通过被离线存储的数据进行页面展示。</p>
+<p>如何使用：<br>1、页面头部加入一个<code>manifest</code>的属性<br>2、在<code>cache.manifest</code>文件的编写离线存储的资源<br>3、在离线状态下，操作<code>window.applicationCache</code>进行需求实现</p>
+</blockquote>
+<ul>
+<li>浏览器是如何对HTML5的离线存储资源进行管理和加载的？</li></ul>
+<blockquote>
+<p>在线的情况下，浏览器发现<code>html</code>头部有<code>manifest</code>属性，它会请求<code>manifest</code>文件，如果是第一次访问<code>app</code>，浏览器会根据<code>manifest</code>文件的内容下载相应的资源并且进行离线存储。<br>如果已经访问过<code>app</code>，并且资源已经离线存储，浏览器会使用离线的资源加载页面，然后浏览器会对比新的<code>manifest</code>文件，如果文件没有发生改变，就不做任何操作，否则就会重新下载文件中的资源并进行离线存储。<br>离线的情况下，浏览器直接使用离线存储的资源。</p>
+</blockquote>
+<ul>
+<li>请描述一下<code>cookie</code>，<code>sessionStorage</code>，<code>localStorage</code>的区别？</li></ul>
+<blockquote>
+<p><code>cookie</code>是网站为了标识用户身份而存储在用户本地终端上的数据（通常经过加密）<br><code>cookie</code>数据始终在同源的<code>http</code>请求中携带（即使不需要），就会在浏览器和服务器间来回传递<br><code>sessionStorage</code>和<code>localStorage</code>不会自动把数据发给服务器，仅在本地保存</p>
+<p>存储大小：<br><code>cookie</code>数据大小不能超过<code>4k</code><br><code>sessionStorage</code>和<code>localStorage</code>虽然也有存储大小的限制，但比<code>cookie</code>大得多，可以达到<code>5M</code>或更大</p>
+<p>有效时间：<br><code>localStorage</code>存储持久数据，浏览器关闭后数据不丢失，除非主动删除数据<br><code>sessionStorage</code>数据在当前浏览器窗口关闭后自动删除<br><code>cookie</code>设置的<code>cookie</code>过期时间之前一直有效，即使窗口或浏览器关闭</p>
+</blockquote>
+<ul>
+<li>HTML5的<code>form</code>如何关闭自动完成功能？</li></ul>
+<blockquote>
+<p>给不想要提示的<code>form</code>或某个<code>input</code>设置为<code>autocomplete=off</code></p>
+</blockquote>
+<ul>
+<li>如何实现浏览器内多个标签页之间的通信？（阿里）</li></ul>
+<blockquote>
+<p><code>WebSocket</code>，<code>SharedWorkder</code><br>也可以调用<code>localStorage</code>、<code>cookies</code>等本地存储方式<br><code>localStorage</code>另一个浏览上下文中被添加、修改或删除时，它都会触发一个事件，通过监听事件，控制它的值来进行页面信息通信</p>
+</blockquote>
+<ul>
+<li><code>WebSocket</code>如何兼容低浏览器？（阿里）</li></ul>
+<blockquote>
+<p><code>Adobe Flash Socket</code><br><code>ActiveX HTMLFile（IE）</code><br>基于<code>multipart</code>编码发送<code>XHR</code><br>基于长轮询的<code>XHR</code></p>
+</blockquote>
+<ul>
+<li>Web应用从服务器主动推送Data到客户端有哪些方式？</li></ul>
+<blockquote>
+<p>HTML5提供的<code>WebSocket</code><br>不可见的<code>iframe</code><br><code>WebSocket</code>通过<code>flash</code><br><code>XHR</code>长时间连接<br><code>XHR Multipart Streaming</code><br><code>&lt;script&gt;</code>标签的长时间连接（可跨域）</p>
 </blockquote>
 
 </body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ES6</title>
+<title>重构</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -508,12 +508,14 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="es6">ES6</h1>
+<h1 id="-">重构</h1>
 <ul>
-<li><code>Object.is()</code>与原来的比较操作符<code>===</code>、<code>==</code>的区别？</li></ul>
+<li>如何进行页面重构？</li></ul>
 <blockquote>
-<p><code>==</code>判断，会在比较时进行类型转换<br><code>===</code>判断（严格判断），比较时不进行隐式类型转换，类型不同就会返回<code>false</code></p>
-<p><code>Object.is()</code>在<code>===</code>判断的基础上特别处理了<code>NaN</code>、<code>-0</code>和<code>+0</code>，保证<code>-0</code>和<code>+0</code>不再相同，但<code>Object.is(NaN,NaN)</code>会返回<code>true</code></p>
+<p>网站重构：在不改变UI的情况下对网站进行优化，在扩展的同时保持一致的UI。</p>
+<p>对传统的网站来说，重构通常是：<br>1、表格<code>table</code>布局改为<code>div+css</code><br>2、使网站前端兼容于现代浏览器<br>3、对于移动平台的优化<br>4、针对SEO进行优化</p>
+<p>深层次的网站重构应该考虑：<br>1、减少代码间的耦合<br>2、让代码保持弹性<br>3、严格按照规范编写代码<br>4、设计可扩展的API<br>5、代替旧有的框架、语言<br>6、增强用户体验<br>7、对速度的优化</p>
+<p>1、压缩JS、CSS、<code>image</code>等前端资源（通常是由服务器来解决）<br>2、程序的性能优化（数据读写）<br>3、采用CDN来加速资源加载<br>4、对于JS DOM的优化<br>5、HTTP服务器的文件缓存</p>
 </blockquote>
 
 </body>

@@ -537,44 +537,12 @@ vertical-align:1px;
 <ul>
 <li>常见的浏览器内核有哪些？</li></ul>
 <blockquote>
-<p><code>Trident</code>内核：IE，MaxThon，TT，The World，360，搜狗浏览器等[MSHTML]<br><code>Gecko</code>内核：Netscape6及以上版本，FF，MozillaSuite/SeaMonkey等<br><code>Presto</code>内核：Opera7及以上[Opera内核原为：<code>Presto</code>，现为：<code>Blink</code>]<br><code>Webkit</code>内核：Safari，Chrome等[Chrome：Blink（Webkit的分支）]</p>
-</blockquote>
-<ul>
-<li>HTML5有哪些新特性、移除了哪些元素？如何处理HTML5新标签的浏览器兼容问题？如何区分HTML和HTML5？</li></ul>
-<blockquote>
-<p>HTML5现在已经不是SGML的子集，主要是关于图像，位置，存储，多任务等功能的增加。<br>绘画<code>canvas</code><br>用于媒介回放的<code>video</code>和<code>audio</code>元素<br>本地离线存储<code>localStorage</code>长期存储数据，浏览器关闭后数据不丢失<br><code>sessionStorage</code>的数据在浏览器关闭后自动删除</p>
-<p>语义化更好的内容元素，比如<code>article</code>、<code>footer</code>、<code>header</code>、<code>nav</code>、<code>section</code><br>表单控件：<code>calendar</code>、<code>date</code>、<code>time</code>、<code>email</code>、<code>url</code>、<code>search</code><br>新技术：<code>webworker</code>、<code>websocket</code>、<code>Geolocation</code></p>
-<p>移除的元素：<br>纯表现的元素：<code>basefont</code>、<code>big</code>、<code>center</code>、<code>font</code>、<code>s</code>、<code>strike</code>、<code>tt</code>、<code>u</code><br>对可用性产生负面影响的元素：<code>frame</code>、<code>frameset</code>、<code>noframes</code></p>
-<p>支持HTML5新标签：<br><code>IE8/IE7/IE6</code>支持通过<code>document.createElement</code>方法产生的标签，可以利用这一特性让这些浏览器支持HTML5新标签，浏览器支持新标签后，还需要添加默认的样式。<br>也可以直接使用成熟的框架，如<code>html5shim</code>：</p>
-</blockquote>
-<pre><code>&lt;!--[if lt IE 9]&gt;
-    &lt;script&gt; src=&quot;http://html5shim.googlecode.com/svn/trunk/html5.js&quot;&lt;/script&gt;    
-&lt;![endif]&gt;
-</code></pre><blockquote>
-<p>区分HTML5,：DOCTYPE声明，新增的结构元素，功能元素等    </p>
+<p><code>Trident</code>内核：IE，MaxThon，TT，The World，360，搜狗浏览器等[MSHTML]<br><code>Gecko</code>内核：Netscape6及以上版本，FF，MozillaSuite/SeaMonkey等<br><code>Presto</code>内核：Opera7及以上[Opera内核原为：<code>Presto</code>，现为：<code>Blink</code>]<br><code>Webkit</code>内核：Safari，Chrome等[Chrome：Blink（Webkit的分支）] </p>
 </blockquote>
 <ul>
 <li>简述一下你对HTML语义化的理解？</li></ul>
 <blockquote>
 <p>语义化让页面的内容结构化，结构更清晰，便于对浏览器、搜索引擎解析<br>没有CSS样式也能正常阅读文档<br>搜索引擎的爬虫依赖HTML标记来确定上下文和各个关键字的权重，有利于SEO</p>
-</blockquote>
-<ul>
-<li>HTML5的离线存储怎么使用，工作原理解释一下？</li></ul>
-<blockquote>
-<p>在用户没有联网时，可以正常访问站点或应用；在联网的情况下，更新用户机器上的缓存文件。<br>原理：HTML5的离线存储是基于一个新建的<code>.appchache</code>文件的缓存机制（不是存储技术），通过这个文件上的解析清单离线存储资源，这些资源就会像<code>cookie</code>一样被存储下来。之后当网络处于离线状态时，浏览器会通过被离线存储的数据进行页面展示。</p>
-<p>如何使用：<br>1、页面头部加入一个<code>manifest</code>的属性<br>2、在<code>cache.manifest</code>文件的编写离线存储的资源<br>3、在离线状态下，操作<code>window.applicationCache</code>进行需求实现</p>
-</blockquote>
-<ul>
-<li>浏览器是如何对HTML5的离线存储资源进行管理和加载的？</li></ul>
-<blockquote>
-<p>在线的情况下，浏览器发现<code>html</code>头部有<code>manifest</code>属性，它会请求<code>manifest</code>文件，如果是第一次访问<code>app</code>，浏览器会根据<code>manifest</code>文件的内容下载相应的资源并且进行离线存储。<br>如果已经访问过<code>app</code>，并且资源已经离线存储，浏览器会使用离线的资源加载页面，然后浏览器会对比新的<code>manifest</code>文件，如果文件没有发生改变，就不做任何操作，否则就会重新下载文件中的资源并进行离线存储。<br>离线的情况下，浏览器直接使用离线存储的资源。</p>
-</blockquote>
-<ul>
-<li>请描述一下<code>cookie</code>，<code>sessionStorage</code>，<code>localStorage</code>的区别？</li></ul>
-<blockquote>
-<p><code>cookie</code>是网站为了标识用户身份而存储在用户本地终端上的数据（通常经过加密）<br><code>cookie</code>数据始终在同源的<code>http</code>请求中携带（即使不需要），就会在浏览器和服务器间来回传递<br><code>sessionStorage</code>和<code>localStorage</code>不会自动把数据发给服务器，仅在本地保存</p>
-<p>存储大小：<br><code>cookie</code>数据大小不能超过<code>4k</code><br><code>sessionStorage</code>和<code>localStorage</code>虽然也有存储大小的限制，但比<code>cookie</code>大得多，可以达到<code>5M</code>或更大</p>
-<p>有效时间：<br><code>localStorage</code>存储持久数据，浏览器关闭后数据不丢失，除非主动删除数据<br><code>sessionStorage</code>数据在当前浏览器窗口关闭后自动删除<br><code>cookie</code>设置的<code>cookie</code>过期时间之前一直有效，即使窗口或浏览器关闭</p>
 </blockquote>
 <ul>
 <li><code>iframe</code>有哪些缺点？</li></ul>
@@ -587,23 +555,8 @@ vertical-align:1px;
 <p><code>label</code>标签定义表单控件间的关系，当用户选择该标签时，浏览器会自动将焦点转到和标签相关的表单控件上。</p>
 </blockquote>
 <pre><code>&lt;label for=&quot;Name&quot;&gt;Number:&lt;/label&gt;
-&lt;input type=&quot;text&quot; name=&quot;Name&quot; id=&quot;Name&quot;&gt;
+&lt;input type=&quot;text&quot; name=&quot;Name&quot; id=&quot;Name&quot;&gt;   
 </code></pre><ul>
-<li>HTML5的<code>form</code>如何关闭自动完成功能？</li></ul>
-<blockquote>
-<p>给不想要提示的<code>form</code>或某个<code>input</code>设置为<code>autocomplete=off</code></p>
-</blockquote>
-<ul>
-<li>如何实现浏览器内多个标签页之间的通信？（阿里）</li></ul>
-<blockquote>
-<p><code>WebSocket</code>，<code>SharedWorkder</code><br>也可以调用<code>localStorage</code>、<code>cookies</code>等本地存储方式<br><code>localStorage</code>另一个浏览上下文中被添加、修改或删除时，它都会触发一个事件，通过监听事件，控制它的值来进行页面信息通信</p>
-</blockquote>
-<ul>
-<li><code>WebSocket</code>如何兼容低浏览器？（阿里）</li></ul>
-<blockquote>
-<p><code>Adobe Flash Socket</code><br><code>ActiveX HTMLFile（IE）</code><br>基于<code>multipart</code>编码发送<code>XHR</code><br>基于长轮询的<code>XHR</code></p>
-</blockquote>
-<ul>
 <li>页面可见性可以有哪些用途？</li></ul>
 <blockquote>
 <p>通过<code>visibilityState</code>的值检测页面当前是否可见，以及打开页面的时间等<br>在页面被切换到其他后台进程的时候，自动暂停音乐或视频的播放</p>
@@ -617,6 +570,22 @@ vertical-align:1px;
 <li>实现不使用<code>border</code>画出<code>1px</code>高的线，在不同浏览器的标准模式与怪异模式下都能保持一致的效果。</li></ul>
 <pre><code>&lt;div style=&quot;height: 1px;overflow: hidden;background: red;&quot;&gt;&lt;/div&gt;
 </code></pre><div style="height: 1px;overflow: hidden;background: red;"></div>
+
+<ul>
+<li>列举IE与其他浏览器不同的特性？</li></ul>
+<blockquote>
+<p>事件：触发事件的元素被认为是目标（<code>target</code>）。在IE中，目标包含在<code>event</code>对象的<code>SRCElement</code>属性；</p>
+<p>获取字符代码：如果按键代表一个字符（<code>shift</code>、<code>Ctrl</code>、<code>Alt</code>除外），IE的<code>keyCode</code>会返回字符代码<code>unicode</code>，DOM中按键的代码和字符是分离的，要获取字符代码，需要使用<code>charCode</code>属性；</p>
+<p>阻止某个事件的默认行为：IE中阻止某个事件的默认行为，必须将<code>returnValue</code>属性设置为<code>false</code>，火狐浏览器中需要调用<code>preventDefault()</code>方法。</p>
+<p>停止事件冒泡，IE中阻止事件进一步冒泡，需要设置<code>cancelBubble</code>为<code>true</code>，火狐中需要调用<code>stopPropagation()</code>。</p>
+</blockquote>
+<ul>
+<li>解析一下优雅降级和渐进增强？</li></ul>
+<blockquote>
+<p>优雅降级：Web站点在所有新式浏览器中都能正常工作，如果用户使用的是旧式浏览器，则代码会针对旧版本的IE进行降级处理，使之在旧式浏览器上以某种形式降级体验而不至于完全不能使用。<br>例如：<code>border-shadow</code></p>
+<p>渐进增强：从被所有浏览器支持的基本功能开始，逐步地添加那些只有新版本浏览器才支持的功能，向页面增加不影响基础浏览器的额外样式和功能。当浏览器支持时，它们会自定地呈现出来并发挥作用。<br>例如：默认使用<code>flash</code>上传，但如果浏览器支持HTML5的文件上传功能，则使用HTML5实现更好的体验。</p>
+</blockquote>
+
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

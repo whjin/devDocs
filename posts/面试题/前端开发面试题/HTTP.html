@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ES6</title>
+<title>HTTP</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -508,12 +508,32 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="es6">ES6</h1>
+<h1 id="http">HTTP</h1>
 <ul>
-<li><code>Object.is()</code>与原来的比较操作符<code>===</code>、<code>==</code>的区别？</li></ul>
+<li>HTTP状态码有哪些？分别代表什么？</li></ul>
 <blockquote>
-<p><code>==</code>判断，会在比较时进行类型转换<br><code>===</code>判断（严格判断），比较时不进行隐式类型转换，类型不同就会返回<code>false</code></p>
-<p><code>Object.is()</code>在<code>===</code>判断的基础上特别处理了<code>NaN</code>、<code>-0</code>和<code>+0</code>，保证<code>-0</code>和<code>+0</code>不再相同，但<code>Object.is(NaN,NaN)</code>会返回<code>true</code></p>
+<p>简单版：<br><code>100</code>-<code>continue</code>：继续，一般在发送<code>post</code>请求时，已发送<code>http header</code>之后服务器端将返回此信息表示确认，之后发送具体参数信息。<br><code>200</code>-<code>OK</code>：正常返回信息<br><code>201</code>-<code>created</code>：请求成功并且服务器创建了新的资源<br><code>202</code>-<code>Accepted</code>：服务器已接受请求，但尚未处理</p>
+<p><code>301</code>-<code>Moved Permanently</code>：请求的网页已经永久移动到新的位置<br><code>302</code>-<code>Found</code>：临时性重定向<br><code>303</code>-<code>See Other</code>：临时性重定向，且总是使用<code>GET</code>请求新的<code>URI</code><br><code>304</code>-<code>Not Modified</code>：自从上次请求后，请求的网页未修改过<br><code>400</code>-<code>Bad Request</code>：服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求</p>
+<p><code>401</code>-<code>Unauthorized</code>：请求未授权<br><code>403</code>-<code>Forbidden</code>：禁止访问<br><code>404</code>-<code>Not Found</code>：找不到如何与<code>URI</code>相匹配的资源</p>
+<p><code>500</code>-<code>Internal Server Error</code>：最常见的服务器端错误<br><code>503</code>-<code>Server Unavailable</code>：服务器端暂时无法处理请求（可能是过载或维护）</p>
+<p>完整版：<br><code>1**</code>（信息类）：表示接收到请求并且继续处理<br><code>100</code>——客户必须继续发出请求<br><code>101</code>——客户要求服务器根据请求转换HTML协议版本</p>
+<p><code>2**</code>（响应成功）：表示动作被成功接收、理解和接受<br><code>200</code>——表明该请求被成功地完成，所请求的资源发送回客户端<br><code>201</code>——提示知道新文件的<code>URL</code><br><code>202</code>——接受和处理、但处理未完成<br><code>203</code>——返回信息不确定或不完整<br><code>204</code>——请求收到，但返回信息为空<br><code>205</code>——服务器完成了请求，用户代理必须复位当前已经浏览过的文件<br><code>206</code>——服务器已经完成了部分用户的<code>GET</code>请求</p>
+<p><code>3**</code>（重定向类）：为了完成指定的动作，必须接受进一步处理<br><code>300</code>——请求的资源可在多处得到<br><code>301</code>——本网页被永久性转移到另一个<code>URL</code><br><code>302</code>——请求的网页被转移到一个新的地址，但客户访问仍继续通过原始<code>URL</code>地址，重定向，新的<code>URL</code>会在<code>response</code>中的<code>Location</code>中返回，浏览器将会使用新的<code>URL</code>发出新的<code>request</code>。<br><code>303</code>——建议客户访问其他<code>URL</code>或访问方式<br><code>304</code>——自从上次请求后，请求的网页未修改过，服务器返回此响应时，不会返回网页内容，代表上次的文档已经被缓存，还可以继续使用。<br><code>305</code>——请求的资源必须从服务器指定的地址得到<br><code>306</code>——前一版本HTTP中使用的代码，现行版本中不再使用<br><code>307</code>——申明请求的资源临时性删除</p>
+<p><code>4**</code>（客户端错误类）：请求包含错误语法或不能正确执行<br><code>400</code>——客户端请求有语法错误，不能被服务器所理解</p>
+<p><code>401</code>——请求未经授权，这个状态码必须和<code>WWW-Authenticate</code>报头域一起使用<br>HTTP <code>401.1</code>——未授权：登录失败<br>HTTP <code>401.2</code>——未授权：服务器配置问题导致登录失败<br>HTTP <code>401.3</code>——ACL 禁止访问资源<br>HTTP <code>401.4</code>——未授权：授权被筛选器拒绝<br>HTTP <code>401.5</code>——未授权：ISAPI或CGI授权失败</p>
+<p><code>402</code>——保留有效<code>ChargeTo</code>头响应</p>
+<p><code>403</code>——禁止访问，服务器收到请求，但是拒绝提供服务<br>HTTP <code>403.1</code>——禁止访问：禁止可执行访问<br>HTTP <code>403.2</code>——禁止访问：禁止读访问<br>HTTP <code>403.3</code>——禁止访问：禁止写访问<br>HTTP <code>403.4</code>——禁止访问：要求SSL<br>HTTP <code>403.5</code>——禁止访问：要求SSL <code>128</code><br>HTTP <code>403.6</code>——禁止访问：IP地址被拒绝<br>HTTP <code>403.7</code>——禁止访问：要求客户证书<br>HTTP <code>403.8</code>——禁止访问：禁止站点访问<br>HTTP <code>403.9</code>——禁止访问：连接的用户过多<br>HTTP <code>403.10</code>——禁止访问：配置无效<br>HTTP <code>403.11</code>——禁止访问：密码更改<br>HTTP <code>403.12</code>——禁止访问：映射器拒绝访问<br>HTTP <code>403.13</code>——禁止访问：客户证书已被吊销<br>HTTP <code>403.15</code>——禁止访问：客户访问许可过多<br>HTTP <code>403.16</code>——禁止访问：客户证书不可信或者无效<br>HTTP <code>403.17</code>——禁止访问：客户证书已经到期或者尚未生效</p>
+<p><code>404</code>——一个<code>404</code>错误表明可连接服务器，但服务器无法取得所请求的网页，请求资源不存在。<br><code>405</code>——用户在<code>Request-Line</code>字段定义的方法不予许<br><code>406</code>——根据用户发送的<code>Accept</code>头，请求资源不可访问<br><code>407</code>——类似<code>401</code>，用户必须首先在代理服务器上得到授权<br><code>408</code>——客户端没有在用户指定的时间内完成请求<br><code>409</code>——对当前资源状态，请求不能完成<br><code>410</code>——服务器上不再有此资源，且无进一步的参考地址<br><code>411</code>——服务器拒绝用户定义的<code>Content-Length</code>属性请求<br><code>412</code>——一个或多个请求头字段在当前请求中错误<br><code>413</code>——请求的资源大于服务器允许的大小<br><code>414</code>——请求的资源URL长于服务器允许的长度<br><code>415</code>——请求的资源不支持请求项目格式<br><code>416</code>——请求中包含<code>Range</code>请求头字段，在当前请求资源范围内没有<code>Range</code>指示值，请求也不包含<code>If-Rane</code>请求头字段<br><code>417</code>——服务器不满足请求<code>Expect</code>头字段指定的期望值，如果是代理服务器，可能是下一级服务器不能满足请求。</p>
+<p><code>5**</code>（服务端错误类）：服务器不能正确执行一个正确的请求<br>HTTP <code>500</code>——服务器遇到错误，无法完成请求<br>HTTP <code>500.100</code>——内部服务器错误——ASP错误<br>HTTP <code>500.11</code>——服务器关闭<br>HTTP <code>500.12</code>——应用程序重新启动<br>HTTP <code>500.13</code>——服务器太忙<br>HTTP <code>500.14</code>——应用程序无效<br>HTTP <code>500.15</code>——不允许请求<code>global.asa</code></p>
+<p>Error <code>501</code>——未实现</p>
+<p>HTTP <code>502</code>——网关错误<br>HTTP <code>503</code>——由于超载或停机维护，服务器目前无法使用，一段时间后可能恢复正常</p>
+</blockquote>
+<ul>
+<li>一个页面从输入URL到页面加载显示完成，这个过程发生了什么？（流程越详细越好）</li></ul>
+<blockquote>
+<p>从URL规范、HTTP协议、DNS、CDN、数据库查询到浏览器解析、CSS规则构建、<code>layout</code>、<code>paint</code>、<code>onload/domready</code>、JS执行、JS API绑定等</p>
+<p>1、浏览器会开启一个线程来处理这个请求，对URL分析判断如果是HTTP协议就按照Web方式来处理；<br>2、调用浏览器内核中的对应方法，比如<code>webview</code> 中的<code>loadUrl</code>方法；<br>3、通过DNS解析获取网址的IP地址，设置UA等信息发出第二个GET请求；<br>4、记性HTTP协议会话，客户端发送报头（请求报头）；<br>5、进入到web服务器上的Web Server，如Accept、Tomcat、Node.js等服务器；<br>6、进入部署好的后端应用，如PHP、Java、JavaScript、python等，找到对应的请求处理；<br>7、处理结束反馈报头，此处如果浏览器访问过，缓存上有对应资源，会与服务器最后修改时间对比，一致则返回<code>304</code>；<br>8、浏览器开始下载HTML文档（响应报头，状态码<code>200</code>），同时是使用缓存；<br>9、文档树建立，根据标记请求所需要指定MIME类型的文件（比如css、js），同时设置了<code>cookie</code>；<br>10、页面开始渲染DOM，JS根据DOM API操作DOM，执行事件绑定等，页面显示完成。</p>
+<p>浏览器把请求的URL交给DNS域名解析，找到真实IP，向服务器发起请求；<br>服务器交给后台处理完成后返回数据，浏览器接收文件；<br>浏览器对加载到的资源进行语法解析，建立相应的内部数据结构；<br>载入解析好的资源文件，渲染页面显示内容。</p>
 </blockquote>
 
 </body>

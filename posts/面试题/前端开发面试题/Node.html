@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ES6</title>
+<title>Node</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -508,12 +508,19 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="es6">ES6</h1>
+<h1 id="node">Node</h1>
 <ul>
-<li><code>Object.is()</code>与原来的比较操作符<code>===</code>、<code>==</code>的区别？</li></ul>
+<li>谈一下Node的优点和缺点？</li></ul>
 <blockquote>
-<p><code>==</code>判断，会在比较时进行类型转换<br><code>===</code>判断（严格判断），比较时不进行隐式类型转换，类型不同就会返回<code>false</code></p>
-<p><code>Object.is()</code>在<code>===</code>判断的基础上特别处理了<code>NaN</code>、<code>-0</code>和<code>+0</code>，保证<code>-0</code>和<code>+0</code>不再相同，但<code>Object.is(NaN,NaN)</code>会返回<code>true</code></p>
+<p><strong>优点：</strong><br>因为Node是基于事件驱动和无阻塞的，所以非常适合处理并发请求；<br>因此构建在Node上的代理服务器相比其他技术实现（如Ruby）的服务器表现要好很多。<br>此外，与Node代理服务器交互的客户端代码是由JS语言编写，因此客户端和服务器端都用同一种语言编写。</p>
+<p><strong>缺点：</strong><br>Node是一个相对新的开源项目，所以不太稳定，总是一直在变，而且缺少足够多的第三方库支持。</p>
+</blockquote>
+<ul>
+<li>你使用过哪些前端性能优化的方法？</li></ul>
+<blockquote>
+<p>1、减少HTTP请求次数：<code>CSS Sprites</code>、<code>JS</code>、<code>CSS</code>源码压缩、控制图片大小；网页<code>Gzip</code>，CDN托管，<code>data</code>缓存，图片服务器<br>2、前端模板：JS+数据，减少由于HTML标签导致的带宽浪费，前端用变量保存AJAX请求结果，每次操作本地变量，不用请求，减少请求次数<br>3、用<code>innerHTML</code>代替DOM操作，减少DOM操作次数，优化JS性能<br>4、当需要设置的样式很多时，设置<code>className</code>而不是直接操作<code>style</code><br>5、少用全局变量、缓存DOM节点查找的结果。减少IO读取操作。<br>6、避免使用<code>CSS</code>表达式，又称动态属性<br>7、图片预加载，将样式表放在顶部，将脚本放在底部，加上时间戳<br>8、避免在页面的主题布局中使用<code>table</code>，<code>table</code>要等其中的内容完全下载之后才会显示出来，显示比<code>div+css</code>布局慢。</p>
+<p>对普通的网站有一个统一的思路，就是尽量向前端优化、减少数据库操作、减少磁盘IO读写。<br>向前端优化指的是，在不影响功能和体验的情况下，<br>能在浏览器执行的不在服务器端执行，<br>能在缓存服务器上直接返回的不要到应用服务器执行，<br>程序能直接取得的结果不要到外部取得，<br>本机内能取得的数据不要到远程取得，<br>内存能取到的不要到磁盘上取，<br>缓存中有得不要去数据库查询。</p>
+<p>减少数据库操作，指的是减少更新次数、缓存结果减少查询次数、将数据库执行的操作尽可能的让程序完成（例如<code>join</code>查询），<br>减少磁盘IO指尽量不适用文件系统作为缓存、减少读写文件次数等。</p>
 </blockquote>
 
 </body>
