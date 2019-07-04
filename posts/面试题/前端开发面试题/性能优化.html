@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>前端面试题</title>
+<title>性能优化</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -18,50 +18,51 @@ ol,
 ul,
 li,
 img {
-    margin: 0;
-    padding: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;  
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 
 html * {
-    font-family: "ff-din-web-pro-1", "ff-din-web-pro-2", sans-serif;
-    font-size: 16px;
-    line-height: 19.2px;
-    color-profile: sRGB;
+  font-family: "ff-din-web-pro-1", "ff-din-web-pro-2", sans-serif;
+  font-size: 16px;
+  line-height: 19.2px;
+  color-profile: sRGB;
+  color: #657b83;
 }
 
 body {
-    min-width: 32em;
-    max-width: 56em;
-    margin: 10px auto;
+  min-width: 32em;
+  max-width: 56em;
+  margin: 10px auto;
 }
 
 p, blockquote p {
-    line-height: 1.6;
+  line-height: 1.6;
 }
 
 ul, ol {
-    margin: 16px 0;
+  margin: 16px 0;
 }
 
 ul li, ol li {
-    line-height: 1.6;
+  line-height: 1.6;
 }
 
 p {
-    font-weight: lighter;
-    margin: 10px 0;
+  font-weight: lighter;
+  margin: 10px 0;
 }
 
 strong {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 ol,
 ul {
-    margin-left: 2em;
+  margin-left: 2em;
 }
 
 h1,
@@ -70,45 +71,45 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: lighter;
-    text-transform: capitalize;
-    margin: 20px 0;
-    border-bottom: 1px solid;
-    padding-bottom: 6px;
+  font-weight: lighter;
+  text-transform: capitalize;
+  margin: 20px 0;
+  border-bottom: 1px solid;
+  padding-bottom: 6px;
 }
 
 h1, h1 > code {
-    font-size: 24.624px;
-    line-height: 29.548799999999996px;
+  font-size: 24.624px;
+  line-height: 29.548799999999996px;
 }
 
 h2, h2 > code {
-    font-size: 24.624px;
-    line-height: 29.548799999999996px;
+  font-size: 24.624px;
+  line-height: 29.548799999999996px;
 }
 
 h3, h3 > code {
-    font-size: 23.44px;
-    line-height: 28.128px;
+  font-size: 23.44px;
+  line-height: 28.128px;
 }
 
 h4, h4 > code {
-    font-size: 22.16px;
-    line-height: 26.592px;
+  font-size: 22.16px;
+  line-height: 26.592px;
 }
 
 h5, h5 > code {
-    font-size: 22.16px;
-    line-height: 26.592px;
+  font-size: 22.16px;
+  line-height: 26.592px;
 }
 
 h6, h6 > code {
-    font-size: 22.16px;
-    line-height: 26.592px;
+  font-size: 22.16px;
+  line-height: 26.592px;
 }
 
 img {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 h1 img,
@@ -118,41 +119,42 @@ h4 img,
 h5 img,
 h6 img,
 p img {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 pre,
 code {
-    font-family: monospace, Consolas, "Source Code Pro", Arial, sans-serif;
-    color: #586e75;
-    background-color: #eee8d5;
+  font-family: monospace, Consolas, "Source Code Pro", Arial, sans-serif;
+  color: #aa5d00;
+  /*color: #b58900;*/
+  background-color: #eee8d5;
 }
 
 pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    padding: 12px;
-    margin-bottom: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 12px;
+  margin-bottom: 20px;
 }
 
 code {
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 h1 {
-    text-transform: uppercase;
-    font-weight: bold;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 h3,
 h4,
 h5,
 h6 {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 html body {
-    background-color: #fdf6e3;
+  background-color: #fdf6e3;
 }
 
 html h1,
@@ -161,36 +163,36 @@ html h3,
 html h4,
 html h5,
 html h6 {
-    color: #586e75;
-    border-color: #657b83;
+  color: #586e75;
+  border-color: #657b83;
 }
 
 html a,
 html a:active,
 html a:visited {
-    color: #586e75;
-    text-decoration: none;
-    border-bottom: 1px dashed;
-    border-radius: 2px;
+  color: #586e75;
+  text-decoration: none;
+  border-bottom: 1px dashed;
+  border-radius: 2px;
 }
 
 html a:hover {
-    background-color: #eee8d5;
+  background-color: #eee8d5;
 }
 
 blockquote a:hover {
-    background-color: #fdf6e3;
+  background-color: #fdf6e3;
 }
 
 html a,
 html a:active,
 html a:visited,
 html code.url {
-    color: #b58900;
+  color: #b58900;
 }
 
 html h1 {
-    color: #b58900;
+  color: #b58900;
 }
 
 html h2,
@@ -198,124 +200,123 @@ html h3,
 html h4,
 html h5,
 html h6 {
-    color: #b58900;
+  color: #b58900;
 }
 
 /* QUOTES
 =============================================================================*/
 blockquote {
-    border-left: 4px solid #b58900;
-    padding: 12px;
-    background: #eee8d5;
-    border-bottom-right-radius: 2px;
+  border-left: 4px solid #b58900;
+  padding: 12px;
+  background: #eee8d5;
+  border-bottom-right-radius: 2px;
 }
 
 blockquote code {
-    background: #fdf6e3;
+  background: #fdf6e3;
 }
 
 blockquote > :first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 blockquote > :last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 /* TABLES
 =============================================================================*/
 table {
-    margin: 0 auto;
-    border-collapse: collapse;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 30px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 30px;
 }
 
 table th, table td {
-    border: 1px solid #ccc;
-    padding: 6px 13px;
+  border: 1px solid #ccc;
+  padding: 6px 13px;
 }
 
 table td {
-    word-break: break-word;
-    line-height: 1.3;
+  word-break: break-word;
+  line-height: 1.3;
 }
 
 table th {
-    font-weight: bold;
-    text-align: center !important;
-    background-color: #eee8d5;
+  font-weight: bold;
+  text-align: center !important;
+  background-color: #eee8d5;
 }
 
 table tr {
-    border-top: 1px solid #ccc;
-    background-color: #fdf6e3;
+  border-top: 1px solid #ccc;
+  background-color: #fdf6e3;
 }
 
 /* IMAGES
 =============================================================================*/
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 p > img {
-    display: table;
-    margin: 0 auto;
+  display: table;
+  margin: 0 auto;
 }
 
 p code, li code, td code {
-    padding: 1px 3px;
-    border-radius: 3px;
+  padding: 1px 3px;
+  border-radius: 3px;
 }
 
 .cp_embed_wrapper {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .hljs {
-	background: #eee8d5 !important;
+  background: #eee8d5 !important;
 }
 
-@media screen and (min-width: 980px) and (max-width: 980px) {	
-    table thead tr th,
-    table thead tr th > code,
-    table tbody tr td,
-    table tbody tr td > code,
-    table tbody tr td > strong {
-        font-size: 1.3em;
-        line-height: 1.3;
-    }
+@media screen and (min-width: 980px) and (max-width: 980px) {
+  table thead tr th,
+  table thead tr th > code,
+  table tbody tr td,
+  table tbody tr td > code,
+  table tbody tr td > strong {
+    font-size: 1.3em;
+    line-height: 1.3;
+  }
 
-    p, p code,
-    p strong, p strong > code,
-    blockquote p {
-        font-size: 1.3em;
-        line-height: 1.6;
-    }
+  p, p code,
+  p strong, p strong > code,
+  blockquote p {
+    font-size: 1.3em;
+    line-height: 1.6;
+  }
 
-    pre > code,
-    ul li pre > code,
-    ol li pre > code{
-		font-size: 1.3em;
-        line-height: 1.3;    	
-    }	
-	
+  pre > code,
+  ul li pre > code,
+  ol li pre > code {
+    font-size: 1.3em;
+    line-height: 1.3;
+  }
 
-    ul li, ol li,
-    ul li > code,
-    ol li > code {
-        font-size: 1.3em;
-		line-height: 1.3;          
-    }
+  ul li, ol li,
+  ul li > code,
+  ol li > code {
+    font-size: 1.3em;
+    line-height: 1.3;
+  }
 
-    ul {
-        margin-left: 3.4em;
-    }
+  ul {
+    margin-left: 3.4em;
+  }
 
-    ol {
-        margin-left: 3.6em;
-    }
+  ol {
+    margin-left: 3.6em;
+  }
 }
 </style>
 <style type="text/css">
@@ -508,30 +509,14 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="-">前端面试题</h1>
-<h2 id="-url-html-">从输入URL(或跳转页面)到获取HTML的详细过程</h2>
-<p><strong>加载一个资源的过程</strong></p>
+<h1 id="-">性能优化</h1>
 <ul>
-<li>浏览器根据DNS服务器得到域名的IP地址</li><li>向这个IP的机器发送HTTP请求</li><li>服务器收到、处理并返回HTTP请求</li><li>浏览器得到返回内容</li></ul>
-<p><strong>浏览器渲染页面的过程</strong></p>
-<ul>
-<li>根据HTML结构生成DOM Tree</li><li>根据CSS生成CSSOM</li><li>将DOM和CSSOM整合形成RenderTree</li><li>根据RenderTree开始渲染和显示</li><li>遇到<code>&lt;script&gt;</code>时，会执行并阻塞渲染</li></ul>
-<h2 id="-window-onload-domcontentloaded-"><code>window.onload</code>和<code>DOMContentLoaded</code>的区别</h2>
-<ul>
-<li>页面的全部资源加载完才会执行，包括图片、视频等</li><li>DOM渲染完即可执行，此时图片、视频还没有加载完</li></ul>
-<h2 id="-">性能优化</h2>
-<ul>
-<li>多食用内存、缓存或其他方法</li><li><p>减少CPU计算、减少网络</p>
+<li>多使用内存、缓存或其他方法</li><li><p>减少CPU计算、减少网络</p>
 </li><li><p>加载页面和静态资源</p>
 </li><li>页面渲染</li></ul>
 <p><strong>加载资源优化</strong></p>
 <ul>
 <li>静态资源的压缩合并</li><li>静态资源缓存——通过链接名称控制缓存，只有内容改变的时候，链接名称才会改变</li><li>使用CDN让资源加载更快</li><li>使用SSR后端渲染，数据直接输出到HTML中</li><li>CSS放前面，JS放后面</li><li>懒加载（图片懒加载、下拉加载更多）</li><li>减少DOM查询，对DOM查询做缓存（缓存DOM查询）</li><li>减少DOM操作，多个操作尽量合并在一起执行（合并DOM插入<code>document.createDocumentFragment()</code>）</li><li>事件节流</li><li>尽早执行操作（如<code>DOMContentLoaded</code>）</li></ul>
-<h2 id="-">安全性</h2>
-<ul>
-<li>XSS跨站请求攻击</li><li><p>XSRF跨站请求伪造</p>
-</li><li><p>在博客写文章，同时偷偷插入一段<code>&lt;script&gt;</code></p>
-</li><li>攻击代码中，获取<code>cookie</code>，发送到自己的服务器</li><li>发布博客，有人查看博客</li><li>会把查看者的<code>cookie</code>发送到攻击者的服务器</li></ul>
 
 </body>
 </html>
