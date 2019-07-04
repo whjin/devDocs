@@ -97,10 +97,6 @@ div object {
 }
 
 @media screen and (max-width: 768px) {
-  .container {
-    margin-left: 30px;
-  }
-
   .row .col-md-2, .row .col-md-3 {
     border-right: none;
   }
