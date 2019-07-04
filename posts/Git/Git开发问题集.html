@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>前端路由原理</title>
+<title>Git开发问题集</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -510,98 +510,220 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="-">前端路由原理</h1>
-<p>路由的概念来源于服务端，描述URL与处理函数之间的映射关系。</p>
-<p>在web前端单页应用SPA中，路由描述URL与UI之间的映射关系，这种映射是单向的，即URL变化引起UI更新（无需刷新页面）。</p>
-<p><strong>要实现前端路由，需要解决两个核心：</strong></p>
-<ol>
-<li>如何改变URL却不引起页面刷新？</li><li>如何检测URL变化？</li></ol>
-<p><strong><code>hash</code>实现</strong></p>
-<ul>
-<li><code>hash</code>是URL中<code>hash(#)</code>及后面的部分，常用作锚点在页面内进行导航，改变URL中的<code>hash</code>部分不会引起页面刷新</li><li>通过<code>hashchange</code>事件监听URL的变化，改变URL的方式只有这几种：<ol>
-<li>通过浏览器前进后退改变URL</li><li>通过<code>&lt;a&gt;</code>标签改变URL</li><li>通过<code>window.location</code>改变URL</li></ol>
-</li></ul>
-<p><strong><code>history</code>实现</strong></p>
-<ul>
-<li><code>history</code>提供了<code>pushState</code>和<code>replaceState</code>两种方法，这两种方法改变URL的<code>path</code>部分不会引起页面刷新</li><li><code>history</code>提供类似<code>hashchange</code>事件的<code>popstate</code>事件，但<code>popstate</code>事件有些不同<ol>
-<li>通过浏览器前进后退改变URL时会触发<code>popstate</code>事件</li><li>通过<code>pushState/replaceState</code>或<code>&lt;a&gt;</code>标签改变URL不会触发<code>popstate</code>事件</li><li>可以拦截<code>pushState/replaceState</code>的调用和<code>&lt;a&gt;</code>标签的点击事件来检测URL变化，所以监听URL变化可以实现，只是没有<code>hashchange</code>那么方便</li></ol>
-</li></ul>
-<p><strong>原生JS前端路由实现</strong></p>
-<p><strong>基于<code>hash</code>实现</strong></p>
-<pre><code>&lt;ul&gt;
-    &lt;li&gt;&lt;a href=&quot;#/home&quot;&gt;home&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;#/about&quot;&gt;about&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div id=&quot;routeView&quot;&gt;&lt;/div&gt;
+<h1 id="git-">Git开发问题集</h1>
+<p><strong>生成<code>ssh</code></strong></p>
+<pre><code>生成新的SSH Key：
 
-//页面加载完不会触发hashchange，这里主动触发一次hashchange事件
-window.addEventListener(&#39;DOMContentLoaded&#39;, onload);
-//监听路由变化
-window.addEventListener(&#39;hashchange&#39;, onHashChange);
+$ ssh-keygen -t rsa -C &quot;邮件地址@youremail.com&quot;
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/your_user_directory/.ssh/id_rsa):&lt;回车就好&gt;
+注意1: 此处的邮箱地址，你可以输入自己的邮箱地址；注意2: 此处的「-C」的是大写的「C」
 
-//路由视图
-var routerView = null;
+然后系统会要你输入密码：
 
-function onload() {
-  routerView = document.querySelector(&#39;#routeView&#39;);
-  onHashChange();
-}
+Enter passphrase (empty for no passphrase):&lt;输入加密串&gt;
+Enter same passphrase again:&lt;再次输入加密串&gt;
+在回车中会提示你输入一个密码，这个密码会在你提交项目时使用，如果为空的话提交项目时则不用输入。
+这个设置是防止别人往你的项目里提交内容。
 
-//路由变化时，根据路由渲染对应UI
-function onHashChange() {
-  switch (location.hash) {
-    case &#39;#/home&#39;:
-      routerView.innerHTML = &#39;Home&#39;;
-      return;
-    case &#39;#/about&#39;:
-      routerView.innerHTML = &#39;About&#39;;
-      return;
-    default:
-      return;
-  }
-}
-</code></pre><p><strong>基于<code>history</code>实现</strong></p>
-<pre><code>&lt;ul&gt;
-    &lt;li&gt;&lt;a href=&quot;/home&quot;&gt;home&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;/about&quot;&gt;about&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div id=&quot;routeView&quot;&gt;&lt;/div&gt;
+测试
 
-//页面加载完不会触发hashchange，这里主动触发一次hashchange事件
-window.addEventListener(&#39;DOMContentLoaded&#39;, onload);
-//监听路由变化
-window.addEventListener(&#39;hashchange&#39;, onPopState);
+可以输入下面的命令，看看设置是否成功，git@github.com的部分不要修改：
 
-//路由视图
-var routerView = null;
+$ ssh -T git@github.com
+如果是下面的反馈：
 
-function onload() {
-  routerView = document.querySelector(&#39;#routeView&#39;);
-  onPopState();
-}
+The authenticity of host &#39;github.com (ip)&#39; can&#39;t be established.
+RSA key fingerprint is ...
+Are you sure you want to continue connecting (yes/no)?
+不要紧张，输入yes就好，然后会看到：
 
-//拦截&lt;a&gt;标签点击事件默认行为，点击时使用pushState修改URL并手动更新UI
-//从而实现点击链接更新URL和UI的效果
-var linkList = document.querySelectorAll(&#39;a[href]&#39;);
-linkList.forEach(el =&gt; el.addEventListener(&#39;click&#39;, (e) =&gt; {
-  e.preventDefault();
-  history.pushState(null, &#39;&#39;, el.getAttribute(&#39;href&#39;));
-  onPopState()
-}));
+Hi cnfeat! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
+设置用户信息
 
-//路由变化时，根据路由渲染对应UI
-function onPopState() {
-  switch (location.pathname) {
-    case &#39;/home&#39;:
-      routerView.innerHTML = &#39;Home&#39;;
-      return;
-    case &#39;/about&#39;:
-      routerView.innerHTML = &#39;About&#39;;
-      return;
-    default:
-      return;
-  }
-}
+现在你已经可以通过SSH链接到GitHub了，还有一些个人信息需要完善的。
+
+Git会根据用户的名字和邮箱来记录提交。GitHub也是用这些信息来做权限的处理，输入下面的代码进行个人信息的设置，
+把名称和邮箱替换成你自己的，名字必须是你的真名，而不是GitHub的昵称。
+
+$ git config --global user.name &quot;cnfeat&quot;//用户名
+$ git config --global user.email  &quot;cnfeat@gmail.com&quot;//填写自己的邮箱
+</code></pre><p><strong>密钥安装</strong></p>
+<pre><code>git ssh 密钥生成
+ssh-keygen -t rsa -C &quot;email&quot;
+
+测试连接
+ssh -T git@github.com
+</code></pre><p><strong>全局配置</strong></p>
+<pre><code>接下来我们要做的就是把本地仓库传到github上去，在此之前还需要设置username和email，因为github每次commit都会记录他们。
+$ git config --global user.name &quot;username&quot;
+$ git config --global user.email &quot;email&quot;
+
+
+第六步，发布内容。
+现在，这个简单的Blog就可以发布了。先把所有内容加入本地git库。
+　　$ git add .
+　　$ git commit -m &quot;first post&quot;
+
+然后，前往github的网站，在网站上创建一个名为jekyll_demo的库。接着，再将本地内容推送到github上你刚创建的库。
+注意，下面命令中的username，要替换成你的username。
+　　$ git remote add origin     git remote set-url origin
+　　$ git push origin Cluster
+
+
+在本地新建一个分支： git branch Branch1
+切换到你的新分支: git checkout Branch1
+将新分支发布在github上： git push origin Branch1
+在本地删除一个分支： git branch -d Branch1
+在github远程端删除一个分支： git push origin :Branch1   (分支名前的冒号代表删除)
+
+
+然后，创建一个没有父节点的分支gh-pages。因为github规定，只有该分支中的页面，才会生成网页文件。
+
+    　　$ git checkout --orphan gh-pages
+
+以下所有动作，都在该分支下完成。
+
+发布内容。
+
+现在，这个简单的Blog就可以发布了。先把所有内容加入本地git库。
+
+    　　$ git add .
+
+    　　$ git commit -m &quot;first post&quot;
+
+然后，前往github的网站，在网站上创建一个名为jekyll_demo的库。接着，再将本地内容推送到github上你刚创建的库。
+注意，下面命令中的username，要替换成你的username。
+
+    　　$ git remote add origin https://github.com/username/jekyll_demo.git
+
+    　　$ git push origin gh-pages
+
+上传成功之后，等10分钟左右，
+</code></pre><p><strong>分支操作</strong></p>
+<pre><code>查看分支：
+1 查看本地分支：
+$ git branch
+2 查看远程分支
+$ git branch -r
+
+
+创建分支：
+
+1 创建本地分支（建立分支后，仍停留在当前分支，切换分支：git checkout branchName）
+
+$ git branch branchName
+
+2 创建分支后切换到新分支
+
+$ git checkout -b branchName
+
+
+提交分支：
+
+1 提交到远程分支
+
+$ git commit -a -m &#39;my new branch&#39;
+
+git push origin branchName:branchName
+
+2 如果想把本地的某个分支mybranch提交到远程仓库，并作为远程仓库的master分支
+
+$ git push origin mybranch:master
+
+
+删除分支：
+
+1 删除远程分支
+
+$ git push origin :branchName
+
+2 删除本地分支，强制删除用-D
+
+$ git branch -d branchName
+
+
+合并分支
+
+将分支branchName和当前所在分支合并
+
+$ git merge branchName
+
+
+标记tag
+
+对当前分支打tag：
+
+git tag tagContent
+
+然后push到远程即可：
+
+git push origin BranchName:BranchName
+</code></pre><p><strong>删除远程仓库文件或文件夹</strong></p>
+<pre><code>$ git pull origin master 将远程仓库里面的项目拉下来
+
+$ dir  查看有哪些文件夹
+
+$ git rm -r --cached target  删除target文件夹
+$ git commit -m &#39;删除了target&#39;  提交,添加操作说明
+
+$ git push -u origin master 将本次更改更新到github项目上去
+
+注:本地项目中的target文件夹不受操作影响,删除的只是远程仓库中的target, 可放心删除
+
+每次增加文件或删除文件，都要commit 然后直接 git push -u origin master，就可以同步到github上了
+</code></pre><p><strong>合并<code>dev</code>分支文件到<code>master</code>主分支</strong></p>
+<pre><code>1，上传dev分支文件，或者git pull更新dev分支
+2，切换到master分支，合并文件git merge dev
+3，上传master分支
+</code></pre><p><strong><code>push</code>本地代码到GitHub出错</strong></p>
+<pre><code>刚创建的github版本库，在push代码时出错：
+
+$ git push -u origin master
+To git@github.com:******/Demo.git
+ ! [rejected]        master -&gt; master (non-fast-forward)
+error: failed to push some refs to &#39;git@github.com:******/Demo.git&#39;
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Merge the remote changes (e.g. &#39;git pull&#39;)
+hint: before pushing again.
+hint: See the &#39;Note about fast-forwards&#39; in &#39;git push --help&#39; for details.
+
+网上搜索了下，是因为远程repository和我本地的repository冲突导致的，而我在创建版本库后，
+在github的版本库页面点击了创建README.md文件的按钮创建了说明文档，
+但是却没有pull到本地。这样就产生了版本冲突的问题。
+
+有如下几种解决方法：
+
+1.使用强制push的方法：
+
+$ git push -u origin master -f 
+
+这样会使远程修改丢失，一般是不可取的，尤其是多人协作开发的时候。
+
+2.push前先将远程repository修改pull下来
+
+$ git pull origin master
+
+$ git push -u origin master
+
+3.若不想merge远程和本地修改，可以先创建新的分支：
+
+$ git branch [name]
+
+然后push
+
+$ git push -u origin [name]
+</code></pre><p><strong><code>push</code>时出现<code>not found</code></strong></p>
+<pre><code>github中在本地进行上传的时候出现ERROR: Repository not found. fatal: The remote end hung up unexpectedly
+
+一开始出现这个错误的时候还感觉很奇怪，我明明在github网站中已经建立了相应的文件夹了，
+但还是提示相应的库找不到。费劲周折，终于把问题给解决了！
+
+解决方法如下：
+
+ 在本地中相应的库文件夹命令中输入： vim ./git/config
+
+将文件中的 [remote “origin&quot;]部分去掉！
 </code></pre>
 </body>
 </html>
