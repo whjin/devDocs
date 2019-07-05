@@ -130,5 +130,10 @@
 
 **排除`jQuery`，告诉`webpack`我们会自行载入外部的`jQuery`**
 
+**使用`html-webpack-plugins`处理HTML，这个插件提供了`favicon`**
 
+    const htmlPlugin = new HtmlWebpackPlugin({
+        favicon: path.resolve(publicDir, './img/favicon.ico')
+    });
+    pluginsConfig.push(htmlPlugin);
 
