@@ -31,7 +31,7 @@ html * {
   font-size: 16px;
   line-height: 19.2px;
   color-profile: sRGB;
-  color: #657b83;
+  /*color: #657b83;*/
 }
 
 body {
@@ -52,7 +52,7 @@ ul li, ol li {
   line-height: 1.6;
 }
 
-p {
+p, li {
   font-weight: lighter;
   margin: 10px 0;
 }
@@ -297,14 +297,13 @@ p code, li code, td code {
     line-height: 1.6;
   }
 
-  pre > code,
-  ul li pre > code,
-  ol li pre > code {
-    font-size: 1.3em;
-    line-height: 1.3;
+  ul li, ol li {
+    font-size: inherit;
   }
 
-  ul li, ol li,
+  pre > code,
+  ul li pre > code,
+  ol li pre > code,
   ul li > code,
   ol li > code {
     font-size: 1.3em;
@@ -618,7 +617,25 @@ module.exports = {
     favicon: path.resolve(publicDir, &#39;./img/favicon.ico&#39;)
 });
 pluginsConfig.push(htmlPlugin);
-</code></pre>
+</code></pre><h2 id="-">实战经验</h2>
+<ul>
+<li>我们遇到的问题都是别人已经解决或未解决的，也就是说问题是客观存在的，遇到了就想<code>asdasdashkdasdsahkd</code>办法找解决方案。查找方法上面也提到了，实在找不到就跟团队成员或领导讨论，集思广益，集体的力量是强大的。要么拿来主义，增删查改都可以，要么自己创造，另辟蹊径。</li></ul>
+<blockquote>
+<p>最后，建议多用谷歌，少用百度，多看英文文章，<code>asdsadsadasd</code>多实战项目，多踩坑填坑，开发出现的问题就少很多，外面是界面很精彩。</p>
+</blockquote>
+<ul>
+<li><p>测试阿斯达四大所恐龙当家阿萨德</p>
+<p>  const htmlPlugin = new HtmlWebpackPlugin({</p>
+<pre><code>  favicon: path.resolve(publicDir, &#39;./img/favicon.ico&#39;)
+</code></pre><p>  });<br>  pluginsConfig.push(htmlPlugin);</p>
+</li></ul>
+<ol>
+<li><p>测试阿斯达四大所恐龙当家阿萨德</p>
+<p> const htmlPlugin = new HtmlWebpackPlugin({</p>
+<pre><code> favicon: path.resolve(publicDir, &#39;./img/favicon.ico&#39;)
+</code></pre><p> });<br> pluginsConfig.push(htmlPlugin);</p>
+</li></ol>
+
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

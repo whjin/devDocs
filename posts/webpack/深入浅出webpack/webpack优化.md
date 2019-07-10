@@ -1,4 +1,4 @@
-﻿# webpack优化 #
+# webpack优化 #
 
 ## 优化开发体验 ##
 
@@ -29,4 +29,3 @@
 2. **提升流畅度**，也就是提升代码性能。
     -  使用 Prepack
     -  开启 Scope Hoisting
-
