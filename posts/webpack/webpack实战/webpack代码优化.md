@@ -146,16 +146,16 @@
 
 - 测试阿斯达四大所恐龙当家阿萨德
 
-    const htmlPlugin = new HtmlWebpackPlugin({
-        favicon: path.resolve(publicDir, './img/favicon.ico')
-    });
-    pluginsConfig.push(htmlPlugin);
+        const htmlPlugin = new HtmlWebpackPlugin({
+            favicon: path.resolve(publicDir, './img/favicon.ico')
+        });
+        pluginsConfig.push(htmlPlugin);
 
 
 
 1. 测试阿斯达四大所恐龙当家阿萨德
 
-    const htmlPlugin = new HtmlWebpackPlugin({
-        favicon: path.resolve(publicDir, './img/favicon.ico')
-    });
-    pluginsConfig.push(htmlPlugin);
+        const htmlPlugin = new HtmlWebpackPlugin({
+            favicon: path.resolve(publicDir, './img/favicon.ico')
+        });
+        pluginsConfig.push(htmlPlugin);
