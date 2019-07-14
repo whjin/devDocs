@@ -533,8 +533,40 @@ vertical-align:1px;
 <pre><code>&lt;view bind:tap=&quot;isLike&quot; class=&quot;container&quot;&gt;
 
 &lt;view catch:tap=&quot;isLike&quot; class=&quot;container&quot;&gt;
-</code></pre><p><code>bind</code>事件绑定，不会阻止冒泡事件向上冒泡。<code>catch</code>事件绑定，可以阻止冒泡事件向上冒泡。    </p>
+</code></pre><p><code>bind</code>事件绑定，不会阻止冒泡事件向上冒泡。<code>catch</code>事件绑定，可以阻止冒泡事件向上冒泡。   </p>
+<h2 id="-properties-">组件<code>properties</code>属性</h2>
+<p><strong>组件的属性列表</strong></p>
+<pre><code>&lt;view bind:tap=&quot;isLike&quot; class=&quot;container&quot;&gt;
+  &lt;text&gt;{{count}}&lt;/text&gt;
+&lt;/view&gt;
 
+properties: {
+  like: {
+    // 必填
+    type: Boolean,
+      // 下面的内容选填
+      value: false, //默认值
+        observer: function() {
+
+        }
+  },
+  count: {
+    type: Number
+  }
+}
+</code></pre><p><strong>组件的方法列表</strong></p>
+<pre><code>methods: {
+  isLike: function(e) {
+    let like = this.properties.like;
+    let count = this.properties.count;
+    count = like ? like - 1 : like + 1;
+    this.setData({
+      count: count,
+      like: !like
+    })
+  }
+}
+</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
