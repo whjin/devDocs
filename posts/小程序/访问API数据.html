@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>小程序-组件化开发</title>
+<title>访问API数据</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -500,69 +500,64 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="-">小程序-组件化开发</h1>
-<h2 id="-">页面创建与配置</h2>
-<p>创建存放组件的<code>components</code>文件夹，在<code>components</code>下新建组件<code>like</code>文件夹，然后新建<code>component</code>，<code>index.js</code>、<code>index.json</code>、<code>index.wxml</code>、<code>index.wxss</code>文件。</p>
-<p>在页面的配置文件<code>index.json</code>中引入组件：</p>
-<pre><code>{
-  &quot;usingComponents&quot;: {
-    &quot;v-like&quot;:&quot;components/like/index&quot;
-  },
-  &quot;navigationBarTitleText&quot;: &quot;首页&quot;
-} 
-</code></pre><p>之后，在<code>index.wxml</code>中使用组件<code>&lt;v-like /&gt;</code>。</p>
-<blockquote>
-<p>在<code>app.wxss</code>中设置全局的样式，其中<code>page</code>默认是全局元素，对它进行设置类似于对<code>body</code>设置样式。<br><strong>组件</strong>可以继承全局样式中的<code>font-*</code>、<code>color</code>属性，其他的不继承。<br><strong>页面</strong>可以继承绝大部分全局样式。</p>
-</blockquote>
-<h2 id="wxss-">WXSS样式设置</h2>
-<p><strong>消除文字空白间距</strong></p>
-<pre><code>.container image {
-  width: 36rpx;
-  height: 24rpx;
-  font-size: 24rpx;
-  /* 文字自身存在空白间距，消除间距 */
-  line-height: 24rpx;
-  /* 相对定位 */
-  position: relative;
-  left: 6rpx;
-  bottom: 10rpx;
+<h1 id="-api-">访问API数据</h1>
+<p><strong>监听页面加载</strong></p>
+<p>最快从服务器发起请求，获取数据。<code>request</code>异步处理。</p>
+<pre><code>onLoad: function(options) {
+  wx.request({
+    url: &#39;&#39;,
+    data: &#39;&#39;,
+    header: {
+      &quot;content-type&quot;: &quot;json&quot;
+    },
+    success: function (res) {
+      console.log(res)
+    },
+    fail: function (err) {
+      console.log(err)
+    }
+  })
 }
-</code></pre><p><code>flexbox</code>的<code>display</code>自身的取值：<code>flex</code>，<code>inline-flex</code>，Safari的webkit内核浏览器，必须加上<code>display: -webkit-flex;</code></p>
-<h2 id="-">组件的事件处理</h2>
-<p>使用<code>bindtap</code>绑定处理事件，在组件下<code>index.js</code>文件的<code>methods</code>内写事件方法。</p>
-<pre><code>&lt;view bind:tap=&quot;isLike&quot; class=&quot;container&quot;&gt;
-
-&lt;view catch:tap=&quot;isLike&quot; class=&quot;container&quot;&gt;
-</code></pre><p><code>bind</code>事件绑定，不会阻止冒泡事件向上冒泡。<code>catch</code>事件绑定，可以阻止冒泡事件向上冒泡。   </p>
-<h2 id="-properties-">组件<code>properties</code>属性</h2>
-<p><strong>组件的属性列表</strong></p>
-<pre><code>&lt;view bind:tap=&quot;isLike&quot; class=&quot;container&quot;&gt;
-  &lt;text&gt;{{count}}&lt;/text&gt;
-&lt;/view&gt;
-
-properties: {
-  like: {
-    // 必填
-    type: Boolean,
-      // 下面的内容选填
-      value: false, //默认值
-        observer: function() {
-
-        }
-  },
-  count: {
-    type: Number
-  }
+</code></pre><p><strong>ES6箭头函数和<code>this</code>指代</strong>，解决<code>this</code>指代问题。</p>
+<pre><code>success: res =&gt; {
+  console.log(res)
 }
-</code></pre><p><strong>组件的方法列表</strong></p>
-<pre><code>methods: {
-  isLike: function(e) {
-    let like = this.properties.like;
-    let count = this.properties.count;
-    count = like ? like - 1 : like + 1;
-    this.setData({
-      count: count,
-      like: !like
+</code></pre><h2 id="-promise-"><code>Promise</code>应用场景</h2>
+<ol>
+<li>异步嵌套</li><li>使用<code>return</code>获取返回值</li></ol>
+<p>新建<code>config.js</code>配置文件，写入内容，导出模块：</p>
+<pre><code>// 导出形式1
+export const config = {
+  api_base_url: &#39;&#39;,
+  appkey: &quot;&quot;
+}
+
+export let fun1 = function() {}
+
+// 导出形式2
+export {
+  config,
+  fun1
+};        
+</code></pre><p>新建<code>http.js</code>，创建一个类，引入<code>config.js</code>模块：</p>
+<pre><code>import {
+  config
+} from &#39;/config.js&#39;;
+
+// 设置别名
+import {
+  config as config1
+} from &#39;/config.js&#39;;
+
+import {
+  config,
+  fun1
+} from &#39;/config.js&#39;;
+
+class HTTP {
+  request(params) {
+    wx.request({
+      url: &#39;&#39;,
     })
   }
 }
