@@ -49,27 +49,42 @@
 
 新建`http.js`，创建一个类，引入`config.js`模块：
 
+    // 引入多个模块
     import {
       config
-    } from '/config.js';
-    
-    // 设置别名
-    import {
-      config as config1
-    } from '/config.js';
-    
-    import {
-      config,
-      fun1
-    } from '/config.js';
+    } from '../config.js';
     
     class HTTP {
       request(params) {
+        if (!params.method) {
+          params.method = "GET"
+        }
         wx.request({
-          url: '',
+          url: config.api_base_url + params.url,
+          method: params.method,
+          data: params.data,
+          header: {
+            'content-type': 'application/json',
+            'appkey': config.appkey
+          },
+          success: res => {
+            // 40x状态码依然在success里面处理 
+            // 使用ES6中的startsWith和endsWith
+            let code = res.statusCode.toString();
+            if (code.startsWith('2')) {
+              params.success(res.data)
+            } else {}
+          },
+          fail: err => {}
         })
       }
     }
+    
+    export {
+      HTTP
+    };
+
+> 组件中引入模块可以使用绝对定位，在页面中引入则需要使用相对路径。
 
 
 

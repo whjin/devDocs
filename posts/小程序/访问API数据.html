@@ -540,28 +540,44 @@ export {
   fun1
 };        
 </code></pre><p>新建<code>http.js</code>，创建一个类，引入<code>config.js</code>模块：</p>
-<pre><code>import {
+<pre><code>// 引入多个模块
+import {
   config
-} from &#39;/config.js&#39;;
-
-// 设置别名
-import {
-  config as config1
-} from &#39;/config.js&#39;;
-
-import {
-  config,
-  fun1
-} from &#39;/config.js&#39;;
+} from &#39;../config.js&#39;;
 
 class HTTP {
   request(params) {
+    if (!params.method) {
+      params.method = &quot;GET&quot;
+    }
     wx.request({
-      url: &#39;&#39;,
+      url: config.api_base_url + params.url,
+      method: params.method,
+      data: params.data,
+      header: {
+        &#39;content-type&#39;: &#39;application/json&#39;,
+        &#39;appkey&#39;: config.appkey
+      },
+      success: res =&gt; {
+        // 40x状态码依然在success里面处理 
+        // 使用ES6中的startsWith和endsWith
+        let code = res.statusCode.toString();
+        if (code.startsWith(&#39;2&#39;)) {
+          params.success(res.data)
+        } else {}
+      },
+      fail: err =&gt; {}
     })
   }
 }
-</code></pre>
+
+export {
+  HTTP
+};
+</code></pre><blockquote>
+<p>组件中引入模块可以使用绝对定位，在页面中引入则需要使用相对路径。</p>
+</blockquote>
+
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
