@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>HTTP导学</title>
+<title>跨域和缓存</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -500,44 +500,117 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="http-">HTTP导学</h1>
+<h1 id="-">跨域和缓存</h1>
+<h2 id="cors-">CORS跨域</h2>
+<p>搭建服务端：</p>
+<p><strong><code>server.js</code></strong></p>
+<pre><code>const http = require(&#39;http&#39;);
+const fs = require(&#39;fs&#39;);
+http.createServer((request, response) =&gt; {
+  console.log(&#39;request come&#39;, request.url);
+  const html = fs.readFileSync(&#39;index.html&#39;, &#39;utf8&#39;);
+  response.writeHead(200, {
+    &#39;Content-Type&#39;: &#39;text/html&#39;
+  });
+  response.end(html);
+}).listen(8888);
+console.log(&#39;server listening on 8888&#39;);
+</code></pre><p><strong><code>server2.js</code></strong></p>
+<pre><code>const http = require(&#39;http&#39;);
+http.createServer(function (request, response) {
+  console.log(&#39;request come&#39;, request.url);
+  response.writeHead(200, {
+    &#39;Access-Control-Allow-Origin&#39;: &#39;*&#39;,
+    &#39;Access-Control-Allow-Headers&#39;: &#39;x-Test-Cors&#39;,
+    &#39;Access-Control-Allow-Methods&#39;: &#39;POST,PUT,Delete&#39;,
+    &#39;Access-Control-MAX-AGE&#39;: &#39;1000&#39;
+  });
+  response.end(&#39;123abc&#39;)
+}).listen(8887);
+console.log(&#39;server is listening on 8887&#39;);
+</code></pre><p><strong>AJAX请求</strong></p>
+<pre><code>var xhr = new XMLHttpRequest();
+xhr.open(&#39;GET&#39;, &#39;http://127.0.0.1:8000&#39;);
+xhr.send();
+</code></pre><p><strong>JSONP</strong></p>
+<pre><code>&lt;script src=&quot;http://127.0.0.1:8000&quot;&gt;&lt;/script&gt;
+</code></pre><p>在<code>script</code>、<code>link</code>、<code>img</code>标签的<code>src</code>加载链接，此链接访问服务器的请求，并且返回可执行代码。</p>
+<h2 id="cors-">CORS预请求</h2>
+<p>我们不能通过设置<code>Access-Control-Allow-Origin</code>来解决所有的跨域问题。</p>
+<p><strong>CORS其他限制</strong></p>
 <ul>
-<li>输入URL打开网页</li><li>AJAX获取数据</li><li><code>img</code>标签加载图片</li></ul>
-<p><strong><code>cache-control</code></strong></p>
+<li>默认允许的方法只有：<code>GET</code>、<code>HEAD</code>、<code>POST</code></li><li>默认允许的<code>Content-Type</code>：<code>text/plain</code>、<code>multipart/form-data</code>、<code>application/x-www-form-urlencoded</code></li><li>默认允许的请求头：<code>Accept</code>、<code>Accept-Language</code>、<code>Content-Language</code>、<code>multipart/form-data</code>、<code>text/plain</code></li></ul>
+<p>添加<code>&#39;Access-Control-Allow-Headers&#39;: &#39;x-Test-Cors&#39;</code>查看<code>network</code>面板会发现比之前多了一个请求，它的<code>Request Method</code>是<code>OPTIONS</code>。通过<code>OPTIONS</code>请求获得服务端的允许，然后再实际发送<code>POST</code>请求。</p>
+<h2 id="-cache-control-">缓存头<code>Cache-Control</code></h2>
+<p><strong>可缓存性</strong>，<code>public</code>、<code>private</code>、<code>no-cache</code></p>
+<p><strong>到期</strong>，<code>max-age=&#39;&lt;second&gt;&#39;</code> 、<code>s-maxage=&#39;&lt;second&gt;&#39;</code>代理服务器、<code>max-stale=&#39;&lt;second&gt;&#39;</code>浏览器，发起端</p>
+<p><strong>重新验证</strong>，<code>must-revalidate</code>、<code>proxy-revalidate</code></p>
+<p><strong>浏览器缓存</strong></p>
+<pre><code>const http = require(&#39;http&#39;);
+const fs = require(&#39;fs&#39;);
+http.createServer((request, response) =&gt; {
+  console.log(&#39;request come&#39;, request.url);
+
+  if (request.url === &#39;/&#39;) {
+    const html = fs.readFileSync(&#39;index.html&#39;, &#39;utf8&#39;);
+    response.writeHead(200, {
+      &#39;Content-Type&#39;: &#39;text/html&#39;
+    });
+    response.end(html);
+  }
+
+  if (request.url === &#39;/script.js&#39;) {
+    response.writeHead(200, {
+      &#39;Content-Type&#39;: &#39;text/javascript&#39;,
+      &#39;Cache-Control&#39;: &#39;max-age=200,public&#39;
+    });
+  }
+  response.end(&#39;console.log(&quot;script loaded twice&quot;)&#39;)
+
+}).listen(8888);
+console.log(&#39;server listening on 8888&#39;);
+</code></pre><h2 id="-">资源验证</h2>
+<p><strong>浏览器</strong>-创建请求-&gt;<strong>本地缓存</strong>—&gt;代理缓存—&gt;源服务器</p>
+<p>验证头：</p>
+<p><code>Last-Modified</code>上次修改时间，配合<code>If-Modified-Since</code>或者<code>If-Unmodified-Since</code>使用</p>
+<p><code>Etag</code>数据签名，配合<code>If-Modified</code>或者<code>If-Non-Match</code>使用、对比资源的签名判断是否使用缓存</p>
+<pre><code>http.createServer((request, response) =&gt; {
+  console.log(&#39;request come&#39;, request.url);
+
+  if (request.url === &#39;/&#39;) {
+    const html = fs.readFileSync(&#39;index.html&#39;, &#39;utf8&#39;);
+    response.writeHead(200, {
+      &#39;Content-Type&#39;: &#39;text/html&#39;
+    });
+    response.end(html);
+  }
+
+  if (request.url === &#39;/app.js&#39;) {
+    const etag = request.headers[&#39;if-none-match&#39;];
+    if (etag === &#39;777&#39;) {
+      response.writeHead(304, {
+        &#39;Content-Type&#39;: &#39;text/javascript&#39;,
+        &#39;Cache-Control&#39;: &#39;max-age=20000000,no-cache&#39;,
+        &#39;Last-Modified&#39;: &#39;123&#39;,
+        &#39;Etag&#39;: &#39;777&#39;
+      });
+      response.end(&#39;123&#39;)
+    } else {
+      response.writeHead(200, {
+        &#39;Content-Type&#39;: &#39;text/javascript&#39;,
+        &#39;Cache-Control&#39;: &#39;max-age=20000000,no-cache&#39;,
+        &#39;Last-Modified&#39;: &#39;123&#39;,
+        &#39;Etag&#39;: &#39;777&#39;
+      });
+      response.end(&#39;console.log(&quot;script loaded twice&quot;)&#39;)
+    }
+  }
+}).listen(8888);
+</code></pre><h2 id="-cookie-session-"><code>cookie</code>和<code>session</code></h2>
+<p>通过<code>Set-Cookie</code>设置，下次请求会自动带上，键值对，可以设置多个</p>
+<p><strong><code>cookie</code>属性</strong></p>
 <ul>
-<li><code>public</code>、<code>private</code></li><li><code>must-revalidate</code></li><li><code>no-cache</code>、<code>no-store</code></li></ul>
-<p><strong>缓存验证</strong></p>
-<ul>
-<li><code>last-modified</code>配合<code>if-modified-since</code></li><li><code>etag</code>配合<code>if-none-match</code></li></ul>
-<p><strong>请求头</strong></p>
-<ul>
-<li><code>content-type</code>、<code>content-encoding</code>等用来约束数据类型</li><li><code>cookie</code>保持会话信息</li><li>CORS实现跨域并保持安全性限制</li></ul>
-<h2 id="-tcp">深入到TCP</h2>
-<ul>
-<li>三次握手</li><li>HTTPS链接的创建过程，以及为什么HTTPS是安全的</li><li>什么是长链接，为什么需要长链接</li><li>HTTP2的信道复用又为什么能提高性能</li></ul>
-<p><strong>浏览器输入URL后HTTP请求返回的完整过程</strong></p>
-<ol>
-<li>startTime开始时间—redirectStart开始跳转—<strong>跳转Redirect</strong>—redirectEnd跳转结束</li><li>fetchStart(fetch开始)—<strong>App cache应用缓存</strong></li><li>domainLookupStart域名解析开始—<strong>DNS(DNS查找)</strong>—domainLookupEnd域名解析结束</li><li>connectStart开始创建链接—secureConnectStart开始创建安全链接-<strong>TCP创建TCP链接</strong>—connectEnd创建链接结束</li><li>requestStart开始发送请求—<strong>Request发送请求</strong></li><li>responseStart开始接收返回—<strong>Response接收返回</strong>—responseEnd结束接收返回</li></ol>
-<h2 id="-">网络协议分层</h2>
-<ul>
-<li>物理层</li><li>数据链路层</li><li>网络层</li></ul>
-<p><strong>传输层</strong></p>
-<p>向用户提供可靠的端到端服务，传输层向高层屏蔽了下层数据通信的细节。</p>
-<p><strong>应用层</strong></p>
-<p>为应用软件提供了很多服务，构建于TCP协议之上，屏蔽网络传输相关细节。</p>
-<h2 id="http-">HTTP发展史</h2>
-<p><strong>HTTP/0.9</strong>，只有一个命令<code>GET</code>，没有<code>HEADER</code>等描述数据的信息，服务器发送完毕，就关闭TCP连接。</p>
-<p><strong>HTTP/1.0</strong>，增加了很多命令，增加<code>status</code>、<code>code</code>和<code>header</code>，多字符集支持，多部分发送，权限，缓存等。</p>
-<p><strong>HTTP/1.1</strong>，持久连接，<code>pipeline</code>，增加<code>host</code>和其他一些命令。</p>
-<p><strong>HTTP2</strong>，所有数据以二进制传输，同一个连接里面发送多个请求不再需要按照顺序进行，头信息压缩以及推送等提高效率的功能，</p>
-<h2 id="http-">HTTP三次握手</h2>
-<ol>
-<li>client-(SYN=1,Seq=X)-&gt;server</li><li>server-(SYN=1,ACK=X+1,Seq=Y)-&gt;client</li><li>client-(ACK=Y+1,Seq=Z)-&gt;server</li></ol>
-<h2 id="uri-url-urn">URI、URL和URN</h2>
-<p><strong>URI</strong>，统一资源标识符，用来唯一标识互联网上的信息资源，包括URL和URN。</p>
-<p><strong>URL</strong>，统一资源定位器，<code>http://user:pass@host.com:80/path?query=string#hash</code></p>
-<h2 id="http-">HTTP报文格式</h2>
-<p><strong>HTTP方法</strong>，用于定义对资源的操作</p>
+<li><code>max-age</code>和<code>expires</code>设置过期时间</li><li><code>Secure</code>只在<code>https</code>的时候发送</li><li><code>HTTPOnly</code>无法通过<code>document.cookie</code>访问</li></ul>
 
 </body>
 </html>

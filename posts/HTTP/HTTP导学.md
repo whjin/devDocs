@@ -73,3 +73,10 @@
 
 **URL**，统一资源定位器，`http://user:pass@host.com:80/path?query=string#hash`
 
+## HTTP报文格式 ##
+
+**HTTP方法**，用于定义对资源的操作
+
+
+    
+
