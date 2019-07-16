@@ -611,7 +611,11 @@ console.log(&#39;server listening on 8888&#39;);
 <p><strong><code>cookie</code>属性</strong></p>
 <ul>
 <li><code>max-age</code>和<code>expires</code>设置过期时间</li><li><code>Secure</code>只在<code>https</code>的时候发送</li><li><code>HTTPOnly</code>无法通过<code>document.cookie</code>访问</li></ul>
-
+<pre><code>response.writeHead(200, {
+  &#39;Content-Type&#39;: &#39;text/html&#39;,
+  &#39;Set-Cookie&#39;: [&#39;id=123;max-age=2&#39;, &#39;abc=456;HttpOnly&#39;]
+});
+</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
