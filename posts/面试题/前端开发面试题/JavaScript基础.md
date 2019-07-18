@@ -1,4 +1,4 @@
-# JavaScript-1 #
+# JavaScript基础 #
 
 - 介绍JS的基本数据类型
 
