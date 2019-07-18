@@ -22,7 +22,6 @@ img {
   padding: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline;
 }
 
 html * {
@@ -30,7 +29,7 @@ html * {
   font-size: 16px;
   line-height: 19.2px;
   color-profile: sRGB;
-  color: #657b83;
+  /*color: #657b83;*/
 }
 
 body {
@@ -51,7 +50,7 @@ ul li, ol li {
   line-height: 1.6;
 }
 
-p {
+p, li {
   font-weight: lighter;
   margin: 10px 0;
 }
@@ -289,25 +288,17 @@ p code, li code, td code {
     line-height: 1.3;
   }
 
+  ul li, ol li,
+  pre > code,
+  ul li pre > code,
+  ol li pre > code,
+  ul li > code,
+  ol li > code,
   p, p code,
   p strong, p strong > code,
   blockquote p {
     font-size: 1.3em;
     line-height: 1.6;
-  }
-
-  pre > code,
-  ul li pre > code,
-  ol li pre > code {
-    font-size: 1.3em;
-    line-height: 1.3;
-  }
-
-  ul li, ol li,
-  ul li > code,
-  ol li > code {
-    font-size: 1.3em;
-    line-height: 1.3;
   }
 
   ul {
@@ -516,7 +507,21 @@ vertical-align:1px;
 <p><code>==</code>判断，会在比较时进行类型转换<br><code>===</code>判断（严格判断），比较时不进行隐式类型转换，类型不同就会返回<code>false</code></p>
 <p><code>Object.is()</code>在<code>===</code>判断的基础上特别处理了<code>NaN</code>、<code>-0</code>和<code>+0</code>，保证<code>-0</code>和<code>+0</code>不再相同，但<code>Object.is(NaN,NaN)</code>会返回<code>true</code></p>
 </blockquote>
+<h2 id="es6-">ES6常用功能</h2>
+<ul>
+<li><code>let/const</code></li><li>多行字符串/模板变量</li><li>解构赋值</li><li>块级作用域</li><li>函数默认参数</li><li>箭头函数</li></ul>
+<p><strong>解构赋值</strong></p>
+<pre><code>const obj = {a: 10, b: 20, c: 30};
+const {a, b} = obj;
+console.log(a); //10
+console.log(b); //20
 
+const arr = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
+const [x, y, z] = arr;
+console.log(x); //a
+console.log(y); //b
+console.log(z); //c
+</code></pre>
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

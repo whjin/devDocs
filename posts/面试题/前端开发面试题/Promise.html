@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>前端导学</title>
+<title>Promise</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -500,42 +500,37 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="-">前端导学</h1>
-<p><strong>前端技术</strong>，<code>JS</code>、<code>ES6</code>、<code>虚拟DOM</code>、<code>Vue</code>、<code>React</code>、<code>hybrid</code></p>
-<h2 id="-">知识点</h2>
-<p><strong>基础知识</strong></p>
+<h1 id="promise">Promise</h1>
+<p><strong><code>Promise</code>语法</strong></p>
+<pre><code>function loadImg(src) {
+  const promiss = new Promise((resolve, reject) =&gt; {
+    let img = document.createElement(&#39;img&#39;);
+    img.onload = function () {
+      resolve(img);
+    };
+    img.onerror = function () {
+      reject()
+    };
+    img.src = src;
+  });
+  return promiss;
+}
+
+let src = &#39;img_url&#39;;
+const result = loadImg(src);
+
+result.then(img =&gt; {
+  console.log(img.width);
+}, () =&gt; {
+  console.log(&#39;failed&#39;);
+});
+
+result.then(img =&gt; {
+  console.log(img.height);
+});
+</code></pre><p><strong>问题解答</strong></p>
 <ul>
-<li><code>ES6</code>常用方法：<code>Class Module Promise</code>等</li><li>原型高级应用：结合<code>jQuery</code>和<code>zepto</code>源码</li><li>异步全面讲解：从原理到<code>jQuery</code>再到<code>Promise</code></li></ul>
-<p><strong>框架原理</strong></p>
-<ul>
-<li>虚拟DOM：存在价值，如何使用，<code>diff</code>算法</li><li>MVVM Vue：<code>Vue</code>响应式，模板解析、渲染</li><li>组件化React：组件化，<code>JSX</code>，<code>vdom</code>、<code>setState</code></li></ul>
-<p><strong>混合开发</strong></p>
-<ul>
-<li><code>Hybrid</code>：基础，与<code>H5</code>对比，上线流程</li><li><code>Hybrid</code> vs <code>HTML5</code></li><li>前端客户端通信：通讯原理，<code>JS-Bridge</code>封装</li></ul>
-<p><strong>编程学习</strong></p>
-<ul>
-<li>读书、博客</li><li>开源</li></ul>
-<h3 id="-es6-"><code>ES6</code></h3>
-<ul>
-<li>模块化的使用和编译环境</li><li><code>Class</code>与<code>JS</code>构造函数的区别</li><li><code>Promise</code>的用法</li><li><code>ES6</code>其他常用功能</li></ul>
-<h3 id="-">异步</h3>
-<ul>
-<li>什么是单线程，和异步有何关系</li><li>什么是<code>event-loop</code></li><li>目前JS解决异步的方案有哪些</li><li>如果只用jQuery如何解决异步</li><li><code>Promise</code>的标准</li><li><code>async/await</code>的使用</li></ul>
-<h3 id="-">原型</h3>
-<ul>
-<li>原型如何实际应用</li><li>原型如何满足扩展</li></ul>
-<h3 id="-vdom-"><code>VDOM</code></h3>
-<ul>
-<li>什么是<code>vdom</code>，为何要用<code>vdom</code></li><li><code>vdom</code>如何使用，核心函数有哪些</li><li>了解<code>diff</code>算法吗</li></ul>
-<h3 id="mvvm">MVVM</h3>
-<ul>
-<li>之前使用jQuery和现在使用<code>Vue</code>或<code>React</code>框架的区别</li><li>如何理解MVVM</li><li><code>Vue</code>如何实现响应式</li><li><code>Vue</code>如何解析模板</li><li>介绍<code>Vue</code>的实现流程</li></ul>
-<h3 id="-">组件化</h3>
-<ul>
-<li>对组件化的理解</li><li><code>JSX</code>是什么</li><li><code>JSX</code>和<code>vdom</code>有什么关系</li><li>简述<code>React</code>的<code>setState</code></li><li>简述自己如何比较<code>React</code>和<code>Vue</code></li></ul>
-<h3 id="-hybrid-"><code>Hybrid</code></h3>
-<ul>
-<li><code>hybrid</code>是什么，为何要用<code>hybrid</code></li><li><code>hybrid</code>如何更新上线</li><li><code>hybrid</code>和<code>H5</code>有何区别</li><li><code>JS</code>如何与客户端通信</li></ul>
+<li><code>new Promiss()</code>实例，而且要<code>return</code></li><li><code>new Promise</code>时要传入函数，函数有<code>resolve</code>、<code>reject</code>两个参数</li><li>成功时执行<code>resolve()</code>，失败时执行<code>reject()</code></li><li><code>then</code>监听结果</li></ul>
 
 </body>
 </html>
