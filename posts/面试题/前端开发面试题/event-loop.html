@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>异步</title>
+<title>event-loop</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 html,
@@ -500,35 +500,9 @@ vertical-align:1px;
 <script >hljs.initHighlightingOnLoad();</script> 
 </head>
 <body>
-<h1 id="-">异步</h1>
+<h1 id="event-loop">event-loop</h1>
 <ul>
-<li>什么是单线程，和异步有什么关系</li><li>什么是<code>event-loop</code></li><li>是否用过<code>jQuery</code>的<code>deferred</code></li><li><code>Promise</code>的基本使用和原理</li><li>介绍一下<code>async/await</code>（和<code>Promise</code>的区别、联系）</li><li>总结一下当前<code>JS</code>解决异步的方案</li></ul>
-<p><strong>单线程</strong>，只有一个线程，只能做一件事</p>
-<p><strong>原因</strong>，避免<code>DOM</code>渲染的冲突</p>
-<ul>
-<li>浏览器需要渲染<code>DOM</code></li><li><code>JS</code>可以修改<code>DOM</code>结构</li><li><code>JS</code>执行的时候，浏览器<code>DOM</code>渲染会暂停</li><li>两段<code>JS</code>代码不能同时执行（都修改<code>DOM</code>会产生冲突）</li><li><code>webworker</code>支持多线程，但是不能访问<code>DOM</code></li></ul>
-<p><strong>解决方案</strong>，异步</p>
-<p><strong>实现方式</strong>，<code>event-loop</code></p>
-<p><strong><code>setTimeout</code></strong></p>
-<pre><code>console.log(100);
-setTimeout(function () {
-  console.log(200);
-}, 1000);
-console.log(300);
-console.log(400);
-</code></pre><p><strong><code>ajax</code></strong></p>
-<pre><code>console.log(100);
-$.ajax({
-  url: &#39;url&#39;,
-  success: function (result) { //ajax加载完才执行
-    console.log(result);  //先不执行，让其他JS代码先运行
-  }
-});
-console.log(300);
-console.log(400);
-</code></pre><p><strong>问题</strong></p>
-<ol>
-<li>没按照书写方式执行，可读性差</li><li><code>callback</code>中不容易模块化</li></ol>
+<li><strong>事件轮询</strong>，<code>JS</code>实现异步的具体解决方案</li><li><strong>同步代码</strong>，直接执行</li><li>异步函数先放在<strong>异步队列</strong>中</li><li>待同步函数执行完毕，轮询执行<strong>异步队列</strong>的函数</li></ul>
 
 </body>
 </html>
