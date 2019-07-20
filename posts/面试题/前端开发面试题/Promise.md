@@ -2,10 +2,10 @@
 
 **基本使用和原理**
 
-- 异常捕获
-- 多个串联
+- 如何异常捕获
+- 多个串联-链式执行的好处
 - `Promise.all`和`Promise.race`
-- `Promise`标准
+- `Promise`标准-状态变化、`then`函数
 
 **`Promise`语法**
 
