@@ -278,6 +278,11 @@ p code, li code, td code {
   background: #eee8d5 !important;
 }
 
+.hljs-comment {
+  font-size: 14px;
+  color: rgb(0, 129, 0) !important;
+}
+
 @media screen and (min-width: 980px) and (max-width: 980px) {
   table thead tr th,
   table thead tr th > code,
@@ -559,7 +564,13 @@ Promise.race([result1, result2]).then(data =&gt; {
   //data即最先执行完成的，promise的返回值
   console.log(data);
 });
-</code></pre>
+</code></pre><h2 id="promise-">Promise标准-状态变化</h2>
+<ul>
+<li>三种状态：<code>pending</code>、<code>fullfilled</code>、<code>reject</code></li><li>初始状态：<code>pending</code></li><li><code>pending</code>变为<code>fullfilled</code>，或者<code>pending</code>变为<code>rejected</code></li><li>变化状态不可逆</li></ul>
+<h2 id="promise-then-">Promise标准-<code>then</code></h2>
+<ul>
+<li><code>Promise</code>实例必须实现<code>then</code>这个方法</li><li><code>then()</code>必须可以接收两个函数作为参数</li><li><code>then()</code>返回的必须是一个<code>Promise</code>实例</li></ul>
+
 </body>
 </html>
 <!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

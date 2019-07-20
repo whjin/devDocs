@@ -71,3 +71,17 @@
       //data即最先执行完成的，promise的返回值
       console.log(data);
     });
+    
+## Promise标准-状态变化 ##
+
+- 三种状态：`pending`、`fullfilled`、`reject`
+- 初始状态：`pending`
+- `pending`变为`fullfilled`，或者`pending`变为`rejected`
+- 变化状态不可逆
+
+## Promise标准-`then` ##
+
+- `Promise`实例必须实现`then`这个方法
+- `then()`必须可以接收两个函数作为参数
+- `then()`返回的必须是一个`Promise`实例
+
