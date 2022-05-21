@@ -4,32 +4,32 @@
 
 ## javascript变量 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%8F%98%E9%87%8F.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590632791744-4ed7cd55-970d-495c-99d0-4db4d24c2664.gif)
 
 ## javascript运算符 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E8%BF%90%E7%AE%97%E7%AC%A6.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590632900919-e29e24c2-469f-44b5-977d-35ff15618b3a.gif)
 
 ## javascript数组 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E6%95%B0%E7%BB%84.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590632941508-deb08020-6824-4698-b4a3-f381fdc3f10f.gif)
 
 ## javascript流程语句 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E6%B5%81%E7%A8%8B%E8%AF%AD%E5%8F%A5.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590633050728-74824a09-3fc5-498d-bfbd-f3d99b49a272.gif)
 
 ## javascript字符串函数 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590633088168-5fc66d83-88af-4092-bb9d-611595a2912f.gif)
 
 ## javascript函数基础 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590633110772-508a12d2-719b-4955-a852-e507f9329a6b.gif)
 
 ## javascript基础DOM操作 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E5%9F%BA%E7%A1%80DOM%E6%93%8D%E4%BD%9C.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590633142814-b643230d-2663-43cd-b293-44735d9cfa06.gif)
 
 ## javascript正则表达式 ##
 
-![](https://github.com/whjin/images-save/blob/master/js-mind-mapping/javascript%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.gif?raw=true)
+![](https://cdn.nlark.com/yuque/0/2020/gif/172511/1590633174157-6bdf0a83-ea2b-4f27-b9c0-5ec4ad276445.gif)

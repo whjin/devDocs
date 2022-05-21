@@ -16,6 +16,10 @@ h1 {
   margin-left: -5px;
 }
 
+.content{
+  margin-bottom: 80px;
+}
+
 h5 {
   margin-left: -5px;
   background-color: #e9ecef;
@@ -86,8 +90,10 @@ sup {
 }
 
 .app-footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
   padding: 1em 0;
-  margin: 1em 0 0 0;
   text-align: center;
   background: #E9ECEF;
 }
