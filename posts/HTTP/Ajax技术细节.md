@@ -1,4 +1,4 @@
-﻿# Ajax状态码 #
+﻿# Ajax技术细节 #
 
 **Ajax状态码**，`xhr.readyState`
 

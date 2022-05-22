@@ -1,4 +1,4 @@
-# JavaScript基础 #
+# JavaScript #
 
 - 介绍JS的基本数据类型
 
@@ -513,3 +513,235 @@ function getFileExtension(filename) {
 > 这样可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。
 > 同时这种方式不会将`cookie`传入Web Server，也减少了Web Server对`cookie`的处理分析环节。
 > 提高了webserver的HTTP请求的解析速度。
+
+## 原型
+
+**原型的实际应用**，`jQuery`和`zepto`的简单应用
+
+**`zepto`如何使用原型**
+
+    (function (window) {
+      var zepto = {};
+    
+      function Z(dom, selector) {
+        var i, len = dom ? dom.length : 0;
+        for (i = 0; i < len; i++) {
+          this[i] = dom[i]
+        }
+        this.length = len;
+        this.selector = selector || '';
+      }
+    
+      zepto.Z = function (dom, selector) {
+        return new Z(dom, selector);
+      };
+    
+      zepto.init = function (selector) {
+        var slice = Array.prototype.slice;
+        var dom = slice.call(document.querySelectorAll(selector));
+        return zepto.Z(dom, selector);
+      };
+    
+      var $ = function (selector) {
+        return zepto.init(selector);
+      };
+    
+      window.$ = $;
+    
+      $.fn = {
+        constructor: zepto.Z,
+        css: function (key, value) {
+          alert('css')
+        },
+        html: function (value) {
+          alert('html')
+        }
+      };
+      zepto.Z.prototype = Z.prototype = $.fn;
+    })(window);
+
+**`jQuery`如何使用原型**
+
+    var jQuery = function (selector) {
+      return new jQuery.fn.init(selector)
+    };
+    
+    //定义构造函数
+    var init = jQuery.fn.init = function (selector) {
+      var slice = Array.prototype.slice;
+      var dom = slice.call(document.querySelectorAll(selector));
+    
+      var i, len = dom ? dom.length : 0;
+      for (i = 0; i < len; i++) {
+        this[i] = dom[i]
+      }
+      this.length = len;
+      this.selector = selector || '';
+    };
+    
+    //初始化 jQuery.fn
+    jQuery.fn = jQuery.prototype = {
+      constructor: jQuery,
+      css: function (key, value) {
+      },
+      html: function (value) {
+      }
+    };
+    
+    //定义原型
+    init.prototype = jQuery.fn;
+    
+**把原型方法放在`$.fn`**
+
+    //扩展插件
+    $.fn.getName = function () {
+      return this[0].nodeName
+    };
+    
+- 只有`$`会暴露在`window`全局变量
+- 将插件扩展统一到`$.fn.xxx`z这个接口，方便使用
+
+## 异步
+
+- 什么是单线程，和异步有什么关系
+- 什么是`event-loop`
+- 是否用过`jQuery`的`deferred`
+- `Promise`的基本使用和原理
+- 介绍一下`async/await`（和`Promise`的区别、联系）
+- 总结一下当前`JS`解决异步的方案
+
+**单线程**，只有一个线程，只能做一件事
+
+**原因**，避免`DOM`渲染的冲突
+
+- 浏览器需要渲染`DOM`
+- `JS`可以修改`DOM`结构
+- `JS`执行的时候，浏览器`DOM`渲染会暂停
+- 两段`JS`代码不能同时执行（都修改`DOM`会产生冲突）
+- `webworker`支持多线程，但是不能访问`DOM`
+
+**解决方案**，异步
+
+**实现方式**，`event-loop`
+
+**`setTimeout`**
+
+    console.log(100);
+    setTimeout(function () {
+      console.log(200);
+    }, 1000);
+    console.log(300);
+    console.log(400);
+    
+**`ajax`**
+
+    console.log(100);
+    $.ajax({
+      url: 'url',
+      success: function (result) { //ajax加载完才执行
+        console.log(result);  //先不执行，让其他JS代码先运行
+      }
+    });
+    console.log(300);
+    console.log(400);
+    
+**问题**
+
+1. 没按照书写方式执行，可读性差
+2. `callback`中不容易模块化
+
+## eventloop
+
+- **事件轮询**，`JS`实现异步的具体解决方案
+- **同步代码**，直接执行
+- 异步函数先放在**异步队列**中
+- 待同步函数执行完毕，轮询执行**异步队列**的函数
+
+**异步**
+
+    //异步队列
+    
+    //100ms 之后被放入
+    setTimeout(function () {
+      console.log(1);
+    }, 100);
+    //立刻被放入
+    setTimeout(function () {
+      console.log(2);
+    });
+    //主进程
+    console.log(3);
+    
+**事件轮询**
+
+    //异步队列
+    
+    //ajax加载完毕时被放入
+    $.ajax({
+      url: 'url',
+      success: function (result) {
+        console.log(1);
+      }
+    });
+    //100ms之后被放入
+    setTimeout(function () {
+      console.log(2);
+    }, 100);
+    //立刻被放入
+    setTimeout(function () {
+      console.log(3);
+    });
+    
+    //主进程
+    console.log(4);
+
+## Deferred
+
+**`jQuery 1.5`的变化**
+
+- 无法改变`JS`异步和单线程的本质
+- 只能从写法上杜绝`callback`这种形式
+- 它是一种语法糖形式，但是解耦了代码
+- 很好的体现：开放封闭原则
+
+**使用`jQuery deferred`**
+
+    function waitHanle() {
+      var dtd = $.Deferred(); //创建一个deferred对象
+      var wait = function (dtd) {
+        var task = function () {
+          console.log('执行完成');
+          dtd.resolve(); //表示异步任务已经完成
+          // dtd.reject(); //表示异步任务失败或出错
+        };
+        setTimeout(task, 1000);
+        return dtd;
+      };
+      //这里一定要有返回值
+      return wait(dtd);
+    }
+    
+**`dtd.promise`**
+
+    function waitHanle() {
+      var dtd = $.Deferred(); //创建一个deferred对象
+      var wait = function (dtd) {
+        var task = function () {
+          console.log('执行完成');
+          dtd.resolve(); //表示异步任务已经完成
+        };
+        setTimeout(task, 1000);
+        return dtd.promise();//这里返回的是promise，而不是直接返回deferred对象
+      };
+      //这里一定要有返回值
+      return wait(dtd);
+    }
+    
+    var waithandle = waitHanle();
+    $.when(waitHanle)
+      .then(function () {
+        console.log('ok 1');
+      })
+      .then(function () {
+        console.log('ok 2');
+      });
