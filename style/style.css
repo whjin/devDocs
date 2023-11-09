@@ -1,25 +1,21 @@
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
+    Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
+    sans-serif;
   font-size: 14px;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
 }
 
-ol, ul {
+ol,
+ul {
   margin-left: -25px;
 }
 
 h1 {
   text-align: center;
-}
-
-.container > h1 > sup > a {
-  margin-left: -5px;
-}
-
-.content{
-  margin-bottom: 80px;
 }
 
 h5 {
@@ -85,7 +81,7 @@ sup {
   width: 40px;
   height: 40px;
   padding: 5px;
-  background-color: #007BFF;
+  background-color: #007bff;
   border-radius: 50%;
   transition: all 0.3s ease;
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.12), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
@@ -97,7 +93,7 @@ sup {
   bottom: 0;
   padding: 1em 0;
   text-align: center;
-  background: #E9ECEF;
+  background: #e9ecef;
 }
 
 div object {
@@ -105,7 +101,8 @@ div object {
 }
 
 @media screen and (max-width: 768px) {
-  .row .col-md-2, .row .col-md-3 {
+  .row .col-md-2,
+  .row .col-md-3 {
     border-right: none;
   }
 
@@ -117,7 +114,8 @@ div object {
 }
 
 @media screen and (min-width: 768px) {
-  .col-md-3:not(:last-child), .col-md-2:not(:last-child) {
+  .col-md-3:not(:last-child),
+  .col-md-2:not(:last-child) {
     border-right: 1px dashed #bd4147;
   }
 
